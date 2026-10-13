@@ -133,7 +133,7 @@ a:hover { color: var(--accent-hover); }
 /* Intro */
 .intro { padding-top: 3rem; padding-bottom: 2.5rem; }
 .intro h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -0.02em; }
-.intro p { max-width: 40rem; margin: 0.9rem 0 0; color: var(--muted); font-size: 1.075rem; }
+.intro p { margin: 0.9rem 0 0; color: var(--muted); font-size: 1.075rem; }
 
 /* Apps */
 .apps { padding-bottom: 4rem; }
