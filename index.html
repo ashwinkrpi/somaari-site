@@ -25,6 +25,7 @@
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/style.css">
+  <script src="/demo.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -62,13 +63,21 @@
         2. Paste it at the end of the <ul class="card-grid">, just before </ul>.
         3. Change the name, description, status badge and tags.
            Badge classes: badge--dev (In development), badge--soon (Coming soon), badge--live (Available).
-        4. Link: if the GitHub repo is PUBLIC, use the <a class="btn"> "View on GitHub" link.
+        4. Demo loop (optional): keep the <video class="card-demo"> block and point it at
+           /assets/demos/NAME/; delete the block if the app has no demo yet.
+        5. Link: if the GitHub repo is PUBLIC, use the <a class="btn"> "View on GitHub" link.
            Otherwise keep the disabled "Coming soon" button.
       -->
       <ul class="card-grid" role="list">
 
         <!-- CARD START: somaari-ai -->
         <li class="card">
+          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Re-record: scripts/demo/README.md -->
+          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
+                 width="720" height="406" poster="/assets/demos/somaari-ai/poster.webp" aria-hidden="true">
+            <source data-src="/assets/demos/somaari-ai/loop.webm" type="video/webm">
+            <source data-src="/assets/demos/somaari-ai/loop.mp4" type="video/mp4">
+          </video>
           <div class="card-head">
             <h3 class="card-title">somaari-ai</h3>
             <span class="badge badge--dev">In development</span>
@@ -86,6 +95,12 @@
 
         <!-- CARD START: somaari-disk -->
         <li class="card">
+          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Re-record: scripts/demo/README.md -->
+          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
+                 width="720" height="406" poster="/assets/demos/somaari-disk/poster.webp" aria-hidden="true">
+            <source data-src="/assets/demos/somaari-disk/loop.webm" type="video/webm">
+            <source data-src="/assets/demos/somaari-disk/loop.mp4" type="video/mp4">
+          </video>
           <div class="card-head">
             <h3 class="card-title">somaari-disk <span class="card-subtitle">Disk Usage Analyzer</span></h3>
             <span class="badge badge--soon">Coming soon</span>
@@ -103,6 +118,12 @@
 
         <!-- CARD START: somaari-plan -->
         <li class="card">
+          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Re-record: scripts/demo/README.md -->
+          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
+                 width="720" height="406" poster="/assets/demos/somaari-plan/poster.webp" aria-hidden="true">
+            <source data-src="/assets/demos/somaari-plan/loop.webm" type="video/webm">
+            <source data-src="/assets/demos/somaari-plan/loop.mp4" type="video/mp4">
+          </video>
           <div class="card-head">
             <h3 class="card-title">somaari-plan</h3>
             <span class="badge badge--soon">Coming soon</span>

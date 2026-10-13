@@ -239,6 +239,23 @@ a:hover { color: var(--accent-hover); }
   cursor: not-allowed;
 }
 
+/* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
+   nothing shifts when a poster or video arrives; the captures are dark UIs in both themes. */
+.card-demo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #0d0f12;
+  pointer-events: none; /* decorative: no controls, nothing to click */
+}
+/* Browsers show native controls on <video> when scripting is off; keep the bare poster. */
+.card-demo::-webkit-media-controls,
+.card-demo::-webkit-media-controls-enclosure { display: none !important; }
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--border);

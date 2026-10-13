@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no build step, no frameworks, no JavaScript, no external fonts or CDNs. Hosted on Cloudflare Pages (build command: none, output directory: `/`).
+Plain static HTML and CSS: no build step, no frameworks, no external fonts or CDNs. The only JavaScript is `demo.js` (lazy demo loops on the app cards). Hosted on Cloudflare Pages (build command: none, output directory: `/`).
 
 ## Files
 
@@ -14,6 +14,9 @@ Plain static HTML and CSS: no build step, no frameworks, no JavaScript, no exter
 | `favicon.svg` | "S" mark icon |
 | `robots.txt` | Allows all crawlers, points to the sitemap |
 | `sitemap.xml` | Single-URL sitemap for `https://somaari.in/` |
+| `demo.js` | Loads/plays the card demo loops near the viewport; poster only with reduced motion or no JS |
+| `assets/demos/<app>/` | Each card's `loop.webm`, `loop.mp4` (720 px, < 1 MB) and `poster.webp` |
+| `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` only, no inline styles or scripts) |
 
 ## Preview locally
@@ -46,5 +49,6 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
 
 - **Intro text:** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
 - **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
-- **Copyright year:** hard-coded in the footer of `index.html` and `404.html` (no JavaScript, to keep the CSP strict).
+- **Copyright year:** hard-coded in the footer of `index.html` and `404.html` (no inline script, to keep the CSP strict).
+- **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`).
 - **Sitemap date:** update `<lastmod>` in `sitemap.xml` after significant changes.
