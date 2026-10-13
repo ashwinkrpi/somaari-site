@@ -39,10 +39,7 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
    ```html
    <a class="btn" href="https://github.com/ashwinkrpi/NAME">View on GitHub<span class="visually-hidden"> (NAME)</span></a>
    ```
-   Until then keep the disabled button:
-   ```html
-   <button class="btn btn--disabled" type="button" disabled>Coming soon</button>
-   ```
+   Until then leave the link out; the status badge already says where the app is.
 5. Commit and push to `main`; Cloudflare Pages redeploys automatically.
 
 ## Other things to edit
