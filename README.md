@@ -49,3 +49,9 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
 - **Copyright year:** hard-coded in the footer of `index.html` and `404.html` (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`).
 - **Sitemap date:** update `<lastmod>` in `sitemap.xml` after significant changes.
+
+## Contributing
+
+This is the source for a personal site and doesn't accept pull requests; only collaborators can
+open them. If you spot a typo, broken link or other problem, please report it in
+[Issues](https://github.com/ashwinkrpi/somaari-site/issues).
