@@ -41,3 +41,9 @@ python3 -m venv .venv
 ```
 
 Reinstall `./python` after editing `about/*.json` or the package. Tests check the installed copy against the source.
+
+## Contributing
+
+This is a personal project and doesn't accept pull requests; only collaborators can open them.
+You're welcome to fork it and adapt it for yourself, and bug reports in
+[Issues](https://github.com/ashwinkrpi/somaari-common/issues) are appreciated.
