@@ -37,7 +37,7 @@ somaari-common/
   README.md, CHANGELOG.md (dated entries, no version numbers), LICENSE (MIT), .gitignore
 
 developer.json content:
-- name: "Ashwin"
+- name: "Ashwin Koppam Raghavendra"
 - brand: "somaari"
 - website: "https://somaari.in"
 - github: "https://github.com/ashwinkrpi"

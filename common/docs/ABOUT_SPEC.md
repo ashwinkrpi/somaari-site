@@ -66,7 +66,7 @@ ai_model: n/a
 locale: en_US.UTF-8
 timezone: IST (UTC+05:30)
 [developer]
-name: Ashwin
+name: Ashwin Koppam Raghavendra
 website: https://somaari.in
 email: hello@somaari.in
 ```
