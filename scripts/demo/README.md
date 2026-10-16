@@ -9,6 +9,7 @@ keyboard while a recording runs (there's a 5-second warning).
 scripts/demo/somaari-ai/record.sh   && scripts/demo/somaari-ai/encode.sh
 scripts/demo/somaari-disk/record.sh && scripts/demo/somaari-disk/encode.sh
 scripts/demo/somaari-plan/record.sh && scripts/demo/somaari-plan/encode.sh
+scripts/demo/somaari-trip/encode.sh   # slideshow of the repo's guide screenshots, no recording
 rm -rf /tmp/somaari-demo /tmp/somaari-home /tmp/somaari-plan-demo /tmp/somaari-plan-profile
 ```
 
@@ -47,6 +48,9 @@ approximate: if a cut is off, fix the numbers in the `.times` file (or pass `SEG
   then a cold launch is recorded. The capture includes the GTK title bar, which `encode.sh` crops off.
 - **somaari-plan:** click positions in `record.sh` assume a 1280x720 Chromium app window at device
   scale 1. If the New plan layout changes, update them (and the spans in `encode.sh`).
+- **somaari-trip:** not a recording. `encode.sh` crossfades four of the repo's
+  `docs/images/*.jpg` guide screenshots (sample data only) and needs no X session. Re-run it after
+  the guide screenshots change.
 
 ## encode.sh
 

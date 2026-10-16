@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Somaari – Small, useful tools, built with AI assistance</title>
-  <meta name="description" content="Somaari is a small collection of useful software tools by Ashwin Koppam Raghavendra in Bengaluru: a smart Raspberry Pi terminal, a disk usage analyzer and a self-hosted planner.">
+  <meta name="description" content="Somaari is a small collection of useful software tools by Ashwin Koppam Raghavendra in Bengaluru: a smart Raspberry Pi terminal, a disk usage analyzer, a self-hosted planner and a GPS route viewer.">
   <link rel="canonical" href="https://somaari.in/">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
@@ -14,14 +14,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Somaari">
   <meta property="og:title" content="Somaari – Small, useful tools, built with AI assistance">
-  <meta property="og:description" content="A smart Raspberry Pi terminal, a disk usage analyzer and a self-hosted planner, built by Ashwin Koppam Raghavendra in Bengaluru.">
+  <meta property="og:description" content="A smart Raspberry Pi terminal, a disk usage analyzer, a self-hosted planner and a GPS route viewer, built by Ashwin Koppam Raghavendra in Bengaluru.">
   <meta property="og:url" content="https://somaari.in/">
   <meta property="og:locale" content="en_IN">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Somaari – Small, useful tools, built with AI assistance">
-  <meta name="twitter:description" content="A smart Raspberry Pi terminal, a disk usage analyzer and a self-hosted planner, built by Ashwin Koppam Raghavendra in Bengaluru.">
+  <meta name="twitter:description" content="A smart Raspberry Pi terminal, a disk usage analyzer, a self-hosted planner and a GPS route viewer, built by Ashwin Koppam Raghavendra in Bengaluru.">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/style.css">
@@ -69,6 +69,28 @@
            Otherwise leave it out (the status badge already says where the app is).
       -->
       <ul class="card-grid" role="list">
+
+        <!-- CARD START: somaari-trip -->
+        <li class="card">
+          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Rebuild: scripts/demo/somaari-trip/encode.sh -->
+          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
+                 width="720" height="406" poster="/assets/demos/somaari-trip/poster.webp" aria-hidden="true">
+            <source data-src="/assets/demos/somaari-trip/loop.webm" type="video/webm">
+            <source data-src="/assets/demos/somaari-trip/loop.mp4" type="video/mp4">
+          </video>
+          <div class="card-head">
+            <h3 class="card-title">somaari-trip <span class="card-subtitle">GPS Route Viewer</span></h3>
+            <span class="badge badge--live">Available</span>
+          </div>
+          <p class="card-desc">See where you went each day on a map, from the Overland iOS app's GPS logs: trips, stops, distance and speed. Self-hosted in Docker, so your location history stays on your own server.</p>
+          <ul class="tags" aria-label="Tags">
+            <li>Self-hosted</li>
+            <li>Docker</li>
+            <li>Maps</li>
+          </ul>
+          <a class="btn" href="https://github.com/ashwinkrpi/somaari-trip">View on GitHub<span class="visually-hidden"> (somaari-trip)</span></a>
+        </li>
+        <!-- CARD END: somaari-trip -->
 
         <!-- CARD START: somaari-ai -->
         <li class="card">
