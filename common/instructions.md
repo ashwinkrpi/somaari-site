@@ -131,10 +131,10 @@ In a quick session at `~/code/ai-projects`, run **Prompt 3 (consistency audit)**
 
 ## 8. Checklist
 
-- [ ] somaari-common created, tests passing, public on GitHub
-- [ ] somaari-disk About done and verified
-- [ ] somaari-ai About done and verified
-- [ ] somaari-plan About done and verified
+- [x] somaari-common created, tests passing, public on GitHub (2026-10-16)
+- [ ] somaari-disk About done and verified (added 2026-10-16; not yet verified)
+- [ ] somaari-ai About done and verified (added 2026-10-16; not yet verified)
+- [ ] somaari-plan About done and verified (added 2026-10-16; not yet verified)
 - [ ] Consistency audit passes
-- [ ] Each app's CLAUDE.md references ABOUT_SPEC.md
+- [x] Each app's CLAUDE.md references ABOUT_SPEC.md (2026-10-16)
 - [ ] Debug info checked for secrets in every app
