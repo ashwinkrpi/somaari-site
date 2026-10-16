@@ -1,0 +1,9 @@
+{
+  "name": "Ashwin",
+  "brand": "somaari",
+  "website": "https://somaari.in",
+  "github": "https://github.com/ashwinkrpi",
+  "email": "hello@somaari.in",
+  "license_note": "Each somaari app has its own license; see the LICENSE file in that app's repo.",
+  "bug_report": "Open an issue on the app's GitHub repo and paste the copied debug info."
+}

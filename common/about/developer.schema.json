@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ashwinkrpi/somaari-common/about/developer.schema.json",
+  "title": "somaari developer info",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "brand", "website", "github", "email", "license_note", "bug_report"],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "brand": { "type": "string", "minLength": 1 },
+    "website": { "type": "string", "pattern": "^https://[^\\s]+$" },
+    "github": { "type": "string", "pattern": "^https://github\\.com/[^\\s/]+/?$" },
+    "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+    "license_note": { "type": "string", "minLength": 1 },
+    "bug_report": { "type": "string", "minLength": 1 }
+  }
+}
