@@ -111,7 +111,7 @@ def test_as_text_format():
     assert lines[0] == "[somaari debug info]"
     assert [line.split(":", 1)[0] for line in lines[1:1 + len(keys)]] == keys
     assert lines[1 + len(keys)] == "[developer]"
-    assert lines[-3:] == ["name: Ashwin", "website: https://somaari.in", "email: hello@somaari.in"]
+    assert lines[-3:] == ["name: Ashwin Koppam Raghavendra", "website: https://somaari.in", "email: hello@somaari.in"]
 
 
 @pytest.mark.skipif(shutil.which("sh") is None, reason="needs sh")
