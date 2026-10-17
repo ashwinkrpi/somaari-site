@@ -8,7 +8,7 @@ Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only exter
 
 | File | Purpose |
 |---|---|
-| `index.html` | The page: header, intro, app cards, footer |
+| `index.html` | The page: header, hero, Apps, In development, About the maker, footer |
 | `style.css` | All styles (mobile-first); the four themes are custom properties under `html[data-theme]` |
 | `theme.js` | Picks the theme before first paint, the seasonal schedule, the header theme picker |
 | `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
@@ -49,11 +49,17 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
 ## Add a new app card
 
 1. In `index.html`, copy one block from `<!-- CARD START: ... -->` to `<!-- CARD END: ... -->`.
-2. Paste it inside `<ul class="card-grid">`, just before the closing `</ul>`.
-3. Edit the name, description, tags and status badge. Badge classes:
-   - `badge--dev` – In development
-   - `badge--soon` – Coming soon
-   - `badge--live` – Available
+2. Paste it just before the closing `</ul>` of the right section: **Apps** (`#apps`) for available
+   apps, **In development** (`#in-development`) for apps that aren't out yet. The grid is one column
+   on phones and two from tablet width up; a lone last card keeps the column width.
+3. Every card has the same parts, in this order: demo loop (optional), title, repo label, status
+   badge, description, tags, link. Edit:
+   - `<h3 class="card-title">`: what the tool does, e.g. "Disk Usage Analyzer"
+   - `<p class="card-repo">`: the repo name, e.g. `somaari-disk` (kept outside the `h3`)
+   - the description, tags and status badge. Badge classes:
+     - `badge--dev` – In development
+     - `badge--soon` – Coming soon
+     - `badge--live` – Available
 4. Link: only link a repo once it is **public**:
    ```html
    <a class="btn" href="https://github.com/ashwinkrpi/NAME">View on GitHub<span class="visually-hidden"> (NAME)</span></a>
@@ -70,7 +76,8 @@ if a version is out of date.
 
 ## Other things to edit
 
-- **Intro text:** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **About the maker text:** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
 - **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
 - **Copyright year:** hard-coded in the footer of `index.html` and `404.html` (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`).

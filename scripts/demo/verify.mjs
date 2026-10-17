@@ -72,7 +72,7 @@ try {
   await setup({ width: 390, height: 844, mobile: true, dark: false });
   let s = await state();
   console.log("phone initial:", JSON.stringify(s.map((v) => ({ top: v.top, w: v.w, h: v.h }))));
-  const slugs = ["somaari-ai", "somaari-disk", "somaari-plan"];
+  const slugs = ["somaari-trip", "somaari-disk", "somaari-plan", "somaari-ai"]; // the cards in page order
   const far = slugs.filter((_, i) => s[i].top > 844 + 150);
   const farLoaded = far.filter((slug) => videoReqs.some((u) => u.includes(`/demos/${slug}/`)));
   check(farLoaded.length === 0,
@@ -118,7 +118,7 @@ try {
   // keep the old currentSrc string, so check readyState rather than src.
   check(s.every((v) => v.paused && v.rs === 0), `live toggle back to reduce: every video unloaded to its poster (readyState ${s.map((v) => v.rs)})`);
 
-  // Desktop, 3 columns.
+  // Desktop, 2 columns.
   await setup({ width: 1280, height: 800, mobile: false, dark: false });
   s = await state();
   console.log("desktop initial:", JSON.stringify(s.map((v) => ({ top: v.top, w: v.w, h: v.h, playing: !v.paused }))), `${videoReqs.length} video requests`);

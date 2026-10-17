@@ -150,6 +150,9 @@ html[data-theme="rajyotsava"] {
 [hidden] { display: none !important; }
 
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 
 body {
   margin: 0;
@@ -184,7 +187,7 @@ a:hover { color: var(--accent-hover); }
 
 .container {
   width: 100%;
-  max-width: 64rem;
+  max-width: 72rem;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -277,30 +280,32 @@ a:hover { color: var(--accent-hover); }
 }
 .theme-picker option { color: var(--text); background-color: var(--field-bg); }
 
-/* Intro */
-.intro { position: relative; padding: 3rem 0 2.5rem; }
-.intro .container { position: relative; z-index: 1; }
-.intro h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -0.02em; }
-.intro p { margin: 0.9rem 0 0; max-width: 46rem; color: var(--muted); font-size: 1.075rem; }
+/* Hero */
+.hero { position: relative; padding: 3rem 0 3rem; }
+.hero .container { position: relative; z-index: 1; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.25rem); letter-spacing: -0.02em; max-width: 40rem; }
+.hero-sub { margin: 1rem 0 0; max-width: 42rem; color: var(--muted); font-size: 1.125rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0 0; }
 .hero-art { display: none; }
 
-/* Apps */
-.apps { padding-bottom: 4rem; }
-.apps h2 { font-size: 1.35rem; margin-bottom: 1rem; }
+/* Sections. scroll-margin keeps a jumped-to heading off the very top edge. */
+.apps,
+.about { padding-bottom: 4rem; scroll-margin-top: 1.5rem; }
+.apps h2,
+.about h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.about p { margin: 0; max-width: 46rem; color: var(--muted); font-size: 1.075rem; }
 
+/* Apps: one column on phones, two from tablet width up. A lone last card keeps the column width. */
 .card-grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: 1fr;
 }
 @media (min-width: 40rem) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 60rem) {
-  .card-grid { grid-template-columns: repeat(3, 1fr); }
+  .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .card {
@@ -330,11 +335,11 @@ a:hover { color: var(--accent-hover); }
   justify-content: space-between;
   gap: 0.5rem;
 }
-.card-title { font-size: 1.2rem; }
-.card-subtitle {
-  display: block;
-  font-family: var(--font);
-  font-size: 0.85rem;
+.card-names { min-width: 0; }
+.card-title { font-size: 1.3rem; }
+.card-repo {
+  margin: 0.1rem 0 0;
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--subtle);
 }
@@ -388,6 +393,8 @@ a:hover { color: var(--accent-hover); }
   cursor: pointer;
 }
 .btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-contrast); }
+.btn--secondary { background: transparent; color: var(--accent); }
+.btn--secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
 
 /* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
    nothing shifts when a poster or video arrives; the captures are dark UIs in every theme. */
@@ -434,10 +441,8 @@ a:hover { color: var(--accent-hover); }
 .glows { display: none; }
 
 /* ---- warm-tactile ---- */
-:root:not([data-theme]) .card-subtitle,
-html[data-theme="warm-tactile"] .card-subtitle { font-family: var(--font-display); font-style: italic; font-weight: 400; }
-:root:not([data-theme]) .intro h1,
-html[data-theme="warm-tactile"] .intro h1 { font-weight: 450; }
+:root:not([data-theme]) .hero h1,
+html[data-theme="warm-tactile"] .hero h1 { font-weight: 450; }
 
 /* ---- liquid-glass ---- */
 html[data-theme="liquid-glass"] .glows {
@@ -460,7 +465,7 @@ html[data-theme="liquid-glass"] .glows span:nth-child(3) { width: 40vmax; height
 html[data-theme="liquid-glass"] .site-header { padding-top: 1rem; }
 html[data-theme="liquid-glass"] .header-inner {
   width: calc(100% - 2rem);
-  max-width: 62rem;
+  max-width: 70rem;
   padding: 0.6rem 0.75rem 0.6rem 1.25rem;
   background: var(--glass-solid);
   border: 1px solid rgb(255 255 255 / 16%);
@@ -479,9 +484,10 @@ html[data-theme="liquid-glass"] .header-inner {
   }
 }
 html[data-theme="liquid-glass"] .wordmark-mark { border-radius: 50%; }
-html[data-theme="liquid-glass"] .intro { padding-top: 4rem; text-align: center; }
-html[data-theme="liquid-glass"] .intro h1 { letter-spacing: -0.03em; }
-html[data-theme="liquid-glass"] .intro p { margin-inline: auto; }
+html[data-theme="liquid-glass"] .hero { padding-top: 4rem; text-align: center; }
+html[data-theme="liquid-glass"] .hero h1 { letter-spacing: -0.03em; margin-inline: auto; }
+html[data-theme="liquid-glass"] .hero-sub { margin-inline: auto; }
+html[data-theme="liquid-glass"] .hero-actions { justify-content: center; }
 html[data-theme="liquid-glass"] .card { padding: 1.5rem; }
 html[data-theme="liquid-glass"] .card-demo { border-radius: 18px; }
 
@@ -522,22 +528,23 @@ html[data-theme="dasara-jamboo"] .site-footer::before {
   background-position: -11px 100%;
 }
 html[data-theme="dasara-jamboo"] .wordmark-mark { border-radius: 4px; }
-html[data-theme="dasara-jamboo"] .intro h1 { letter-spacing: 0; }
-html[data-theme="dasara-jamboo"] .apps h2 { color: var(--gold); }
-html[data-theme="dasara-jamboo"] .card-grid { gap: 1.5rem; }
+html[data-theme="dasara-jamboo"] .hero h1 { letter-spacing: 0; }
+html[data-theme="dasara-jamboo"] .apps h2,
+html[data-theme="dasara-jamboo"] .about h2 { color: var(--gold); }
 @media (min-width: 48rem) {
-  html[data-theme="dasara-jamboo"] .intro .container {
+  html[data-theme="dasara-jamboo"] .hero .container {
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: 2rem;
     align-items: center;
   }
-  html[data-theme="dasara-jamboo"] .intro h1,
-  html[data-theme="dasara-jamboo"] .intro p { grid-column: 1; }
+  html[data-theme="dasara-jamboo"] .hero h1,
+  html[data-theme="dasara-jamboo"] .hero-sub,
+  html[data-theme="dasara-jamboo"] .hero-actions { grid-column: 1; }
   html[data-theme="dasara-jamboo"] .hero-art {
     display: block;
     grid-column: 2;
-    grid-row: 1 / span 2;
+    grid-row: 1 / span 3;
     width: 240px;
     height: auto;
   }
@@ -545,13 +552,13 @@ html[data-theme="dasara-jamboo"] .card-grid { gap: 1.5rem; }
 
 /* ---- rajyotsava ---- */
 /* A muted sand hero, then a brick-red band: the yellow and red of the Kannada flag, matte. */
-html[data-theme="rajyotsava"] .intro {
+html[data-theme="rajyotsava"] .hero {
   overflow: hidden;
   margin-bottom: 2.5rem;
   padding-bottom: calc(2.5rem + 56px);
   background: var(--grain), var(--sand);
 }
-html[data-theme="rajyotsava"] .intro::after {
+html[data-theme="rajyotsava"] .hero::after {
   content: "";
   position: absolute;
   left: 0;
@@ -562,11 +569,11 @@ html[data-theme="rajyotsava"] .intro::after {
   background: var(--grain), var(--brick);
 }
 /* A large faint outlined "ಕ" behind the hero; the empty alt text keeps it out of screen readers. */
-html[data-theme="rajyotsava"] .intro::before {
+html[data-theme="rajyotsava"] .hero::before {
   content: "ಕ" / "";
   position: absolute;
   z-index: 0;
-  right: max(0.5rem, calc(50% - 31rem));
+  right: max(0.5rem, calc(50% - 35rem));
   top: 0.25rem;
   font-family: "Baloo Tamma 2", sans-serif;
   font-size: clamp(9rem, 30vw, 15rem);
@@ -577,7 +584,7 @@ html[data-theme="rajyotsava"] .intro::before {
   pointer-events: none;
   user-select: none;
 }
-html[data-theme="rajyotsava"] .intro h1 { letter-spacing: -0.01em; }
+html[data-theme="rajyotsava"] .hero h1 { letter-spacing: -0.01em; }
 html[data-theme="rajyotsava"] .card { padding-top: calc(1.25rem + 16px); }
 
 @media (prefers-reduced-motion: reduce) {
