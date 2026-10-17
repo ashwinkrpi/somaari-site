@@ -231,13 +231,6 @@ a:hover { color: var(--accent-hover); }
   cursor: pointer;
 }
 .btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-contrast); }
-.btn--disabled,
-.btn--disabled:hover {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--muted);
-  cursor: not-allowed;
-}
 
 /* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
    nothing shifts when a poster or video arrives; the captures are dark UIs in both themes. */
