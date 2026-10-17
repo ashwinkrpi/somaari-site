@@ -7,8 +7,8 @@
   <meta name="description" content="Somaari is a small collection of useful software tools by Ashwin Koppam Raghavendra in Bengaluru: a smart Raspberry Pi terminal, a disk usage analyzer, a self-hosted planner and a GPS route viewer.">
   <link rel="canonical" href="https://somaari.in/">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -24,34 +24,80 @@
   <meta name="twitter:description" content="A smart Raspberry Pi terminal, a disk usage analyzer, a self-hosted planner and a GPS route viewer, built by Ashwin Koppam Raghavendra in Bengaluru.">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="/style.css">
+  <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
+  <script src="/theme.js"></script>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
   <script src="/demo.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
 
   <header class="site-header">
-    <div class="container">
-      <p class="wordmark">
-        <a href="/">
-          <span class="wordmark-mark" aria-hidden="true">S</span>
-          Somaari
-        </a>
-      </p>
-      <p class="tagline">Small, useful tools, built with AI assistance.</p>
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Small, useful tools, built with AI assistance.</p>
+      </div>
+      <!-- Theme picker: theme.js shows it and remembers the choice. Themes live in style.css. -->
+      <div class="theme-picker" id="theme-picker" hidden>
+        <label for="theme-select">Theme</label>
+        <select id="theme-select">
+          <option value="auto">Auto (seasonal)</option>
+          <option value="warm-tactile">Warm Tactile</option>
+          <option value="liquid-glass">Liquid Glass</option>
+          <option value="dasara-jamboo">Dasara – Jamboo Savari</option>
+          <option value="rajyotsava">Kannada Rajyotsava</option>
+        </select>
+      </div>
     </div>
   </header>
 
   <main id="main">
-    <section class="intro container" aria-labelledby="intro-heading">
-      <h1 id="intro-heading">Hi, I'm Ashwin Koppam Raghavendra.</h1>
-      <!-- INTRO: edit the paragraph below to change the "about me" text. -->
-      <p>
-        I'm a business analyst in Bengaluru with 29 years in IT, and I also build software with AI.
-        My Somaari apps are small tools for everyday problems. Many are built with Claude Code, and most are designed to run
-        on a Raspberry Pi as well as on a regular desktop.
-      </p>
-      <!-- /INTRO -->
+    <section class="intro" aria-labelledby="intro-heading">
+      <div class="container">
+        <h1 id="intro-heading">Hi, I'm Ashwin Koppam Raghavendra.</h1>
+        <!-- INTRO: edit the paragraph below to change the "about me" text. -->
+        <p>
+          I'm a business analyst in Bengaluru with 29 years in IT, and I also build software with AI.
+          My Somaari apps are small tools for everyday problems. Many are built with Claude Code, and most are designed to run
+          on a Raspberry Pi as well as on a regular desktop.
+        </p>
+        <!-- /INTRO -->
+        <!-- Dasara theme only: an elephant with a golden howdah (decorative). -->
+        <svg class="hero-art" viewBox="0 0 220 180" width="210" height="172" aria-hidden="true" focusable="false">
+          <path d="M96 46 Q125 6 154 46 Z" fill="#E8B33A"/>
+          <rect x="123" y="4" width="4" height="14" fill="#E8B33A"/>
+          <circle cx="125" cy="5" r="4" fill="#E8B33A"/>
+          <rect x="98" y="46" width="54" height="26" rx="2" fill="#E8B33A" stroke="#3E0810" stroke-width="2"/>
+          <path d="M104 52 H146 M104 60 H146" stroke="#8A1C2C" stroke-width="3"/>
+          <ellipse cx="124" cy="108" rx="62" ry="40" fill="#D9C3A5"/>
+          <rect x="76" y="128" width="17" height="38" rx="5" fill="#D9C3A5"/>
+          <rect x="98" y="132" width="17" height="34" rx="5" fill="#C9AF8E"/>
+          <rect x="140" y="128" width="17" height="38" rx="5" fill="#D9C3A5"/>
+          <rect x="162" y="132" width="17" height="34" rx="5" fill="#C9AF8E"/>
+          <path d="M184 100 Q196 116 190 134" stroke="#C9AF8E" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M92 72 H164 V118 l-8 9 -8 -9 -8 9 -8 -9 -8 9 -8 -9 -8 9 -8 -9 -8 9 Z" fill="#E8B33A" stroke="#3E0810" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="128" cy="96" r="7" fill="#8A1C2C"/>
+          <circle cx="106" cy="96" r="4" fill="#3E0810"/>
+          <circle cx="150" cy="96" r="4" fill="#3E0810"/>
+          <circle cx="64" cy="90" r="32" fill="#D9C3A5"/>
+          <ellipse cx="84" cy="96" rx="16" ry="23" fill="#C9AF8E"/>
+          <path d="M42 98 C28 120 26 142 40 154" stroke="#D9C3A5" stroke-width="15" fill="none" stroke-linecap="round"/>
+          <path d="M52 114 Q42 124 32 120" stroke="#FBEFD9" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M46 62 Q64 50 82 62 L70 80 Q64 84 58 80 Z" fill="#E8B33A" stroke="#3E0810" stroke-width="2"/>
+          <circle cx="64" cy="72" r="3" fill="#8A1C2C"/>
+          <circle cx="54" cy="88" r="3" fill="#3E0810"/>
+        </svg>
+      </div>
     </section>
 
     <section class="apps container" aria-labelledby="apps-heading">

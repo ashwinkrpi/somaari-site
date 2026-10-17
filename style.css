@@ -1,47 +1,153 @@
-/* Somaari landing page styles. Mobile-first; light and dark via prefers-color-scheme. */
+/* Somaari landing page styles. Mobile-first.
+   Themes: theme.js sets html[data-theme] before first paint. Each theme is a set of custom
+   properties plus a few theme-scoped rules for its decorations; the HTML is shared. :root holds
+   warm-tactile, the year-round default, so the page keeps that look without JS. */
 
-:root {
-  --bg: #f7f8fa;
-  --surface: #ffffff;
-  --text: #16191d;
-  --muted: #535b66;
-  --border: #dde1e6;
-  --accent: #0f6e66;
-  --accent-hover: #0b5751;
-  --accent-soft: #e1f2ef;
+:root,
+html[data-theme="warm-tactile"] {
+  color-scheme: light;
+  --page-bg:
+    radial-gradient(rgb(74 52 30 / 9%) 0.7px, transparent 1.3px) 0 0 / 6px 6px,
+    radial-gradient(rgb(74 52 30 / 6%) 0.7px, transparent 1.3px) 3px 4px / 9px 9px,
+    radial-gradient(rgb(255 255 255 / 35%) 0.7px, transparent 1.3px) 1px 2px / 7px 7px,
+    #ede3d3;
+  --text: #2a241e;
+  --muted: #4a4036;
+  --subtle: #6b5d4f;
+  --border: #d9c9ac;
+  --accent: #9a4424;
+  --accent-hover: #7f3519;
   --accent-contrast: #ffffff;
-  --soon-bg: #eef0f3;
-  --soon-text: #3d444d;
-  --focus: #1a73c9;
-  --shadow: 0 1px 2px rgb(16 24 32 / 6%), 0 4px 16px rgb(16 24 32 / 6%);
-  --shadow-hover: 0 2px 4px rgb(16 24 32 / 8%), 0 10px 28px rgb(16 24 32 / 10%);
-  --radius: 14px;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  color-scheme: light dark;
+  --status: #5b6236;
+  --focus: #7f3519;
+  --tag-border: #c9b79b;
+  --field-bg: #fbf6ec;
+  --header-bg: none;
+  --footer-border: #c9b79b;
+  --card-bg: #fbf6ec;
+  --card-edge: #e7dcc7;
+  --card-top: 22px;
+  --card-top-color: #e2d2b8;
+  --card-radius: 6px;
+  --btn-radius: 6px;
+  --shadow: 0 12px 24px -12px rgb(90 60 30 / 35%);
+  --shadow-hover: 0 16px 30px -12px rgb(90 60 30 / 45%);
+  --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --display-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111418;
-    --surface: #191d23;
-    --text: #e8ebef;
-    --muted: #a3acb8;
-    --border: #2c323b;
-    --accent: #5cc9bc;
-    --accent-hover: #7fd8cd;
-    --accent-soft: #163a37;
-    --accent-contrast: #0c1714;
-    --soon-bg: #262b33;
-    --soon-text: #c4cbd4;
-    --focus: #7cb8f2;
-    --shadow: 0 1px 2px rgb(0 0 0 / 30%);
-    --shadow-hover: 0 4px 20px rgb(0 0 0 / 45%);
-  }
+html[data-theme="liquid-glass"] {
+  color-scheme: dark;
+  --page-bg: #0a0e1c;
+  --text: #f3f5fb;
+  --muted: #c9d0e3;
+  --subtle: #c9d0e3;
+  --border: rgb(255 255 255 / 16%);
+  --accent: #b3c6ff;
+  --accent-hover: #d2ddff;
+  --accent-contrast: #0a0e1c;
+  --status: #8ef0d6;
+  --focus: #ffffff;
+  --tag-border: rgb(255 255 255 / 24%);
+  --field-bg: #151b33;
+  --glass: rgb(255 255 255 / 7%);
+  --glass-solid: #1a2038; /* where backdrop-filter is unsupported */
+  --header-bg: none;
+  --footer-border: rgb(255 255 255 / 16%);
+  --card-bg: var(--glass-solid);
+  --card-edge: rgb(255 255 255 / 16%);
+  --card-top: 1px;
+  --card-top-color: rgb(255 255 255 / 16%);
+  --card-radius: 28px;
+  --btn-radius: 999px;
+  --shadow: 0 24px 48px -24px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 10%);
+  --shadow-hover: 0 28px 56px -24px rgb(0 0 0 / 70%), inset 0 1px 0 rgb(255 255 255 / 16%);
+  --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font);
+  --display-weight: 600;
+}
+
+html[data-theme="dasara-jamboo"] {
+  color-scheme: dark;
+  --gold: #e8b33a;
+  --bar: #3e0810;
+  --page-bg: #5e0d18;
+  --text: #fbefd9;
+  --muted: #ead9c0;
+  --subtle: #ead9c0;
+  --border: #c8a76a;
+  --accent: #e8b33a;
+  --accent-hover: #f3c95f;
+  --accent-contrast: #3e0810;
+  --status: #8a1c2c;
+  --focus: #e8b33a;
+  --tag-border: #c8a76a;
+  --field-bg: #5e0d18;
+  --header-bg: #3e0810;
+  --footer-border: #e8b33a;
+  --card-bg: #fbefd9;
+  --card-edge: #fbefd9;
+  --card-top: 8px;
+  --card-top-color: #e8b33a;
+  --card-radius: 4px;
+  --btn-radius: 4px;
+  --shadow: 0 0 0 3px #3e0810, 0 0 0 5px #e8b33a;
+  --shadow-hover: 0 0 0 3px #3e0810, 0 0 0 5px #e8b33a, 0 18px 30px -12px rgb(0 0 0 / 55%);
+  --font: "Mukta", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Rozha One", Georgia, "Times New Roman", serif;
+  --display-weight: 400;
+}
+/* Cream cards on maroon: the card switches to dark ink. */
+html[data-theme="dasara-jamboo"] .card {
+  color-scheme: light;
+  --text: #3e0810;
+  --muted: #4e2a22;
+  --subtle: #5e3a2e;
+  --accent: #8a1c2c;
+  --accent-hover: #6e1522;
+  --accent-contrast: #fbefd9;
+  --focus: #8a1c2c;
+}
+
+html[data-theme="rajyotsava"] {
+  color-scheme: light;
+  --grain: radial-gradient(rgb(28 20 8 / 5%) 0.7px, transparent 1.3px) 0 0 / 5px 5px,
+           radial-gradient(rgb(28 20 8 / 5%) 0.7px, transparent 1.3px) 2px 3px / 8px 8px;
+  --sand: #e2d3a2;
+  --brick: #8a3b32;
+  --page-bg: #f4f0e6;
+  --text: #1c1408;
+  --muted: #4a3e26;
+  --subtle: #5c4e33;
+  --border: #e4dcc8;
+  --accent: #8a3b32;
+  --accent-hover: #6f2e27;
+  --accent-contrast: #ffffff;
+  --status: #8a3b32;
+  --focus: #6f2e27;
+  --tag-border: #d8ccb0;
+  --field-bg: #f4f0e6;
+  --header-bg: var(--grain), var(--sand);
+  --footer-border: #e4dcc8;
+  --card-bg: linear-gradient(#e2d3a2 0 8px, #8a3b32 8px 16px, #ffffff 16px);
+  --card-edge: #e4dcc8;
+  --card-top: 1px;
+  --card-top-color: #e4dcc8;
+  --card-radius: 8px;
+  --btn-radius: 8px;
+  --shadow: 0 1px 3px rgb(28 20 8 / 6%);
+  --shadow-hover: 0 6px 16px -6px rgb(28 20 8 / 14%);
+  --font: "Mukta", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Baloo Tamma 2", system-ui, sans-serif;
+  --display-weight: 700;
 }
 
 *,
 *::before,
 *::after { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
 
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
@@ -50,7 +156,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
+  overflow-x: clip;
+  background: var(--page-bg);
   color: var(--text);
   font-family: var(--font);
   font-size: 1rem;
@@ -59,7 +166,12 @@ body {
 
 main { flex: 1; }
 
-h1, h2, h3 { line-height: 1.25; margin: 0; }
+h1, h2, h3 {
+  line-height: 1.25;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+}
 
 a { color: var(--accent); text-underline-offset: 0.18em; }
 a:hover { color: var(--accent-hover); }
@@ -80,11 +192,11 @@ a:hover { color: var(--accent-hover); }
 .skip-link {
   position: absolute;
   left: 1rem;
-  top: -3rem;
+  top: -4rem;
   padding: 0.5rem 0.75rem;
-  background: var(--surface);
+  background: var(--field-bg);
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 1px solid var(--tag-border);
   border-radius: 8px;
   z-index: 10;
 }
@@ -103,18 +215,31 @@ a:hover { color: var(--accent-hover); }
 }
 
 /* Header */
-.site-header { padding: 2rem 0 0; }
+.site-header {
+  position: relative;
+  padding: 1.5rem 0 0;
+  background: var(--header-bg);
+}
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
 
 .wordmark {
   margin: 0;
+  font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--display-weight);
   letter-spacing: -0.01em;
 }
 .wordmark a {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  min-height: 44px;
   color: var(--text);
   text-decoration: none;
 }
@@ -128,23 +253,47 @@ a:hover { color: var(--accent-hover); }
   color: var(--accent-contrast);
   font-size: 1.2rem;
 }
-.tagline { margin: 0.35rem 0 0; color: var(--muted); }
+.tagline { margin: 0.2rem 0 0; color: var(--muted); }
+
+/* Theme picker (shown by theme.js) */
+.theme-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.theme-picker label { font-weight: 600; }
+.theme-picker select {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  color: var(--text);
+  background-color: var(--field-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+}
+.theme-picker option { color: var(--text); background-color: var(--field-bg); }
 
 /* Intro */
-.intro { padding-top: 3rem; padding-bottom: 2.5rem; }
+.intro { position: relative; padding: 3rem 0 2.5rem; }
+.intro .container { position: relative; z-index: 1; }
 .intro h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -0.02em; }
-.intro p { margin: 0.9rem 0 0; color: var(--muted); font-size: 1.075rem; }
+.intro p { margin: 0.9rem 0 0; max-width: 46rem; color: var(--muted); font-size: 1.075rem; }
+.hero-art { display: none; }
 
 /* Apps */
 .apps { padding-bottom: 4rem; }
-.apps h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+.apps h2 { font-size: 1.35rem; margin-bottom: 1rem; }
 
 .card-grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
   grid-template-columns: 1fr;
 }
 @media (min-width: 40rem) {
@@ -158,18 +307,20 @@ a:hover { color: var(--accent-hover); }
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  min-width: 0;
   padding: 1.25rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--card-edge);
+  border-top: var(--card-top) solid var(--card-top-color);
+  border-radius: var(--card-radius);
   box-shadow: var(--shadow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .card:hover,
 .card:focus-within {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--accent);
 }
 
 .card-head {
@@ -179,26 +330,29 @@ a:hover { color: var(--accent-hover); }
   justify-content: space-between;
   gap: 0.5rem;
 }
-.card-title { font-size: 1.15rem; }
+.card-title { font-size: 1.2rem; }
 .card-subtitle {
   display: block;
+  font-family: var(--font);
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--subtle);
 }
 .card-desc { margin: 0; color: var(--muted); flex: 1; }
 
+/* Status badges: outlined; "In development" and "Coming soon" use a broken outline. */
 .badge {
   display: inline-block;
-  padding: 0.15rem 0.6rem;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid currentColor;
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 600;
   white-space: nowrap;
 }
-.badge--dev { background: var(--accent-soft); color: var(--accent); }
-.badge--soon { background: var(--soon-bg); color: var(--soon-text); }
-.badge--live { background: var(--accent); color: var(--accent-contrast); }
+.badge--live { color: var(--status); }
+.badge--dev { color: var(--subtle); border-style: dashed; }
+.badge--soon { color: var(--subtle); border-style: dotted; }
 
 .tags {
   list-style: none;
@@ -209,19 +363,22 @@ a:hover { color: var(--accent-hover); }
   gap: 0.4rem;
 }
 .tags li {
-  padding: 0.1rem 0.55rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--tag-border);
+  border-radius: 999px;
   font-size: 0.8rem;
-  color: var(--muted);
+  color: var(--subtle);
 }
 
 .btn {
   align-self: flex-start;
-  display: inline-block;
-  padding: 0.55rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
   border: 1px solid var(--accent);
-  border-radius: 9px;
+  border-radius: var(--btn-radius);
   background: var(--accent);
   color: var(--accent-contrast);
   font: inherit;
@@ -233,7 +390,7 @@ a:hover { color: var(--accent-hover); }
 .btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-contrast); }
 
 /* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
-   nothing shifts when a poster or video arrives; the captures are dark UIs in both themes. */
+   nothing shifts when a poster or video arrives; the captures are dark UIs in every theme. */
 .card-demo {
   display: block;
   width: 100%;
@@ -241,7 +398,7 @@ a:hover { color: var(--accent-hover); }
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: calc(var(--card-radius) * 0.6);
   background: #0d0f12;
   pointer-events: none; /* decorative: no controls, nothing to click */
 }
@@ -251,9 +408,10 @@ a:hover { color: var(--accent-hover); }
 
 /* Footer */
 .site-footer {
-  border-top: 1px solid var(--border);
-  padding: 1.5rem 0;
-  color: var(--muted);
+  position: relative;
+  border-top: 1px solid var(--footer-border);
+  padding: 1rem 0;
+  color: var(--subtle);
   font-size: 0.92rem;
 }
 .footer-inner {
@@ -265,11 +423,162 @@ a:hover { color: var(--accent-hover); }
 }
 .footer-inner p { margin: 0; }
 .footer-links { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
 
 /* 404 page */
 .notfound { padding-top: 4rem; padding-bottom: 4rem; }
 .notfound h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); }
 .notfound p { color: var(--muted); }
+
+/* Decorations (all aria-hidden; each theme shows its own) */
+.glows { display: none; }
+
+/* ---- warm-tactile ---- */
+:root:not([data-theme]) .card-subtitle,
+html[data-theme="warm-tactile"] .card-subtitle { font-family: var(--font-display); font-style: italic; font-weight: 400; }
+:root:not([data-theme]) .intro h1,
+html[data-theme="warm-tactile"] .intro h1 { font-weight: 450; }
+
+/* ---- liquid-glass ---- */
+html[data-theme="liquid-glass"] .glows {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+html[data-theme="liquid-glass"] .glows span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+}
+html[data-theme="liquid-glass"] .glows span:nth-child(1) { width: 60vmax; height: 60vmax; left: -22vmax; top: -26vmax; background: #3b5bff; opacity: 0.45; }
+html[data-theme="liquid-glass"] .glows span:nth-child(2) { width: 50vmax; height: 50vmax; right: -20vmax; bottom: -22vmax; background: #13c2a3; opacity: 0.35; }
+html[data-theme="liquid-glass"] .glows span:nth-child(3) { width: 40vmax; height: 40vmax; right: -14vmax; top: 12vh; background: #e2557a; opacity: 0.35; }
+
+html[data-theme="liquid-glass"] .site-header { padding-top: 1rem; }
+html[data-theme="liquid-glass"] .header-inner {
+  width: calc(100% - 2rem);
+  max-width: 62rem;
+  padding: 0.6rem 0.75rem 0.6rem 1.25rem;
+  background: var(--glass-solid);
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+@media (min-width: 40rem) {
+  html[data-theme="liquid-glass"] .header-inner { border-radius: 999px; }
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html[data-theme="liquid-glass"] .header-inner,
+  html[data-theme="liquid-glass"] .card {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    backdrop-filter: blur(28px) saturate(140%);
+  }
+}
+html[data-theme="liquid-glass"] .wordmark-mark { border-radius: 50%; }
+html[data-theme="liquid-glass"] .intro { padding-top: 4rem; text-align: center; }
+html[data-theme="liquid-glass"] .intro h1 { letter-spacing: -0.03em; }
+html[data-theme="liquid-glass"] .intro p { margin-inline: auto; }
+html[data-theme="liquid-glass"] .card { padding: 1.5rem; }
+html[data-theme="liquid-glass"] .card-demo { border-radius: 18px; }
+
+/* ---- dasara-jamboo ---- */
+/* Header and footer bars with a gold zig-zag fringe like an elephant's caparison. */
+html[data-theme="dasara-jamboo"] .site-header {
+  padding: 1rem 0;
+  margin-bottom: 11px;
+  border-bottom: 3px solid var(--gold);
+}
+html[data-theme="dasara-jamboo"] .site-header::after,
+html[data-theme="dasara-jamboo"] .site-footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 11px;
+  background-size: 22px 22px;
+  background-repeat: repeat-x;
+}
+html[data-theme="dasara-jamboo"] .site-header::after {
+  top: calc(100% + 3px);
+  background-image:
+    linear-gradient(135deg, var(--gold) 25%, transparent 25%),
+    linear-gradient(225deg, var(--gold) 25%, transparent 25%);
+  background-position: -11px 0;
+}
+html[data-theme="dasara-jamboo"] .site-footer {
+  margin-top: 11px;
+  background: var(--bar);
+  border-top: 3px solid var(--gold);
+}
+html[data-theme="dasara-jamboo"] .site-footer::before {
+  bottom: calc(100% + 3px);
+  background-image:
+    linear-gradient(45deg, var(--gold) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--gold) 25%, transparent 25%);
+  background-position: -11px 100%;
+}
+html[data-theme="dasara-jamboo"] .wordmark-mark { border-radius: 4px; }
+html[data-theme="dasara-jamboo"] .intro h1 { letter-spacing: 0; }
+html[data-theme="dasara-jamboo"] .apps h2 { color: var(--gold); }
+html[data-theme="dasara-jamboo"] .card-grid { gap: 1.5rem; }
+@media (min-width: 48rem) {
+  html[data-theme="dasara-jamboo"] .intro .container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 2rem;
+    align-items: center;
+  }
+  html[data-theme="dasara-jamboo"] .intro h1,
+  html[data-theme="dasara-jamboo"] .intro p { grid-column: 1; }
+  html[data-theme="dasara-jamboo"] .hero-art {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 210px;
+    height: auto;
+  }
+}
+
+/* ---- rajyotsava ---- */
+/* A muted sand hero, then a brick-red band: the yellow and red of the Kannada flag, matte. */
+html[data-theme="rajyotsava"] .intro {
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  padding-bottom: calc(2.5rem + 56px);
+  background: var(--grain), var(--sand);
+}
+html[data-theme="rajyotsava"] .intro::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 56px;
+  background: var(--grain), var(--brick);
+}
+/* A large faint outlined "ಕ" behind the hero; the empty alt text keeps it out of screen readers. */
+html[data-theme="rajyotsava"] .intro::before {
+  content: "ಕ" / "";
+  position: absolute;
+  z-index: 0;
+  right: max(0.5rem, calc(50% - 31rem));
+  top: 0.25rem;
+  font-family: "Baloo Tamma 2", sans-serif;
+  font-size: clamp(9rem, 30vw, 15rem);
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgb(138 59 50 / 14%);
+  pointer-events: none;
+  user-select: none;
+}
+html[data-theme="rajyotsava"] .intro h1 { letter-spacing: -0.01em; }
+html[data-theme="rajyotsava"] .card { padding-top: calc(1.25rem + 16px); }
 
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }
