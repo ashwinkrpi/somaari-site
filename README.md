@@ -17,6 +17,7 @@ Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only exter
 | `sitemap.xml` | Single-URL sitemap for `https://somaari.in/` |
 | `demo.js` | Loads/plays the card demo loops near the viewport; poster only with reduced motion or no JS |
 | `assets/demos/<app>/` | Each card's `loop.webm`, `loop.mp4` (720 px, < 1 MB) and `poster.webp` |
+| `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts and Cloudflare Web Analytics, no inline styles or scripts) |
@@ -59,6 +60,13 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
    ```
    Until then leave the link out; the status badge already says where the app is.
 5. Commit and push to `main`; Cloudflare Pages redeploys automatically.
+
+## After editing style.css, theme.js or demo.js
+
+Run `node scripts/asset-versions.mjs` before committing. Cloudflare lets browsers cache these files
+for hours, so each changed file needs a new `?v=` in `index.html` and `404.html`; otherwise returning
+visitors get the new page with the old stylesheet. `node scripts/asset-versions.mjs --check` exits 1
+if a version is out of date.
 
 ## Other things to edit
 
