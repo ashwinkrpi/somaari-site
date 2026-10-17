@@ -1,13 +1,16 @@
-// Cache-busts the site's CSS and JS: rewrites /style.css, /theme.js and /demo.js in the HTML pages
-// to /<file>?v=<first 10 hex of its sha256>. Browsers may cache these files for hours, so a changed
+// Cache-busts the site's CSS and JS: rewrites /style.css, /theme.js and /demo.js in every HTML page
+// (index.html, 404.html, apps/*/index.html, ...) to /<file>?v=<first 10 hex of its sha256>. Browsers may cache these files for hours, so a changed
 // file must get a new URL or visitors see new HTML with an old stylesheet.
 // Run from the repo root after editing any of them: node scripts/asset-versions.mjs
 // With --check it changes nothing and exits 1 if any version is stale.
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 
 const ASSETS = ["style.css", "theme.js", "demo.js"];
-const PAGES = ["index.html", "404.html"];
+// Every .html file in the published tree; scripts/ and dot-folders hold no pages.
+const PAGES = readdirSync(".", { recursive: true })
+  .filter((f) => f.endsWith(".html") && !/^(scripts|\.)|\/\./.test(f))
+  .sort();
 const check = process.argv.includes("--check");
 
 const version = Object.fromEntries(ASSETS.map((f) =>

@@ -150,6 +150,9 @@ html[data-theme="rajyotsava"] {
 [hidden] { display: none !important; }
 
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 
 body {
   margin: 0;
@@ -184,7 +187,7 @@ a:hover { color: var(--accent-hover); }
 
 .container {
   width: 100%;
-  max-width: 64rem;
+  max-width: 72rem;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -198,7 +201,7 @@ a:hover { color: var(--accent-hover); }
   color: var(--text);
   border: 1px solid var(--tag-border);
   border-radius: 8px;
-  z-index: 10;
+  z-index: 30; /* above the header */
 }
 .skip-link:focus { top: 1rem; }
 
@@ -217,6 +220,7 @@ a:hover { color: var(--accent-hover); }
 /* Header */
 .site-header {
   position: relative;
+  z-index: 10; /* above the hero, so the Appearance popover isn't covered */
   padding: 1.5rem 0 0;
   background: var(--header-bg);
 }
@@ -255,52 +259,88 @@ a:hover { color: var(--accent-hover); }
 }
 .tagline { margin: 0.2rem 0 0; color: var(--muted); }
 
-/* Theme picker (shown by theme.js) */
-.theme-picker {
-  display: flex;
+/* Header nav and the Appearance control (an icon button with a popover of theme choices). */
+.header-end { display: flex; align-items: center; gap: 0.25rem 1rem; margin-left: auto; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem; }
+.site-nav a {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-.theme-picker label { font-weight: 600; }
-.theme-picker select {
   min-height: 44px;
-  max-width: 100%;
-  padding: 0.4rem 0.6rem;
-  font: inherit;
+  padding: 0 0.6rem;
   color: var(--text);
-  background-color: var(--field-bg);
+  font-weight: 600;
+  text-decoration: none;
+}
+.site-nav a:hover { color: var(--accent); text-decoration: underline; }
+.appearance { position: relative; }
+.appearance-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--text);
+  background: var(--field-bg);
   border: 1px solid var(--tag-border);
   border-radius: var(--btn-radius);
   cursor: pointer;
 }
-.theme-picker option { color: var(--text); background-color: var(--field-bg); }
+.appearance-toggle:hover,
+.appearance-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.appearance-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: 20;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.75rem;
+  color: var(--text);
+  background: var(--field-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: calc(var(--card-radius) * 0.6 + 4px);
+  box-shadow: 0 12px 28px -8px rgb(0 0 0 / 35%);
+}
+.appearance-menu fieldset { margin: 0; padding: 0; border: 0; display: grid; }
+.appearance-menu legend { padding: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.appearance-menu label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding: 0 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.appearance-menu label:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.appearance-menu input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--accent); }
 
-/* Intro */
-.intro { position: relative; padding: 3rem 0 2.5rem; }
-.intro .container { position: relative; z-index: 1; }
-.intro h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -0.02em; }
-.intro p { margin: 0.9rem 0 0; max-width: 46rem; color: var(--muted); font-size: 1.075rem; }
+/* Hero */
+.hero { position: relative; padding: 3rem 0 3rem; }
+.hero .container { position: relative; z-index: 1; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.25rem); letter-spacing: -0.02em; max-width: 40rem; }
+.hero-sub { margin: 1rem 0 0; max-width: 42rem; color: var(--muted); font-size: 1.125rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0 0; }
 .hero-art { display: none; }
 
-/* Apps */
-.apps { padding-bottom: 4rem; }
-.apps h2 { font-size: 1.35rem; margin-bottom: 1rem; }
+/* Sections. scroll-margin keeps a jumped-to heading off the very top edge. */
+.apps,
+.about { padding-bottom: 4rem; scroll-margin-top: 1.5rem; }
+.apps h2,
+.about h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.about p { margin: 0; max-width: 46rem; color: var(--muted); font-size: 1.075rem; }
 
+/* Apps: one column on phones, two from tablet width up. A lone last card keeps the column width. */
 .card-grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: 1fr;
 }
 @media (min-width: 40rem) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 60rem) {
-  .card-grid { grid-template-columns: repeat(3, 1fr); }
+  .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .card {
@@ -330,11 +370,11 @@ a:hover { color: var(--accent-hover); }
   justify-content: space-between;
   gap: 0.5rem;
 }
-.card-title { font-size: 1.2rem; }
-.card-subtitle {
-  display: block;
-  font-family: var(--font);
-  font-size: 0.85rem;
+.card-names { min-width: 0; }
+.card-title { font-size: 1.3rem; }
+.card-repo {
+  margin: 0.1rem 0 0;
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--subtle);
 }
@@ -388,9 +428,54 @@ a:hover { color: var(--accent-hover); }
   cursor: pointer;
 }
 .btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-contrast); }
+.btn--secondary { background: transparent; color: var(--accent); }
+.btn--secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+.card-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
-/* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
-   nothing shifts when a poster or video arrives; the captures are dark UIs in every theme. */
+/* App detail pages (apps/<repo>/index.html) */
+.detail { display: grid; gap: 2.5rem; padding-top: 1.5rem; padding-bottom: 4rem; }
+.detail-back { margin: 0; }
+.detail-back a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.detail-intro { display: grid; gap: 1rem; max-width: 46rem; }
+.detail-title { font-size: clamp(2rem, 6vw, 3rem); letter-spacing: -0.02em; }
+.detail-intro .card-head { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+.detail-intro .card-repo { font-size: 1rem; }
+.detail-lead { margin: 0; color: var(--muted); font-size: 1.125rem; }
+.detail-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.detail-note { margin: 0; color: var(--subtle); font-size: 0.92rem; }
+.detail-shot { margin: 0; }
+.detail-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--card-radius) * 0.6);
+  background: #0d0f12;
+  box-shadow: var(--shadow);
+}
+.detail-section h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.capabilities {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+.capabilities li { padding-top: 0.75rem; border-top: 3px solid var(--accent); }
+.capabilities h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+.capabilities p { margin: 0; color: var(--muted); }
+.detail-columns { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+.detail-list { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; color: var(--muted); }
+@media (min-width: 48rem) {
+  .capabilities { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .detail-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Demo posters on the cards, with a "Watch demo" button on top (shown by demo.js). The aspect
+   ratio is reserved up front so nothing shifts when a poster arrives; the captures are dark UIs in
+   every theme. */
+.card-media { position: relative; }
 .card-demo {
   display: block;
   width: 100%;
@@ -400,11 +485,44 @@ a:hover { color: var(--accent-hover); }
   border: 1px solid var(--border);
   border-radius: calc(var(--card-radius) * 0.6);
   background: #0d0f12;
-  pointer-events: none; /* decorative: no controls, nothing to click */
 }
-/* Browsers show native controls on <video> when scripting is off; keep the bare poster. */
-.card-demo::-webkit-media-controls,
-.card-demo::-webkit-media-controls-enclosure { display: none !important; }
+.demo-open {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 45%);
+}
+/* The posters are dark in every theme, so the focus ring is white here. */
+.demo-open:focus-visible { outline-color: #ffffff; }
+
+/* Demo player dialog. No padding on the <dialog> itself: a click on it is a backdrop click. */
+.demo-dialog {
+  width: min(100% - 2rem, 60rem);
+  max-width: none;
+  max-height: calc(100% - 2rem);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--field-bg);
+  color: var(--text);
+  box-shadow: var(--shadow-hover);
+}
+.demo-dialog::backdrop { background: rgb(0 0 0 / 70%); }
+html:has(.demo-dialog[open]) { overflow: hidden; }
+.demo-dialog-inner { display: grid; gap: 1rem; padding: 1rem; }
+.demo-dialog-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.demo-dialog-bar h2 { font-size: 1.25rem; min-width: 0; }
+.demo-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #0d0f12;
+  border-radius: calc(var(--card-radius) * 0.6);
+}
+.demo-video::-webkit-media-controls,
+.demo-video::-webkit-media-controls-enclosure { display: none !important; }
+.demo-dialog-controls { margin: 0; }
 
 /* Footer */
 .site-footer {
@@ -434,10 +552,8 @@ a:hover { color: var(--accent-hover); }
 .glows { display: none; }
 
 /* ---- warm-tactile ---- */
-:root:not([data-theme]) .card-subtitle,
-html[data-theme="warm-tactile"] .card-subtitle { font-family: var(--font-display); font-style: italic; font-weight: 400; }
-:root:not([data-theme]) .intro h1,
-html[data-theme="warm-tactile"] .intro h1 { font-weight: 450; }
+:root:not([data-theme]) .hero h1,
+html[data-theme="warm-tactile"] .hero h1 { font-weight: 450; }
 
 /* ---- liquid-glass ---- */
 html[data-theme="liquid-glass"] .glows {
@@ -460,7 +576,7 @@ html[data-theme="liquid-glass"] .glows span:nth-child(3) { width: 40vmax; height
 html[data-theme="liquid-glass"] .site-header { padding-top: 1rem; }
 html[data-theme="liquid-glass"] .header-inner {
   width: calc(100% - 2rem);
-  max-width: 62rem;
+  max-width: 70rem;
   padding: 0.6rem 0.75rem 0.6rem 1.25rem;
   background: var(--glass-solid);
   border: 1px solid rgb(255 255 255 / 16%);
@@ -479,11 +595,13 @@ html[data-theme="liquid-glass"] .header-inner {
   }
 }
 html[data-theme="liquid-glass"] .wordmark-mark { border-radius: 50%; }
-html[data-theme="liquid-glass"] .intro { padding-top: 4rem; text-align: center; }
-html[data-theme="liquid-glass"] .intro h1 { letter-spacing: -0.03em; }
-html[data-theme="liquid-glass"] .intro p { margin-inline: auto; }
+html[data-theme="liquid-glass"] .hero { padding-top: 4rem; text-align: center; }
+html[data-theme="liquid-glass"] .hero h1 { letter-spacing: -0.03em; margin-inline: auto; }
+html[data-theme="liquid-glass"] .hero-sub { margin-inline: auto; }
+html[data-theme="liquid-glass"] .hero-actions { justify-content: center; }
 html[data-theme="liquid-glass"] .card { padding: 1.5rem; }
-html[data-theme="liquid-glass"] .card-demo { border-radius: 18px; }
+html[data-theme="liquid-glass"] .card-demo,
+html[data-theme="liquid-glass"] .demo-video { border-radius: 18px; }
 
 /* ---- dasara-jamboo ---- */
 /* Header and footer bars with a gold zig-zag fringe like an elephant's caparison. */
@@ -522,22 +640,26 @@ html[data-theme="dasara-jamboo"] .site-footer::before {
   background-position: -11px 100%;
 }
 html[data-theme="dasara-jamboo"] .wordmark-mark { border-radius: 4px; }
-html[data-theme="dasara-jamboo"] .intro h1 { letter-spacing: 0; }
-html[data-theme="dasara-jamboo"] .apps h2 { color: var(--gold); }
-html[data-theme="dasara-jamboo"] .card-grid { gap: 1.5rem; }
+html[data-theme="dasara-jamboo"] .hero h1 { letter-spacing: 0; }
+html[data-theme="dasara-jamboo"] .apps h2,
+html[data-theme="dasara-jamboo"] .about h2,
+html[data-theme="dasara-jamboo"] .detail h2 { color: var(--gold); }
+/* Badges outside the cream cards sit on maroon. */
+html[data-theme="dasara-jamboo"] .detail .badge--live { color: var(--gold); }
 @media (min-width: 48rem) {
-  html[data-theme="dasara-jamboo"] .intro .container {
+  html[data-theme="dasara-jamboo"] .hero .container {
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: 2rem;
     align-items: center;
   }
-  html[data-theme="dasara-jamboo"] .intro h1,
-  html[data-theme="dasara-jamboo"] .intro p { grid-column: 1; }
+  html[data-theme="dasara-jamboo"] .hero h1,
+  html[data-theme="dasara-jamboo"] .hero-sub,
+  html[data-theme="dasara-jamboo"] .hero-actions { grid-column: 1; }
   html[data-theme="dasara-jamboo"] .hero-art {
     display: block;
     grid-column: 2;
-    grid-row: 1 / span 2;
+    grid-row: 1 / span 3;
     width: 240px;
     height: auto;
   }
@@ -545,13 +667,13 @@ html[data-theme="dasara-jamboo"] .card-grid { gap: 1.5rem; }
 
 /* ---- rajyotsava ---- */
 /* A muted sand hero, then a brick-red band: the yellow and red of the Kannada flag, matte. */
-html[data-theme="rajyotsava"] .intro {
+html[data-theme="rajyotsava"] .hero {
   overflow: hidden;
   margin-bottom: 2.5rem;
   padding-bottom: calc(2.5rem + 56px);
   background: var(--grain), var(--sand);
 }
-html[data-theme="rajyotsava"] .intro::after {
+html[data-theme="rajyotsava"] .hero::after {
   content: "";
   position: absolute;
   left: 0;
@@ -562,11 +684,11 @@ html[data-theme="rajyotsava"] .intro::after {
   background: var(--grain), var(--brick);
 }
 /* A large faint outlined "ಕ" behind the hero; the empty alt text keeps it out of screen readers. */
-html[data-theme="rajyotsava"] .intro::before {
+html[data-theme="rajyotsava"] .hero::before {
   content: "ಕ" / "";
   position: absolute;
   z-index: 0;
-  right: max(0.5rem, calc(50% - 31rem));
+  right: max(0.5rem, calc(50% - 35rem));
   top: 0.25rem;
   font-family: "Baloo Tamma 2", sans-serif;
   font-size: clamp(9rem, 30vw, 15rem);
@@ -577,7 +699,7 @@ html[data-theme="rajyotsava"] .intro::before {
   pointer-events: none;
   user-select: none;
 }
-html[data-theme="rajyotsava"] .intro h1 { letter-spacing: -0.01em; }
+html[data-theme="rajyotsava"] .hero h1 { letter-spacing: -0.01em; }
 html[data-theme="rajyotsava"] .card { padding-top: calc(1.25rem + 16px); }
 
 @media (prefers-reduced-motion: reduce) {

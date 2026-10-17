@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPS Route Viewer (somaari-trip) – Somaari</title>
+  <meta name="description" content="GPS Route Viewer (somaari-trip): see where you went each day on a map, from the Overland iOS app's GPS logs. It runs in Docker on your own machine.">
+  <link rel="canonical" href="https://somaari.in/apps/somaari-trip/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="GPS Route Viewer (somaari-trip) – Somaari">
+  <meta property="og:description" content="GPS Route Viewer (somaari-trip): see where you went each day on a map, from the Overland iOS app's GPS logs. It runs in Docker on your own machine.">
+  <meta property="og:url" content="https://somaari.in/apps/somaari-trip/">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GPS Route Viewer (somaari-trip) – Somaari">
+  <meta name="twitter:description" content="GPS Route Viewer (somaari-trip): see where you went each day on a map, from the Overland iOS app's GPS logs. It runs in Docker on your own machine.">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/style.css?v=a9cecd6f96">
+  <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
+  <script src="/theme.js?v=d874b7238d"></script>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Small, useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+          </ul>
+        </nav>
+        <!-- Appearance (theme) control: theme.js shows it, opens the popover and remembers the choice.
+             Themes live in style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+              <label><input type="radio" name="theme-choice" value="auto"> Auto (seasonal)</label>
+              <label><input type="radio" name="theme-choice" value="warm-tactile"> Warm Tactile</label>
+              <label><input type="radio" name="theme-choice" value="liquid-glass"> Liquid Glass</label>
+              <label><input type="radio" name="theme-choice" value="dasara-jamboo"> Dasara – Jamboo Savari</label>
+              <label><input type="radio" name="theme-choice" value="rajyotsava"> Kannada Rajyotsava</label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail container">
+    <p class="detail-back"><a href="/#apps">&larr; All apps</a></p>
+
+    <!-- App facts below come from the somaari-trip README and docs/GUIDE.md. Check them there before editing. -->
+    <div class="detail-intro">
+      <div class="card-head">
+        <div class="card-names">
+          <h1 class="detail-title">GPS Route Viewer</h1>
+          <p class="card-repo">somaari-trip</p>
+        </div>
+        <span class="badge badge--live">Available</span>
+      </div>
+      <p class="detail-lead">See where you went each day on a map, from the Overland iOS app's GPS logs: trips, stops, distance and speed. It runs in Docker on your own machine, so your location history stays there.</p>
+      <div class="detail-actions">
+        <a class="btn" href="https://github.com/ashwinkrpi/somaari-trip/blob/main/docs/GUIDE.md#-installation">Installation guide<span class="visually-hidden"> (somaari-trip)</span></a>
+        <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-trip">View on GitHub<span class="visually-hidden"> (somaari-trip)</span></a>
+      </div>
+    </div>
+
+    <figure class="detail-shot">
+      <!-- docs/images/overview.jpg from the somaari-trip repo, with the top 66 px cropped off: the app's
+           header shows a "Self-Hosted" label, and the site doesn't mention self-hosting. -->
+      <img src="/assets/apps/somaari-trip/screenshot.jpg" width="1280" height="734" alt="Day list, trip stats and routes on the map (sample data)">
+    </figure>
+
+    <section class="detail-section" aria-labelledby="capabilities-heading">
+      <h2 id="capabilities-heading">Key capabilities</h2>
+      <ul class="capabilities" role="list">
+          <li>
+            <h3>Trips and stops</h3>
+            <p>Routes are split into trips, and stops are detected where you stayed put, with the WiFi network and battery level.</p>
+          </li>
+          <li>
+            <h3>Colour by mode or speed</h3>
+            <p>Walking, cycling, driving and more, or a green-to-red speed gradient.</p>
+          </li>
+          <li>
+            <h3>Days and ranges</h3>
+            <p>One day, a custom range, or the past 3, 7 or all days, with totals for distance, time, speed, trips and stops.</p>
+          </li>
+      </ul>
+    </section>
+
+    <div class="detail-columns">
+      <section class="detail-section" aria-labelledby="platforms-heading">
+        <h2 id="platforms-heading">Platforms</h2>
+        <ul class="detail-list">
+          <li>Server: a Raspberry Pi 5 (ARM64) or any x86_64 Linux server</li>
+          <li>Viewing: a web browser, on a computer or a phone</li>
+          <li>Recording: Overland on an iPhone</li>
+        </ul>
+      </section>
+      <section class="detail-section" aria-labelledby="needs-heading">
+        <h2 id="needs-heading">What you need</h2>
+        <ul class="detail-list">
+          <li>A Linux machine that stays on</li>
+          <li>Docker with the Compose plugin</li>
+          <li>Node.js 20 or newer, only to create the login hash (you can do that on another machine)</li>
+          <li>Overland for iOS</li>
+          <li>A network the phone can reach the server on: your home wifi, or ZeroTier or Tailscale for when you're away</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <!-- CONTACT: add hello@somaari.in once email forwarding is set up, e.g.
+             <li><a href="mailto:hello@somaari.in">hello@somaari.in</a></li> -->
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>

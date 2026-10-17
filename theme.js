@@ -1,6 +1,6 @@
 // Theme picker and seasonal default theme. Loaded as a blocking script in <head> (not deferred),
 // so data-theme is set before first paint and there is no flash of the wrong theme. The picker in
-// the header (#theme-select) is wired up once the DOM is ready. The colours live in style.css.
+// the header (#theme-picker) is wired up once the DOM is ready. The colours live in style.css.
 //
 // Which theme shows: ?theme=<id> in the URL (a preview, never saved), else the visitor's saved
 // choice, else the date schedule below. Choosing "Auto (seasonal)" clears the saved choice.
@@ -97,14 +97,16 @@
   apply(preview || saved || getDefaultTheme(new Date()));
 
   document.addEventListener("DOMContentLoaded", function () {
-    var select = document.getElementById("theme-select");
     var picker = document.getElementById("theme-picker");
-    if (!select || !picker) return;
-    select.value = preview || saved || "auto";
+    if (!picker) return;
+    // The choices are radio buttons inside #theme-picker, valued "auto" or a theme id.
+    var choices = picker.querySelectorAll("input[type=radio]");
+    var current = preview || saved || "auto";
+    for (var i = 0; i < choices.length; i++) choices[i].checked = choices[i].value === current;
     picker.hidden = false; // the picker needs JS, so it stays hidden without it
 
-    select.addEventListener("change", function () {
-      var id = isTheme(select.value) ? select.value : null;
+    picker.addEventListener("change", function (e) {
+      var id = isTheme(e.target.value) ? e.target.value : null;
       save(id);
       apply(id || getDefaultTheme(new Date()));
       // A choice replaces any ?theme= preview, so it is what shows after a reload.
@@ -116,6 +118,29 @@
           history.replaceState(null, "", url);
         } catch (e) { /* leave the URL as it is */ }
       }
+    });
+
+    // Popover: the Appearance button opens the choices and focuses the checked one. Esc closes it
+    // and returns focus to the button; so does a click outside, or tabbing out of it.
+    var toggle = document.getElementById("appearance-toggle");
+    var menu = document.getElementById("appearance-menu");
+    if (!toggle || !menu) return;
+
+    function setOpen(open, refocus) {
+      menu.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      if (open) (menu.querySelector("input:checked") || menu.querySelector("input")).focus();
+      else if (refocus) toggle.focus();
+    }
+    toggle.addEventListener("click", function () { setOpen(menu.hidden, false); });
+    picker.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !menu.hidden) { e.preventDefault(); setOpen(false, true); }
+    });
+    picker.addEventListener("focusout", function (e) {
+      if (!menu.hidden && e.relatedTarget && !picker.contains(e.relatedTarget)) setOpen(false, false);
+    });
+    document.addEventListener("click", function (e) {
+      if (!menu.hidden && !picker.contains(e.target)) setOpen(false, false);
     });
   });
 })();

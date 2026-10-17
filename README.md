@@ -2,23 +2,26 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (theme picker and seasonal default) and `demo.js` (lazy demo loops on the app cards). Hosted on Cloudflare Pages (build command: none, output directory: `/`).
+Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (seasonal default and the Appearance control) and `demo.js` (the demo player for the app cards). Hosted on Cloudflare Pages (build command: none, output directory: `/`).
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `index.html` | The page: header, intro, app cards, footer |
+| `index.html` | The page: header, hero, Apps, In development, About the maker, footer |
 | `style.css` | All styles (mobile-first); the four themes are custom properties under `html[data-theme]` |
-| `theme.js` | Picks the theme before first paint, the seasonal schedule, the header theme picker |
+| `theme.js` | Picks the theme before first paint, the seasonal schedule, the header Appearance control |
+| `apps/<repo>/index.html` | One detail page per available app, served at `/apps/<repo>/` |
 | `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
 | `favicon.svg` | "S" mark icon |
 | `robots.txt` | Allows all crawlers, points to the sitemap |
-| `sitemap.xml` | Single-URL sitemap for `https://somaari.in/` |
-| `demo.js` | Loads/plays the card demo loops near the viewport; poster only with reduced motion or no JS |
-| `assets/demos/<app>/` | Each card's `loop.webm`, `loop.mp4` (720 px, < 1 MB) and `poster.webp` |
+| `sitemap.xml` | The home page and each app detail page |
+| `demo.js` | The demo player: "Watch demo" on a card opens a dialog that loads and plays that loop (never autoplays with reduced motion); posters only without JS |
+| `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB) |
+| `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
+| `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts and Cloudflare Web Analytics, no inline styles or scripts) |
 
@@ -35,7 +38,7 @@ Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`.
 
 ## Themes
 
-The theme picker in the header saves the visitor's choice in `localStorage`; "Auto (seasonal)" clears it
+The Appearance control (the round icon button in the header) saves the visitor's choice in `localStorage`; "Auto (seasonal)" clears it
 and follows the date in India (Asia/Kolkata):
 
 - 17–20 October 2026: `dasara-jamboo`
@@ -49,30 +52,62 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
 ## Add a new app card
 
 1. In `index.html`, copy one block from `<!-- CARD START: ... -->` to `<!-- CARD END: ... -->`.
-2. Paste it inside `<ul class="card-grid">`, just before the closing `</ul>`.
-3. Edit the name, description, tags and status badge. Badge classes:
-   - `badge--dev` – In development
-   - `badge--soon` – Coming soon
-   - `badge--live` – Available
-4. Link: only link a repo once it is **public**:
+2. Paste it just before the closing `</ul>` of the right section: **Apps** (`#apps`) for available
+   apps, **In development** (`#in-development`) for apps that aren't out yet. The grid is one column
+   on phones and two from tablet width up; a lone last card keeps the column width.
+3. Every card has the same parts, in this order: demo poster and "Watch demo" button (optional),
+   title, repo label, status badge, description, tags, links. Edit:
+   - the `card-media` block: point the poster and the button's `data-demo` at `/assets/demos/NAME/`
+     and set `data-title` to the card title (or delete the block if there's no demo yet)
+   - `<h3 class="card-title">`: what the tool does, e.g. "Disk Usage Analyzer"
+   - `<p class="card-repo">`: the repo name, e.g. `somaari-disk` (kept outside the `h3`)
+   - the description, tags and status badge. Badge classes:
+     - `badge--dev` – In development
+     - `badge--soon` – Coming soon
+     - `badge--live` – Available
+4. Links go in `<div class="card-actions">`. "Details" links to the app's detail page, once it
+   has one (see below). Only link a repo once it is **public**:
    ```html
-   <a class="btn" href="https://github.com/ashwinkrpi/NAME">View on GitHub<span class="visually-hidden"> (NAME)</span></a>
+   <div class="card-actions">
+     <a class="btn" href="/apps/NAME/">Details<span class="visually-hidden"> about TITLE</span></a>
+     <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/NAME">View on GitHub<span class="visually-hidden"> (NAME)</span></a>
+   </div>
    ```
-   Until then leave the link out; the status badge already says where the app is.
+   Until then leave the GitHub link out; the status badge already says where the app is.
 5. Commit and push to `main`; Cloudflare Pages redeploys automatically.
+
+## Add an app detail page
+
+1. Copy `apps/somaari-plan/` to `apps/NAME/` and put its screenshot in `assets/apps/NAME/`
+   (from the app repo's docs, sample or demo data only). Set the `<img>` `width` and `height`.
+2. Edit the title, meta and Open Graph tags, canonical URL, intro, capabilities, platforms and
+   "What you need". Take every fact from the app's README and `docs/GUIDE.md`; if something isn't
+   stated there, leave a `<!-- TODO -->` comment instead of guessing.
+3. Main action, chosen from the repo:
+   - **Download** only if it has a GitHub Release with assets
+     (`gh release view -R ashwinkrpi/NAME --json assets`); link to `/releases/latest`, never a fixed version.
+   - **Installation guide** if there's no release but there are install docs; link to that section.
+   - **View source** otherwise, and then leave out the "View on GitHub" link (same place).
+4. Add the page to `sitemap.xml` and a "Details" link to the app's card.
+5. Run `node scripts/asset-versions.mjs` and `node scripts/check-shared.mjs`.
+
+The header and footer sit between `<!-- SHARED HEADER -->` / `<!-- SHARED FOOTER -->` markers and
+must match `index.html` on every page. After changing them in `index.html`, paste the new blocks
+into each `apps/*/index.html`; `node scripts/check-shared.mjs` exits 1 if a copy differs.
 
 ## After editing style.css, theme.js or demo.js
 
 Run `node scripts/asset-versions.mjs` before committing. Cloudflare lets browsers cache these files
-for hours, so each changed file needs a new `?v=` in `index.html` and `404.html`; otherwise returning
+for hours, so each changed file needs a new `?v=` in every HTML page; otherwise returning
 visitors get the new page with the old stylesheet. `node scripts/asset-versions.mjs --check` exits 1
 if a version is out of date.
 
 ## Other things to edit
 
-- **Intro text:** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **About the maker text:** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
 - **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
-- **Copyright year:** hard-coded in the footer of `index.html` and `404.html` (no inline script, to keep the CSP strict).
+- **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`).
 - **Sitemap date:** update `<lastmod>` in `sitemap.xml` after significant changes.
 
