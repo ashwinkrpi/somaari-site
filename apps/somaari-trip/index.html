@@ -26,9 +26,9 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=c996c38f96">
+  <link rel="stylesheet" href="/style.css?v=a9cecd6f96">
   <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
-  <script src="/theme.js?v=f126be74f2"></script>
+  <script src="/theme.js?v=d874b7238d"></script>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
 </head>
 <body>
@@ -47,16 +47,35 @@
         </p>
         <p class="tagline">Small, useful tools, built with AI assistance.</p>
       </div>
-      <!-- Theme picker: theme.js shows it and remembers the choice. Themes live in style.css. -->
-      <div class="theme-picker" id="theme-picker" hidden>
-        <label for="theme-select">Theme</label>
-        <select id="theme-select">
-          <option value="auto">Auto (seasonal)</option>
-          <option value="warm-tactile">Warm Tactile</option>
-          <option value="liquid-glass">Liquid Glass</option>
-          <option value="dasara-jamboo">Dasara – Jamboo Savari</option>
-          <option value="rajyotsava">Kannada Rajyotsava</option>
-        </select>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+          </ul>
+        </nav>
+        <!-- Appearance (theme) control: theme.js shows it, opens the popover and remembers the choice.
+             Themes live in style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+              <label><input type="radio" name="theme-choice" value="auto"> Auto (seasonal)</label>
+              <label><input type="radio" name="theme-choice" value="warm-tactile"> Warm Tactile</label>
+              <label><input type="radio" name="theme-choice" value="liquid-glass"> Liquid Glass</label>
+              <label><input type="radio" name="theme-choice" value="dasara-jamboo"> Dasara – Jamboo Savari</label>
+              <label><input type="radio" name="theme-choice" value="rajyotsava"> Kannada Rajyotsava</label>
+            </fieldset>
+          </div>
+        </div>
       </div>
     </div>
   </header>

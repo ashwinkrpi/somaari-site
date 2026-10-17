@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (theme picker and seasonal default) and `demo.js` (lazy demo loops on the app cards). Hosted on Cloudflare Pages (build command: none, output directory: `/`).
+Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (seasonal default and the Appearance control) and `demo.js` (the demo player for the app cards). Hosted on Cloudflare Pages (build command: none, output directory: `/`).
 
 ## Files
 
@@ -10,14 +10,14 @@ Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only exter
 |---|---|
 | `index.html` | The page: header, hero, Apps, In development, About the maker, footer |
 | `style.css` | All styles (mobile-first); the four themes are custom properties under `html[data-theme]` |
-| `theme.js` | Picks the theme before first paint, the seasonal schedule, the header theme picker |
+| `theme.js` | Picks the theme before first paint, the seasonal schedule, the header Appearance control |
 | `apps/<repo>/index.html` | One detail page per available app, served at `/apps/<repo>/` |
 | `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
 | `favicon.svg` | "S" mark icon |
 | `robots.txt` | Allows all crawlers, points to the sitemap |
 | `sitemap.xml` | The home page and each app detail page |
-| `demo.js` | Loads/plays the card demo loops near the viewport; poster only with reduced motion or no JS |
-| `assets/demos/<app>/` | Each card's `loop.webm`, `loop.mp4` (720 px, < 1 MB) and `poster.webp` |
+| `demo.js` | The demo player: "Watch demo" on a card opens a dialog that loads and plays that loop (never autoplays with reduced motion); posters only without JS |
+| `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB) |
 | `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
@@ -38,7 +38,7 @@ Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`.
 
 ## Themes
 
-The theme picker in the header saves the visitor's choice in `localStorage`; "Auto (seasonal)" clears it
+The Appearance control (the round icon button in the header) saves the visitor's choice in `localStorage`; "Auto (seasonal)" clears it
 and follows the date in India (Asia/Kolkata):
 
 - 17–20 October 2026: `dasara-jamboo`
@@ -55,8 +55,10 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
 2. Paste it just before the closing `</ul>` of the right section: **Apps** (`#apps`) for available
    apps, **In development** (`#in-development`) for apps that aren't out yet. The grid is one column
    on phones and two from tablet width up; a lone last card keeps the column width.
-3. Every card has the same parts, in this order: demo loop (optional), title, repo label, status
-   badge, description, tags, link. Edit:
+3. Every card has the same parts, in this order: demo poster and "Watch demo" button (optional),
+   title, repo label, status badge, description, tags, links. Edit:
+   - the `card-media` block: point the poster and the button's `data-demo` at `/assets/demos/NAME/`
+     and set `data-title` to the card title (or delete the block if there's no demo yet)
    - `<h3 class="card-title">`: what the tool does, e.g. "Disk Usage Analyzer"
    - `<p class="card-repo">`: the repo name, e.g. `somaari-disk` (kept outside the `h3`)
    - the description, tags and status badge. Badge classes:

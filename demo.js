@@ -1,49 +1,70 @@
-// Demo loops on the app cards (<video class="card-demo">). Sources sit in data-src, so nothing
-// downloads up front: a video loads and plays only when its card nears the viewport, and pauses
-// when it scrolls away. With prefers-reduced-motion: reduce it never loads (poster only), and
-// switching that setting on while the page is open unloads any loaded video back to its poster.
-// Without JS (or IntersectionObserver) the poster simply stays.
+// Demo player for the app cards. Each card shows a still poster; its "Watch demo" button (hidden
+// until this script runs) opens the <dialog id="demo-dialog">. The loop from
+// /assets/demos/<data-demo>/ loads and plays when the dialog opens, except with
+// prefers-reduced-motion: reduce, where the dialog shows the poster and loads nothing until Play;
+// turning that setting on pauses it. Closing the dialog (Close, Esc or a click on the backdrop)
+// unloads the video and puts focus back on the button.
+// Without JS (or <dialog>) the posters simply stay.
 (() => {
-  const videos = Array.from(document.querySelectorAll("video.card-demo"));
-  if (!videos.length || !("IntersectionObserver" in window)) return;
+  const dialog = document.getElementById("demo-dialog");
+  const buttons = Array.from(document.querySelectorAll("button.demo-open"));
+  if (!dialog || typeof dialog.showModal !== "function" || !buttons.length) return;
 
+  const video = document.getElementById("demo-video");
+  const title = document.getElementById("demo-dialog-title");
+  const toggle = document.getElementById("demo-toggle");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const near = new Set();
+  let opener = null, dir = "";
 
-  const load = (v) => {
-    if (v.dataset.loaded) return;
-    v.querySelectorAll("source[data-src]").forEach((s) => { s.src = s.dataset.src; });
-    v.muted = true;
-    v.load();
-    v.dataset.loaded = "1";
+  const showState = () => { toggle.textContent = video.paused ? "Play" : "Pause"; };
+  // Sources are added only when the loop is about to play, so nothing downloads before that.
+  const play = () => {
+    if (!video.querySelector("source")) {
+      for (const [file, type] of [["loop.webm", "video/webm"], ["loop.mp4", "video/mp4"]]) {
+        const source = document.createElement("source");
+        source.src = dir + file;
+        source.type = type;
+        video.appendChild(source);
+      }
+      video.muted = true;
+      video.load();
+    }
+    const p = video.play();
+    if (p) p.catch(showState);
   };
 
-  const unload = (v) => {
-    if (!v.dataset.loaded) return;
-    v.pause();
-    v.querySelectorAll("source[data-src]").forEach((s) => { s.removeAttribute("src"); });
-    v.load(); // back to the poster
-    delete v.dataset.loaded;
+  const open = (button) => {
+    dir = `/assets/demos/${button.dataset.demo}/`;
+    title.textContent = `${button.dataset.title} demo`;
+    video.setAttribute("aria-label", `${button.dataset.title} demo, no sound`);
+    video.poster = `${dir}poster.webp`;
+    opener = button;
+    dialog.showModal();
+    toggle.focus();
+    if (!reduce.matches) play();
+    showState();
   };
 
-  const update = (v) => {
-    if (reduce.matches) { unload(v); return; }
-    if (!near.has(v)) { v.pause(); return; }
-    load(v);
-    const p = v.play();
-    if (p) p.catch(() => {}); // autoplay refused: the poster stays
-  };
+  dialog.addEventListener("close", () => {
+    video.pause();
+    video.querySelectorAll("source").forEach((s) => s.remove());
+    video.removeAttribute("poster");
+    video.load(); // drops the loaded video
+    showState();
+    if (opener) opener.focus();
+    opener = null;
+  });
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) near.add(e.target); else near.delete(e.target);
-      update(e.target);
-    });
-  }, { rootMargin: "150px 0px" });
+  // A click on the backdrop lands on the <dialog> itself; clicks inside land on its children.
+  dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+  document.getElementById("demo-close").addEventListener("click", () => dialog.close());
+  toggle.addEventListener("click", () => { if (video.paused) play(); else video.pause(); });
+  video.addEventListener("play", showState);
+  video.addEventListener("pause", showState);
+  reduce.addEventListener("change", () => { if (reduce.matches) video.pause(); });
 
-  // Start after the page has loaded, so the loops never compete with first paint.
-  const start = () => videos.forEach((v) => io.observe(v));
-  if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
-
-  reduce.addEventListener("change", () => videos.forEach(update));
+  buttons.forEach((b) => {
+    b.hidden = false;
+    b.addEventListener("click", () => open(b));
+  });
 })();

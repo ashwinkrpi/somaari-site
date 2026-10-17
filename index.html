@@ -26,11 +26,11 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=c996c38f96">
+  <link rel="stylesheet" href="/style.css?v=a9cecd6f96">
   <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
-  <script src="/theme.js?v=f126be74f2"></script>
+  <script src="/theme.js?v=d874b7238d"></script>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
-  <script src="/demo.js?v=6fb1e16ba7" defer></script>
+  <script src="/demo.js?v=89ad5a23c8" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -48,16 +48,35 @@
         </p>
         <p class="tagline">Small, useful tools, built with AI assistance.</p>
       </div>
-      <!-- Theme picker: theme.js shows it and remembers the choice. Themes live in style.css. -->
-      <div class="theme-picker" id="theme-picker" hidden>
-        <label for="theme-select">Theme</label>
-        <select id="theme-select">
-          <option value="auto">Auto (seasonal)</option>
-          <option value="warm-tactile">Warm Tactile</option>
-          <option value="liquid-glass">Liquid Glass</option>
-          <option value="dasara-jamboo">Dasara – Jamboo Savari</option>
-          <option value="rajyotsava">Kannada Rajyotsava</option>
-        </select>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+          </ul>
+        </nav>
+        <!-- Appearance (theme) control: theme.js shows it, opens the popover and remembers the choice.
+             Themes live in style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+              <label><input type="radio" name="theme-choice" value="auto"> Auto (seasonal)</label>
+              <label><input type="radio" name="theme-choice" value="warm-tactile"> Warm Tactile</label>
+              <label><input type="radio" name="theme-choice" value="liquid-glass"> Liquid Glass</label>
+              <label><input type="radio" name="theme-choice" value="dasara-jamboo"> Dasara – Jamboo Savari</label>
+              <label><input type="radio" name="theme-choice" value="rajyotsava"> Kannada Rajyotsava</label>
+            </fieldset>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -100,8 +119,9 @@
         2. Paste it at the end of the right list, just before its </ul>: available apps go in
            "Apps" (this section), apps that aren't out yet in "In development" (the next section).
         3. Every card has the same parts, in this order:
-           - Demo loop (optional): the <video class="card-demo"> block, pointing at /assets/demos/NAME/.
-             Delete the block if the app has no demo yet.
+           - Demo (optional): the <div class="card-media"> block. Its poster and its button's
+             data-demo="NAME" point at /assets/demos/NAME/ (poster.webp, loop.webm, loop.mp4), and
+             data-title is the card title. Delete the block if the app has no demo yet.
            - <h3 class="card-title">: what the tool does, e.g. "Disk Usage Analyzer".
            - <p class="card-repo">: the repo name, e.g. somaari-disk (outside the h3 on purpose).
            - Status badge. Classes: badge--live (Available), badge--dev (In development),
@@ -116,12 +136,12 @@
 
         <!-- CARD START: somaari-trip -->
         <li class="card">
-          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Rebuild: scripts/demo/somaari-trip/encode.sh -->
-          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
-                 width="720" height="406" poster="/assets/demos/somaari-trip/poster.webp" aria-hidden="true">
-            <source data-src="/assets/demos/somaari-trip/loop.webm" type="video/webm">
-            <source data-src="/assets/demos/somaari-trip/loop.mp4" type="video/mp4">
-          </video>
+          <!-- Demo: a still poster; "Watch demo" (shown by demo.js) plays the loop in the player
+               dialog at the end of the page. Rebuild: scripts/demo/somaari-trip/encode.sh -->
+          <div class="card-media">
+            <img class="card-demo" src="/assets/demos/somaari-trip/poster.webp" width="720" height="406" alt="" loading="lazy">
+            <button type="button" class="btn demo-open" data-demo="somaari-trip" data-title="GPS Route Viewer" hidden>Watch demo<span class="visually-hidden">: GPS Route Viewer</span></button>
+          </div>
           <div class="card-head">
             <div class="card-names">
               <h3 class="card-title">GPS Route Viewer</h3>
@@ -144,12 +164,12 @@
 
         <!-- CARD START: somaari-disk -->
         <li class="card">
-          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Re-record: scripts/demo/README.md -->
-          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
-                 width="720" height="406" poster="/assets/demos/somaari-disk/poster.webp" aria-hidden="true">
-            <source data-src="/assets/demos/somaari-disk/loop.webm" type="video/webm">
-            <source data-src="/assets/demos/somaari-disk/loop.mp4" type="video/mp4">
-          </video>
+          <!-- Demo: a still poster; "Watch demo" (shown by demo.js) plays the loop in the player
+               dialog at the end of the page. Rebuild: scripts/demo/README.md -->
+          <div class="card-media">
+            <img class="card-demo" src="/assets/demos/somaari-disk/poster.webp" width="720" height="406" alt="" loading="lazy">
+            <button type="button" class="btn demo-open" data-demo="somaari-disk" data-title="Disk Usage Analyzer" hidden>Watch demo<span class="visually-hidden">: Disk Usage Analyzer</span></button>
+          </div>
           <div class="card-head">
             <div class="card-names">
               <h3 class="card-title">Disk Usage Analyzer</h3>
@@ -172,12 +192,12 @@
 
         <!-- CARD START: somaari-plan -->
         <li class="card">
-          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Re-record: scripts/demo/README.md -->
-          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
-                 width="720" height="406" poster="/assets/demos/somaari-plan/poster.webp" aria-hidden="true">
-            <source data-src="/assets/demos/somaari-plan/loop.webm" type="video/webm">
-            <source data-src="/assets/demos/somaari-plan/loop.mp4" type="video/mp4">
-          </video>
+          <!-- Demo: a still poster; "Watch demo" (shown by demo.js) plays the loop in the player
+               dialog at the end of the page. Rebuild: scripts/demo/README.md -->
+          <div class="card-media">
+            <img class="card-demo" src="/assets/demos/somaari-plan/poster.webp" width="720" height="406" alt="" loading="lazy">
+            <button type="button" class="btn demo-open" data-demo="somaari-plan" data-title="Task Planner" hidden>Watch demo<span class="visually-hidden">: Task Planner</span></button>
+          </div>
           <div class="card-head">
             <div class="card-names">
               <h3 class="card-title">Task Planner</h3>
@@ -207,12 +227,12 @@
 
         <!-- CARD START: somaari-ai -->
         <li class="card">
-          <!-- Demo loop: decorative, poster only until scrolled near (demo.js). Re-record: scripts/demo/README.md -->
-          <video class="card-demo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback
-                 width="720" height="406" poster="/assets/demos/somaari-ai/poster.webp" aria-hidden="true">
-            <source data-src="/assets/demos/somaari-ai/loop.webm" type="video/webm">
-            <source data-src="/assets/demos/somaari-ai/loop.mp4" type="video/mp4">
-          </video>
+          <!-- Demo: a still poster; "Watch demo" (shown by demo.js) plays the loop in the player
+               dialog at the end of the page. Rebuild: scripts/demo/README.md -->
+          <div class="card-media">
+            <img class="card-demo" src="/assets/demos/somaari-ai/poster.webp" width="720" height="406" alt="" loading="lazy">
+            <button type="button" class="btn demo-open" data-demo="somaari-ai" data-title="AI-assisted Terminal" hidden>Watch demo<span class="visually-hidden">: AI-assisted Terminal</span></button>
+          </div>
           <div class="card-head">
             <div class="card-names">
               <h3 class="card-title">AI-assisted Terminal</h3>
@@ -244,6 +264,19 @@
       </p>
       <!-- /INTRO -->
     </section>
+    <!-- Demo player: demo.js opens it from a card's "Watch demo" button and loads that card's loop
+         only then. Never autoplays with reduced motion. -->
+    <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+      <div class="demo-dialog-inner">
+        <div class="demo-dialog-bar">
+          <h2 id="demo-dialog-title">Demo</h2>
+          <button type="button" class="btn btn--secondary" id="demo-close">Close</button>
+        </div>
+        <video class="demo-video" id="demo-video" muted loop playsinline preload="none" disablepictureinpicture
+               disableremoteplayback width="720" height="406"></video>
+        <p class="demo-dialog-controls"><button type="button" class="btn" id="demo-toggle">Play</button></p>
+      </div>
+    </dialog>
   </main>
 
   <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->

@@ -1,6 +1,6 @@
 # Demo loops
 
-Re-runnable recordings for the app cards. Each app has a `record.sh` (drives the real app with
+Re-runnable recordings for the demo player on the app cards. Each app has a `record.sh` (drives the real app with
 xdotool and captures its window with ffmpeg x11grab) and an `encode.sh` (cuts and encodes into
 `assets/demos/<app>/`). Run them from the Pi's X11 desktop session; don't touch the mouse or
 keyboard while a recording runs (there's a 5-second warning).
@@ -50,7 +50,8 @@ approximate: if a cut is off, fix the numbers in the `.times` file (or pass `SEG
   scale 1. If the New plan layout changes, update them (and the spans in `encode.sh`).
 - **somaari-trip:** not a recording. `encode.sh` crossfades four of the repo's
   `docs/images/*.jpg` guide screenshots (sample data only) and needs no X session. Re-run it after
-  the guide screenshots change.
+  the guide screenshots change. Each shot is cropped from 66 px down (`CROP_Y`), which drops the
+  app's header row: it shows a "Self-Hosted" label, and the site doesn't mention self-hosting.
 
 ## encode.sh
 

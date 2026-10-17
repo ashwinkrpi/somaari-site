@@ -201,7 +201,7 @@ a:hover { color: var(--accent-hover); }
   color: var(--text);
   border: 1px solid var(--tag-border);
   border-radius: 8px;
-  z-index: 10;
+  z-index: 30; /* above the header */
 }
 .skip-link:focus { top: 1rem; }
 
@@ -220,6 +220,7 @@ a:hover { color: var(--accent-hover); }
 /* Header */
 .site-header {
   position: relative;
+  z-index: 10; /* above the hero, so the Appearance popover isn't covered */
   padding: 1.5rem 0 0;
   background: var(--header-bg);
 }
@@ -258,27 +259,61 @@ a:hover { color: var(--accent-hover); }
 }
 .tagline { margin: 0.2rem 0 0; color: var(--muted); }
 
-/* Theme picker (shown by theme.js) */
-.theme-picker {
-  display: flex;
+/* Header nav and the Appearance control (an icon button with a popover of theme choices). */
+.header-end { display: flex; align-items: center; gap: 0.25rem 1rem; margin-left: auto; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem; }
+.site-nav a {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-.theme-picker label { font-weight: 600; }
-.theme-picker select {
   min-height: 44px;
-  max-width: 100%;
-  padding: 0.4rem 0.6rem;
-  font: inherit;
+  padding: 0 0.6rem;
   color: var(--text);
-  background-color: var(--field-bg);
+  font-weight: 600;
+  text-decoration: none;
+}
+.site-nav a:hover { color: var(--accent); text-decoration: underline; }
+.appearance { position: relative; }
+.appearance-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--text);
+  background: var(--field-bg);
   border: 1px solid var(--tag-border);
   border-radius: var(--btn-radius);
   cursor: pointer;
 }
-.theme-picker option { color: var(--text); background-color: var(--field-bg); }
+.appearance-toggle:hover,
+.appearance-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.appearance-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: 20;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.75rem;
+  color: var(--text);
+  background: var(--field-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: calc(var(--card-radius) * 0.6 + 4px);
+  box-shadow: 0 12px 28px -8px rgb(0 0 0 / 35%);
+}
+.appearance-menu fieldset { margin: 0; padding: 0; border: 0; display: grid; }
+.appearance-menu legend { padding: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.appearance-menu label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding: 0 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.appearance-menu label:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.appearance-menu input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--accent); }
 
 /* Hero */
 .hero { position: relative; padding: 3rem 0 3rem; }
@@ -437,8 +472,10 @@ a:hover { color: var(--accent-hover); }
   .detail-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
-   nothing shifts when a poster or video arrives; the captures are dark UIs in every theme. */
+/* Demo posters on the cards, with a "Watch demo" button on top (shown by demo.js). The aspect
+   ratio is reserved up front so nothing shifts when a poster arrives; the captures are dark UIs in
+   every theme. */
+.card-media { position: relative; }
 .card-demo {
   display: block;
   width: 100%;
@@ -448,11 +485,44 @@ a:hover { color: var(--accent-hover); }
   border: 1px solid var(--border);
   border-radius: calc(var(--card-radius) * 0.6);
   background: #0d0f12;
-  pointer-events: none; /* decorative: no controls, nothing to click */
 }
-/* Browsers show native controls on <video> when scripting is off; keep the bare poster. */
-.card-demo::-webkit-media-controls,
-.card-demo::-webkit-media-controls-enclosure { display: none !important; }
+.demo-open {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 45%);
+}
+/* The posters are dark in every theme, so the focus ring is white here. */
+.demo-open:focus-visible { outline-color: #ffffff; }
+
+/* Demo player dialog. No padding on the <dialog> itself: a click on it is a backdrop click. */
+.demo-dialog {
+  width: min(100% - 2rem, 60rem);
+  max-width: none;
+  max-height: calc(100% - 2rem);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--field-bg);
+  color: var(--text);
+  box-shadow: var(--shadow-hover);
+}
+.demo-dialog::backdrop { background: rgb(0 0 0 / 70%); }
+html:has(.demo-dialog[open]) { overflow: hidden; }
+.demo-dialog-inner { display: grid; gap: 1rem; padding: 1rem; }
+.demo-dialog-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.demo-dialog-bar h2 { font-size: 1.25rem; min-width: 0; }
+.demo-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #0d0f12;
+  border-radius: calc(var(--card-radius) * 0.6);
+}
+.demo-video::-webkit-media-controls,
+.demo-video::-webkit-media-controls-enclosure { display: none !important; }
+.demo-dialog-controls { margin: 0; }
 
 /* Footer */
 .site-footer {
@@ -530,7 +600,8 @@ html[data-theme="liquid-glass"] .hero h1 { letter-spacing: -0.03em; margin-inlin
 html[data-theme="liquid-glass"] .hero-sub { margin-inline: auto; }
 html[data-theme="liquid-glass"] .hero-actions { justify-content: center; }
 html[data-theme="liquid-glass"] .card { padding: 1.5rem; }
-html[data-theme="liquid-glass"] .card-demo { border-radius: 18px; }
+html[data-theme="liquid-glass"] .card-demo,
+html[data-theme="liquid-glass"] .demo-video { border-radius: 18px; }
 
 /* ---- dasara-jamboo ---- */
 /* Header and footer bars with a gold zig-zag fringe like an elephant's caparison. */
