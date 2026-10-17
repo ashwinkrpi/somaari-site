@@ -26,7 +26,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=517e6f212b">
+  <link rel="stylesheet" href="/style.css?v=c996c38f96">
   <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
   <script src="/theme.js?v=f126be74f2"></script>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
@@ -36,6 +36,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
 
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -60,6 +61,7 @@
       </div>
     </div>
   </header>
+  <!-- /SHARED HEADER -->
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-heading">
@@ -105,8 +107,10 @@
            - Status badge. Classes: badge--live (Available), badge--dev (In development),
              badge--soon (Coming soon).
            - Description, then tags.
-        4. Link: if the GitHub repo is PUBLIC, use the <a class="btn"> "View on GitHub" link, with the
-           repo name in its visually-hidden span. Otherwise leave it out (the badge says where the app is).
+        4. Links, in <div class="card-actions">:
+           - "Details" (class="btn") to the app's page at /apps/NAME/, once it has one (see README).
+           - "View on GitHub" (class="btn btn--secondary") if the GitHub repo is PUBLIC, with the repo
+             name in its visually-hidden span. Otherwise leave it out (the badge says where the app is).
       -->
       <ul class="card-grid" role="list">
 
@@ -131,7 +135,10 @@
             <li>Docker</li>
             <li>Maps</li>
           </ul>
-          <a class="btn" href="https://github.com/ashwinkrpi/somaari-trip">View on GitHub<span class="visually-hidden"> (somaari-trip)</span></a>
+          <div class="card-actions">
+            <a class="btn" href="/apps/somaari-trip/">Details<span class="visually-hidden"> about GPS Route Viewer</span></a>
+            <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-trip">View on GitHub<span class="visually-hidden"> (somaari-trip)</span></a>
+          </div>
         </li>
         <!-- CARD END: somaari-trip -->
 
@@ -156,7 +163,10 @@
             <li>Raspberry Pi OS</li>
             <li>Windows</li>
           </ul>
-          <a class="btn" href="https://github.com/ashwinkrpi/somaari-disk">View on GitHub<span class="visually-hidden"> (somaari-disk)</span></a>
+          <div class="card-actions">
+            <a class="btn" href="/apps/somaari-disk/">Details<span class="visually-hidden"> about Disk Usage Analyzer</span></a>
+            <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-disk">View on GitHub<span class="visually-hidden"> (somaari-disk)</span></a>
+          </div>
         </li>
         <!-- CARD END: somaari-disk -->
 
@@ -181,7 +191,10 @@
             <li>Markdown</li>
             <li>Lightweight</li>
           </ul>
-          <a class="btn" href="https://github.com/ashwinkrpi/somaari-plan">View on GitHub<span class="visually-hidden"> (somaari-plan)</span></a>
+          <div class="card-actions">
+            <a class="btn" href="/apps/somaari-plan/">Details<span class="visually-hidden"> about Task Planner</span></a>
+            <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-plan">View on GitHub<span class="visually-hidden"> (somaari-plan)</span></a>
+          </div>
         </li>
         <!-- CARD END: somaari-plan -->
 
@@ -233,6 +246,7 @@
     </section>
   </main>
 
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>&copy; 2026 Somaari</p>
@@ -243,5 +257,6 @@
       </ul>
     </div>
   </footer>
+  <!-- /SHARED FOOTER -->
 </body>
 </html>

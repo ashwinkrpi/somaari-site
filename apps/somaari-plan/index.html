@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Planner (somaari-plan) – Somaari</title>
+  <meta name="description" content="Task Planner (somaari-plan): a small planner that runs on your own Raspberry Pi. Turn Markdown plans, pasted notes or a quick line into dated tasks.">
+  <link rel="canonical" href="https://somaari.in/apps/somaari-plan/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="Task Planner (somaari-plan) – Somaari">
+  <meta property="og:description" content="Task Planner (somaari-plan): a small planner that runs on your own Raspberry Pi. Turn Markdown plans, pasted notes or a quick line into dated tasks.">
+  <meta property="og:url" content="https://somaari.in/apps/somaari-plan/">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Task Planner (somaari-plan) – Somaari">
+  <meta name="twitter:description" content="Task Planner (somaari-plan): a small planner that runs on your own Raspberry Pi. Turn Markdown plans, pasted notes or a quick line into dated tasks.">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/style.css?v=c996c38f96">
+  <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
+  <script src="/theme.js?v=f126be74f2"></script>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Small, useful tools, built with AI assistance.</p>
+      </div>
+      <!-- Theme picker: theme.js shows it and remembers the choice. Themes live in style.css. -->
+      <div class="theme-picker" id="theme-picker" hidden>
+        <label for="theme-select">Theme</label>
+        <select id="theme-select">
+          <option value="auto">Auto (seasonal)</option>
+          <option value="warm-tactile">Warm Tactile</option>
+          <option value="liquid-glass">Liquid Glass</option>
+          <option value="dasara-jamboo">Dasara – Jamboo Savari</option>
+          <option value="rajyotsava">Kannada Rajyotsava</option>
+        </select>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail container">
+    <p class="detail-back"><a href="/#apps">&larr; All apps</a></p>
+
+    <!-- App facts below come from the somaari-plan README and docs/GUIDE.md. Check them there before editing. -->
+    <div class="detail-intro">
+      <div class="card-head">
+        <div class="card-names">
+          <h1 class="detail-title">Task Planner</h1>
+          <p class="card-repo">somaari-plan</p>
+        </div>
+        <span class="badge badge--live">Available</span>
+      </div>
+      <p class="detail-lead">A small planner that runs on your own Raspberry Pi. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views.</p>
+      <div class="detail-actions">
+        <a class="btn" href="https://github.com/ashwinkrpi/somaari-plan/blob/main/docs/GUIDE.md#-installation">Installation guide<span class="visually-hidden"> (somaari-plan)</span></a>
+        <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-plan">View on GitHub<span class="visually-hidden"> (somaari-plan)</span></a>
+      </div>
+    </div>
+
+    <figure class="detail-shot">
+      <img src="/assets/apps/somaari-plan/screenshot.png" width="1400" height="1020" alt="Dashboard, dark theme (demo data)">
+    </figure>
+
+    <section class="detail-section" aria-labelledby="capabilities-heading">
+      <h2 id="capabilities-heading">Key capabilities</h2>
+      <ul class="capabilities" role="list">
+          <li>
+            <h3>Plans in</h3>
+            <p>Upload a Markdown plan or paste text: headings become steps, list items become tasks, and dates in the text are read by rules, not guessed.</p>
+          </li>
+          <li>
+            <h3>Review before saving</h3>
+            <p>An editable preview of every task, with flagged tasks to check and skipped lines you can restore with one click.</p>
+          </li>
+          <li>
+            <h3>Today, Calendar and Dashboard</h3>
+            <p>Today's list by priority; day, week and month views; and a 7-day board to drag tasks across.</p>
+          </li>
+      </ul>
+    </section>
+
+    <div class="detail-columns">
+      <section class="detail-section" aria-labelledby="platforms-heading">
+        <h2 id="platforms-heading">Platforms</h2>
+        <ul class="detail-list">
+          <li>A Raspberry Pi 5, any Raspberry Pi with a 64-bit OS, or any Linux machine</li>
+          <li>Used from a web browser on your network, on a computer or a phone</li>
+        </ul>
+      </section>
+      <section class="detail-section" aria-labelledby="needs-heading">
+        <h2 id="needs-heading">What you need</h2>
+        <ul class="detail-list">
+          <li>Python 3.11 or newer, git and uv</li>
+          <li>Optional: a TypeSafe API key for the default AI mode. An LLM key works instead, or turn AI off</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <!-- CONTACT: add hello@somaari.in once email forwarding is set up, e.g.
+             <li><a href="mailto:hello@somaari.in">hello@somaari.in</a></li> -->
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disk Usage Analyzer (somaari-disk) – Somaari</title>
+  <meta name="description" content="Disk Usage Analyzer (somaari-disk): see what is using space on your drives, largest items first. Read-only and fully offline, for Raspberry Pi OS and Windows 10/11.">
+  <link rel="canonical" href="https://somaari.in/apps/somaari-disk/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="Disk Usage Analyzer (somaari-disk) – Somaari">
+  <meta property="og:description" content="Disk Usage Analyzer (somaari-disk): see what is using space on your drives, largest items first. Read-only and fully offline, for Raspberry Pi OS and Windows 10/11.">
+  <meta property="og:url" content="https://somaari.in/apps/somaari-disk/">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Disk Usage Analyzer (somaari-disk) – Somaari">
+  <meta name="twitter:description" content="Disk Usage Analyzer (somaari-disk): see what is using space on your drives, largest items first. Read-only and fully offline, for Raspberry Pi OS and Windows 10/11.">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/style.css?v=c996c38f96">
+  <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
+  <script src="/theme.js?v=f126be74f2"></script>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Small, useful tools, built with AI assistance.</p>
+      </div>
+      <!-- Theme picker: theme.js shows it and remembers the choice. Themes live in style.css. -->
+      <div class="theme-picker" id="theme-picker" hidden>
+        <label for="theme-select">Theme</label>
+        <select id="theme-select">
+          <option value="auto">Auto (seasonal)</option>
+          <option value="warm-tactile">Warm Tactile</option>
+          <option value="liquid-glass">Liquid Glass</option>
+          <option value="dasara-jamboo">Dasara – Jamboo Savari</option>
+          <option value="rajyotsava">Kannada Rajyotsava</option>
+        </select>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail container">
+    <p class="detail-back"><a href="/#apps">&larr; All apps</a></p>
+
+    <!-- App facts below come from the somaari-disk README and docs/GUIDE.md. Check them there before editing. -->
+    <div class="detail-intro">
+      <div class="card-head">
+        <div class="card-names">
+          <h1 class="detail-title">Disk Usage Analyzer</h1>
+          <p class="card-repo">somaari-disk</p>
+        </div>
+        <span class="badge badge--live">Available</span>
+      </div>
+      <p class="detail-lead">See what is using space on your drives, largest items first. Read-only and fully offline, for Raspberry Pi OS and Windows 10/11.</p>
+      <div class="detail-actions">
+        <a class="btn" href="https://github.com/ashwinkrpi/somaari-disk/releases/latest">Download<span class="visually-hidden"> (somaari-disk)</span></a>
+        <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-disk">View on GitHub<span class="visually-hidden"> (somaari-disk)</span></a>
+      </div>
+        <p class="detail-note">The latest release has a .deb for Debian, Ubuntu and Raspberry Pi OS, and a Windows installer or portable zip.</p>
+    </div>
+
+    <figure class="detail-shot">
+      <img src="/assets/apps/somaari-disk/screenshot.png" width="1280" height="800" alt="Main screen: usage bar, largest items and the open folder panel (demo data)">
+    </figure>
+
+    <section class="detail-section" aria-labelledby="capabilities-heading">
+      <h2 id="capabilities-heading">Key capabilities</h2>
+      <ul class="capabilities" role="list">
+          <li>
+            <h3>Largest items first</h3>
+            <p>Every folder's contents sorted by size, with a bar and share, so the big items are always at the top.</p>
+          </li>
+          <li>
+            <h3>Every drive</h3>
+            <p>Internal disks, USB sticks, SD cards, NVMe and network shares; exFAT, NTFS, FAT32, ext4 and read-only mounts.</p>
+          </li>
+          <li>
+            <h3>Move to Trash, never delete</h3>
+            <p>Scanning changes nothing. The only change it can make is Move to Trash, after you confirm, and the Trash can restore it.</p>
+          </li>
+      </ul>
+    </section>
+
+    <div class="detail-columns">
+      <section class="detail-section" aria-labelledby="platforms-heading">
+        <h2 id="platforms-heading">Platforms</h2>
+        <ul class="detail-list">
+          <li>Debian 12+, Ubuntu 23.04+ and Raspberry Pi OS Bookworm (arm64 or x86-64)</li>
+          <li>Windows 10 (1803 or later) or Windows 11, 64-bit</li>
+          <li>Other Linux distributions, from source</li>
+        </ul>
+      </section>
+      <section class="detail-section" aria-labelledby="needs-heading">
+        <h2 id="needs-heading">What you need</h2>
+        <ul class="detail-list">
+          <li>On Linux: Python 3.11 or newer, GTK and WebKitGTK (the .deb installs them)</li>
+          <li>On Windows: the Microsoft Edge WebView2 Runtime (Windows 11 already has it)</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <!-- CONTACT: add hello@somaari.in once email forwarding is set up, e.g.
+             <li><a href="mailto:hello@somaari.in">hello@somaari.in</a></li> -->
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>

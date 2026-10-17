@@ -395,6 +395,47 @@ a:hover { color: var(--accent-hover); }
 .btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-contrast); }
 .btn--secondary { background: transparent; color: var(--accent); }
 .btn--secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+.card-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+/* App detail pages (apps/<repo>/index.html) */
+.detail { display: grid; gap: 2.5rem; padding-top: 1.5rem; padding-bottom: 4rem; }
+.detail-back { margin: 0; }
+.detail-back a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.detail-intro { display: grid; gap: 1rem; max-width: 46rem; }
+.detail-title { font-size: clamp(2rem, 6vw, 3rem); letter-spacing: -0.02em; }
+.detail-intro .card-head { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+.detail-intro .card-repo { font-size: 1rem; }
+.detail-lead { margin: 0; color: var(--muted); font-size: 1.125rem; }
+.detail-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.detail-note { margin: 0; color: var(--subtle); font-size: 0.92rem; }
+.detail-shot { margin: 0; }
+.detail-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--card-radius) * 0.6);
+  background: #0d0f12;
+  box-shadow: var(--shadow);
+}
+.detail-section h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.capabilities {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+.capabilities li { padding-top: 0.75rem; border-top: 3px solid var(--accent); }
+.capabilities h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+.capabilities p { margin: 0; color: var(--muted); }
+.detail-columns { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+.detail-list { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; color: var(--muted); }
+@media (min-width: 48rem) {
+  .capabilities { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .detail-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* Demo loops on the cards (decorative; see demo.js). The aspect ratio is reserved up front so
    nothing shifts when a poster or video arrives; the captures are dark UIs in every theme. */
@@ -530,7 +571,10 @@ html[data-theme="dasara-jamboo"] .site-footer::before {
 html[data-theme="dasara-jamboo"] .wordmark-mark { border-radius: 4px; }
 html[data-theme="dasara-jamboo"] .hero h1 { letter-spacing: 0; }
 html[data-theme="dasara-jamboo"] .apps h2,
-html[data-theme="dasara-jamboo"] .about h2 { color: var(--gold); }
+html[data-theme="dasara-jamboo"] .about h2,
+html[data-theme="dasara-jamboo"] .detail h2 { color: var(--gold); }
+/* Badges outside the cream cards sit on maroon. */
+html[data-theme="dasara-jamboo"] .detail .badge--live { color: var(--gold); }
 @media (min-width: 48rem) {
   html[data-theme="dasara-jamboo"] .hero .container {
     display: grid;

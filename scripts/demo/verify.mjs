@@ -2,7 +2,7 @@
 //   python3 scripts/demo/serve.py 8000 &  node scripts/demo/verify.mjs [http://127.0.0.1:8000/] [outdir]
 // Checks: no video requests until a card is near the viewport, play/pause on scroll, posters only
 // (zero video requests) under reduced motion including a live toggle, no console errors or CSP
-// violations, no horizontal scroll at phone width. Saves screenshots to outdir.
+// violations, no horizontal scroll at phone width (home and app detail pages). Saves screenshots to outdir.
 import { spawn } from "node:child_process";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -126,6 +126,17 @@ try {
   await setup({ width: 1280, height: 800, mobile: false, dark: true });
   await sleep(1500);
   await shot("verify-desktop-dark.png");
+
+  // App detail pages: load at phone width with no horizontal scroll (console/CSP problems are
+  // collected with the rest and checked at the end).
+  for (const slug of ["somaari-trip", "somaari-disk", "somaari-plan"]) {
+    await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+    await send("Page.navigate", { url: new URL(`apps/${slug}/`, URL_).href });
+    await sleep(1500);
+    const d = await evaluate(`({ h1: document.querySelectorAll("h1").length, sw: document.documentElement.scrollWidth,
+      img: document.querySelector(".detail-shot img")?.naturalWidth || 0 })`);
+    check(d.h1 === 1 && d.sw <= 390 && d.img > 0, `detail page ${slug}: one h1, screenshot loads, no horizontal scroll (scrollWidth ${d.sw})`);
+  }
 
   // No JS: posters only.
   await send("Emulation.setScriptExecutionDisabled", { value: true });
