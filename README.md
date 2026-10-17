@@ -19,7 +19,7 @@ Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only exter
 | `assets/demos/<app>/` | Each card's `loop.webm`, `loop.mp4` (720 px, < 1 MB) and `poster.webp` |
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
-| `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts, no inline styles or scripts) |
+| `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts and Cloudflare Web Analytics, no inline styles or scripts) |
 
 ## Preview locally
 
