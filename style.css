@@ -472,6 +472,64 @@ a:hover { color: var(--accent-hover); }
   .detail-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+/* App guides (apps/<repo>/docs/), built by scripts/build-docs.mjs from each app repo's docs/GUIDE.md.
+   The guide's own Markdown sets the structure, so these style plain elements inside .prose. */
+.docs .detail-intro .card-names { display: grid; gap: 0.6rem; }
+.prose { max-width: 46rem; min-width: 0; overflow-wrap: break-word; }
+.prose > :first-child { margin-top: 0; }
+.prose h2 { font-size: 1.6rem; margin: 3rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.prose h3 { font-size: 1.2rem; margin: 2rem 0 0.6rem; }
+.prose h4 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+.prose h2, .prose h3, .prose h4 { scroll-margin-top: 1rem; }
+.prose p, .prose ul, .prose ol, .prose pre, .prose details, .prose .doc-table, .prose .callout { margin: 0 0 1rem; }
+.prose ul, .prose ol { padding-left: 1.5rem; }
+.prose li + li { margin-top: 0.25rem; }
+.prose hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--border); }
+.prose hr + h2 { margin-top: 0; padding-top: 0; border-top: 0; }
+.prose img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--card-radius) * 0.6);
+}
+.prose code, .prose kbd {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.875em;
+}
+.prose :not(pre) > code, .prose kbd {
+  padding: 0.1em 0.35em;
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+.prose kbd { border-bottom-width: 2px; }
+/* Code blocks are dark in every theme, like the screenshots. */
+.prose pre {
+  padding: 1rem;
+  overflow-x: auto;
+  background: #14161b;
+  color: #e8e6e3;
+  border-radius: calc(var(--card-radius) * 0.6);
+  line-height: 1.5;
+}
+.prose pre:focus-visible { outline-color: var(--focus); }
+.prose .doc-table { overflow-x: auto; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.prose th, .prose td { padding: 0.5rem 0.75rem; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+.prose th { background: var(--field-bg); }
+.prose details { padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: calc(var(--card-radius) * 0.6); }
+.prose summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.prose details > :last-child { margin-bottom: 0; }
+.prose blockquote { margin: 0 0 1rem; padding-left: 1rem; border-left: 3px solid var(--border); color: var(--muted); }
+.prose .doc-center { text-align: center; }
+/* GitHub alerts (> [!NOTE] and the like). */
+.prose .callout { padding: 0.75rem 1rem; border-left: 4px solid var(--accent); background: var(--field-bg); border-radius: 0 6px 6px 0; }
+.prose .callout > :last-child { margin-bottom: 0; }
+.prose .callout-title { margin-bottom: 0.25rem; font-weight: 700; }
+.prose .callout--warning, .prose .callout--caution { border-left-color: var(--status); }
+
 /* Demo posters on the cards, with a "Watch demo" button on top (shown by demo.js). The aspect
    ratio is reserved up front so nothing shifts when a poster arrives; the captures are dark UIs in
    every theme. */

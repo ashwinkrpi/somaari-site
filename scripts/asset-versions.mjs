@@ -7,9 +7,9 @@ import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 
 const ASSETS = ["style.css", "theme.js", "demo.js"];
-// Every .html file in the published tree; scripts/ and dot-folders hold no pages.
+// Every .html file in the source tree; scripts/, node_modules/, dist/ (build output) and dot-folders hold no pages.
 const PAGES = readdirSync(".", { recursive: true })
-  .filter((f) => f.endsWith(".html") && !/^(scripts|\.)|\/\./.test(f))
+  .filter((f) => f.endsWith(".html") && !/^(scripts|node_modules|dist|\.)|\/\./.test(f))
   .sort();
 const check = process.argv.includes("--check");
 
