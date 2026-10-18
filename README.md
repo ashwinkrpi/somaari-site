@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (seasonal default and the Appearance control) and `demo.js` (the demo player for the app cards). Hosted on Cloudflare Pages (build command: none, output directory: `/`).
+Plain static HTML and CSS: no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (seasonal default and the Appearance control) and `demo.js` (the demo player for the app cards). The one build step turns each app's guide, kept in that app's repo, into a page on the site (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 ## Files
 
@@ -23,15 +23,22 @@ Plain static HTML and CSS: no build step, no frameworks, no CDNs. The only exter
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
+| `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)) |
+| `scripts/build-docs.mjs` | The build: copies the site into `dist/` and adds `/apps/<repo>/docs/` for each guide |
+| `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a docs push rebuilds the site |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts and Cloudflare Web Analytics, no inline styles or scripts) |
 
 ## Preview locally
 
 ```sh
-python3 -m http.server 8000
+npm ci            # once
+npm run build     # downloads the guides into dist/
+python3 -m http.server -d dist 8000
 ```
 
-Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.)
+Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.) Only the files listed in
+`PUBLISH` in `scripts/build-docs.mjs` are copied to `dist/`; add a new top-level file there too.
+`npm run check` runs the header/footer, asset-version and theme checks.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=dasara-jamboo>.
 Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`.
@@ -94,6 +101,38 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
 The header and footer sit between `<!-- SHARED HEADER -->` / `<!-- SHARED FOOTER -->` markers and
 must match `index.html` on every page. After changing them in `index.html`, paste the new blocks
 into each `apps/*/index.html`; `node scripts/check-shared.mjs` exits 1 if a copy differs.
+
+## App guides
+
+Each app's guide is written only in its own repo (`docs/GUIDE.md`). `npm run build` downloads it from
+GitHub (the `main` branch) and turns it into `/apps/<repo>/docs/`, with the app's detail page as the
+head, header and footer. Images the guide uses are copied next to it. Links to other repo files point
+to GitHub, links between published guides stay on the site, and the docs URLs are added to the sitemap.
+Never edit the generated pages; change the guide in the app repo.
+
+The build fails, and Cloudflare keeps the current deploy, if a guide:
+- can't be downloaded (the repo isn't public, or the file isn't on that branch)
+- mentions self-hosting, in its text or in an SVG it uses
+- links to a heading that doesn't exist, or uses an image from outside its `docs/` folder or from another site
+
+It leaves out any image named `banner.svg` (the page has its own title) and anything between
+`<!-- site:skip -->` and `<!-- /site:skip -->`, for parts that belong on GitHub only. It doesn't
+check text inside screenshots: make sure none of them show a "Self-Hosted" label.
+
+To preview unpushed guide edits, read the app repos from disk instead of GitHub:
+`npm run build -- --local ~/code/ai-projects`.
+
+### Publish an app's guide
+
+Do this once the app's repo is public and it has a detail page:
+
+1. Add it to `docs.config.json`: `{ "repo": "NAME", "ref": "main", "src": "docs/GUIDE.md" }`.
+2. Run `npm run build` and check `/apps/NAME/docs/` in all four themes.
+3. On the detail page, add `<a class="btn btn--secondary" href="/apps/NAME/docs/">Read the guide…</a>`
+   to `detail-actions`, and point any "Installation guide" link at `/apps/NAME/docs/#-installation`.
+4. In the app repo, copy `scripts/app-docs-workflow.yml` to `.github/workflows/site-docs.yml` and add
+   the repo secret `SOMAARI_SITE_DEPLOY_HOOK` (the deploy hook URL from Cloudflare Pages: Settings,
+   Builds, Deploy hooks). From then on, a push to `docs/` on `main` rebuilds the site.
 
 ## After editing style.css, theme.js or demo.js
 
