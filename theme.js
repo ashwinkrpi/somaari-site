@@ -85,11 +85,23 @@
     document.head.appendChild(link);
   }
 
+  // Detail page screenshots with one image per theme (built by scripts/build-docs.mjs) carry each
+  // theme's path in data-shot-<id> and no src, so only the shown theme's image is downloaded.
+  // Without JS the <noscript> copy next to it shows the default theme's.
+  function showShots(id) {
+    var imgs = document.querySelectorAll("img[data-shot-" + DEFAULT_THEME + "]");
+    for (var i = 0; i < imgs.length; i++) {
+      var src = imgs[i].getAttribute("data-shot-" + id) || imgs[i].getAttribute("data-shot-" + DEFAULT_THEME);
+      if (imgs[i].getAttribute("src") !== src) imgs[i].setAttribute("src", src);
+    }
+  }
+
   function apply(id) {
     root.setAttribute("data-theme", id);
     loadFonts(id);
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     for (var i = 0; i < metas.length; i++) metas[i].setAttribute("content", THEMES[id].color);
+    showShots(id);
   }
 
   var preview = readPreview();
@@ -97,6 +109,7 @@
   apply(preview || saved || getDefaultTheme(new Date()));
 
   document.addEventListener("DOMContentLoaded", function () {
+    showShots(root.getAttribute("data-theme"));
     var picker = document.getElementById("theme-picker");
     if (!picker) return;
     // The choices are radio buttons inside #theme-picker, valued "auto" or a theme id.

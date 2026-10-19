@@ -18,13 +18,13 @@ Plain static HTML and CSS: no frameworks, no CDNs. The only external requests ar
 | `sitemap.xml` | The home page and each app detail page |
 | `demo.js` | The demo player: "Watch demo" on a card opens a dialog that loads and plays that loop (never autoplays with reduced motion); posters only without JS |
 | `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB) |
-| `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only) |
+| `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only), unless `docs.config.json` names it (see [Screenshots and demo loops from the app repo](#screenshots-and-demo-loops-from-the-app-repo)) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
-| `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)) |
-| `scripts/build-docs.mjs` | The build: copies the site into `dist/` and adds `/apps/<repo>/docs/` for each guide |
+| `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)), and which screenshots and demo loops it downloads from the app repos |
+| `scripts/build-docs.mjs` | The build: copies the site into `dist/`, adds `/apps/<repo>/docs/` for each guide and downloads the screenshots and demo loops `docs.config.json` names |
 | `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a docs push rebuilds the site |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts and Cloudflare Web Analytics, no inline styles or scripts) |
 
@@ -134,6 +134,23 @@ Do this once the app's repo is public and it has a detail page:
    the repo secret `SOMAARI_SITE_DEPLOY_HOOK` (the deploy hook URL from Cloudflare Pages: Settings,
    Builds, Deploy hooks). From then on, a push to `docs/` on `main` rebuilds the site.
 
+### Screenshots and demo loops from the app repo
+
+Like the guide, an app's detail page screenshot and card demo loop can live only in the app repo, so
+they update on the site when they change there. Add them to the app's entry in `docs.config.json`:
+
+- `"screenshot": "docs/screenshots/x.png"`: one PNG or JPEG for the detail page, or
+  `{ "<theme id>": "<path>", ... }` with one per theme (all four, same size). The build downloads
+  them into `assets/apps/<repo>/` and fills in the page's `<figure class="detail-shot">`, keeping its
+  `alt` and setting `width`/`height`. With one per theme, `theme.js` loads only the current theme's.
+  Don't commit a copy to `assets/apps/<repo>/`.
+- `"demo": { "ref": "site-demo" }`: the app repo branch holding `loop.webm`, `loop.mp4` and
+  `poster.webp` (each under 1 MB) at its root. The build copies them into `assets/demos/<repo>/`.
+
+somaari-plan's `.github/workflows/site-demo.yml` writes its `site-demo` branch: on a push to `web/`
+it records the demo in headless Chromium (Playwright, AI off), encodes it with this repo's
+`scripts/demo/encode.sh` and rebuilds the site.
+
 ## After editing style.css, theme.js or demo.js
 
 Run `node scripts/asset-versions.mjs` before committing. Cloudflare lets browsers cache these files
@@ -150,7 +167,8 @@ if a version is out of date.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
 - **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
-- **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`).
+- **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`), except
+  apps whose loop comes from their repo (see [above](#screenshots-and-demo-loops-from-the-app-repo)).
 - **Sitemap date:** update `<lastmod>` in `sitemap.xml` after significant changes.
 
 ## Contributing
