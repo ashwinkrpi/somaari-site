@@ -456,6 +456,10 @@ a:hover { color: var(--accent-hover); }
   background: #0d0f12;
   box-shadow: var(--shadow);
 }
+/* Per-theme screenshots (scripts/build-docs.mjs) have no src until theme.js picks one: keep the box
+   blank until then, and without JS (no data-theme) leave it to the <noscript> copy. */
+.detail-shot img:not([src]) { visibility: hidden; }
+html:not([data-theme]) .detail-shot img:not([src]) { display: none; }
 .detail-section h2 { font-size: 1.5rem; margin-bottom: 1rem; }
 .capabilities {
   list-style: none;
