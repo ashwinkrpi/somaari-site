@@ -2,6 +2,7 @@
   "owner": "ashwinkrpi",
   "apps": [
     { "repo": "somaari-disk", "ref": "main", "src": "docs/GUIDE.md" },
-    { "repo": "somaari-plan", "ref": "main", "src": "docs/GUIDE.md" }
+    { "repo": "somaari-plan", "ref": "main", "src": "docs/GUIDE.md" },
+    { "repo": "somaari-trip", "ref": "main", "src": "docs/GUIDE.md" }
   ]
 }
