@@ -17,7 +17,7 @@ Plain static HTML and CSS: no frameworks, no CDNs. The only external requests ar
 | `robots.txt` | Allows all crawlers, points to the sitemap |
 | `sitemap.xml` | The home page and each app detail page |
 | `demo.js` | The demo player: "Watch demo" on a card opens a dialog that loads and plays that loop (never autoplays with reduced motion); posters only without JS |
-| `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB) |
+| `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB); somaari-plan's is downloaded by the build instead |
 | `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only), unless `docs.config.json` names it (see [Screenshots and demo loops from the app repo](#screenshots-and-demo-loops-from-the-app-repo)) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |

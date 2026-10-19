@@ -1,6 +1,6 @@
 // Check the demo player, the Appearance control and the pages in headless Chromium over the DevTools
 // protocol (Node 22+, no packages).
-//   python3 scripts/demo/serve.py 8000 &  node scripts/demo/verify.mjs [http://127.0.0.1:8000/] [outdir]
+//   npm run build && python3 scripts/demo/serve.py 8000 &  node scripts/demo/verify.mjs [http://127.0.0.1:8000/] [outdir]
 // Checks: cards show posters only and nothing loads a video until "Watch demo" opens the player; the
 // player works from the keyboard (Enter opens, play/pause, Esc closes, focus returns to the button)
 // and closes on a backdrop click; with reduced motion it never autoplays, including a live toggle;
@@ -189,6 +189,14 @@ try {
       img: document.querySelector(".detail-shot img")?.naturalWidth || 0, picker: !document.getElementById("theme-picker").hidden })`);
     check(d.h1 === 1 && d.sw <= 390 && d.img > 0 && d.picker, `detail page ${slug}: one h1, screenshot, Appearance control, no horizontal scroll (scrollWidth ${d.sw})`);
   }
+  // Per-theme screenshots (somaari-plan): the image shown is the current theme's.
+  const shotTheme = () => evaluate(`({ theme: document.documentElement.dataset.theme,
+    src: document.querySelector(".detail-shot img").currentSrc })`);
+  for (const id of ["liquid-glass", "rajyotsava"]) {
+    await setup({ width: 1280, height: 900, path: `apps/somaari-plan/?theme=${id}` });
+    const t = await shotTheme();
+    check(t.src.endsWith(`screenshot-${id}.png`), `detail page somaari-plan, ${id}: shows that theme's screenshot (${t.src.split("/").pop()})`);
+  }
 
   // No JS: posters only, no Watch demo buttons, no Appearance control.
   await send("Emulation.setScriptExecutionDisabled", { value: true });
@@ -199,6 +207,10 @@ try {
     picker: document.getElementById("theme-picker").offsetParent !== null })`);
   check(videoReqs.length === 0 && nojs.buttons === 0 && !nojs.picker, `no JS: no video requests, no Watch demo buttons, no Appearance control`);
   await shot("verify-phone-nojs.png");
+  await setup({ width: 390, height: 844, mobile: true, path: "apps/somaari-plan/" });
+  const nojsShot = await evaluate(`Array.from(document.querySelectorAll(".detail-shot img")).filter((i) => i.offsetParent)
+    .map((i) => i.naturalWidth && i.currentSrc.split("/").pop())`);
+  check(nojsShot.length === 1 && nojsShot[0] === "screenshot-warm-tactile.png", `no JS: somaari-plan shows the default screenshot (${nojsShot})`);
   await send("Emulation.setScriptExecutionDisabled", { value: false });
 
   const real = problems.filter((p) => !/favicon/i.test(p));
