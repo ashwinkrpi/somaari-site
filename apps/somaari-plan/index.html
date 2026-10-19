@@ -26,7 +26,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=1b31864a5c">
+  <link rel="stylesheet" href="/style.css?v=4a34db0994">
   <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
   <script src="/theme.js?v=d874b7238d"></script>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
@@ -91,7 +91,11 @@
           <h1 class="detail-title">Task Planner</h1>
           <p class="card-repo">somaari-plan</p>
         </div>
-        <span class="badge badge--live">Available</span>
+        <!-- AI chip: somaari-plan README: "AI optional ... mode = \"off\" works with no AI at all." -->
+        <span class="badges">
+          <span class="badge badge--live">Available</span>
+          <span class="badge badge--ai">AI optional</span>
+        </span>
       </div>
       <p class="detail-lead">A small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views.</p>
       <div class="detail-actions">
@@ -120,6 +124,18 @@
             <h3>Today, Calendar and Dashboard</h3>
             <p>Today's list by priority; day, week and month views; and a 7-day board to drag tasks across.</p>
           </li>
+      </ul>
+    </section>
+
+    <!-- From the somaari-plan README ("How it works", "Privacy") and docs/GUIDE.md ("AI"). -->
+    <section class="detail-section" aria-labelledby="ai-heading">
+      <h2 id="ai-heading">How AI is used</h2>
+      <ul class="detail-list">
+        <li>Code reads plans first: headings, list items, dates, times and scheduling never need AI.</li>
+        <li>AI only answers small questions code can't (is this line really a task? what priority? is it a meeting?) and, optionally, rewrites loose prose into task titles.</li>
+        <li>Providers: TypeSafe Jev by default, or an LLM from OpenRouter, Gemini or an OpenAI-compatible server, including one on your own network.</li>
+        <li>With AI on, only the lines being decided go to the provider you chose. Free tiers such as OpenRouter's may log prompts. There's no analytics or telemetry.</li>
+        <li>With AI off (<code>mode = "off"</code>), nothing leaves your Pi. <a href="/apps/somaari-plan/docs/#ai">AI settings in the guide</a></li>
       </ul>
     </section>
 

@@ -26,7 +26,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=1b31864a5c">
+  <link rel="stylesheet" href="/style.css?v=4a34db0994">
   <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
   <script src="/theme.js?v=d874b7238d"></script>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
@@ -91,7 +91,11 @@
           <h1 class="detail-title">GPS Route Viewer</h1>
           <p class="card-repo">somaari-trip</p>
         </div>
-        <span class="badge badge--live">Available</span>
+        <!-- AI chip: somaari-trip README: "No accounts, no API keys, no third-party services." -->
+        <span class="badges">
+          <span class="badge badge--live">Available</span>
+          <span class="badge badge--ai">No AI</span>
+        </span>
       </div>
       <p class="detail-lead">See where you went each day on a map, from the Overland iOS app's GPS logs: trips, stops, distance and speed. It runs in Docker on your own Raspberry Pi 5 or x86_64 Linux server, so your location history stays there.</p>
       <div class="detail-actions">

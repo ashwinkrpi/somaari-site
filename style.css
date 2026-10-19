@@ -393,6 +393,9 @@ a:hover { color: var(--accent-hover); }
 .badge--live { color: var(--status); }
 .badge--dev { color: var(--subtle); border-style: dashed; }
 .badge--soon { color: var(--subtle); border-style: dotted; }
+/* AI chips ("AI optional", "AI-powered", "No AI") sit beside the status badge. */
+.badges { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.badge--ai { color: var(--muted); font-weight: 500; }
 
 .tags {
   list-style: none;

@@ -26,7 +26,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=1b31864a5c">
+  <link rel="stylesheet" href="/style.css?v=4a34db0994">
   <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
   <script src="/theme.js?v=d874b7238d"></script>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
@@ -147,7 +147,11 @@
               <h3 class="card-title">GPS Route Viewer</h3>
               <p class="card-repo">somaari-trip</p>
             </div>
-            <span class="badge badge--live">Available</span>
+            <!-- AI chip: somaari-trip README: "No accounts, no API keys, no third-party services." -->
+            <span class="badges">
+              <span class="badge badge--live">Available</span>
+              <span class="badge badge--ai">No AI</span>
+            </span>
           </div>
           <p class="card-desc">See where you went each day on a map, from the Overland iOS app's GPS logs: trips, stops, distance and speed. It runs in Docker on your own Raspberry Pi 5 or x86_64 Linux server, so your location history stays there.</p>
           <ul class="tags" aria-label="Tags">
@@ -175,7 +179,11 @@
               <h3 class="card-title">Disk Usage Analyzer</h3>
               <p class="card-repo">somaari-disk</p>
             </div>
-            <span class="badge badge--live">Available</span>
+            <!-- AI chip: somaari-disk README: "The app makes no network requests"; no AI dependencies. -->
+            <span class="badges">
+              <span class="badge badge--live">Available</span>
+              <span class="badge badge--ai">No AI</span>
+            </span>
           </div>
           <p class="card-desc">See what is using space on your drives, largest items first. Read-only and fully offline, for Linux (Raspberry Pi OS, Debian, Ubuntu and more) and Windows 10/11.</p>
           <ul class="tags" aria-label="Tags">
@@ -203,9 +211,13 @@
               <h3 class="card-title">Task Planner</h3>
               <p class="card-repo">somaari-plan</p>
             </div>
-            <span class="badge badge--live">Available</span>
+            <!-- AI chip: somaari-plan README: "AI optional ... mode = \"off\" works with no AI at all." -->
+            <span class="badges">
+              <span class="badge badge--live">Available</span>
+              <span class="badge badge--ai">AI optional</span>
+            </span>
           </div>
-          <p class="card-desc">A small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views.</p>
+          <p class="card-desc">A small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views. AI is optional: with it off, nothing leaves your Pi.</p>
           <ul class="tags" aria-label="Tags">
             <li>Planner</li>
             <li>Markdown</li>
@@ -238,16 +250,22 @@
               <h3 class="card-title">AI-assisted Terminal</h3>
               <p class="card-repo">somaari-ai</p>
             </div>
-            <span class="badge badge--dev">In development</span>
+            <!-- AI chip: somaari-ai README: "Every AI key is optional." AI is its main feature. -->
+            <span class="badges">
+              <span class="badge badge--dev">In development</span>
+              <span class="badge badge--ai">AI-powered</span>
+              <span class="badge badge--ai">AI optional</span>
+            </span>
           </div>
           <p class="card-desc">A smart terminal for the Raspberry Pi 5 and other Debian-based Linux with an X11 desktop: type commands or just say what you want in plain English. Local-first, and every AI-suggested command passes a safety check before it runs.</p>
           <ul class="tags" aria-label="Tags">
             <li>Raspberry Pi 5</li>
             <li>Terminal</li>
-            <li>AI-assisted</li>
           </ul>
           <!-- Repo not public yet: no GitHub link. When it is public, add a "View on GitHub" link here
-               (see README) and move this card up to the "Apps" section. -->
+               (see README) and move this card up to the "Apps" section.
+               TODO: its detail page needs a "How AI is used" section like apps/somaari-plan/, from the
+               somaari-ai README's Privacy section. -->
         </li>
         <!-- CARD END: somaari-ai -->
 

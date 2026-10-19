@@ -144,6 +144,9 @@ if a version is out of date.
 ## Other things to edit
 
 - **About text ("Hi, I'm Ashwin"):** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **AI chips:** each card and detail page shows "AI-powered", "AI optional" or "No AI" next to its
+  status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
+  with AI" in the tagline and About section is about how the apps are made.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
 - **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
