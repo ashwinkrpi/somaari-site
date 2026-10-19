@@ -8,7 +8,8 @@
         "liquid-glass": "docs/screenshots/theme-liquid-glass.png",
         "dasara-jamboo": "docs/screenshots/theme-dasara-jamboo.png",
         "rajyotsava": "docs/screenshots/theme-rajyotsava.png"
-      } },
+      },
+      "demo": { "ref": "site-demo" } },
     { "repo": "somaari-trip", "ref": "main", "src": "docs/GUIDE.md" }
   ]
 }

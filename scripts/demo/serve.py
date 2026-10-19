@@ -1,4 +1,4 @@
-"""Serve the site locally with the security headers from _headers (like Cloudflare Pages).
+"""Serve the built site (dist/, from npm run build) with the security headers from _headers (like Cloudflare Pages).
 
 upgrade-insecure-requests is dropped so plain-http localhost still works.
 Usage: python3 scripts/demo/serve.py [PORT]   (from the site root; default 8000)
@@ -19,7 +19,7 @@ for line in (ROOT / "_headers").read_text().splitlines():
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
-        super().__init__(*a, directory=str(ROOT), **kw)
+        super().__init__(*a, directory=str(ROOT / "dist"), **kw)
 
     def end_headers(self):
         for k, v in HEADERS:
