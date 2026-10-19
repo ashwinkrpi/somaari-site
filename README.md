@@ -8,7 +8,7 @@ Plain static HTML and CSS: no frameworks, no CDNs. The only external requests ar
 
 | File | Purpose |
 |---|---|
-| `index.html` | The page: header, hero, Apps, In development, About the maker, footer |
+| `index.html` | The page: header, hero, Apps, In development, About ("Hi, I'm Ashwin"), footer |
 | `style.css` | All styles (mobile-first); the four themes are custom properties under `html[data-theme]` |
 | `theme.js` | Picks the theme before first paint, the seasonal schedule, the header Appearance control |
 | `apps/<repo>/index.html` | One detail page per available app, served at `/apps/<repo>/` |
@@ -143,7 +143,7 @@ if a version is out of date.
 
 ## Other things to edit
 
-- **About the maker text:** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **About text ("Hi, I'm Ashwin"):** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
 - **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
