@@ -12,12 +12,13 @@
 #   CROP      ffmpeg crop=W:H:X:Y applied to the raw first (e.g. to drop a window title bar).
 #   POSTER_AT seconds into the *output* loop for the poster frame (default: 70% of the loop).
 #   MAX_BYTES size limit per video (default 1000000).
+#   OUT_DIR   where to write the three files (default assets/demos/<slug>/ in this repo).
 set -euo pipefail
 
 IN="${1:?usage: encode.sh <input> <app-slug>}"
 SLUG="${2:?usage: encode.sh <input> <app-slug>}"
 SITE_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)"
-OUT="$SITE_DIR/assets/demos/$SLUG"
+OUT="${OUT_DIR:-$SITE_DIR/assets/demos/$SLUG}"
 MAX_BYTES="${MAX_BYTES:-1000000}"
 VF="scale=720:-2,fps=24"
 PRE="${CROP:+crop=$CROP,}"

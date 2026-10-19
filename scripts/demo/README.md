@@ -57,4 +57,5 @@ approximate: if a cut is off, fix the numbers in the `.times` file (or pass `SEG
 
 `encode.sh <input> <app-slug>` writes `loop.webm` (VP9, CRF 38), `loop.mp4` (H.264, CRF 28,
 faststart) and `poster.webp`, 720 px wide at 24 fps with no audio. It raises the CRF until each
-video is under 1 MB. Env: `SEGMENTS` (`a-b`, `a-b@speed`, `a-b=seconds`), `CROP`, `POSTER_AT`, `MAX_BYTES`.
+video is under 1 MB. Env: `SEGMENTS` (`a-b`, `a-b@speed`, `a-b=seconds`), `CROP`, `POSTER_AT`, `MAX_BYTES`,
+`OUT_DIR` (instead of `assets/demos/<slug>/`; app repos' own recorders use it).

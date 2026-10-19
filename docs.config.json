@@ -2,7 +2,13 @@
   "owner": "ashwinkrpi",
   "apps": [
     { "repo": "somaari-disk", "ref": "main", "src": "docs/GUIDE.md" },
-    { "repo": "somaari-plan", "ref": "main", "src": "docs/GUIDE.md" },
+    { "repo": "somaari-plan", "ref": "main", "src": "docs/GUIDE.md",
+      "screenshot": {
+        "warm-tactile": "docs/screenshots/theme-warm-tactile.png",
+        "liquid-glass": "docs/screenshots/theme-liquid-glass.png",
+        "dasara-jamboo": "docs/screenshots/theme-dasara-jamboo.png",
+        "rajyotsava": "docs/screenshots/theme-rajyotsava.png"
+      } },
     { "repo": "somaari-trip", "ref": "main", "src": "docs/GUIDE.md" }
   ]
 }
