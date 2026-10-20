@@ -24,12 +24,13 @@
   <meta name="twitter:description" content="Task Planner (somaari-plan): a small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks.">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=5f48e1e9f9">
-  <!-- Picks the theme before first paint (blocking on purpose) and loads that theme's fonts. -->
-  <script src="/theme.js?v=ef870268f1"></script>
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&amp;family=Hanken+Grotesk:wght@400..700&amp;display=swap"></noscript>
+  <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
+       shared tokens) come from somaari-common; the build copies them into /theme/. -->
+  <script src="/theme/theme.js"></script>
+  <link rel="stylesheet" href="/theme/themes.css">
+  <link rel="stylesheet" href="/style.css?v=823827e11d">
+  <!-- Shows the current theme's screenshot (per-theme screenshots, see scripts/build-docs.mjs). -->
+  <script src="/shots.js?v=1fee3af4f6" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -55,8 +56,8 @@
             <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
           </ul>
         </nav>
-        <!-- Appearance (theme) control: theme.js shows it, opens the popover and remembers the choice.
-             Themes live in style.css. -->
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
         <div class="appearance" id="theme-picker" hidden>
           <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
@@ -68,11 +69,6 @@
           <div class="appearance-menu" id="appearance-menu" hidden>
             <fieldset>
               <legend>Theme</legend>
-              <label><input type="radio" name="theme-choice" value="auto"> Auto (seasonal)</label>
-              <label><input type="radio" name="theme-choice" value="warm-tactile"> Warm Tactile</label>
-              <label><input type="radio" name="theme-choice" value="liquid-glass"> Liquid Glass</label>
-              <label><input type="radio" name="theme-choice" value="dasara-jamboo"> Dasara – Jamboo Savari</label>
-              <label><input type="radio" name="theme-choice" value="rajyotsava"> Kannada Rajyotsava</label>
             </fieldset>
           </div>
         </div>

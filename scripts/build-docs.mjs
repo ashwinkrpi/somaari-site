@@ -3,12 +3,15 @@
 // downloads them from GitHub on every build, so a docs push to an app repo plus a rebuild is all it takes.
 // The same goes for an app's detail page screenshot ("screenshot") and card demo loop ("demo") when
 // docs.config.json names them: they are downloaded into assets/ and never committed here.
+// The themes (theme.js, themes.css, fonts) come from somaari-common's theme/ the same way, into /theme/.
 // Run from the repo root: npm run build
-// With --local <dir> it reads <dir>/<repo>/<src> instead of GitHub, to preview docs edits before pushing.
+// With --local <dir> it reads <dir>/<repo>/<src> instead of GitHub, to preview docs edits before pushing
+// (somaari-common too: <dir>/somaari-common/theme/).
 // Exits 1 (and Cloudflare keeps the current deploy) if a guide can't be fetched, mentions self-hosting,
 // links to a missing anchor or uses an image from outside its folder.
 import { execFileSync } from "node:child_process";
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, posix, resolve } from "node:path";
 import { Marked } from "marked";
@@ -17,7 +20,7 @@ import GithubSlugger from "github-slugger";
 
 const OUT = "dist";
 // What gets published. Anything else in the repo (scripts/, README.md, package.json, ...) stays private.
-const PUBLISH = ["index.html", "404.html", "style.css", "theme.js", "demo.js", "favicon.svg", "robots.txt",
+const PUBLISH = ["index.html", "404.html", "style.css", "shots.js", "demo.js", "favicon.svg", "robots.txt",
   "sitemap.xml", "_headers", "apps", "assets"];
 const SITE = "https://somaari.in";
 // The site never mentions self-hosting (not every somaari app is self-hosted).
@@ -29,7 +32,9 @@ const SKIP = /<!--\s*site:skip\s*-->[\s\S]*?<!--\s*\/site:skip\s*-->/g;
 // The demo player's files, all three required on the app repo's "demo" branch.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
 const DEMO_MAX_BYTES = 1024 * 1024;
-const { THEMES, DEFAULT_THEME } = createRequire(import.meta.url)("../theme.js");
+// The shared somaari themes: somaari-common's theme/, published at /theme/ (see theme()).
+const COMMON = { repo: "somaari-common", ref: "main" };
+let THEMES, DEFAULT_THEME;
 const ALERTS = { NOTE: "Note", TIP: "Tip", IMPORTANT: "Important", WARNING: "Warning", CAUTION: "Caution" };
 
 const { owner, apps } = JSON.parse(readFileSync("docs.config.json", "utf8"));
@@ -161,8 +166,8 @@ function imageSize(app, path, data) {
 
 // Downloads the detail page screenshot(s) and fills in the page's <figure class="detail-shot">, keeping
 // its alt text. "screenshot" is one path, or { "<theme id>": path } for every theme in theme.js: then the
-// <img> has each theme's path in data-shot-<id> and theme.js sets src to the current theme's, so only
-// that one is downloaded; a <noscript> copy shows the default theme's without JS.
+// <img> is marked data-shots, has each theme's path in data-shot-<id> and shots.js sets src to the current
+// theme's, so only that one is downloaded; a <noscript> copy shows the default theme's without JS.
 async function screenshots(app) {
   const perTheme = typeof app.screenshot === "object";
   const shots = perTheme ? app.screenshot : { [DEFAULT_THEME]: app.screenshot };
@@ -192,7 +197,7 @@ async function screenshots(app) {
   const [width, height] = size.split("x");
   const attrs = `width="${width}" height="${height}" alt="${alt}"`;
   const img = perTheme
-    ? `<img ${ids.map((id) => `data-shot-${id}="${urls[id]}"`).join(" ")} ${attrs}>\n      ` +
+    ? `<img data-shots ${ids.map((id) => `data-shot-${id}="${urls[id]}"`).join(" ")} ${attrs}>\n      ` +
       `<noscript><img src="${urls[DEFAULT_THEME]}" ${attrs}></noscript>`
     : `<img src="${urls[DEFAULT_THEME]}" ${attrs}>`;
   writeFileSync(pagePath, html.replace(figure[0], `${figure[1]}\n      ${img}\n    ${figure[2]}`));
@@ -253,10 +258,36 @@ ${html}
   return shell;
 }
 
+// Downloads the files somaari-common's theme/files.json lists into /theme/ and reads the theme list from
+// that theme.js. The pages load /theme/theme.js and /theme/themes.css; stampThemeVersions() versions them.
+async function theme() {
+  const { files } = JSON.parse((await getFile(COMMON, "theme/files.json")).toString("utf8"));
+  for (const f of files) {
+    mkdirSync(dirname(join(OUT, "theme", f)), { recursive: true });
+    writeFileSync(join(OUT, "theme", f), await getFile(COMMON, `theme/${f}`));
+  }
+  ({ THEMES, DEFAULT_THEME } = createRequire(import.meta.url)(resolve(OUT, "theme", "theme.js")));
+  return files.length;
+}
+
+// Browsers may cache /theme/ files for hours (see scripts/asset-versions.mjs), so every page in dist/
+// gets /theme/theme.js and /theme/themes.css as ?v=<first 10 hex of the file's sha256>. They are not in
+// this repo, so asset-versions.mjs can't do it at commit time.
+function stampThemeVersions() {
+  const version = (f) => createHash("sha256").update(readFileSync(join(OUT, "theme", f))).digest("hex").slice(0, 10);
+  const v = { "theme.js": version("theme.js"), "themes.css": version("themes.css") };
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html"));
+  for (const page of pages) {
+    const html = readFileSync(join(OUT, page), "utf8");
+    writeFileSync(join(OUT, page), html.replace(/(["'])\/theme\/(theme\.js|themes\.css)\1/g, (_, q, f) => `${q}/theme/${f}?v=${v[f]}${q}`));
+  }
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
   for (const f of PUBLISH) cpSync(f, join(OUT, f), { recursive: true });
+  console.log(`themes: ${await theme()} files from somaari-common ${local ? "local copy" : COMMON.ref}`);
 
   const urls = [];
   for (const app of apps) {
@@ -282,6 +313,7 @@ async function main() {
   const sitemap = join(OUT, "sitemap.xml");
   writeFileSync(sitemap, readFileSync(sitemap, "utf8").replace("</urlset>",
     urls.map((u) => `  <url>\n    <loc>${u}</loc>\n  </url>\n`).join("") + "</urlset>"));
+  stampThemeVersions();
 }
 
 main().catch((err) => {

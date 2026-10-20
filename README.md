@@ -2,15 +2,16 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no frameworks, no CDNs. The only external requests are each theme's Google Fonts. The only JavaScript is `theme.js` (seasonal default and the Appearance control) and `demo.js` (the demo player for the app cards). The one build step turns each app's guide, kept in that app's repo, into a page on the site (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts are self-hosted). The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and turns each app's guide, kept in that app's repo, into a page on the site (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 ## Files
 
 | File | Purpose |
 |---|---|
 | `index.html` | The page: header, hero, Apps, In development, About ("Hi, I'm Ashwin"), footer |
-| `style.css` | All styles (mobile-first); the four themes are custom properties under `html[data-theme]` |
-| `theme.js` | Picks the theme before first paint, the seasonal schedule, the header Appearance control |
+| `style.css` | All styles (mobile-first); the site's own per-theme custom properties under `html[data-theme]` |
+| `/theme/` (not in this repo) | `theme.js` (theme before first paint, seasonal schedule, the header Appearance control), `themes.css` (fonts and the tokens shared with somaari-plan) and `fonts/`, from somaari-common's `theme/`; the build downloads them (see [Themes](#themes)) |
+| `shots.js` | Detail pages: shows the current theme's screenshot, and swaps it when the theme changes |
 | `apps/<repo>/index.html` | One detail page per available app, served at `/apps/<repo>/` |
 | `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
 | `favicon.svg` | "S" mark icon |
@@ -20,13 +21,12 @@ Plain static HTML and CSS: no frameworks, no CDNs. The only external requests ar
 | `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB); somaari-plan's is downloaded by the build instead |
 | `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only), unless `docs.config.json` names it (see [Screenshots and demo loops from the app repo](#screenshots-and-demo-loops-from-the-app-repo)) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
-| `scripts/test-theme.mjs` | Checks the seasonal schedule: `node scripts/test-theme.mjs` |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
 | `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)), and which screenshots and demo loops it downloads from the app repos |
-| `scripts/build-docs.mjs` | The build: copies the site into `dist/`, adds `/apps/<repo>/docs/` for each guide and downloads the screenshots and demo loops `docs.config.json` names |
+| `scripts/build-docs.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), adds `/apps/<repo>/docs/` for each guide and downloads the screenshots and demo loops `docs.config.json` names |
 | `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a docs push rebuilds the site |
-| `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Google Fonts and Cloudflare Web Analytics, no inline styles or scripts) |
+| `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Cloudflare Web Analytics, no inline styles or scripts) |
 
 ## Preview locally
 
@@ -38,7 +38,7 @@ python3 -m http.server -d dist 8000
 
 Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.) Only the files listed in
 `PUBLISH` in `scripts/build-docs.mjs` are copied to `dist/`; add a new top-level file there too.
-`npm run check` runs the header/footer, asset-version and theme checks.
+`npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` from your local somaari-common checkout.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=dasara-jamboo>.
 Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`.
@@ -52,8 +52,10 @@ and follows the date in India (Asia/Kolkata):
 - 1–7 November, every year: `rajyotsava`
 - Otherwise: `warm-tactile`
 
-To add a festival, add an entry to `SCHEDULE` in `theme.js` (`from`/`to` for one-off dates,
-`monthDay` for every year), add a case to `scripts/test-theme.mjs` and run it with node.
+The themes, schedule and fonts live in somaari-common (`theme/`, standard: `docs/THEME_SPEC.md`), shared
+with somaari-plan. To add a festival or change a shared colour, edit them there (`SCHEDULE` in
+`theme/theme.js`, with a case in `tests/test_theme.py`); a push to its `main` rebuilds this site.
+The site's own per-theme tokens and decorations stay in `style.css`.
 Theme styles only change colours, fonts, spacing and decoration; the page text is the same in every theme.
 
 ## Add a new app card
@@ -142,7 +144,7 @@ they update on the site when they change there. Add them to the app's entry in `
 - `"screenshot": "docs/screenshots/x.png"`: one PNG or JPEG for the detail page, or
   `{ "<theme id>": "<path>", ... }` with one per theme (all four, same size). The build downloads
   them into `assets/apps/<repo>/` and fills in the page's `<figure class="detail-shot">`, keeping its
-  `alt` and setting `width`/`height`. With one per theme, `theme.js` loads only the current theme's.
+  `alt` and setting `width`/`height`. With one per theme, `shots.js` loads only the current theme's.
   Don't commit a copy to `assets/apps/<repo>/`.
 - `"demo": { "ref": "site-demo" }`: the app repo branch holding `loop.webm`, `loop.mp4` and
   `poster.webp` (each under 1 MB) at its root. The build copies them into `assets/demos/<repo>/`.
@@ -151,12 +153,12 @@ somaari-plan's `.github/workflows/site-demo.yml` writes its `site-demo` branch: 
 it records the demo in headless Chromium (Playwright, AI off), encodes it with this repo's
 `scripts/demo/encode.sh` and rebuilds the site.
 
-## After editing style.css, theme.js or demo.js
+## After editing style.css, shots.js or demo.js
 
 Run `node scripts/asset-versions.mjs` before committing. Cloudflare lets browsers cache these files
 for hours, so each changed file needs a new `?v=` in every HTML page; otherwise returning
 visitors get the new page with the old stylesheet. `node scripts/asset-versions.mjs --check` exits 1
-if a version is out of date.
+if a version is out of date. The build versions `/theme/theme.js` and `/theme/themes.css` itself.
 
 ## Other things to edit
 

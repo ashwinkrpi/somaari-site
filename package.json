@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-docs.mjs",
-    "check": "node scripts/check-shared.mjs && node scripts/asset-versions.mjs --check && node scripts/test-theme.mjs"
+    "check": "node scripts/check-shared.mjs && node scripts/asset-versions.mjs --check"
   },
   "dependencies": {
     "github-slugger": "2.0.0",
