@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "somaari-common"
 # pip requires a version. somaari-common is not versioned: this stays 0.0.0 forever.
 version = "0.0.0"
-description = "Shared About section data and debug-info collector for somaari apps."
+description = "Shared About section data, debug-info collector and themes for somaari apps."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
@@ -16,9 +16,11 @@ dependencies = []
 Homepage = "https://github.com/ashwinkrpi/somaari-common"
 
 [tool.hatch.build.targets.wheel]
-packages = ["somaari_about"]
+packages = ["somaari_about", "somaari_theme"]
 
 # Pull the canonical JSON from ../about into the wheel without copying it in the repo.
 [tool.hatch.build.targets.wheel.force-include]
 "../about/developer.json" = "somaari_about/data/developer.json"
 "../about/debug-fields.json" = "somaari_about/data/debug-fields.json"
+# The themes (theme.js, themes.css, fonts) from ../theme, served by Python web apps at /theme/.
+"../theme" = "somaari_theme/static"

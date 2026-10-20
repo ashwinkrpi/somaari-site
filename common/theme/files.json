@@ -1,0 +1,24 @@
+{
+  "files": [
+    "theme.js",
+    "themes.css",
+    "fonts/BalooTamma2-kannada.woff2",
+    "fonts/BalooTamma2.woff2",
+    "fonts/Fraunces.woff2",
+    "fonts/HankenGrotesk.woff2",
+    "fonts/Mukta-400.woff2",
+    "fonts/Mukta-500.woff2",
+    "fonts/Mukta-600.woff2",
+    "fonts/Mukta-700.woff2",
+    "fonts/OFL-BalooTamma2.txt",
+    "fonts/OFL-Fraunces.txt",
+    "fonts/OFL-HankenGrotesk.txt",
+    "fonts/OFL-Mukta.txt",
+    "fonts/OFL-Onest.txt",
+    "fonts/OFL-RozhaOne.txt",
+    "fonts/Onest-math.woff2",
+    "fonts/Onest-symbols.woff2",
+    "fonts/Onest.woff2",
+    "fonts/RozhaOne.woff2"
+  ]
+}

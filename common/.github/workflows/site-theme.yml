@@ -1,0 +1,31 @@
+# When theme/ changes on main, run the tests and ask Cloudflare Pages to rebuild somaari.in, which
+# downloads the new theme files (see docs/THEME_SPEC.md). somaari-plan picks up theme changes with
+# `uv lock --upgrade-package somaari-common`.
+# Needs the repo secret SOMAARI_SITE_DEPLOY_HOOK: the somaari-site deploy hook URL.
+name: Update the themes on somaari.in
+
+on:
+  push:
+    branches: [main]
+    paths: ["theme/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Tests
+        run: |
+          pip install pytest jsonschema ./python
+          python -m pytest -q
+      - name: Rebuild somaari.in
+        env:
+          HOOK: ${{ secrets.SOMAARI_SITE_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$HOOK" > /dev/null

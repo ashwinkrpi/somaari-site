@@ -1,8 +1,11 @@
 # somaari-common
 
-Single source of truth for the **About** section shared by all somaari apps (somaari-ai, somaari-disk, somaari-plan, and future apps).
+Single source of truth for what somaari apps share:
 
-The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md). somaari-common is not versioned: apps always use the latest `main`.
+- the **About** section, used by all somaari apps (somaari-ai, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
+- the **themes** (four themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site and somaari-plan. The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+
+somaari-common is not versioned: apps always use the latest `main`.
 
 ## Contents
 
@@ -10,6 +13,8 @@ The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md). somaari-common is not 
 - `about/debug-fields.json`: debug fields every app must report
 - `python/`: `somaari_about`, the Python adapter
 - `scripts/sync-about.sh` / `sync-about.ps1`: vendor the JSON into non-Python apps
+- `theme/`: `theme.js`, `themes.css`, `fonts/` and `files.json` (the files an app serves at `/theme/`)
+- `python/somaari_theme`: serves `theme/` from Python web apps (`static_dir()`, `files()`)
 
 ## Integrating
 
@@ -32,6 +37,12 @@ text = as_text(collect("my-app", __version__), load_developer())
 
 Then write a native collector that outputs exactly the keys in `debug-fields.json`, in the text format from the spec.
 
+## Themes
+
+Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site downloads the files in `theme/files.json` at build time. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+
+A push that changes `theme/` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-theme.yml`, repo secret `SOMAARI_SITE_DEPLOY_HOOK`).
+
 ## Development
 
 ```sh
@@ -40,7 +51,7 @@ python3 -m venv .venv
 .venv/bin/python -m pytest
 ```
 
-Reinstall `./python` after editing `about/*.json` or the package. Tests check the installed copy against the source.
+Reinstall `./python` after editing `about/*.json`, `theme/` or the package. Tests check the installed copy against the source. The theme tests need `node`.
 
 ## Contributing
 
