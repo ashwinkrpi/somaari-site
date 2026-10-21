@@ -168,7 +168,7 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
   status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
   with AI" in the tagline and About section is about how the apps are made.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
-- **Contact:** `hello@somaari.in` in the shared footer (and `404.html`), and on the privacy and terms pages (Cloudflare Email Routing forwards it).
+- **Contact:** `hello@somaari.in` (Cloudflare Email Routing) is in the Contact sections of the privacy and terms pages, not in the footer.
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`), except
   apps whose loop comes from their repo (see [above](#screenshots-and-demo-loops-from-the-app-repo)).
