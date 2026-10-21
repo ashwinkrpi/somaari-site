@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy policy – Somaari</title>
+  <meta name="description" content="What somaari.in, the Somaari apps and the somaari-video tool collect, store and share: no cookies, no analytics, no data sold or shared.">
+  <link rel="canonical" href="https://somaari.in/privacy/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="Privacy policy – Somaari">
+  <meta property="og:description" content="What somaari.in, the Somaari apps and the somaari-video tool collect, store and share.">
+  <meta property="og:url" content="https://somaari.in/privacy/">
+  <meta property="og:locale" content="en_IN">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
+       shared tokens) come from somaari-common; the build copies them into /theme/. -->
+  <script src="/theme/theme.js"></script>
+  <link rel="stylesheet" href="/theme/themes.css">
+  <link rel="stylesheet" href="/style.css?v=823827e11d">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Small, useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+          </ul>
+        </nav>
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail docs container">
+    <div class="detail-intro">
+      <h1 class="detail-title">Privacy policy</h1>
+      <p class="detail-lead">What somaari.in, the Somaari apps and the somaari-video tool collect, store and share. In short: no cookies, no analytics, and nothing is sold or shared.</p>
+      <p class="detail-note">Last updated: 21 October 2026</p>
+    </div>
+
+    <div class="prose">
+      <h2 id="who">Who runs Somaari</h2>
+      <p>Somaari is a personal project of Ashwin Koppam Raghavendra, in Bengaluru, India. Questions about this policy: <a href="mailto:hello@somaari.in">hello@somaari.in</a>.</p>
+
+      <h2 id="website">This website (somaari.in)</h2>
+      <ul>
+        <li><strong>No cookies, no analytics, no tracking.</strong> The site has no accounts, sign-ups or forms.</li>
+        <li><strong>Nothing loads from other sites.</strong> Fonts, styles and scripts are served from somaari.in itself.</li>
+        <li><strong>Your theme choice</strong> (the Appearance button) is saved in your own browser's local storage. It is never sent anywhere, and clearing your browser data removes it.</li>
+        <li><strong>Hosting.</strong> The site is hosted on Cloudflare Pages. To deliver and protect it, Cloudflare processes the technical details of each request, such as your IP address, browser type and the page you asked for. See <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare's privacy policy</a>.</li>
+        <li><strong>Links to other sites</strong>, such as GitHub and YouTube, are covered by those sites' own privacy policies.</li>
+      </ul>
+
+      <h2 id="apps">The Somaari apps</h2>
+      <p>The Somaari apps run on your own computer and don't send your data to Somaari. Apps with optional AI features send only what is needed to the AI provider you choose, and only when you turn that on. Each app's guide explains exactly what it stores on your device and what, if anything, it sends.</p>
+
+      <h2 id="somaari-video">somaari-video and YouTube</h2>
+      <p>somaari-video is a personal tool that makes demo videos of the Somaari apps and uploads them to the developer's own Somaari YouTube channel. It is not offered to anyone else, and nobody else signs in to it. It uses YouTube API Services.</p>
+      <ul>
+        <li><strong>What it accesses:</strong> only what it needs to upload videos, set their thumbnails, add them to playlists and confirm it is signed in to the Somaari channel. It asks Google for two permissions (scopes): <code>youtube.upload</code> and <code>youtube</code>.</li>
+        <li><strong>Where it is stored:</strong> the sign-in token is kept only on the developer's own computer. There is no server and no database.</li>
+        <li><strong>Sharing:</strong> no data is sold, shared or transferred to anyone.</li>
+        <li><strong>How long:</strong> the token is kept until access is revoked or the token is deleted. The tool keeps only the IDs of the videos it uploaded.</li>
+        <li><strong>Revoking access:</strong> at any time from your Google Account at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
+      </ul>
+      <p>Google's handling of this data is covered by the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
+
+      <h2 id="changes">Changes to this policy</h2>
+      <p>If this policy changes, the new version will be posted on this page with a new "Last updated" date.</p>
+
+      <h2 id="contact">Contact</h2>
+      <p>Email <a href="mailto:hello@somaari.in">hello@somaari.in</a>.</p>
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+        <li><a href="mailto:hello@somaari.in">hello@somaari.in</a></li>
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>

@@ -14,6 +14,7 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts a
 | `shots.js` | Detail pages: shows the current theme's screenshot, and swaps it when the theme changes |
 | `apps/<repo>/index.html` | One detail page per available app, served at `/apps/<repo>/` |
 | `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
+| `privacy/index.html`, `terms/index.html` | Privacy policy and terms of service at `/privacy/` and `/terms/`, linked from the footer (also the somaari-video Google OAuth app's policy links) |
 | `favicon.svg` | "S" mark icon |
 | `robots.txt` | Allows all crawlers, points to the sitemap |
 | `sitemap.xml` | The home page and each app detail page |
@@ -167,7 +168,7 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
   status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
   with AI" in the tagline and About section is about how the apps are made.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
-- **Contact:** the `<!-- CONTACT -->` comment in the footer; add `hello@somaari.in` once email forwarding is set up.
+- **Contact:** `hello@somaari.in` in the shared footer (and `404.html`), and on the privacy and terms pages (Cloudflare Email Routing forwards it).
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`), except
   apps whose loop comes from their repo (see [above](#screenshots-and-demo-loops-from-the-app-repo)).
