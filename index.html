@@ -28,7 +28,7 @@
        shared tokens) come from somaari-common; the build copies them into /theme/. -->
   <script src="/theme/theme.js"></script>
   <link rel="stylesheet" href="/theme/themes.css">
-  <link rel="stylesheet" href="/style.css?v=823827e11d">
+  <link rel="stylesheet" href="/style.css?v=a148e088b2">
   <script src="/demo.js?v=89ad5a23c8" defer></script>
 </head>
 <body>
@@ -51,7 +51,7 @@
         <nav class="site-nav" aria-label="Main">
           <ul role="list">
             <li><a href="/#apps">Apps</a></li>
-            <li><a href="/#about">About</a></li>
+            <li><a href="/about/">About</a></li>
             <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
           </ul>
         </nav>
@@ -86,7 +86,6 @@
         </p>
         <p class="hero-actions">
           <a class="btn" href="#apps">Explore apps</a>
-          <a class="btn btn--secondary" href="#about">About the maker</a>
         </p>
         <!-- Dasara theme only: the decorated elephant with a golden howdah from the
              "Dasara-Jamboo" direction in the Somaari style-directions canvas (decorative). -->
@@ -266,16 +265,6 @@
       </ul>
     </section>
 
-    <section class="about container" id="about" aria-labelledby="about-heading">
-      <h2 id="about-heading">Hi, I'm Ashwin</h2>
-      <!-- INTRO: edit the paragraph below to change the "about me" text. -->
-      <p>
-        I'm a business analyst in Bengaluru with 29 years in IT. I also build small, local-first tools
-        with AI as my pair programmer; most of Somaari is built with Claude Code. Every app runs on
-        hardware you own, from a Raspberry Pi to a Linux server, so your data stays with you.
-      </p>
-      <!-- /INTRO -->
-    </section>
     <!-- Demo player: demo.js opens it from a card's "Watch demo" button and loads that card's loop
          only then. Never autoplays with reduced motion. -->
     <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
@@ -296,6 +285,7 @@
     <div class="container footer-inner">
       <p>&copy; 2026 Somaari</p>
       <ul class="footer-links" role="list">
+        <li><a href="/about/">About</a></li>
         <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
         <li><a href="/privacy/">Privacy</a></li>
         <li><a href="/terms/">Terms</a></li>

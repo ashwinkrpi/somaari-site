@@ -21,7 +21,7 @@ import GithubSlugger from "github-slugger";
 const OUT = "dist";
 // What gets published. Anything else in the repo (scripts/, README.md, package.json, ...) stays private.
 const PUBLISH = ["index.html", "404.html", "style.css", "shots.js", "demo.js", "favicon.svg", "robots.txt",
-  "sitemap.xml", "_headers", "apps", "assets", "privacy", "terms"];
+  "sitemap.xml", "_headers", "apps", "assets", "about", "privacy", "terms"];
 const SITE = "https://somaari.in";
 // The site never mentions self-hosting (not every somaari app is self-hosted).
 const BANNED = /self[- ]?host/i;

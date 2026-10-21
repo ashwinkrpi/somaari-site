@@ -8,7 +8,8 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts a
 
 | File | Purpose |
 |---|---|
-| `index.html` | The page: header, hero, Apps, In development, About ("Hi, I'm Ashwin"), footer |
+| `index.html` | The page: header, hero, Apps, In development, footer |
+| `about/index.html` | About page ("Hi, I'm Ashwin") at `/about/`, linked from the header and the footer |
 | `style.css` | All styles (mobile-first); the site's own per-theme custom properties under `html[data-theme]` |
 | `/theme/` (not in this repo) | `theme.js` (theme before first paint, seasonal schedule, the header Appearance control), `themes.css` (fonts and the tokens shared with somaari-plan) and `fonts/`, from somaari-common's `theme/`; the build downloads them (see [Themes](#themes)) |
 | `shots.js` | Detail pages: shows the current theme's screenshot, and swaps it when the theme changes |
@@ -163,7 +164,7 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
 
 ## Other things to edit
 
-- **About text ("Hi, I'm Ashwin"):** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `index.html`.
+- **About text ("Hi, I'm Ashwin"):** between `<!-- INTRO -->` and `<!-- /INTRO -->` in `about/index.html`.
 - **AI chips:** each card and detail page shows "AI-powered", "AI optional" or "No AI" next to its
   status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
   with AI" in the tagline and About section is about how the apps are made.

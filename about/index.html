@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About – Somaari</title>
+  <meta name="description" content="Somaari is a personal project of Ashwin Koppam Raghavendra, a business analyst in Bengaluru who builds small, local-first tools with AI as his pair programmer.">
+  <link rel="canonical" href="https://somaari.in/about/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="About – Somaari">
+  <meta property="og:description" content="Who makes Somaari: small, local-first tools built with AI as a pair programmer.">
+  <meta property="og:url" content="https://somaari.in/about/">
+  <meta property="og:locale" content="en_IN">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
+       shared tokens) come from somaari-common; the build copies them into /theme/. -->
+  <script src="/theme/theme.js"></script>
+  <link rel="stylesheet" href="/theme/themes.css">
+  <link rel="stylesheet" href="/style.css?v=a148e088b2">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Small, useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+          </ul>
+        </nav>
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail docs container">
+    <!-- Facts below come from the home page's former About section and somaari-common's
+         about/developer.json (website, GitHub, email, bug reports). Check them there before editing. -->
+    <div class="detail-intro">
+      <h1 class="detail-title">Hi, I'm Ashwin</h1>
+      <!-- INTRO: edit the paragraph below to change the "about me" text. -->
+      <p class="detail-lead">
+        I'm a business analyst in Bengaluru with 29 years in IT. I also build small, local-first tools
+        with AI as my pair programmer; most of Somaari is built with Claude Code. Every app runs on
+        hardware you own, from a Raspberry Pi to a Linux server, so your data stays with you.
+      </p>
+      <!-- /INTRO -->
+    </div>
+
+    <div class="prose">
+      <h2 id="apps">The apps</h2>
+      <p>The <a href="/#apps">apps on the home page</a> each have a detail page and a guide. Each app's own repository on <a href="https://github.com/ashwinkrpi">GitHub</a> has its source, releases and licence.</p>
+
+      <h2 id="contact">Get in touch</h2>
+      <ul>
+        <li><strong>Found a bug?</strong> Open an issue on the app's GitHub repository and paste the debug info the app's About dialog copies for you.</li>
+        <li><strong>Email:</strong> <a href="mailto:hello@somaari.in">hello@somaari.in</a></li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/ashwinkrpi">github.com/ashwinkrpi</a></li>
+      </ul>
+      <p>See also the <a href="/privacy/">privacy policy</a> and <a href="/terms/">terms of service</a>.</p>
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>

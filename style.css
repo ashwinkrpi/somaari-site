@@ -388,7 +388,7 @@ a:hover { color: var(--accent-hover); }
 .card-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
 /* App detail pages (apps/<repo>/index.html) */
-.detail { display: grid; gap: 2.5rem; padding-top: 1.5rem; padding-bottom: 4rem; }
+.detail { display: grid; gap: 2.5rem; align-content: start; padding-top: 1.5rem; padding-bottom: 4rem; }
 .detail-back { margin: 0; }
 .detail-back a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 .detail-intro { display: grid; gap: 1rem; max-width: 46rem; }
