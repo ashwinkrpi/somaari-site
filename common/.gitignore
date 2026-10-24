@@ -5,3 +5,8 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+
+# Dev-only build plans for Claude Code (kept local)
+common-build-plan.md
+theme-build-plan.md
+instructions.md
