@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 580" width="960" height="580" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>How somaari apps pick up changes to somaari-common</title>
+  <style>
+    .box { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1.5; }
+    .src { fill: #ddf4ff; stroke: #0969da; stroke-width: 2; }
+    .auto-box { fill: #dafbe1; stroke: #1a7f37; stroke-width: 2; }
+    .t { fill: #1f2328; font-size: 15px; font-weight: 600; }
+    .s { fill: #59636e; font-size: 12.5px; }
+    .c { fill: #59636e; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .ca { fill: #1a7f37; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .manual { stroke: #818b98; stroke-width: 1.8; fill: none; }
+    .auto { stroke: #1a7f37; stroke-width: 2.2; fill: none; }
+    .docs { stroke: #1a7f37; stroke-width: 1.8; fill: none; stroke-dasharray: 6 4; }
+    .mh-m { fill: #818b98; }
+    .mh-a { fill: #1a7f37; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: #151b23; stroke: #3d444d; }
+      .src { fill: #0c2d6b; stroke: #4493f8; }
+      .auto-box { fill: #0f2d1a; stroke: #3fb950; }
+      .t { fill: #f0f6fc; }
+      .s, .c { fill: #9198a1; }
+      .ca { fill: #3fb950; }
+      .manual { stroke: #656c76; }
+      .auto, .docs { stroke: #3fb950; }
+      .mh-m { fill: #656c76; }
+      .mh-a { fill: #3fb950; }
+    }
+  </style>
+  <defs>
+    <marker id="am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="mh-m" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="mh-a" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+
+  <!-- Legend -->
+  <line class="auto" x1="20" y1="30" x2="60" y2="30" marker-end="url(#aa)"/>
+  <text class="s" x="70" y="34">automatic</text>
+  <line class="manual" x1="150" y1="30" x2="190" y2="30" marker-end="url(#am)"/>
+  <text class="s" x="200" y="34">needs a manual step (command on the line)</text>
+
+  <!-- Source -->
+  <rect class="src" x="20" y="252" width="210" height="96" rx="10"/>
+  <text class="t" x="125" y="284" text-anchor="middle">somaari-common</text>
+  <text class="s" x="125" y="306" text-anchor="middle">main branch, not versioned</text>
+  <text class="c" x="125" y="328" text-anchor="middle">about/ · theme/ · python/</text>
+
+  <!-- Trunk -->
+  <path class="manual" d="M230,300 H260"/>
+  <path class="manual" d="M260,255 V525"/>
+  <path class="auto" d="M260,300 V90"/>
+
+  <!-- Row 1: automatic theme rebuild -->
+  <path class="auto" d="M260,90 H298" marker-end="url(#aa)"/>
+  <rect class="auto-box" x="300" y="62" width="270" height="56" rx="8"/>
+  <text class="t" x="435" y="86" text-anchor="middle">site-theme.yml</text>
+  <text class="s" x="435" y="106" text-anchor="middle">push to theme/** → tests → deploy hook</text>
+  <path class="auto" d="M570,90 H658" marker-end="url(#aa)"/>
+  <rect class="auto-box" x="660" y="62" width="280" height="56" rx="8"/>
+  <text class="t" x="800" y="86" text-anchor="middle">somaari.in (somaari-site)</text>
+  <text class="s" x="800" y="106" text-anchor="middle">every build downloads theme/ from main</text>
+
+  <!-- App docs pushes also rebuild the site -->
+  <rect class="box" x="300" y="140" width="270" height="56" rx="8"/>
+  <text class="t" x="435" y="164" text-anchor="middle">site-docs.yml in plan, disk, trip</text>
+  <text class="s" x="435" y="184" text-anchor="middle">push to docs/** → same deploy hook</text>
+  <path class="docs" d="M570,168 H620 V106 H658" marker-end="url(#aa)"/>
+
+  <!-- Row 2: pip git dependency -->
+  <path class="manual" d="M260,255 H658" marker-end="url(#am)"/>
+  <text class="c" x="280" y="246">fresh pip install / new release</text>
+  <rect class="box" x="660" y="227" width="280" height="56" rx="8"/>
+  <text class="t" x="800" y="251" text-anchor="middle">somaari-ai · somaari-disk</text>
+  <text class="s" x="800" y="271" text-anchor="middle">About · unpinned pip git dependency</text>
+
+  <!-- Row 3: uv lock -->
+  <path class="manual" d="M260,345 H658" marker-end="url(#am)"/>
+  <text class="c" x="280" y="336">uv lock --upgrade-package somaari-common</text>
+  <rect class="box" x="660" y="317" width="280" height="56" rx="8"/>
+  <text class="t" x="800" y="341" text-anchor="middle">somaari-plan</text>
+  <text class="s" x="800" y="361" text-anchor="middle">About + themes · pinned in uv.lock</text>
+
+  <!-- Row 4: server sync -->
+  <path class="manual" d="M260,435 H658" marker-end="url(#am)"/>
+  <text class="c" x="280" y="426">scripts/sync-common.sh → commit → release</text>
+  <rect class="box" x="660" y="407" width="280" height="56" rx="8"/>
+  <text class="t" x="800" y="431" text-anchor="middle">somaari-server</text>
+  <text class="s" x="800" y="451" text-anchor="middle">committed copy, embedded in the binary</text>
+
+  <!-- Row 5: blog sync -->
+  <path class="manual" d="M260,525 H658" marker-end="url(#am)"/>
+  <text class="c" x="280" y="516">npm run sync:common → commit</text>
+  <rect class="box" x="660" y="497" width="280" height="56" rx="8"/>
+  <text class="t" x="800" y="521" text-anchor="middle">somaari-blog</text>
+  <text class="s" x="800" y="541" text-anchor="middle">committed copy (theme, fonts, About)</text>
+</svg>

@@ -43,6 +43,32 @@ Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` b
 
 A push that changes `theme/` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-theme.yml`, repo secret `SOMAARI_SITE_DEPLOY_HOOK`).
 
+## How apps pick up changes
+
+Every app reads `main`, but each one picks up a change at a different time. Only somaari.in updates on its own.
+
+![How somaari apps pick up changes to somaari-common](docs/integration.svg)
+
+| App | Uses | How it gets somaari-common | Picks up a change when |
+|---|---|---|---|
+| somaari-site (somaari.in) | themes | its build downloads the files in `theme/files.json` from `main` | automatically: a push to `theme/**` rebuilds it |
+| somaari-ai, somaari-disk | About | unpinned pip git dependency (somaari-disk also bundles it into its `.deb` and Windows builds) | the venv is reinstalled; for somaari-disk users, the next release |
+| somaari-plan | About, themes | uv git dependency, pinned in `uv.lock` | you run `uv lock --upgrade-package somaari-common` and commit |
+| somaari-server | About, themes | committed copy in `vendor/somaari-about/` and `web/theme/`, embedded in the binary | you run `scripts/sync-common.sh`, commit and release |
+| somaari-blog | About, themes, fonts | committed copy from `npm run sync:common` | you run `npm run sync:common` and commit |
+
+**After changing somaari-common:**
+
+1. Run the tests (reinstall `./python` first) and push to `main`. Changes to `theme/` rebuild somaari.in. Changes to `about/` or `python/` trigger nothing.
+2. Update each app that should get the change, using the step in the table. For somaari-blog, also diff `vendor/somaari-common/theme/themes.css` to check the colours in its `global.css`.
+3. The sync scripts read the committed `main` of the somaari-common checkout next to the app, not the working tree. They refuse to run while `theme/` has uncommitted changes.
+
+**After changing an app:**
+
+- Nothing reaches somaari-common. A shared change has to be made here.
+- Don't edit the vendored copies (`vendor/somaari-about/`, somaari-server's `web/theme/`, somaari-blog's `vendor/somaari-common/` and `src/assets/fonts/`). The next sync overwrites them.
+- In somaari-plan, somaari-disk and somaari-trip, a push to `docs/**` on `main` runs `site-docs.yml`, which uses the same deploy hook. That rebuild also downloads the latest `theme/` from here.
+
 ## Development
 
 ```sh
