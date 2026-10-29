@@ -3,7 +3,7 @@
 Single source of truth for what somaari apps share:
 
 - the **About** section, used by all somaari apps (somaari-ai, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
-- the **themes** (four themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site and somaari-plan. The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+- the **themes** (four themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan and the blog at blog.somaari.in (somaari-blog). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 somaari-common is not versioned: apps always use the latest `main`.
 
@@ -39,7 +39,7 @@ Then write a native collector that outputs exactly the keys in `debug-fields.jso
 
 ## Themes
 
-Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site downloads the files in `theme/files.json` at build time. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site downloads the files in `theme/files.json` at build time. somaari-blog (Astro) instead commits a copy made by its `npm run sync:common`, so run that there after changing `theme/` or `about/`. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 A push that changes `theme/` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-theme.yml`, repo secret `SOMAARI_SITE_DEPLOY_HOOK`).
 
