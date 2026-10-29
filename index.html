@@ -6,6 +6,8 @@
   <title>Somaari – Small, useful tools, built with AI assistance</title>
   <meta name="description" content="Somaari is a small collection of useful software tools by Ashwin Koppam Raghavendra in Bengaluru: a smart Raspberry Pi terminal, a disk usage analyzer, a task planner and a GPS route viewer.">
   <link rel="canonical" href="https://somaari.in/">
+  <!-- Lets feed readers find the blog's feed from the home page URL (the title is the feed's own). -->
+  <link rel="alternate" type="application/rss+xml" title="Ashwin Koppam Raghavendra" href="https://blog.somaari.in/rss.xml">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#EDE3D3" media="(prefers-color-scheme: dark)">
@@ -28,7 +30,7 @@
        shared tokens) come from somaari-common; the build copies them into /theme/. -->
   <script src="/theme/theme.js"></script>
   <link rel="stylesheet" href="/theme/themes.css">
-  <link rel="stylesheet" href="/style.css?v=a148e088b2">
+  <link rel="stylesheet" href="/style.css?v=b92f464143">
   <script src="/demo.js?v=89ad5a23c8" defer></script>
 </head>
 <body>
@@ -265,6 +267,26 @@
       </ul>
     </section>
 
+    <!-- Blog band. The description is the blog's own (blog.somaari.in, its RSS <description>). -->
+    <section class="blog container" id="blog" aria-labelledby="blog-heading">
+      <div class="blog-band">
+        <div class="blog-text">
+          <h2 id="blog-heading">From the blog</h2>
+          <p>Notes and stories on technology, home lab experiments and travel, on blog.somaari.in.</p>
+        </div>
+        <p class="blog-actions">
+          <a class="btn" href="https://blog.somaari.in/">Read the blog</a>
+          <a class="btn btn--secondary" href="https://blog.somaari.in/rss.xml">
+            <svg class="rss-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+              <circle cx="3" cy="13" r="2" fill="currentColor"/>
+              <path d="M1 7a8 8 0 0 1 8 8M1 2a13 13 0 0 1 13 13" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            RSS feed<span class="visually-hidden"> of the blog</span>
+          </a>
+        </p>
+      </div>
+    </section>
+
     <!-- Demo player: demo.js opens it from a card's "Watch demo" button and loads that card's loop
          only then. Never autoplays with reduced motion. -->
     <dialog class="demo-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
@@ -286,6 +308,7 @@
       <p>&copy; 2026 Somaari</p>
       <ul class="footer-links" role="list">
         <li><a href="/about/">About</a></li>
+        <li><a href="https://blog.somaari.in/">Blog</a></li>
         <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
         <li><a href="/privacy/">Privacy</a></li>
         <li><a href="/terms/">Terms</a></li>

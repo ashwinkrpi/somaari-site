@@ -65,7 +65,8 @@ html[data-theme="dasara-jamboo"] {
   --shadow-hover: 0 0 0 3px #3e0810, 0 0 0 5px #e8b33a, 0 18px 30px -12px rgb(0 0 0 / 55%);
 }
 /* Cream cards on maroon: the card switches to dark ink. */
-html[data-theme="dasara-jamboo"] .card {
+html[data-theme="dasara-jamboo"] .card,
+html[data-theme="dasara-jamboo"] .blog-band {
   color-scheme: light;
   --fg: #3e0810;
   --muted: #4e2a22;
@@ -387,6 +388,28 @@ a:hover { color: var(--accent-hover); }
 .btn--secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .card-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
+/* Blog band (index.html, after "In development"): a card-like box linking to blog.somaari.in and its
+   feed. Buttons sit beside the text from tablet width up. */
+.blog { padding-bottom: 4rem; scroll-margin-top: 1.5rem; }
+.blog-band {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--card-bg);
+  color: var(--fg);
+  border: 1px solid var(--card-edge);
+  border-top: var(--card-top) solid var(--card-top-color);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+}
+@media (min-width: 48rem) {
+  .blog-band { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 2rem; }
+}
+.blog h2 { font-size: 1.5rem; margin-bottom: 0.35rem; }
+.blog-text p { margin: 0; max-width: 40rem; color: var(--muted); }
+.blog-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; }
+.rss-icon { flex: none; margin-right: 0.45rem; }
+
 /* App detail pages (apps/<repo>/index.html) */
 .detail { display: grid; gap: 2.5rem; align-content: start; padding-top: 1.5rem; padding-bottom: 4rem; }
 .detail-back { margin: 0; }
@@ -605,7 +628,8 @@ html[data-theme="liquid-glass"] .header-inner {
 }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   html[data-theme="liquid-glass"] .header-inner,
-  html[data-theme="liquid-glass"] .card {
+  html[data-theme="liquid-glass"] .card,
+  html[data-theme="liquid-glass"] .blog-band {
     background: var(--glass);
     -webkit-backdrop-filter: blur(28px) saturate(140%);
     backdrop-filter: blur(28px) saturate(140%);
@@ -616,7 +640,8 @@ html[data-theme="liquid-glass"] .hero { padding-top: 4rem; text-align: center; }
 html[data-theme="liquid-glass"] .hero h1 { letter-spacing: -0.03em; margin-inline: auto; }
 html[data-theme="liquid-glass"] .hero-sub { margin-inline: auto; }
 html[data-theme="liquid-glass"] .hero-actions { justify-content: center; }
-html[data-theme="liquid-glass"] .card { padding: 1.5rem; }
+html[data-theme="liquid-glass"] .card,
+html[data-theme="liquid-glass"] .blog-band { padding: 1.5rem; }
 html[data-theme="liquid-glass"] .card-demo,
 html[data-theme="liquid-glass"] .demo-video { border-radius: 18px; }
 
@@ -717,7 +742,8 @@ html[data-theme="rajyotsava"] .hero::before {
   user-select: none;
 }
 html[data-theme="rajyotsava"] .hero h1 { letter-spacing: -0.01em; }
-html[data-theme="rajyotsava"] .card { padding-top: calc(1.25rem + 16px); }
+html[data-theme="rajyotsava"] .card,
+html[data-theme="rajyotsava"] .blog-band { padding-top: calc(1.25rem + 16px); }
 
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }

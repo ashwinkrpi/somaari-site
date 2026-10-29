@@ -8,7 +8,7 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts a
 
 | File | Purpose |
 |---|---|
-| `index.html` | The page: header, hero, Apps, In development, footer |
+| `index.html` | The page: header, hero, Apps, In development, the blog band, footer |
 | `about/index.html` | About page ("Hi, I'm Ashwin") at `/about/`, linked from the header and the footer |
 | `style.css` | All styles (mobile-first); the site's own per-theme custom properties under `html[data-theme]` |
 | `/theme/` (not in this repo) | `theme.js` (theme before first paint, seasonal schedule, the header Appearance control), `themes.css` (fonts and the tokens shared with somaari-plan) and `fonts/`, from somaari-common's `theme/`; the build downloads them (see [Themes](#themes)) |
@@ -169,6 +169,9 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
   status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
   with AI" in the tagline and About section is about how the apps are made.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
+- **Blog link:** the blog (<https://blog.somaari.in/>) is linked from the shared footer and from the
+  "From the blog" band after "In development" in `index.html`, whose text is the blog's own description.
+  `index.html`'s `<head>` also points feed readers at `https://blog.somaari.in/rss.xml`.
 - **Contact:** `hello@somaari.in` (Cloudflare Email Routing) is in the Contact sections of the privacy and terms pages, not in the footer.
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`), except
