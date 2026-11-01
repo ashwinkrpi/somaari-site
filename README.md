@@ -25,6 +25,7 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts a
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
+| `videos.json` | Each app's YouTube walkthrough ID and the "somaari apps" playlist ID; an empty ID means no video UI for that app |
 | `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)), and which screenshots and demo loops it downloads from the app repos |
 | `scripts/build-docs.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), adds `/apps/<repo>/docs/` for each guide and downloads the screenshots and demo loops `docs.config.json` names |
 | `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a docs push rebuilds the site |
