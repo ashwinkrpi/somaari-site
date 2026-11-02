@@ -13,6 +13,7 @@
   const video = document.getElementById("demo-video");
   const title = document.getElementById("demo-dialog-title");
   const toggle = document.getElementById("demo-toggle");
+  const walkthrough = document.getElementById("demo-walkthrough");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   let opener = null, dir = "";
 
@@ -38,6 +39,8 @@
     title.textContent = `${button.dataset.title} demo`;
     video.setAttribute("aria-label", `${button.dataset.title} demo, no sound`);
     video.poster = `${dir}poster.webp`;
+    walkthrough.hidden = !button.dataset.video;
+    if (button.dataset.video) walkthrough.href = button.dataset.video;
     opener = button;
     dialog.showModal();
     toggle.focus();

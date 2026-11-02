@@ -28,9 +28,10 @@
        shared tokens) come from somaari-common; the build copies them into /theme/. -->
   <script src="/theme/theme.js"></script>
   <link rel="stylesheet" href="/theme/themes.css">
-  <link rel="stylesheet" href="/style.css?v=d734222b28">
+  <link rel="stylesheet" href="/style.css?v=73d9484716">
   <!-- Shows the current theme's screenshot (per-theme screenshots, see scripts/build-docs.mjs). -->
   <script src="/shots.js?v=1fee3af4f6" defer></script>
+  <script src="/video.js?v=beeec4bc81" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -107,6 +108,16 @@
            header shows a "Self-Hosted" label, and the site doesn't mention self-hosting. -->
       <img src="/assets/apps/somaari-trip/screenshot.jpg" width="1280" height="734" alt="Day list, trip stats and routes on the map (sample data)">
     </figure>
+
+    <!-- Click-to-load player (video.js): no request to YouTube until Play. The ID comes from videos.json; npm run check compares them. -->
+    <section class="detail-section" id="video" aria-labelledby="video-heading">
+      <h2 id="video-heading">Video</h2>
+      <div class="video-player" data-video-id="8FpxjVF5iGY">
+        <img src="/assets/videos/8FpxjVF5iGY.jpg" width="1280" height="720" alt="" loading="lazy">
+        <button type="button" class="video-play" aria-label="Play video: GPS Route Viewer" hidden><span class="video-play-icon"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button>
+      </div>
+      <p class="video-link"><a href="https://www.youtube.com/watch?v=8FpxjVF5iGY&amp;list=PLN-jKLooxXWU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+    </section>
 
     <section class="detail-section" aria-labelledby="capabilities-heading">
       <h2 id="capabilities-heading">Key capabilities</h2>
