@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts are self-hosted). The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and turns each app's guide, kept in that app's repo, into a page on the site (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are self-hosted). The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and turns each app's guide, kept in that app's repo, into a page on the site (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 ## Files
 
@@ -25,10 +25,14 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests (fonts a
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
+| `videos.json` | Each app's YouTube walkthrough ID and the "somaari apps" playlist ID; an empty ID means no video UI for that app. The pages are static, so a new ID also needs its Video section, card link and `data-video`; `npm run check` compares them |
+| `video.js` | Detail pages: swaps the thumbnail for the YouTube embed (`youtube-nocookie.com`) when Play is pressed; nothing loads from YouTube before that |
+| `assets/videos/<id>.jpg` | Self-hosted video thumbnails, so a detail page makes no request to YouTube on load |
+| `scripts/check-videos.mjs` | Checks the pages against `videos.json` |
 | `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)), and which screenshots and demo loops it downloads from the app repos |
 | `scripts/build-docs.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), adds `/apps/<repo>/docs/` for each guide and downloads the screenshots and demo loops `docs.config.json` names |
 | `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a docs push rebuilds the site |
-| `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Cloudflare Web Analytics, no inline styles or scripts) |
+| `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Cloudflare Web Analytics and the `youtube-nocookie.com` frame, no inline styles or scripts) |
 
 ## Preview locally
 

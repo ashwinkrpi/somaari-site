@@ -30,8 +30,8 @@
        shared tokens) come from somaari-common; the build copies them into /theme/. -->
   <script src="/theme/theme.js"></script>
   <link rel="stylesheet" href="/theme/themes.css">
-  <link rel="stylesheet" href="/style.css?v=b92f464143">
-  <script src="/demo.js?v=89ad5a23c8" defer></script>
+  <link rel="stylesheet" href="/style.css?v=1c19d51025">
+  <script src="/demo.js?v=99c4647228" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -55,6 +55,7 @@
             <li><a href="/#apps">Apps</a></li>
             <li><a href="/about/">About</a></li>
             <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+            <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener">YouTube</a></li>
           </ul>
         </nav>
         <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
@@ -135,7 +136,7 @@
                dialog at the end of the page. Rebuild: scripts/demo/somaari-trip/encode.sh -->
           <div class="card-media">
             <img class="card-demo" src="/assets/demos/somaari-trip/poster.webp" width="720" height="406" alt="" loading="lazy">
-            <button type="button" class="btn demo-open" data-demo="somaari-trip" data-title="GPS Route Viewer" hidden>Watch demo<span class="visually-hidden">: GPS Route Viewer</span></button>
+            <button type="button" class="btn demo-open" data-demo="somaari-trip" data-title="GPS Route Viewer" data-video="/apps/somaari-trip/#video" hidden>Watch demo<span class="visually-hidden">: GPS Route Viewer</span></button>
           </div>
           <div class="card-head">
             <div class="card-names">
@@ -156,6 +157,7 @@
           </ul>
           <div class="card-actions">
             <a class="btn" href="/apps/somaari-trip/">Details<span class="visually-hidden"> about GPS Route Viewer</span></a>
+            <a class="btn btn--secondary" href="/apps/somaari-trip/#video"><span aria-hidden="true">&#x25B6;&#xFE0E;&nbsp;</span>Video<span class="visually-hidden">: GPS Route Viewer</span></a>
             <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-trip">View on GitHub<span class="visually-hidden"> (somaari-trip)</span></a>
           </div>
         </li>
@@ -167,7 +169,7 @@
                dialog at the end of the page. Rebuild: scripts/demo/README.md -->
           <div class="card-media">
             <img class="card-demo" src="/assets/demos/somaari-disk/poster.webp" width="720" height="406" alt="" loading="lazy">
-            <button type="button" class="btn demo-open" data-demo="somaari-disk" data-title="Disk Usage Analyzer" hidden>Watch demo<span class="visually-hidden">: Disk Usage Analyzer</span></button>
+            <button type="button" class="btn demo-open" data-demo="somaari-disk" data-title="Disk Usage Analyzer" data-video="/apps/somaari-disk/#video" hidden>Watch demo<span class="visually-hidden">: Disk Usage Analyzer</span></button>
           </div>
           <div class="card-head">
             <div class="card-names">
@@ -188,6 +190,7 @@
           </ul>
           <div class="card-actions">
             <a class="btn" href="/apps/somaari-disk/">Details<span class="visually-hidden"> about Disk Usage Analyzer</span></a>
+            <a class="btn btn--secondary" href="/apps/somaari-disk/#video"><span aria-hidden="true">&#x25B6;&#xFE0E;&nbsp;</span>Video<span class="visually-hidden">: Disk Usage Analyzer</span></a>
             <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-disk">View on GitHub<span class="visually-hidden"> (somaari-disk)</span></a>
           </div>
         </li>
@@ -199,7 +202,7 @@
                dialog at the end of the page. Rebuild: scripts/demo/README.md -->
           <div class="card-media">
             <img class="card-demo" src="/assets/demos/somaari-plan/poster.webp" width="720" height="406" alt="" loading="lazy">
-            <button type="button" class="btn demo-open" data-demo="somaari-plan" data-title="Task Planner" hidden>Watch demo<span class="visually-hidden">: Task Planner</span></button>
+            <button type="button" class="btn demo-open" data-demo="somaari-plan" data-title="Task Planner" data-video="/apps/somaari-plan/#video" hidden>Watch demo<span class="visually-hidden">: Task Planner</span></button>
           </div>
           <div class="card-head">
             <div class="card-names">
@@ -220,6 +223,7 @@
           </ul>
           <div class="card-actions">
             <a class="btn" href="/apps/somaari-plan/">Details<span class="visually-hidden"> about Task Planner</span></a>
+            <a class="btn btn--secondary" href="/apps/somaari-plan/#video"><span aria-hidden="true">&#x25B6;&#xFE0E;&nbsp;</span>Video<span class="visually-hidden">: Task Planner</span></a>
             <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/somaari-plan">View on GitHub<span class="visually-hidden"> (somaari-plan)</span></a>
           </div>
         </li>
@@ -293,7 +297,11 @@
       <div class="demo-dialog-inner">
         <div class="demo-dialog-bar">
           <h2 id="demo-dialog-title">Demo</h2>
-          <button type="button" class="btn btn--secondary" id="demo-close">Close</button>
+          <div class="demo-dialog-end">
+            <!-- demo.js shows this only for an app with a video (the button's data-video). -->
+            <a id="demo-walkthrough" hidden>Watch the full walkthrough &rarr;</a>
+            <button type="button" class="btn btn--secondary" id="demo-close">Close</button>
+          </div>
         </div>
         <video class="demo-video" id="demo-video" muted loop playsinline preload="none" disablepictureinpicture
                disableremoteplayback width="720" height="406"></video>
@@ -310,6 +318,7 @@
         <li><a href="/about/">About</a></li>
         <li><a href="https://blog.somaari.in/">Blog</a></li>
         <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener">YouTube</a></li>
         <li><a href="/privacy/">Privacy</a></li>
         <li><a href="/terms/">Terms</a></li>
       </ul>
