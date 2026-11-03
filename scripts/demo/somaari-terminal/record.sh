@@ -49,6 +49,14 @@ status_hash() {
 }
 IDLE_HASH="$(status_hash)"
 dialog_up() { wmctrl -l | grep -q 'Run this command?'; }
+# The window manager may open the dialog away from the app (on a big screen, at its centre, outside
+# the recorded area). Put it over the middle of the app window.
+center_dialog() {
+  local id x y w h
+  read -r id x y w h < <(wmctrl -lG | awk '/Run this command\?/ { print $1, $3, $4, $5, $6; exit }')
+  echo "dialog opened at ${x},${y} (${w}x${h})" >&2
+  wmctrl -i -r "$id" -e "0,$((WIN_X + (WIN_W - w) / 2)),$((WIN_Y + (WIN_H - h) / 2)),-1,-1"
+}
 
 start_rec "$OUT"
 sleep 0.8
@@ -69,10 +77,11 @@ for ((i = 0; i < 600; i++)); do
   sleep 0.1
 done
 if [[ -n "$T_DIALOG" ]]; then
+  center_dialog
   sleep 3.0           # the dialog settles (~0.5 s), then the viewer reads the proposal and the "why"
   xdotool key alt+r   # Run once
 fi
-sleep 3.2
+sleep "${TAIL:-3.2}"   # raise it if the desktop is busy: the capture can run seconds behind
 END="$(rec_t)"
 stop_rec
 

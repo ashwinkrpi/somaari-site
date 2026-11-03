@@ -114,14 +114,24 @@ wait_window() {
 place_window() {
   local id="$1"
   wmctrl -i -r "$id" -b remove,maximized_vert,maximized_horz,fullscreen
-  wmctrl -i -r "$id" -e "0,$REC_X,$REC_Y,$REC_W,$REC_H"
-  wmctrl -i -a "$id"
-  sleep 0.8
-  local g; g="$(xwininfo -id "$id")"
-  WIN_X="$(awk '/Absolute upper-left X/{print $4}' <<<"$g")"
-  WIN_Y="$(awk '/Absolute upper-left Y/{print $4}' <<<"$g")"
-  WIN_W="$(awk '/Width:/{print $2}' <<<"$g")"
-  WIN_H="$(awk '/Height:/{print $2}' <<<"$g")"
+  # On a busy desktop the window manager can apply the move late, so wait until the window has
+  # really arrived. Otherwise the capture is aimed at where the window was.
+  local g i
+  for ((i = 0; i < 40; i++)); do
+    wmctrl -i -r "$id" -e "0,$REC_X,$REC_Y,$REC_W,$REC_H"
+    wmctrl -i -a "$id"
+    sleep 0.5
+    g="$(xwininfo -id "$id")"
+    WIN_X="$(awk '/Absolute upper-left X/{print $4}' <<<"$g")"
+    WIN_Y="$(awk '/Absolute upper-left Y/{print $4}' <<<"$g")"
+    WIN_W="$(awk '/Width:/{print $2}' <<<"$g")"
+    WIN_H="$(awk '/Height:/{print $2}' <<<"$g")"
+    ((WIN_X >= REC_X && WIN_X <= REC_X + 64 && WIN_Y >= REC_Y && WIN_Y <= REC_Y + 64)) && break
+  done
+  ((WIN_X >= REC_X && WIN_X <= REC_X + 64 && WIN_Y >= REC_Y && WIN_Y <= REC_Y + 64)) ||
+    { echo "window didn't reach $REC_X,$REC_Y (it is at $WIN_X,$WIN_Y)" >&2; return 1; }
+  sleep 2  # let the screen catch up, so the first frames show the app
+  echo "window placed at $WIN_X,$WIN_Y" >&2
   if ((WIN_W != REC_W || WIN_H != REC_H)); then
     echo "note: window is ${WIN_W}x${WIN_H} (min size?); capturing ${REC_W}x${REC_H} from its top-left" >&2
   fi

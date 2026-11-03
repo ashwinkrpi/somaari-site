@@ -43,6 +43,8 @@ approximate: if a cut is off, fix the numbers in the `.times` file (or pass `SEG
 - **somaari-terminal:** the AI (openrouter/free) varies between runs. The best takes propose a
   `find -exec` command, which shows the safety confirmation dialog. Re-record if the proposal is
   wrong or dull. Edit: typing at 3x, the AI wait squeezed to 0.8 s, then the rest at 1x.
+  On a busy desktop the capture can run seconds behind the script: run `TAIL=10 record.sh` so it
+  doesn't stop early, then set the `.times` values from the frames.
 - **somaari-disk:** the app scans its home folder on launch, so it runs with
   `HOME=/tmp/somaari-demo`. A warm-up launch saves the window position, the scan cache is wiped,
   then a cold launch is recorded. The capture includes the GTK title bar, which `encode.sh` crops off.
