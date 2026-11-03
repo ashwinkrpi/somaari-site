@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
-# Record the somaari-ai demo: a plain-English request -> AI-proposed command -> safety
+# Record the somaari-terminal demo: a plain-English request -> AI-proposed command -> safety
 # confirmation -> Run once -> output. Runs as pi@somaari in a fresh temp HOME; the app's own
 # .env supplies the AI keys (never printed). Writes <repo>/docs/demo/raw-<date>.mkv and a .times
 # file of edit points for encode.sh (approximate: check the frames, adjust by hand if needed).
 #
-#   scripts/demo/somaari-ai/record.sh && scripts/demo/somaari-ai/encode.sh
+#   scripts/demo/somaari-terminal/record.sh && scripts/demo/somaari-terminal/encode.sh
 #
 # The AI is openrouter/free, so the proposed command varies between runs. Re-record if you get a
 # command that is wrong or less interesting (the best takes show the confirmation dialog).
 source "$(dirname -- "${BASH_SOURCE[0]}")/../lib.sh"
 
-REPO="${SOMAARI_AI_DIR:-$AI_PROJECTS/somaari-ai}"
+REPO="${SOMAARI_TERMINAL_DIR:-$AI_PROJECTS/somaari-terminal}"
 REQUEST="${REQUEST:-what are the 5 biggest files in /tmp/somaari-demo, with human-readable sizes?}"
 OUT="$REPO/docs/demo/raw-$(date +%F).mkv"
-[[ -x "$REPO/run.sh" ]] || { echo "somaari-ai not found at $REPO" >&2; exit 1; }
+[[ -x "$REPO/run.sh" ]] || { echo "somaari-terminal not found at $REPO" >&2; exit 1; }
 
 fresh_home
 [[ -d "$DEMO_TREE" ]] || make_demo_tree
-mkdir -p "$DEMO_HOME/.config/somaari-ai"
-cat >"$DEMO_HOME/.config/somaari-ai/config.yaml" <<'EOF'
+mkdir -p "$DEMO_HOME/.config/somaari-terminal"
+cat >"$DEMO_HOME/.config/somaari-terminal/config.yaml" <<'EOF'
 ui:
   font_size: 13
   side_panel: false
@@ -28,17 +28,17 @@ history:
 EOF
 ensure_ignored "$REPO" "docs/demo/"
 
-warn_countdown somaari-ai
+warn_countdown somaari-terminal
 notify_quiet
 cleanup() {
   stop_rec 2>/dev/null || true
-  pkill -f '^python -m somaari_ai' 2>/dev/null || true
+  pkill -f '^python -m somaari_terminal' 2>/dev/null || true
   notify_restore
 }
 trap cleanup EXIT
 
 (cd "$DEMO_HOME" && as_pi "$REPO/run.sh" >/dev/null 2>&1) &
-WIN="$(wait_window '^somaari-ai$')"
+WIN="$(wait_window '^somaari-terminal$')"
 place_window "$WIN"
 sleep 1.5
 

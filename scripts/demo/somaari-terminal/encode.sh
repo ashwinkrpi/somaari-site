@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Encode the newest somaari-ai raw recording into assets/demos/somaari-ai/ using its .times
+# Encode the newest somaari-terminal raw recording into assets/demos/somaari-terminal/ using its .times
 # edit points: typing at 3x, the AI wait squeezed to 0.8 s, then proposal + output at 1x.
-#   scripts/demo/somaari-ai/encode.sh [raw.mkv]
+#   scripts/demo/somaari-terminal/encode.sh [raw.mkv]
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-REPO="${SOMAARI_AI_DIR:-${AI_PROJECTS:-$HOME/code/ai-projects}/somaari-ai}"
+REPO="${SOMAARI_TERMINAL_DIR:-${AI_PROJECTS:-$HOME/code/ai-projects}/somaari-terminal}"
 RAW="${1:-$(ls -t "$REPO"/docs/demo/raw-*.mkv | head -1)}"
 # shellcheck source=/dev/null
 source "${RAW%.mkv}.times"
@@ -14,4 +14,4 @@ if [[ "$POSTER_AT" == -* ]]; then
   POSTER_AT="$(awk -v a="$TYPE_FROM" -v b="$TYPE_TO" -v c="$SHOW_FROM" -v d="$END" -v p="$POSTER_AT" \
     'BEGIN { printf "%.2f", (b - a) / 3 + 0.8 + (d - c) + p }')"
 fi
-exec "$HERE/../encode.sh" "$RAW" somaari-ai
+exec "$HERE/../encode.sh" "$RAW" somaari-terminal

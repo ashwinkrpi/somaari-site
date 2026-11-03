@@ -9,14 +9,14 @@ x11grab) and an `encode.sh` (cuts and encodes into `assets/demos/<app>/`). Run t
 keyboard while a recording runs (there's a 5-second warning).
 
 ```sh
-scripts/demo/somaari-ai/record.sh   && scripts/demo/somaari-ai/encode.sh
+scripts/demo/somaari-terminal/record.sh   && scripts/demo/somaari-terminal/encode.sh
 scripts/demo/somaari-disk/record.sh && scripts/demo/somaari-disk/encode.sh
 scripts/demo/somaari-trip/encode.sh   # slideshow of the repo's guide screenshots, no recording
 rm -rf /tmp/somaari-demo /tmp/somaari-home
 ```
 
 Needs: `ffmpeg xdotool wmctrl xdpyinfo xwininfo unshare`, and the app repos under
-`~/code/ai-projects/` (override with `AI_PROJECTS` or `SOMAARI_AI_DIR` / `SOMAARI_DISK_DIR`). Raw
+`~/code/ai-projects/` (override with `AI_PROJECTS` or `SOMAARI_TERMINAL_DIR` / `SOMAARI_DISK_DIR`). Raw
 captures go to `<app repo>/docs/demo/raw-<date>.mkv` (gitignored there), with a `.times` file of edit
 points next to each.
 
@@ -40,7 +40,7 @@ approximate: if a cut is off, fix the numbers in the `.times` file (or pass `SEG
 
 ## Per-app notes
 
-- **somaari-ai:** the AI (openrouter/free) varies between runs. The best takes propose a
+- **somaari-terminal:** the AI (openrouter/free) varies between runs. The best takes propose a
   `find -exec` command, which shows the safety confirmation dialog. Re-record if the proposal is
   wrong or dull. Edit: typing at 3x, the AI wait squeezed to 0.8 s, then the rest at 1x.
 - **somaari-disk:** the app scans its home folder on launch, so it runs with
