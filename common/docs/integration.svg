@@ -68,7 +68,7 @@
   <path class="manual" d="M260,255 H658" marker-end="url(#am)"/>
   <text class="c" x="280" y="246">fresh pip install / new release</text>
   <rect class="box" x="660" y="227" width="280" height="56" rx="8"/>
-  <text class="t" x="800" y="251" text-anchor="middle">somaari-ai · somaari-disk</text>
+  <text class="t" x="800" y="251" text-anchor="middle">somaari-terminal · somaari-disk</text>
   <text class="s" x="800" y="271" text-anchor="middle">About · unpinned pip git dependency</text>
 
   <!-- Row 3: uv lock -->
