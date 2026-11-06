@@ -1,6 +1,6 @@
 # somaari Themes — Specification
 
-The four somaari themes, the seasonal schedule and the theme picker, shared by every themed somaari
+The five somaari themes, the seasonal schedule and the theme picker, shared by every themed somaari
 app. Today that is somaari-site (somaari.in) and somaari-plan. Other apps keep their own UI and don't
 have to adopt this. The canonical files live in this repo:
 
@@ -23,6 +23,7 @@ these files.
 | `liquid-glass` | Liquid Glass | dark | Onest / Onest |
 | `dasara-jamboo` | Dasara – Jamboo Savari | dark | Mukta / Rozha One |
 | `rajyotsava` | Kannada Rajyotsava | light | Mukta / Baloo Tamma 2 |
+| `deepa` | Deepavali – Deepa | dark | Hanken Grotesk / Fraunces |
 
 **Which theme shows:** `?theme=<id>` in the URL (a preview, never saved), else the saved choice
 (`localStorage` key `somaari-theme`), else the schedule. "Auto (seasonal)" clears the saved choice.
@@ -30,7 +31,8 @@ Because the key is shared, a choice made on one app is remembered by the others 
 origin.
 
 **Schedule** (`SCHEDULE` in `theme.js`, judged by the calendar day in India, Asia/Kolkata):
-17–20 Oct 2026 `dasara-jamboo`; 1–7 Nov every year `rajyotsava`; otherwise `warm-tactile`.
+17–20 Oct 2026 `dasara-jamboo`; 7–10 Nov 2026 `deepa` (it comes first, so it wins on 7 Nov); 1–7 Nov
+every year `rajyotsava`; otherwise `warm-tactile`. The first matching entry wins.
 To add a festival, add an entry there and a case to `tests/test_theme.py`.
 
 ## 2. How an app loads it
@@ -82,18 +84,18 @@ screenshots.
 warm-tactile). An app uses them and **never redefines them**. Everything else (layout, panels,
 cards, cells, decorations, the picker's look) is the app's, in its own per-theme blocks.
 
-| Token | warm-tactile | liquid-glass | dasara-jamboo | rajyotsava |
-|---|---|---|---|---|
-| `color-scheme` | ✓ | ✓ | ✓ | ✓ |
-| `--fg` (text) | ✓ | ✓ | ✓ | ✓ |
-| `--accent`, `--on-accent` (text on accent), `--focus` | ✓ | ✓ | ✓ | ✓ |
-| `--btn-radius` | ✓ | ✓ | ✓ | ✓ |
-| `--font`, `--font-display`, `--display-weight` | ✓ | ✓ | ✓ | ✓ |
-| `--page-bg` | ✓ | app | ✓ | app |
-| `--line` | ✓ | app | app | app |
-| `--card-bg` | app | app | ✓ | app |
-| `--shadow` | app | app | app | ✓ |
-| Named colours | | | `--gold` | `--grain`, `--sand`, `--brick` |
+| Token | warm-tactile | liquid-glass | dasara-jamboo | rajyotsava | deepa |
+|---|---|---|---|---|---|
+| `color-scheme` | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `--fg` (text) | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `--accent`, `--on-accent` (text on accent), `--focus` | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `--btn-radius` | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `--font`, `--font-display`, `--display-weight` | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `--page-bg` | ✓ | app | ✓ | app | app |
+| `--line` | ✓ | app | app | app | app |
+| `--card-bg` | app | app | ✓ | app | app |
+| `--shadow` | app | app | app | ✓ | app |
+| Named colours | | | `--gold` | `--grain`, `--sand`, `--brick` | |
 
 "app" means the token isn't shared for that theme: the apps use different values, so each app sets
 it in its own block. **Rule:** a token moves into `themes.css` only when every themed app uses the

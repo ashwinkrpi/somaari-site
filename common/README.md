@@ -3,7 +3,7 @@
 Single source of truth for what somaari apps share:
 
 - the **About** section, used by all somaari apps (somaari-terminal, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
-- the **themes** (four themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan and the blog at blog.somaari.in (somaari-blog). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+- the **themes** (five themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan and the blog at blog.somaari.in (somaari-blog). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 somaari-common is not versioned: apps always use the latest `main`.
 

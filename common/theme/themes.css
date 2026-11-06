@@ -85,3 +85,15 @@
   --font-display: "Baloo Tamma 2", system-ui, sans-serif;
   --display-weight: 700;
 }
+
+:root[data-theme="deepa"] {
+  color-scheme: dark;
+  --fg: #fbeedd;
+  --accent: #ffb547;
+  --on-accent: #22140a;
+  --focus: #ffd18a;
+  --btn-radius: 999px;
+  --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --display-weight: 500;
+}

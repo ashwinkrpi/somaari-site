@@ -16,7 +16,8 @@
     "warm-tactile": { color: "#EDE3D3", label: "Warm Tactile" },
     "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" },
     "dasara-jamboo": { color: "#3E0810", label: "Dasara – Jamboo Savari" },
-    "rajyotsava": { color: "#E2D3A2", label: "Kannada Rajyotsava" }
+    "rajyotsava": { color: "#E2D3A2", label: "Kannada Rajyotsava" },
+    "deepa": { color: "#16112B", label: "Deepavali – Deepa" }
   };
   var DEFAULT_THEME = "warm-tactile";
 
@@ -25,6 +26,7 @@
   //   { monthDay: ["MM-DD", "MM-DD"], theme: "<id>" }          every year, inclusive
   var SCHEDULE = [
     { from: "2026-10-17", to: "2026-10-20", theme: "dasara-jamboo" },
+    { from: "2026-11-07", to: "2026-11-10", theme: "deepa" }, // before rajyotsava, so it wins on 7 Nov
     { monthDay: ["11-01", "11-07"], theme: "rajyotsava" }
   ];
 

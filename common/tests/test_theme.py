@@ -64,8 +64,12 @@ def test_theme_schedule():
         "2026-10-31T12:00:00+05:30": "warm-tactile",
         "2026-10-31T18:45:00Z": "rajyotsava",  # 1 Nov 00:15 in India
         "2026-11-01T12:00:00+05:30": "rajyotsava",
-        "2026-11-07T12:00:00+05:30": "rajyotsava",
-        "2026-11-08T12:00:00+05:30": "warm-tactile",
+        "2026-11-06T23:59:00+05:30": "rajyotsava",
+        "2026-11-07T00:00:00+05:30": "deepa",  # Deepavali 2026 overrides rajyotsava's last day
+        "2026-11-07T12:00:00+05:30": "deepa",
+        "2026-11-08T12:00:00+05:30": "deepa",
+        "2026-11-10T23:59:00+05:30": "deepa",
+        "2026-11-11T00:00:00+05:30": "warm-tactile",
         "2027-11-03T12:00:00+05:30": "rajyotsava",
         "2027-11-07T12:00:00+05:30": "rajyotsava",
         "2027-11-08T00:00:00+05:30": "warm-tactile",
@@ -73,7 +77,8 @@ def test_theme_schedule():
         # The day is India's, not UTC's: 00:30 on 17 Oct in India is still 16 Oct in UTC.
         "2026-10-16T19:00:00Z": "dasara-jamboo",
         "2026-10-16T18:29:59Z": "warm-tactile",
-        "2026-11-07T18:31:00Z": "warm-tactile",
+        "2026-11-06T18:31:00Z": "deepa",  # 7 Nov 00:01 in India
+        "2026-11-10T18:31:00Z": "warm-tactile",  # 11 Nov 00:01 in India
     }
     got = _node(f"const c = {json.dumps(cases)};"
                 "console.log(JSON.stringify(Object.keys(c).map(d => t.getDefaultTheme(new Date(d)))));")
