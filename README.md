@@ -47,7 +47,7 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
 `npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` from your local somaari-common checkout.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=dasara-jamboo>.
-Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`.
+Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`, `deepa`.
 
 ## Themes
 
@@ -55,6 +55,7 @@ The Appearance control (the round icon button in the header) saves the visitor's
 and follows the date in India (Asia/Kolkata):
 
 - 17–20 October 2026: `dasara-jamboo`
+- 7–10 November 2026 (Deepavali): `deepa` (takes over rajyotsava's 7 November)
 - 1–7 November, every year: `rajyotsava`
 - Otherwise: `warm-tactile`
 

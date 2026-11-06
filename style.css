@@ -96,6 +96,29 @@ html[data-theme="rajyotsava"] {
   --shadow-hover: 0 6px 16px -6px rgb(28 20 8 / 14%);
 }
 
+html[data-theme="deepa"] {
+  --page-bg:
+    radial-gradient(60rem 28rem at 78% 8rem, rgb(255 166 48 / 22%), transparent 70%),
+    radial-gradient(40rem 20rem at 10% 0, rgb(255 120 40 / 10%), transparent 70%),
+    #16112b;
+  --muted: #e2d3c2;
+  --subtle: #d4c2ae;
+  --line: #3b2f5c;
+  --accent-hover: #ffc978;
+  --status: #ffcf7a;
+  --tag-border: #5a4a7d;
+  --field-bg: #221a3d;
+  --header-bg: none;
+  --footer-border: #3b2f5c;
+  --card-bg: linear-gradient(180deg, #2a2148, #221a3d);
+  --card-edge: #3b2f5c;
+  --card-top: 3px;
+  --card-top-color: #ffb547;
+  --card-radius: 14px;
+  --shadow: 0 18px 40px -20px rgb(255 150 40 / 35%);
+  --shadow-hover: 0 22px 48px -18px rgb(255 160 50 / 55%);
+}
+
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -275,7 +298,8 @@ a:hover { color: var(--accent-hover); }
 .hero h1 { font-size: clamp(2rem, 6vw, 3.25rem); letter-spacing: -0.02em; max-width: 40rem; }
 .hero-sub { margin: 1rem 0 0; max-width: 42rem; color: var(--muted); font-size: 1.125rem; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0 0; }
-.hero-art { display: none; }
+.hero-art,
+.hero-art-deepa { display: none; }
 
 /* Sections. scroll-margin keeps a jumped-to heading off the very top edge. */
 .apps,
@@ -803,6 +827,62 @@ html[data-theme="rajyotsava"] .hero::before {
 html[data-theme="rajyotsava"] .hero h1 { letter-spacing: -0.01em; }
 html[data-theme="rajyotsava"] .card,
 html[data-theme="rajyotsava"] .blog-band { padding-top: calc(1.25rem + 16px); }
+
+/* ---- deepa ---- */
+/* Indigo night, warm lamplight: a row of lit diyas under the header, three diyas beside the hero. */
+html[data-theme="deepa"] .site-header { padding-bottom: 2.25rem; }
+html[data-theme="deepa"] .site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26px;
+  background:
+    radial-gradient(4px 7px at 28px 7px, #fff3c4 0 45%, #ffb547 60%, transparent 75%),
+    radial-gradient(10px 10px at 28px 8px, rgb(255 181 71 / 45%), transparent 70%),
+    radial-gradient(14px 7px at 28px 17px, #c4562a 0 92%, transparent 100%);
+  background-size: 56px 26px;
+  background-repeat: repeat-x;
+  filter: drop-shadow(0 0 6px rgb(255 170 60 / 70%));
+}
+html[data-theme="deepa"] .hero h1 { text-shadow: 0 0 28px rgb(255 170 60 / 35%); }
+html[data-theme="deepa"] .apps h2,
+html[data-theme="deepa"] .about h2,
+html[data-theme="deepa"] .detail h2,
+html[data-theme="deepa"] .blog h2 { color: #ffcf7a; }
+@media (min-width: 48rem) {
+  html[data-theme="deepa"] .hero .container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 2rem;
+    align-items: center;
+  }
+  html[data-theme="deepa"] .hero h1,
+  html[data-theme="deepa"] .hero-sub,
+  html[data-theme="deepa"] .hero-actions { grid-column: 1; }
+  html[data-theme="deepa"] .hero-art-deepa {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    width: 260px;
+    height: auto;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-theme="deepa"] .hero-art-deepa .flame {
+    animation: deepa-flicker 2.4s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  html[data-theme="deepa"] .hero-art-deepa g:nth-of-type(2) .flame { animation-delay: -0.8s; }
+  html[data-theme="deepa"] .hero-art-deepa g:nth-of-type(3) .flame { animation-delay: -1.6s; }
+}
+@keyframes deepa-flicker {
+  0%, 100% { transform: scale(1, 1); }
+  40% { transform: scale(0.94, 1.08); }
+  70% { transform: scale(1.05, 0.95); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }
