@@ -8,6 +8,7 @@ docs.somaari.in: Starlight (Astro) site that imports each public app's `docs/GUI
 - Never read `dist/`, `node_modules/`, `.astro/`, `public/theme/` or the generated `src/content/docs/<repo>/` whole. Use `grep`, `ls` or `head`. In Starlight's source, grep for the component you are overriding.
 - Pipe long output: `npm run build 2>&1 | tail -30`, `npm ci --silent`, `wrangler ... | tail -15`.
 - Don't re-read a file after you edit it. Prefer Edit over rewriting.
+- `SPIKE.md` explains the theme bridge and the CSP rewrites in `scripts/postbuild.mjs`. Read it before touching either.
 - No subagents. Keep replies to 3–5 lines: what changed, what was verified, the live URL, the next stage.
 
 ## Rules
@@ -24,7 +25,8 @@ docs.somaari.in: Starlight (Astro) site that imports each public app's `docs/GUI
 npm run build -- --local ~/code/ai-projects       # build from sibling checkouts
 npm run build                                      # build from GitHub
 npm run check                                      # anchors, CSP, external hosts, self-host wording
-npx --yes wrangler@4 dev                           # local preview with _headers
+npm run preview &                                  # dist/ + _headers on :8787 (wrangler dev can't run on the Pi)
+npm run smoke -- http://127.0.0.1:8787             # headless: 5 themes, CSP, external requests, search
 npx --yes wrangler@4 versions upload               # preview URL
 npx --yes wrangler@4 deploy                        # production (after check passes)
 npx --yes wrangler@4 rollback                      # if the live smoke test fails

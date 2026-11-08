@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.state/
+.env*
+.dev.vars
+public/theme/
+src/content/docs/somaari-*/
+reports/**/*.png
+public/somaari-*/

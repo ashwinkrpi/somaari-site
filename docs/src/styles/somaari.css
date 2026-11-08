@@ -1,0 +1,98 @@
+/* Maps the somaari theme tokens onto Starlight's variables. themes.css (somaari-common) holds the
+   shared tokens; per THEME_SPEC section 4, each app sets the rest per theme. The values below are
+   somaari-site's (style.css), so the two sites look the same. --surface is the plain colour behind
+   Starlight's header, sidebars and dialogs. Starlight's own styles sit in a cascade layer, so these
+   unlayered rules win. */
+:root,
+html[data-theme="warm-tactile"] { --surface: #ede3d3; --field-bg: #fbf6ec; --muted: #4a4036; }
+html[data-theme="liquid-glass"] {
+	--page-bg: #0a0e1c; --line: rgb(255 255 255 / 16%);
+	--surface: #0a0e1c; --field-bg: #151b33; --muted: #c9d0e3;
+}
+html[data-theme="dasara-jamboo"] { --line: #c8a76a; --surface: #5e0d18; --field-bg: #5e0d18; --muted: #ead9c0; }
+html[data-theme="rajyotsava"] {
+	--page-bg: #f4f0e6; --line: #e4dcc8;
+	--surface: #f4f0e6; --field-bg: #f4f0e6; --muted: #4a3e26;
+}
+html[data-theme="deepa"] {
+	--page-bg:
+		radial-gradient(60rem 28rem at 78% 8rem, rgb(255 166 48 / 22%), transparent 70%),
+		radial-gradient(40rem 20rem at 10% 0, rgb(255 120 40 / 10%), transparent 70%),
+		#16112b;
+	--line: #3b2f5c; --surface: #16112b; --field-bg: #221a3d; --muted: #e2d3c2;
+}
+
+:root {
+	--sl-font: var(--font);
+	--sl-color-black: var(--surface);
+	--sl-color-white: var(--fg);
+	--sl-color-gray-1: color-mix(in oklab, var(--fg) 92%, var(--sl-color-black));
+	--sl-color-gray-2: color-mix(in oklab, var(--fg) 80%, var(--sl-color-black));
+	--sl-color-gray-3: var(--muted);
+	--sl-color-gray-4: color-mix(in oklab, var(--fg) 40%, var(--sl-color-black));
+	--sl-color-gray-5: color-mix(in oklab, var(--fg) 22%, var(--sl-color-black));
+	--sl-color-gray-6: color-mix(in oklab, var(--fg) 10%, var(--sl-color-black));
+	--sl-color-gray-7: color-mix(in oklab, var(--fg) 5%, var(--sl-color-black));
+	--sl-color-text: var(--fg);
+	--sl-color-accent: var(--accent);
+	--sl-color-accent-high: color-mix(in oklab, var(--accent) 75%, var(--fg));
+	--sl-color-accent-low: color-mix(in oklab, var(--accent) 22%, var(--sl-color-black));
+	--sl-color-text-accent: var(--accent);
+	--sl-color-text-invert: var(--on-accent);
+	--sl-color-bg: transparent;
+	--sl-color-bg-nav: var(--sl-color-black);
+	--sl-color-bg-sidebar: var(--sl-color-black);
+	--sl-color-bg-accent: var(--accent);
+	--sl-color-hairline: var(--line);
+	--sl-color-hairline-light: var(--line);
+}
+body { background: var(--page-bg); }
+:focus-visible { outline-color: var(--focus); }
+h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
+	font-family: var(--font-display);
+	font-weight: var(--display-weight);
+}
+
+/* Appearance control, ported from somaari-site style.css with Starlight's tokens. */
+.appearance { position: relative; }
+.appearance-toggle {
+	display: inline-grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	color: var(--fg);
+	background: var(--field-bg);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: var(--btn-radius);
+	cursor: pointer;
+}
+.appearance-toggle:hover,
+.appearance-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.appearance-menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 0.5rem);
+	z-index: 20;
+	width: max-content;
+	max-width: calc(100vw - 2rem);
+	padding: 0.75rem;
+	color: var(--fg);
+	background: var(--field-bg);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 10px;
+	box-shadow: 0 12px 28px -8px rgb(0 0 0 / 35%);
+}
+.appearance-menu fieldset { margin: 0; padding: 0; border: 0; display: grid; }
+.appearance-menu legend { padding: 0 0 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.appearance-menu label {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	min-height: 44px;
+	padding: 0 0.4rem;
+	border-radius: 6px;
+	cursor: pointer;
+}
+.appearance-menu label:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.appearance-menu input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--accent); }

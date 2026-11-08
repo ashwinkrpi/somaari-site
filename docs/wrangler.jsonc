@@ -1,0 +1,13 @@
+{
+	// docs.somaari.in: static files only (Workers static assets), no server code. D3 in the plan.
+	// Stage 4 adds the custom-domain route; until then this is for `wrangler dev` previews.
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "somaari-docs",
+	"compatibility_date": "2026-11-01",
+	"workers_dev": true,
+	"preview_urls": true,
+	"assets": {
+		"directory": "./dist",
+		"not_found_handling": "404-page"
+	}
+}

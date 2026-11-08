@@ -252,7 +252,7 @@ No step involves copying text between repos.
 ## Progress
 
 - [x] Stage 0: Owner prep (2026-11-03)
-- [ ] Stage 1: Starlight spike
+- [x] Stage 1: Starlight spike (2026-11-09: passes all four checks, see SPIKE.md)
 - [ ] Stage 2: Import the guides
 - [ ] Stage 3: Shared look and site files
 - [ ] Stage 4: Deploy docs.somaari.in
@@ -263,3 +263,4 @@ No step involves copying text between repos.
 - [ ] Stage 9: Blog and project index
 
 Notes:
+- Stage 1: `wrangler dev` can't run on the Pi (workerd needs a 48-bit address space). Use `npm run preview` (`scripts/serve.mjs`, applies `_headers`) wherever this plan says `wrangler dev` or `wrangler pages dev`. Five themes now: `deepa` was added after the plan was written; check it wherever the plan lists four. `npm run smoke` already covers Stage 3's per-theme screenshot and CSP checks.
