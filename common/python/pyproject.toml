@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "somaari-common"
-# pip requires a version. somaari-common is not versioned: this stays 0.0.0 forever.
+# Python packaging requires a version. somaari-common is not versioned: this stays 0.0.0 forever.
 version = "0.0.0"
 description = "Shared About section data, debug-info collector and themes for somaari apps."
 readme = "README.md"

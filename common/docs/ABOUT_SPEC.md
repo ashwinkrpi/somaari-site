@@ -78,7 +78,7 @@ email: hello@somaari.in
 - **Single version source.** The app version comes from one place in the app (pyproject, `__version__`, package.json…). It is never hard-coded in the About code.
 - **Build info is stamped at build/release time** (generated, git-ignored build-info file or build-script env var). `build_commit` is a short hash (max 12 chars). Fallbacks when running from source: `build_commit` = `dev`, `build_date` = `unknown`.
 - **Never crash.** Any field that can't be determined is `unknown`. Optional fields (`"required": false`) that don't apply are `n/a`.
-- **Developer info is never retyped in an app.** It is always read from somaari-common (pip package or vendored JSON).
+- **Developer info is never retyped in an app.** It is always read from somaari-common (Python package or vendored JSON).
 - **No somaari-common version** is stored, pinned or shown by apps.
 
 ## 5. How to integrate
@@ -107,7 +107,7 @@ developer = load_developer()
 clipboard_text = as_text(info, developer)
 ```
 
-To pick up later changes: `pip install --force-reinstall --no-deps "somaari-common @ git+https://github.com/ashwinkrpi/somaari-common#subdirectory=python"`.
+To pick up later changes: `uv lock --upgrade-package somaari-common && uv sync`, then commit `uv.lock`.
 
 ### (b) Non-Python apps
 

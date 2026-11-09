@@ -52,7 +52,7 @@ Every app reads `main`, but each one picks up a change at a different time. Only
 | App | Uses | How it gets somaari-common | Picks up a change when |
 |---|---|---|---|
 | somaari-site (somaari.in) | themes | its build downloads the files in `theme/files.json` from `main` | automatically: a push to `theme/**` rebuilds it |
-| somaari-terminal, somaari-disk | About | unpinned pip git dependency (somaari-disk also bundles it into its `.deb` and Windows builds) | the venv is reinstalled; for somaari-disk users, the next release |
+| somaari-terminal, somaari-disk | About | uv git dependency, pinned in `uv.lock` (somaari-disk also bundles it into its `.deb` and Windows builds, from `main`) | you run `uv lock --upgrade-package somaari-common` and commit; for somaari-disk users, the next release |
 | somaari-plan | About, themes | uv git dependency, pinned in `uv.lock` | you run `uv lock --upgrade-package somaari-common` and commit |
 | somaari-server | About, themes | committed copy in `vendor/somaari-about/` and `web/theme/`, embedded in the binary | you run `scripts/sync-common.sh`, commit and release |
 | somaari-blog | About, themes, fonts | committed copy from `npm run sync:common` | you run `npm run sync:common` and commit |
@@ -73,8 +73,8 @@ Every app reads `main`, but each one picks up a change at a different time. Only
 ## Development
 
 ```sh
-python3 -m venv .venv
-.venv/bin/pip install pytest jsonschema ./python
+uv venv
+uv pip install pytest jsonschema ./python
 .venv/bin/python -m pytest
 ```
 

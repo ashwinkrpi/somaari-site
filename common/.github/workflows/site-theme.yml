@@ -18,13 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: astral-sh/setup-uv@v10.3.0
         with:
           python-version: "3.11"
       - name: Tests
         run: |
-          pip install pytest jsonschema ./python
-          python -m pytest -q
+          uv venv
+          uv pip install pytest jsonschema ./python
+          .venv/bin/python -m pytest -q
       - name: Rebuild somaari.in
         env:
           HOOK: ${{ secrets.SOMAARI_SITE_DEPLOY_HOOK }}
