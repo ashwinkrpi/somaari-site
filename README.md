@@ -174,6 +174,7 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
   status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
   with AI" in the tagline and About section is about how the apps are made.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
+- **Games link:** <https://games.somaari.in/> (somaari-games, top Genshin Impact videos from Reddit) is in the shared footer, after Blog.
 - **Blog link:** the blog (<https://blog.somaari.in/>) is linked from the shared footer and from the
   "From the blog" band after "In development" in `index.html`, whose text is the blog's own description.
   `index.html`'s `<head>` also points feed readers at `https://blog.somaari.in/rss.xml`.
