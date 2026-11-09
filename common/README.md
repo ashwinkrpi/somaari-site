@@ -3,7 +3,7 @@
 Single source of truth for what somaari apps share:
 
 - the **About** section, used by all somaari apps (somaari-terminal, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
-- the **themes** (five themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan and the blog at blog.somaari.in (somaari-blog). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+- the **themes** (five themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan, the blog at blog.somaari.in (somaari-blog) and games.somaari.in (somaari-games). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 somaari-common is not versioned: apps always use the latest `main`.
 
@@ -56,6 +56,7 @@ Every app reads `main`, but each one picks up a change at a different time. Only
 | somaari-plan | About, themes | uv git dependency, pinned in `uv.lock` | you run `uv lock --upgrade-package somaari-common` and commit |
 | somaari-server | About, themes | committed copy in `vendor/somaari-about/` and `web/theme/`, embedded in the binary | you run `scripts/sync-common.sh`, commit and release |
 | somaari-blog | About, themes, fonts | committed copy from `npm run sync:common` | you run `npm run sync:common` and commit |
+| somaari-games (games.somaari.in) | About, themes | `pipeline/sync_common.py` downloads the files in `theme/files.json` and the About JSON from `main` at each weekly run (not committed) | automatically: the next weekly run (Sunday 23:00 IST) |
 
 **After changing somaari-common:**
 
