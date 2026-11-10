@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ashwinkrpi/somaari-common/apps/apps.schema.json",
+  "title": "somaari app manifest",
+  "description": "Every somaari app in landing-page display order, with the facts the landing cards, somaari.in and docs.somaari.in need.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["github", "apps"],
+  "properties": {
+    "github": { "type": "string", "pattern": "^[A-Za-z0-9-]+$" },
+    "apps": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/app" }
+    }
+  },
+  "$defs": {
+    "app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo", "title", "status", "public", "description", "tags", "ai", "detail_page"],
+      "properties": {
+        "repo": { "type": "string", "pattern": "^somaari-[a-z0-9-]+$" },
+        "title": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["live", "dev", "soon"] },
+        "public": { "type": "boolean" },
+        "description": { "type": "string", "minLength": 1 },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "ai": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "source"],
+          "properties": {
+            "label": { "type": "string", "minLength": 1 },
+            "source": { "type": "string", "minLength": 1 }
+          }
+        },
+        "detail_page": { "type": "boolean" },
+        "demo": { "type": "object" },
+        "screenshot": { "type": "object" },
+        "guide": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ref", "src"],
+          "properties": {
+            "ref": { "type": "string", "minLength": 1 },
+            "src": { "type": "string", "pattern": "^[^\\s/][^\\s]*\\.md$" }
+          }
+        }
+      }
+    }
+  }
+}
