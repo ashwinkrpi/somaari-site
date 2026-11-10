@@ -15,6 +15,7 @@ somaari-common is not versioned: apps always use the latest `main`.
 - `scripts/sync-about.sh` / `sync-about.ps1`: vendor the JSON into non-Python apps
 - `theme/`: `theme.js`, `themes.css`, `fonts/` and `files.json` (the files an app serves at `/theme/`)
 - `python/somaari_theme`: serves `theme/` from Python web apps (`static_dir()`, `files()`)
+- `apps/`: `apps.json`, the list of somaari apps (schema: `apps/apps.schema.json`). Both somaari.in and docs.somaari.in read it from `main`; a push to `apps/**` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-apps.yml`, same deploy hook as `site-theme.yml`)
 
 ## Integrating
 
