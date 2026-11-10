@@ -13,5 +13,5 @@
 ## Stage 1.1, sub-task 3 (AM-03): done
 - Added `.github/workflows/site-apps.yml`: on a push to `apps/**` on `main` (or manual run), runs the tests, then POSTs `secrets.SOMAARI_SITE_DEPLOY_HOOK` exactly as `site-theme.yml` does.
 - README "Contents" now lists `apps/` and says somaari.in and docs.somaari.in both read it from `main`.
-- **Open: `site-apps.yml` is written but NOT committed**: `git add` on `.github/workflows/site-apps.yml` was denied by the session's allow-list, so it is left untracked in the working tree. A person needs to review and commit it (`git add .github/workflows/site-apps.yml`).
-- `apps/apps.json` (AM-01) is still unwritten, so the workflow's tests currently skip the real-file checks.
+- `site-apps.yml` was left untracked by the first attempt (its `git add` was denied); a retry session checked it against `site-theme.yml` (same steps, only the path filter and comments differ) and committed it.
+- Open: `apps/apps.json` (AM-01) is still unwritten, so the workflow's tests currently skip the real-file checks.
