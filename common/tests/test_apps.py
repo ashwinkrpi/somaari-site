@@ -104,6 +104,15 @@ def test_manifest_rules():
     assert _rule_errors(_manifest()) == []
 
 
+@needs_manifest
+def test_manifest_apps_and_guides():
+    m = _manifest()
+    assert m["github"] == "ashwinkrpi"
+    assert [a["repo"] for a in m["apps"]] == ["somaari-trip", "somaari-disk", "somaari-plan", "somaari-terminal"]
+    guides = {a["repo"]: a["guide"] for a in m["apps"] if "guide" in a}
+    assert guides == {r: {"ref": "main", "src": "docs/GUIDE.md"} for r in ("somaari-trip", "somaari-disk", "somaari-plan")}
+
+
 def test_sample_passes():
     _validate(SAMPLE)
     assert _rule_errors(SAMPLE) == []

@@ -15,3 +15,9 @@
 - README "Contents" now lists `apps/` and says somaari.in and docs.somaari.in both read it from `main`.
 - `site-apps.yml` was left untracked by the first attempt (its `git add` was denied); a retry session checked it against `site-theme.yml` (same steps, only the path filter and comments differ) and committed it.
 - Open: `apps/apps.json` (AM-01) is still unwritten, so the workflow's tests currently skip the real-file checks.
+
+## Stage 1.1 verify (2026-11-10): NOT verified
+- Passing: pytest (49 passed, 3 skipped); schema, AM-02 rule checks, `site-apps.yml` (differs from `site-theme.yml` only in comments, name and path filter), README "Contents". No secrets or "self-host" wording. Nothing to check in a browser for this stage.
+- Added: `test_manifest_apps_and_guides` checks `github` is `ashwinkrpi`, the 4 repos are in order (trip, disk, plan, terminal) and only trip, disk and plan have `guide {"ref":"main","src":"docs/GUIDE.md"}`. It skips until apps.json exists.
+- **Blocker: `apps/apps.json` is missing.** Appendix A was not in this brief either (only its name was), so the copy can't be added without inventing it. Fix: run AM-01 with Appendix A pasted in, then add an exact-match test for every `title`/`description`.
+- Still open: `demo`/`screenshot` are plain `object` in the schema (the `docs.config.json` shapes are in Appendix A).
