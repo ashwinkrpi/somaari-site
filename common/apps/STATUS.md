@@ -21,3 +21,8 @@
 - Added: `test_manifest_apps_and_guides` checks `github` is `ashwinkrpi`, the 4 repos are in order (trip, disk, plan, terminal) and only trip, disk and plan have `guide {"ref":"main","src":"docs/GUIDE.md"}`. It skips until apps.json exists.
 - **Blocker: `apps/apps.json` is missing.** Appendix A was not in this brief either (only its name was), so the copy can't be added without inventing it. Fix: run AM-01 with Appendix A pasted in, then add an exact-match test for every `title`/`description`.
 - Still open: `demo`/`screenshot` are plain `object` in the schema (the `docs.config.json` shapes are in Appendix A).
+
+## Stage 1.1 verify, retry (2026-11-10): still NOT verified
+- pytest: 49 passed, 3 skipped (the apps.json tests). Nothing else changed.
+- The retry brief again named Appendix A but did not include its text. No copy of it is in this repo, and reading `runner-plan.md` was denied (file tools are restricted to this repo). apps.json was not written, so no copy was invented.
+- **To unblock:** paste Appendix A's text into the brief itself (titles, descriptions, tags, AI labels/sources, demo/screenshot), or copy it into this repo (for example `apps/APPENDIX_A.md`). Then write apps.json and the exact-match test.
