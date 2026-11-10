@@ -26,3 +26,9 @@
 - pytest: 49 passed, 3 skipped (the apps.json tests). Nothing else changed.
 - The retry brief again named Appendix A but did not include its text. No copy of it is in this repo, and reading `runner-plan.md` was denied (file tools are restricted to this repo). apps.json was not written, so no copy was invented.
 - **To unblock:** paste Appendix A's text into the brief itself (titles, descriptions, tags, AI labels/sources, demo/screenshot), or copy it into this repo (for example `apps/APPENDIX_A.md`). Then write apps.json and the exact-match test.
+
+## Stage 1.1, AM-01 completed by hand (2026-11-10)
+- Copied Appendix A verbatim from `somaari-docs/docs/runner-plan.md` into `apps/APPENDIX_A.md` so this repo can check against it.
+- Wrote `apps/apps.json` from it: trip, disk, plan (`live`, public, `detail_page`, `guide`), terminal (`dev`, not public, no Details link). `demo`/`screenshot` only on plan, as in `docs.config.json`. `ai.source` is the card's AI comment text, unchanged.
+- Schema: `ai.label` may be a list, because the terminal card shows two AI chips ("AI-powered", "AI optional"). SC-02's card template must render one badge per label. The plain-Python checker now handles `anyOf`.
+- Added `test_manifest_copy_matches_appendix_a`: every repo, `title` and `description` matches APPENDIX_A.md exactly, in order. pytest: 53 passed, 0 skipped.

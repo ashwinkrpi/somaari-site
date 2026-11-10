@@ -34,7 +34,13 @@
           "additionalProperties": false,
           "required": ["label", "source"],
           "properties": {
-            "label": { "type": "string", "minLength": 1 },
+            "label": {
+              "description": "AI chip text; a list when the card shows more than one AI chip.",
+              "anyOf": [
+                { "type": "string", "minLength": 1 },
+                { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+              ]
+            },
             "source": { "type": "string", "minLength": 1 }
           }
         },

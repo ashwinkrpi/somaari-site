@@ -38,6 +38,10 @@ def _schema_errors(value, schema=SCHEMA, path="$"):
     """Plain-Python check of the JSON Schema keywords apps.schema.json uses."""
     if "$ref" in schema:
         schema = SCHEMA["$defs"][schema["$ref"].removeprefix("#/$defs/")]
+    if "anyOf" in schema:
+        if any(not _schema_errors(value, sub, path) for sub in schema["anyOf"]):
+            return []
+        return [f"{path}: matches none of anyOf"]
     errors = []
     kind = schema.get("type")
     types = {"object": dict, "array": list, "string": str, "boolean": bool}
@@ -111,6 +115,22 @@ def test_manifest_apps_and_guides():
     assert [a["repo"] for a in m["apps"]] == ["somaari-trip", "somaari-disk", "somaari-plan", "somaari-terminal"]
     guides = {a["repo"]: a["guide"] for a in m["apps"] if "guide" in a}
     assert guides == {r: {"ref": "main", "src": "docs/GUIDE.md"} for r in ("somaari-trip", "somaari-disk", "somaari-plan")}
+
+
+def _appendix_cards():
+    """(repo, title, description) for each landing card in apps/APPENDIX_A.md, in page order."""
+    text = (APPS / "APPENDIX_A.md").read_text(encoding="utf-8")
+    cards = re.findall(r"<!-- CARD START: (\S+) -->(.*?)<!-- CARD END", text, re.S)
+    return [(repo,
+             re.search(r'<h3 class="card-title">(.*?)</h3>', body, re.S).group(1),
+             re.search(r'<p class="card-desc">(.*?)</p>', body, re.S).group(1)) for repo, body in cards]
+
+
+@needs_manifest
+def test_manifest_copy_matches_appendix_a():
+    cards = _appendix_cards()
+    assert len(cards) == 4
+    assert [(a["repo"], a["title"], a["description"]) for a in _manifest()["apps"]] == cards
 
 
 def test_sample_passes():

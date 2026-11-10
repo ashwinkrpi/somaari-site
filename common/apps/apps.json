@@ -1,0 +1,97 @@
+{
+  "github": "ashwinkrpi",
+  "apps": [
+    {
+      "repo": "somaari-trip",
+      "title": "GPS Route Viewer",
+      "status": "live",
+      "public": true,
+      "description": "See where you went each day on a map, from the Overland iOS app's GPS logs: trips, stops, distance and speed. It runs in Docker on your own Raspberry Pi 5 or x86_64 Linux server, so your location history stays there.",
+      "tags": [
+        "Overland (iOS)",
+        "Docker",
+        "Maps"
+      ],
+      "ai": {
+        "label": "No AI",
+        "source": "somaari-trip README: \"No accounts, no API keys, no third-party services.\""
+      },
+      "detail_page": true,
+      "guide": {
+        "ref": "main",
+        "src": "docs/GUIDE.md"
+      }
+    },
+    {
+      "repo": "somaari-disk",
+      "title": "Disk Usage Analyzer",
+      "status": "live",
+      "public": true,
+      "description": "See what is using space on your drives, largest items first. Read-only and fully offline, for Linux (Raspberry Pi OS, Debian, Ubuntu and more) and Windows 10/11.",
+      "tags": [
+        "Desktop",
+        "Linux",
+        "Windows"
+      ],
+      "ai": {
+        "label": "No AI",
+        "source": "somaari-disk README: \"The app makes no network requests\"; no AI dependencies."
+      },
+      "detail_page": true,
+      "guide": {
+        "ref": "main",
+        "src": "docs/GUIDE.md"
+      }
+    },
+    {
+      "repo": "somaari-plan",
+      "title": "Task Planner",
+      "status": "live",
+      "public": true,
+      "description": "A small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views. AI is optional: with it off, nothing leaves your Pi.",
+      "tags": [
+        "Planner",
+        "Markdown",
+        "Lightweight"
+      ],
+      "ai": {
+        "label": "AI optional",
+        "source": "somaari-plan README: \"AI optional ... mode = \\\"off\\\" works with no AI at all.\""
+      },
+      "detail_page": true,
+      "demo": {
+        "ref": "site-demo"
+      },
+      "screenshot": {
+        "warm-tactile": "docs/screenshots/theme-warm-tactile.png",
+        "liquid-glass": "docs/screenshots/theme-liquid-glass.png",
+        "dasara-jamboo": "docs/screenshots/theme-dasara-jamboo.png",
+        "rajyotsava": "docs/screenshots/theme-rajyotsava.png",
+        "deepa": "docs/screenshots/theme-deepa.png"
+      },
+      "guide": {
+        "ref": "main",
+        "src": "docs/GUIDE.md"
+      }
+    },
+    {
+      "repo": "somaari-terminal",
+      "title": "AI-assisted Terminal",
+      "status": "dev",
+      "public": false,
+      "description": "A smart terminal for the Raspberry Pi 5 and other Debian-based Linux with an X11 desktop: type commands or just say what you want in plain English. Local-first, and every AI-suggested command passes a safety check before it runs.",
+      "tags": [
+        "Raspberry Pi 5",
+        "Terminal"
+      ],
+      "ai": {
+        "label": [
+          "AI-powered",
+          "AI optional"
+        ],
+        "source": "somaari-terminal README: \"Every AI key is optional.\" AI is its main feature."
+      },
+      "detail_page": false
+    }
+  ]
+}
