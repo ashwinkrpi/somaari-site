@@ -23,6 +23,7 @@ SAMPLE = {
     "apps": [
         {"repo": "somaari-one", "title": "One", "status": "live", "public": True, "description": "d",
          "tags": ["t"], "ai": {"label": "l", "source": "s"}, "detail_page": True,
+         "demo": {"ref": "site-demo"}, "screenshot": {"deepa": "docs/screenshots/deepa.png"},
          "guide": {"ref": "main", "src": "docs/GUIDE.md"}},
         {"repo": "somaari-two", "title": "Two", "status": "soon", "public": False, "description": "d",
          "tags": [], "ai": {"label": "l", "source": "s"}, "detail_page": False},
@@ -62,8 +63,15 @@ def _schema_errors(value, schema=SCHEMA, path="$"):
     if isinstance(value, dict):
         props = schema.get("properties", {})
         errors += [f"{path}: missing {k}" for k in schema.get("required", []) if k not in value]
-        if schema.get("additionalProperties") is False:
+        if len(value) < schema.get("minProperties", 0):
+            errors.append(f"{path}: too few properties")
+        extra = schema.get("additionalProperties")
+        if extra is False:
             errors += [f"{path}: unexpected {k}" for k in value if k not in props]
+        elif isinstance(extra, dict):
+            for k in value:
+                if k not in props:
+                    errors += _schema_errors(value[k], extra, f"{path}.{k}")
         for k, sub in props.items():
             if k in value:
                 errors += _schema_errors(value[k], sub, f"{path}.{k}")
@@ -133,6 +141,38 @@ def test_manifest_copy_matches_appendix_a():
     assert [(a["repo"], a["title"], a["description"]) for a in _manifest()["apps"]] == cards
 
 
+@needs_manifest
+def test_manifest_card_facts_match_appendix_a():
+    """Tags, AI chips, badge and Details link of each card in apps/APPENDIX_A.md."""
+    text = (APPS / "APPENDIX_A.md").read_text(encoding="utf-8")
+    cards = dict(re.findall(r"<!-- CARD START: (\S+) -->(.*?)<!-- CARD END", text, re.S))
+    for a in _manifest()["apps"]:
+        body = cards[a["repo"]]
+        assert a["tags"] == re.findall(r"<li>(.*?)</li>", body)
+        labels = a["ai"]["label"]
+        assert ([labels] if isinstance(labels, str) else labels) == re.findall(r'badge--ai">(.*?)</span>', body)
+        assert a["ai"]["source"] == re.search(r"<!-- AI chip: (.*?) -->", body).group(1)
+        assert a["status"] == re.search(r'badge--(live|dev|soon)"', body).group(1)
+        assert a["detail_page"] == (f'href="/apps/{a["repo"]}/"' in body)
+        assert a["public"] == (f'href="https://github.com/ashwinkrpi/{a["repo"]}"' in body)
+
+
+@needs_manifest
+def test_manifest_guides_match_docs_config():
+    """guide, demo and screenshot are the docs.config.json entries in apps/APPENDIX_A.md."""
+    text = (APPS / "APPENDIX_A.md").read_text(encoding="utf-8")
+    config = json.loads(re.search(r"```json\n(.*?)```", text, re.S).group(1))
+    m = _manifest()
+    assert m["github"] == config["owner"]
+    want = {}
+    for entry in config["apps"]:
+        extras = {k: v for k, v in entry.items() if k not in ("repo", "ref", "src")}
+        want[entry["repo"]] = {"guide": {"ref": entry["ref"], "src": entry["src"]}, **extras}
+    got = {a["repo"]: {k: a[k] for k in ("guide", "demo", "screenshot") if k in a}
+           for a in m["apps"] if any(k in a for k in ("guide", "demo", "screenshot"))}
+    assert got == want
+
+
 def test_sample_passes():
     _validate(SAMPLE)
     assert _rule_errors(SAMPLE) == []
@@ -156,8 +196,14 @@ def _broken(change):
     lambda m: m["apps"][0]["guide"].pop("ref"),
     lambda m: m.pop("github"),
     lambda m: m.update(apps=[]),
+    lambda m: m["apps"][0].update(demo={}),
+    lambda m: m["apps"][0].update(demo={"ref": "site-demo", "extra": 1}),
+    lambda m: m["apps"][0].update(screenshot={}),
+    lambda m: m["apps"][0].update(screenshot={"deepa": 1}),
+    lambda m: m["apps"][0]["ai"].update(label=[]),
 ], ids=["no-title", "public-not-bool", "tags-not-list", "detail-page-not-bool", "bad-status", "bad-repo",
-        "extra-field", "ai-no-source", "guide-no-ref", "no-github", "no-apps"])
+        "extra-field", "ai-no-source", "guide-no-ref", "no-github", "no-apps", "demo-no-ref", "demo-extra-field",
+        "screenshot-empty", "screenshot-not-path", "ai-no-labels"])
 def test_schema_catches_mistakes(change):
     m = _broken(change)
     assert _schema_errors(m)

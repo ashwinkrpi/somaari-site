@@ -45,8 +45,21 @@
           }
         },
         "detail_page": { "type": "boolean" },
-        "demo": { "type": "object" },
-        "screenshot": { "type": "object" },
+        "demo": {
+          "description": "Where the app repo keeps its demo files, as in somaari-site's docs.config.json.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ref"],
+          "properties": {
+            "ref": { "type": "string", "minLength": 1 }
+          }
+        },
+        "screenshot": {
+          "description": "Theme id to screenshot path in the app repo, as in somaari-site's docs.config.json.",
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "pattern": "^[^\\s/][^\\s]*$" }
+        },
         "guide": {
           "type": "object",
           "additionalProperties": false,

@@ -15,7 +15,7 @@ somaari-common is not versioned: apps always use the latest `main`.
 - `scripts/sync-about.sh` / `sync-about.ps1`: vendor the JSON into non-Python apps
 - `theme/`: `theme.js`, `themes.css`, `fonts/` and `files.json` (the files an app serves at `/theme/`)
 - `python/somaari_theme`: serves `theme/` from Python web apps (`static_dir()`, `files()`)
-- `apps/`: `apps.json`, the list of somaari apps (schema: `apps/apps.schema.json`). Both somaari.in and docs.somaari.in read it from `main`; a push to `apps/**` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-apps.yml`, same deploy hook as `site-theme.yml`)
+- `apps/`: `apps.json`, the list of somaari apps (schema: `apps/apps.schema.json`). Both somaari.in and docs.somaari.in read it from `main`; a push to `apps/**` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-apps.yml`, same deploy hook as `site-theme.yml`). `apps/APPENDIX_A.md` is the snapshot of the landing cards that the tests check `apps.json` against
 
 ## Integrating
 
@@ -61,7 +61,7 @@ Every app reads `main`, but each one picks up a change at a different time. Only
 
 **After changing somaari-common:**
 
-1. Run the tests (reinstall `./python` first) and push to `main`. Changes to `theme/` rebuild somaari.in. Changes to `about/` or `python/` trigger nothing.
+1. Run the tests (reinstall `./python` first) and push to `main`. Changes to `theme/` or `apps/` rebuild somaari.in. Changes to `about/` or `python/` trigger nothing.
 2. Update each app that should get the change, using the step in the table. For somaari-blog, also diff `vendor/somaari-common/theme/themes.css` to check the colours in its `global.css`.
 3. The sync scripts read the committed `main` of the somaari-common checkout next to the app, not the working tree. They refuse to run while `theme/` has uncommitted changes.
 
