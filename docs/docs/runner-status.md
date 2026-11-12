@@ -32,8 +32,10 @@ Done locally on 2026-11-13 against `npm run preview` (`dist/` from `--local`):
 
 First deploy (2026-11-13, by hand): `scripts/deploy.sh` stopped at the preview upload because wrangler won't upload a version of a Worker that doesn't exist yet. The build was smoke-tested locally, deployed with `wrangler deploy` (version 7f5b39d0), and the smoke test passed on the workers.dev URL and on https://docs.somaari.in/. wrangler attached the custom domain itself. The README's first-deploy steps now say this.
 
+First `scripts/refresh.sh` runs (2026-11-13): the first deployed through `scripts/deploy.sh` end to end (preview URL parsed, preview and live smoke tests passed, version 997331bd) and saved the SHAs; the second logged "nothing changed; skip". The hourly cron line from the README is installed (minute 23, via `somaari-server run-job somaari-docs`); `gh` and wrangler logins work under cron's environment.
+
 Still to do:
 
-- Run `scripts/deploy.sh` end to end once (the preview-URL parsing and `wrangler rollback --message` are still untested); the first `scripts/refresh.sh` run does this.
+- `wrangler rollback --message` (the live-smoke-failure path) is still untested.
 - Accessibility (axe) counts per theme.
 
