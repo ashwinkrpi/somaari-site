@@ -1,0 +1,19 @@
+---
+// Starlight's page footer (previous/next links), then somaari.in's site footer with absolute URLs.
+// Styles are in src/styles/somaari.css (".site-footer").
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<Default />
+<footer class="site-footer">
+	<p>&copy; 2026 Somaari</p>
+	<ul class="footer-links" role="list">
+		<li><a href="https://somaari.in/about/">About</a></li>
+		<li><a href="https://blog.somaari.in/">Blog</a></li>
+		<li><a href="https://games.somaari.in/">Games</a></li>
+		<li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+		<li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener">YouTube</a></li>
+		<li><a href="https://somaari.in/privacy/">Privacy</a></li>
+		<li><a href="https://somaari.in/terms/">Terms</a></li>
+	</ul>
+</footer>

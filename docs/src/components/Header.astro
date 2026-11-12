@@ -1,0 +1,25 @@
+---
+// Replaces Starlight's header with somaari.in's: the Somaari wordmark (to somaari.in), "docs" (to
+// this site's home), Starlight's search, somaari.in's nav and the Appearance control. The control is
+// rendered only here, at every width: theme.js wires up the one #theme-picker, so a second copy (in
+// Starlight's mobile menu) would stay hidden. Styles are in
+// src/styles/somaari.css (".somaari-header"), not here: Astro may inline a small component <style>,
+// which the CSP blocks. The nav links are repeated in MobileMenuFooter.astro for phones.
+import Search from '@astrojs/starlight/components/Search.astro';
+import ThemeSelect from './ThemeSelect.astro';
+import SiteNav from './SiteNav.astro';
+---
+
+<div class="header somaari-header">
+	<div class="title-wrapper sl-flex">
+		<p class="wordmark">
+			<a href="https://somaari.in/"><span class="wordmark-mark" aria-hidden="true">S</span>Somaari</a>
+		</p>
+		<a class="docs-home" href="/">docs</a>
+	</div>
+	<div class="sl-flex print:hidden"><Search /></div>
+	<div class="sl-flex print:hidden right-group">
+		<div class="sl-hidden md:sl-flex"><SiteNav /></div>
+		<ThemeSelect />
+	</div>
+</div>

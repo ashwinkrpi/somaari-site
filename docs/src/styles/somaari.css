@@ -96,3 +96,111 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 }
 .appearance-menu label:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .appearance-menu input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--accent); }
+
+/* Header (src/components/Header.astro). The grid is Starlight's own header layout (its Header.astro
+   keeps it in a scoped style, which an override doesn't get); the wordmark and nav are somaari.in's. */
+.somaari-header {
+	display: flex;
+	gap: var(--sl-nav-gap);
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+}
+.somaari-header .title-wrapper {
+	overflow: clip;
+	padding: 0.25rem;
+	margin: -0.25rem;
+	min-width: 0;
+	align-items: center;
+	gap: 0.75rem;
+}
+.somaari-header .right-group { gap: 0.5rem; align-items: center; }
+@media (min-width: 50rem) {
+	:root[data-has-sidebar] { --__sidebar-pad: calc(2 * var(--sl-nav-pad-x)); }
+	:root:not([data-has-toc]) { --__toc-width: 0rem; }
+	.somaari-header {
+		--__sidebar-width: max(0rem, var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x));
+		--__main-column-fr: calc(
+			(100% + var(--__sidebar-pad, 0rem) - var(--__toc-width, var(--sl-sidebar-width)) -
+				(2 * var(--__toc-width, var(--sl-nav-pad-x))) - var(--sl-content-inline-start, 0rem) -
+				var(--sl-content-width)) / 2
+		);
+		display: grid;
+		grid-template-columns:
+			minmax(calc(var(--__sidebar-width) + max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))), auto)
+			1fr
+			auto;
+		align-content: center;
+	}
+}
+.wordmark {
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: 1.35rem;
+	font-weight: var(--display-weight);
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+}
+.wordmark a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	min-height: 44px;
+	color: var(--fg);
+	text-decoration: none;
+}
+.wordmark-mark {
+	display: inline-grid;
+	place-items: center;
+	width: 2.1rem;
+	height: 2.1rem;
+	border-radius: 9px;
+	background: var(--accent);
+	color: var(--on-accent);
+	font-size: 1.2rem;
+}
+.docs-home {
+	color: var(--muted);
+	font-weight: 600;
+	text-decoration: none;
+}
+.docs-home:hover { color: var(--accent); text-decoration: underline; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.site-nav a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 0.6rem;
+	color: var(--fg);
+	font-weight: 600;
+	text-decoration: none;
+}
+.site-nav a:hover { color: var(--accent); text-decoration: underline; }
+
+/* Mobile menu (src/components/MobileMenuFooter.astro): nav above the Appearance control. */
+.somaari-mobile-footer { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+.somaari-mobile-footer .site-nav a { padding-left: 0; }
+
+/* somaari.in's site footer (src/components/Footer.astro), below Starlight's page footer. */
+.site-footer {
+	margin-top: 3rem;
+	padding: 1rem 0;
+	border-top: 1px solid var(--footer-border, var(--line));
+	color: var(--subtle, var(--muted));
+	font-size: 0.92rem;
+}
+.site-footer p { margin: 0; }
+.footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; }
+.footer-links a:hover { color: var(--accent); }
+
+/* Code blocks and wide tables scroll inside the page instead of widening it on phones. Expressive
+   Code (off for the CSP) normally does this for code. */
+.sl-markdown-content pre {
+	overflow-x: auto;
+	padding: 0.75rem 1rem;
+	background: var(--field-bg);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 6px;
+}
+.sl-markdown-content table { display: block; max-width: 100%; overflow-x: auto; }
