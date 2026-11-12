@@ -258,10 +258,11 @@ No step involves copying text between repos.
 - [x] Stage 4: Deploy docs.somaari.in (2026-11-13)
 - [x] Stage 5: Rebuild automatically from the Pi (2026-11-13)
 - [x] Stage 6: Move somaari.in over (2026-11-13, somaari-site #13)
-- [ ] Stage 7: App manifest in somaari-common
-- [ ] Stage 8: Cards from the manifest
+- [x] Stage 7: App manifest in somaari-common (2026-11-13, somaari-site #14)
+- [x] Stage 8: Cards from the manifest (2026-11-13, somaari-site #14)
 - [ ] Stage 9: Blog and project index
 
 Notes:
 - Stage 1: `wrangler dev` can't run on the Pi (workerd needs a 48-bit address space). Use `npm run preview` (`scripts/serve.mjs`, applies `_headers`) wherever this plan says `wrangler dev` or `wrangler pages dev`. Five themes now: `deepa` was added after the plan was written; check it wherever the plan lists four. `npm run smoke` already covers Stage 3's per-theme screenshot and CSP checks.
 - Stage 6: also added `/apps/:repo/docs` (no trailing slash) to `_redirects`, and "Docs" to the 404 footer. The redirect was checked on the Pages preview and live, not with `wrangler pages dev` (can't run on the Pi). docs.config.json now lists only somaari-plan (the only app with a screenshot/demo).
+- Stages 7–8: somaari-common's manifest, tests and `site-apps.yml`, and somaari-docs reading it, were already done (runner-plan Stages 1.1–2.3); only somaari-site was left, done in one PR (#14). Card diff vs the old build: empty except the terminal card's "not public" comment (its TODO moved to the somaari-site README). Demo posters still come from `assets/demos/` or the app repo, Video links from `videos.json`, so `check-videos.mjs` now checks only detail pages. Sitemap `/apps/` dates come from each page's last commit.
