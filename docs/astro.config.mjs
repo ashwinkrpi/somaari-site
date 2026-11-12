@@ -1,6 +1,16 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { readFileSync } from 'node:fs';
+
+// Written by scripts/import-guides.mjs from the somaari-common app manifest: one sidebar entry per
+// app with a guide, in manifest order. Empty until the first import.
+let apps = [];
+try {
+	apps = JSON.parse(readFileSync(new URL('./src/generated/apps.json', import.meta.url), 'utf8'));
+} catch {
+	// not imported yet
+}
 
 export default defineConfig({
 	site: 'https://docs.somaari.in',
@@ -24,7 +34,7 @@ export default defineConfig({
 				{ tag: 'script', attrs: { src: '/theme/theme.js' } },
 				{ tag: 'script', attrs: { src: '/sl-theme-bridge.js' } },
 			],
-			sidebar: [{ label: 'Task Planner', link: '/somaari-plan/' }],
+			sidebar: apps.filter((a) => a.guide).map((a) => ({ label: a.title, link: `/${a.repo}/` })),
 		}),
 	],
 });
