@@ -6,7 +6,7 @@ Plan: `docs/runner-plan.md`. Phase 2 was done by hand on 2026-11-13, outside som
 
 - [x] Stage 2.1 — Import the guides at build time
 - [x] Stage 2.2 — Shared look, header, footer and site files
-- [ ] Stage 2.3 — Deploy and refresh scripts
+- [x] Stage 2.3 — Deploy and refresh scripts
 
 ## Notes
 
@@ -19,6 +19,9 @@ Plan: `docs/runner-plan.md`. Phase 2 was done by hand on 2026-11-13, outside som
 - 2.2: the Appearance control is rendered once, in the header at every width. Starlight also put a copy in the mobile menu; theme.js only wires up the first `#theme-picker`, so on phones the visible copy never appeared (true since Stage 1).
 - 2.2: code blocks and wide tables scroll inside the page (Expressive Code is off for the CSP, and without it long commands made the guide pages up to 1,500 px wide on a phone).
 - 2.2: `scripts/smoke.mjs` measures header contrast on the new wordmark.
+- 2.3: `refresh.sh` watches each guide's *folder* (e.g. `docs/`), not just `docs/GUIDE.md`, so a changed screenshot also triggers a rebuild.
+- 2.3: `refresh.sh` was dry-run offline with a stand-in `gh` and `deploy.sh`: first run deploys and saves, second skips, a failed deploy keeps the old SHAs and opens the issue, the next good run closes it, `FORCE=1` deploys. `deploy.sh` and the real `gh`/wrangler calls have not run (no network in this phase): the wrangler output parsing (preview URL) and `wrangler rollback --message` are untested until the first deploy.
+- 2.3: `wrangler.jsonc` was rewritten from DD-01 without reading the old one (CLAUDE.md: never read the wrangler config). It adds `compatibility_date`.
 
 ## Browser checks
 
