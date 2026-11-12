@@ -54,7 +54,7 @@ for (const theme of THEMES) {
 				const surface = getComputedStyle(header).backgroundColor;
 				const text = document.querySelector('.sl-markdown-content p, main p');
 				return {
-					header: ratio(getComputedStyle(document.querySelector('.site-title')).color, surface),
+					header: ratio(getComputedStyle(document.querySelector('.wordmark a, .site-title')).color, surface),
 					body: text ? ratio(getComputedStyle(text).color, surface) : 99,
 				};
 			})(),

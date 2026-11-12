@@ -26,6 +26,9 @@ export default defineConfig({
 			components: {
 				ThemeProvider: './src/components/ThemeProvider.astro',
 				ThemeSelect: './src/components/ThemeSelect.astro',
+				Header: './src/components/Header.astro',
+				Footer: './src/components/Footer.astro',
+				MobileMenuFooter: './src/components/MobileMenuFooter.astro',
 			},
 			// Order matters: themes.css first, so the bridge can read the theme's color-scheme.
 			head: [
