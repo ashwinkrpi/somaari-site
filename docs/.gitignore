@@ -7,5 +7,6 @@ dist/
 .dev.vars
 public/theme/
 src/content/docs/somaari-*/
+src/generated/
 reports/**/*.png
 public/somaari-*/
