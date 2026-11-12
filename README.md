@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are self-hosted). The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and turns each app's guide, kept in that app's repo, into a page on the site (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are self-hosted). The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 ## Files
 
@@ -29,21 +29,22 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a 
 | `video.js` | Detail pages: swaps the thumbnail for the YouTube embed (`youtube-nocookie.com`) when Play is pressed; nothing loads from YouTube before that |
 | `assets/videos/<id>.jpg` | Self-hosted video thumbnails, so a detail page makes no request to YouTube on load |
 | `scripts/check-videos.mjs` | Checks the pages against `videos.json` |
-| `docs.config.json` | Which app guides the build publishes (see [App guides](#app-guides)), and which screenshots and demo loops it downloads from the app repos |
-| `scripts/build-docs.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), adds `/apps/<repo>/docs/` for each guide and downloads the screenshots and demo loops `docs.config.json` names |
-| `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a docs push rebuilds the site |
+| `docs.config.json` | Which screenshots and demo loops the build downloads from the app repos |
+| `scripts/build.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it) and downloads the screenshots and demo loops `docs.config.json` names |
+| `_redirects` | Sends the old guide URLs (`/apps/<repo>/docs/...`) to docs.somaari.in |
+| `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a push to `docs/` rebuilds the site (for screenshots) |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Cloudflare Web Analytics and the `youtube-nocookie.com` frame, no inline styles or scripts) |
 
 ## Preview locally
 
 ```sh
 npm ci            # once
-npm run build     # downloads the guides into dist/
+npm run build     # downloads the themes, screenshots and demo loops into dist/
 python3 -m http.server -d dist 8000
 ```
 
 Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.) Only the files listed in
-`PUBLISH` in `scripts/build-docs.mjs` are copied to `dist/`; add a new top-level file there too.
+`PUBLISH` in `scripts/build.mjs` are copied to `dist/`; add a new top-level file there too.
 `npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` from your local somaari-common checkout.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=dasara-jamboo>.
@@ -113,39 +114,16 @@ into each `apps/*/index.html`; `node scripts/check-shared.mjs` exits 1 if a copy
 
 ## App guides
 
-Each app's guide is written only in its own repo (`docs/GUIDE.md`). `npm run build` downloads it from
-GitHub (the `main` branch) and turns it into `/apps/<repo>/docs/`, with the app's detail page as the
-head, header and footer. Images the guide uses are copied next to it. Links to other repo files point
-to GitHub, links between published guides stay on the site, and the docs URLs are added to the sitemap.
-Never edit the generated pages; change the guide in the app repo.
+The app guides are on [docs.somaari.in](https://docs.somaari.in/), built by the
+[somaari-docs](https://github.com/ashwinkrpi/somaari-docs) repo from each app repo's `docs/GUIDE.md`.
+This site has no guide pages: `_redirects` sends the old `/apps/<repo>/docs/...` URLs (anchors and
+images included) to `https://docs.somaari.in/<repo>/...`. On a detail page, link "Read the guide" to
+`https://docs.somaari.in/<repo>/` and "Installation guide" to `https://docs.somaari.in/<repo>/#-installation`.
+To publish a new app's guide, follow the somaari-docs README.
 
-The build fails, and Cloudflare keeps the current deploy, if a guide:
-- can't be downloaded (the repo isn't public, or the file isn't on that branch)
-- mentions self-hosting, in its text or in an SVG it uses
-- links to a heading that doesn't exist, or uses an image from outside its `docs/` folder or from another site
+## Screenshots and demo loops from the app repo
 
-It leaves out any image named `banner.svg` (the page has its own title) and anything between
-`<!-- site:skip -->` and `<!-- /site:skip -->`, for parts that belong on GitHub only. It doesn't
-check text inside screenshots: make sure none of them show a "Self-Hosted" label.
-
-To preview unpushed guide edits, read the app repos from disk instead of GitHub:
-`npm run build -- --local ~/code/ai-projects`.
-
-### Publish an app's guide
-
-Do this once the app's repo is public and it has a detail page:
-
-1. Add it to `docs.config.json`: `{ "repo": "NAME", "ref": "main", "src": "docs/GUIDE.md" }`.
-2. Run `npm run build` and check `/apps/NAME/docs/` in all four themes.
-3. On the detail page, add `<a class="btn btn--secondary" href="/apps/NAME/docs/">Read the guide…</a>`
-   to `detail-actions`, and point any "Installation guide" link at `/apps/NAME/docs/#-installation`.
-4. In the app repo, copy `scripts/app-docs-workflow.yml` to `.github/workflows/site-docs.yml` and add
-   the repo secret `SOMAARI_SITE_DEPLOY_HOOK` (the deploy hook URL from Cloudflare Pages: Settings,
-   Builds, Deploy hooks). From then on, a push to `docs/` on `main` rebuilds the site.
-
-### Screenshots and demo loops from the app repo
-
-Like the guide, an app's detail page screenshot and card demo loop can live only in the app repo, so
+An app's detail page screenshot and card demo loop can live only in the app repo, so
 they update on the site when they change there. Add them to the app's entry in `docs.config.json`:
 
 - `"screenshot": "docs/screenshots/x.png"`: one PNG or JPEG for the detail page, or
