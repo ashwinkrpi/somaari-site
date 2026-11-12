@@ -1,0 +1,4 @@
+# The app guides moved to docs.somaari.in (the somaari-docs repo). Old links, including #anchors and
+# guide images, follow them there.
+/apps/:repo/docs/* https://docs.somaari.in/:repo/:splat 301
+/apps/:repo/docs https://docs.somaari.in/:repo/ 301
