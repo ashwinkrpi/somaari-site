@@ -257,10 +257,11 @@ No step involves copying text between repos.
 - [ ] Stage 3: Shared look and site files
 - [ ] Stage 4: Deploy docs.somaari.in
 - [ ] Stage 5: Rebuild automatically from the Pi
-- [ ] Stage 6: Move somaari.in over
+- [x] Stage 6: Move somaari.in over (2026-11-13, somaari-site #13)
 - [ ] Stage 7: App manifest in somaari-common
 - [ ] Stage 8: Cards from the manifest
 - [ ] Stage 9: Blog and project index
 
 Notes:
 - Stage 1: `wrangler dev` can't run on the Pi (workerd needs a 48-bit address space). Use `npm run preview` (`scripts/serve.mjs`, applies `_headers`) wherever this plan says `wrangler dev` or `wrangler pages dev`. Five themes now: `deepa` was added after the plan was written; check it wherever the plan lists four. `npm run smoke` already covers Stage 3's per-theme screenshot and CSP checks.
+- Stage 6: also added `/apps/:repo/docs` (no trailing slash) to `_redirects`, and "Docs" to the 404 footer. The redirect was checked on the Pages preview and live, not with `wrangler pages dev` (can't run on the Pi). docs.config.json now lists only somaari-plan (the only app with a screenshot/demo).
