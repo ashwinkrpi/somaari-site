@@ -85,7 +85,7 @@ crontab -l | grep somaari-docs     # check it is there once
 
 Done by hand once, after the Phase 2 stage branches are merged and pushed:
 
-1. `bash scripts/deploy.sh`. If wrangler can't attach the custom domain, add `docs.somaari.in` to the `somaari-docs` Worker under Settings → Domains & Routes in the Cloudflare dashboard, then run it again.
+1. Create the Worker: `npm ci && npm run build && npm run check`, smoke-test the build locally (`npm run preview` in one shell, `npm run smoke -- http://localhost:8787/` in another), then `npx wrangler@4 deploy` and `npm run smoke -- https://docs.somaari.in/`. `scripts/deploy.sh` can't do this first one: wrangler won't upload a preview version of a Worker that doesn't exist yet. If wrangler can't attach the custom domain, add `docs.somaari.in` to the `somaari-docs` Worker under Settings → Domains & Routes in the Cloudflare dashboard. Every later deploy goes through `scripts/deploy.sh`. (Done on 2026-11-13.)
 2. `bash scripts/refresh.sh` twice: the first run deploys and saves the SHAs, the second logs "nothing changed; skip" (`tail .state/refresh.log`).
 3. Add the cron line above.
 4. Check https://docs.somaari.in/somaari-plan/#-installation loads.

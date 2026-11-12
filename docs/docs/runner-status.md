@@ -30,8 +30,10 @@ Done locally on 2026-11-13 against `npm run preview` (`dist/` from `--local`):
 - `npm run smoke`: all 5 themes × `/`, `/somaari-plan/`, `/somaari-trip/`, `/somaari-disk/`: no console errors, CSP violations, external requests or HTTP errors; header and text contrast ≥ 4.5; search finds results.
 - Phone (390 px): no horizontal scroll on any page; the mobile menu shows the sidebar and the nav; the Appearance control opens and switches theme.
 
+First deploy (2026-11-13, by hand): `scripts/deploy.sh` stopped at the preview upload because wrangler won't upload a version of a Worker that doesn't exist yet. The build was smoke-tested locally, deployed with `wrangler deploy` (version 7f5b39d0), and the smoke test passed on the workers.dev URL and on https://docs.somaari.in/. wrangler attached the custom domain itself. The README's first-deploy steps now say this.
+
 Still to do:
 
-- The smoke test against the Cloudflare preview URL and https://docs.somaari.in/ (`scripts/deploy.sh` runs both).
+- Run `scripts/deploy.sh` end to end once (the preview-URL parsing and `wrangler rollback --message` are still untested); the first `scripts/refresh.sh` run does this.
 - Accessibility (axe) counts per theme.
 
