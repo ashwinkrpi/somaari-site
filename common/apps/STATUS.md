@@ -39,3 +39,6 @@
 - Fixed in this check: `demo` (`{"ref"}`) and `screenshot` (theme id to path) are now exact shapes in the schema, not plain `object`; new tests compare tags, AI chips and source, status, Details link, `public`, `guide`, `demo` and `screenshot` with APPENDIX_A.md; README step 1 now says a push to `apps/` also rebuilds somaari.in.
 - Open: `apps/APPENDIX_A.md` could not be compared with `runner-plan.md` from here (reads outside this repo are denied); diff the two once before merging. `ai.label` is a string or a list (terminal has two AI chips), which is wider than AM-01's wording; SC-02's card template must handle both.
 - Open: somaari.in does not read `apps.json` yet (later stages), so until then the `site-apps.yml` rebuild changes nothing on the site. Nothing in this stage needs a browser check.
+
+## somaari.in reads apps.json (2026-11-13)
+- somaari-site #14: the landing cards and the sitemap's `/apps/<repo>/` entries are built from `apps/apps.json`; its `docs.config.json` is gone. So a push to `apps/` on `main` (`site-apps.yml`) now changes somaari.in. The card template renders one badge per `ai.label` entry.
