@@ -253,10 +253,10 @@ No step involves copying text between repos.
 
 - [x] Stage 0: Owner prep (2026-11-03)
 - [x] Stage 1: Starlight spike (2026-11-09: passes all four checks, see SPIKE.md)
-- [ ] Stage 2: Import the guides
-- [ ] Stage 3: Shared look and site files
-- [ ] Stage 4: Deploy docs.somaari.in
-- [ ] Stage 5: Rebuild automatically from the Pi
+- [x] Stage 2: Import the guides (2026-11-13)
+- [x] Stage 3: Shared look and site files (2026-11-13)
+- [x] Stage 4: Deploy docs.somaari.in (2026-11-13)
+- [x] Stage 5: Rebuild automatically from the Pi (2026-11-13)
 - [x] Stage 6: Move somaari.in over (2026-11-13, somaari-site #13)
 - [ ] Stage 7: App manifest in somaari-common
 - [ ] Stage 8: Cards from the manifest
