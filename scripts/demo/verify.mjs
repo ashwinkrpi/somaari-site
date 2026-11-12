@@ -1,5 +1,5 @@
-// Check the demo player, the Appearance control and the pages in headless Chromium over the DevTools
-// protocol (Node 22+, no packages).
+// Check the demo player, the Appearance control and the pages in headless Chromium, driven with
+// playwright-core and the system Chromium (CHROMIUM=/path to override; nothing is downloaded).
 //   npm run build && python3 scripts/demo/serve.py 8000 &  node scripts/demo/verify.mjs [http://127.0.0.1:8000/] [outdir]
 // Checks: cards show posters only and nothing loads a video until "Watch demo" opens the player; the
 // player works from the keyboard (Enter opens, play/pause, Esc closes, focus returns to the button)
@@ -7,79 +7,55 @@
 // the Appearance popover works from the keyboard and saves or clears the choice; app detail pages;
 // no JS; no console errors or CSP violations; no horizontal scroll at phone width. Saves screenshots
 // to outdir (default: the system temp folder; keep them out of the repo, which is published).
-import { spawn } from "node:child_process";
-import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { chromium } from "playwright-core";
 
 const URL_ = process.argv[2] || "http://127.0.0.1:8000/";
 const OUT = process.argv[3] || tmpdir();
-const PORT = 9333;
-const profile = mkdtempSync(join(tmpdir(), "somaari-verify-"));
-const chrome = spawn("chromium", ["--headless=new", `--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`,
-  "--no-first-run", "--autoplay-policy=no-user-gesture-required", "--mute-audio", "about:blank"], { stdio: "ignore" });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-let ws, nextId = 1;
-const pending = new Map(), listeners = [];
-async function connect() {
-  for (let i = 0; i < 50; i++) {
-    try {
-      const targets = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json();
-      const page = targets.find((t) => t.type === "page");
-      if (page) { ws = new WebSocket(page.webSocketDebuggerUrl); break; }
-    } catch {}
-    await sleep(200);
-  }
-  await new Promise((r) => ws.addEventListener("open", r, { once: true }));
-  ws.addEventListener("message", (m) => {
-    const msg = JSON.parse(m.data);
-    if (msg.id && pending.has(msg.id)) { pending.get(msg.id)(msg); pending.delete(msg.id); }
-    else listeners.forEach((f) => f(msg));
-  });
-}
-const send = (method, params = {}) => new Promise((r) => { const id = nextId++; pending.set(id, r); ws.send(JSON.stringify({ id, method, params })); });
-const evaluate = async (expr) => (await send("Runtime.evaluate", { expression: expr, returnByValue: true, awaitPromise: true })).result.result.value;
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || "/usr/bin/chromium",
+  args: ["--autoplay-policy=no-user-gesture-required", "--mute-audio"] });
+// One context per device type (a page can't switch mobile emulation), plus one with JavaScript off.
+const contexts = {
+  phone: await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true }),
+  desktop: await browser.newContext({ viewport: { width: 1280, height: 800 } }),
+  nojs: await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, javaScriptEnabled: false }),
+};
+const pages = {};
+let page;
+const evaluate = (expr) => page.evaluate(expr);
 
 const videoReqs = [], problems = [];
 let failures = 0;
 const check = (ok, label) => { console.log(`${ok ? "PASS" : "FAIL"}  ${label}`); if (!ok) failures++; };
 
-async function setup({ width, height, mobile, reduce, dark, path = "" }) {
-  await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile });
+async function setup({ width, height, mobile, reduce, dark, path = "", nojs = false }) {
+  page = pages[nojs ? "nojs" : mobile ? "phone" : "desktop"];
+  await page.setViewportSize({ width, height });
   await setMotion(reduce, dark);
   videoReqs.length = 0;
-  await send("Page.navigate", { url: new URL(path, URL_).href });
+  await page.goto(new URL(path, URL_).href);
   await sleep(2000);
 }
-const setMotion = (reduce, dark) => send("Emulation.setEmulatedMedia", { features: [
-  { name: "prefers-reduced-motion", value: reduce ? "reduce" : "no-preference" },
-  { name: "prefers-color-scheme", value: dark ? "dark" : "light" }] });
-const KEYS = { Enter: [13, "\r"], Escape: [27], ArrowDown: [40] };
-const press = async (key) => {
-  const [vk, text] = KEYS[key];
-  await send("Input.dispatchKeyEvent", { type: "keyDown", key, code: key, windowsVirtualKeyCode: vk, ...(text ? { text } : {}) });
-  await send("Input.dispatchKeyEvent", { type: "keyUp", key, code: key, windowsVirtualKeyCode: vk });
-  await sleep(300);
-};
+const setMotion = (reduce, dark) => page.emulateMedia({
+  reducedMotion: reduce ? "reduce" : "no-preference", colorScheme: dark ? "dark" : "light" });
+const press = async (key) => { await page.keyboard.press(key); await sleep(300); };
+const click = (x, y) => page.mouse.click(x, y);
 const player = () => evaluate(`(() => { const v = document.getElementById("demo-video"), d = document.getElementById("demo-dialog");
   return { open: d.open, paused: v.paused, t: +v.currentTime.toFixed(2), src: v.currentSrc, rs: v.readyState,
     sources: v.querySelectorAll("source").length, label: document.getElementById("demo-toggle").textContent,
     active: document.activeElement.id || document.activeElement.className }; })()`);
-const shot = async (name) => {
-  const { result } = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false });
-  writeFileSync(join(OUT, name), Buffer.from(result.data, "base64"));
-};
+const shot = (name) => page.screenshot({ path: join(OUT, name) });
 
 try {
-  await connect();
-  await send("Network.enable"); await send("Runtime.enable"); await send("Log.enable"); await send("Page.enable");
-  listeners.push((m) => {
-    if (m.method === "Network.requestWillBeSent" && /\.(webm|mp4)(\?|$)/.test(m.params.request.url)) videoReqs.push(m.params.request.url);
-    if (m.method === "Runtime.consoleAPICalled" && ["error", "warning"].includes(m.params.type)) problems.push(m.params.args.map((a) => a.value ?? a.description).join(" "));
-    if (m.method === "Runtime.exceptionThrown") problems.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text);
-    if (m.method === "Log.entryAdded" && ["error", "warning"].includes(m.params.entry.level)) problems.push(`${m.params.entry.source}: ${m.params.entry.text}`);
-  });
+  for (const [name, ctx] of Object.entries(contexts)) {
+    const p = (pages[name] = await ctx.newPage());
+    p.on("request", (r) => { if (/\.(webm|mp4)(\?|$)/.test(r.url())) videoReqs.push(r.url()); });
+    p.on("console", (m) => { if (["error", "warning"].includes(m.type())) problems.push(m.text()); });
+    p.on("pageerror", (e) => problems.push(e.message));
+  }
 
   // Phone, motion allowed: posters only, nothing loads while scrolling past every card.
   await setup({ width: 390, height: 844, mobile: true });
@@ -116,8 +92,7 @@ try {
   check(p.sources === 0 && p.rs === 0, `player: closing unloads the video (readyState ${p.rs})`);
   await evaluate(`document.querySelectorAll("button.demo-open")[1].click()`);
   await sleep(600);
-  await send("Input.dispatchMouseEvent", { type: "mousePressed", x: 4, y: 4, button: "left", clickCount: 1 });
-  await send("Input.dispatchMouseEvent", { type: "mouseReleased", x: 4, y: 4, button: "left", clickCount: 1 });
+  await click(4, 4);
   await sleep(400);
   p = await player();
   check(!p.open, "player: a click on the backdrop closes it");
@@ -175,8 +150,7 @@ try {
   await sleep(300);
   a = await appearance();
   check(a.saved === null, `appearance: Auto (seasonal) clears the saved choice (theme now ${a.theme})`);
-  await send("Input.dispatchMouseEvent", { type: "mousePressed", x: 200, y: 700, button: "left", clickCount: 1 });
-  await send("Input.dispatchMouseEvent", { type: "mouseReleased", x: 200, y: 700, button: "left", clickCount: 1 });
+  await click(200, 700);
   await sleep(300);
   a = await appearance();
   check(a.hidden, "appearance: a click outside closes it");
@@ -199,27 +173,22 @@ try {
   }
 
   // No JS: posters only, no Watch demo buttons, no Appearance control.
-  await send("Emulation.setScriptExecutionDisabled", { value: true });
-  await setup({ width: 390, height: 844, mobile: true });
+  await setup({ width: 390, height: 844, mobile: true, nojs: true });
   await evaluate(`document.querySelectorAll(".card-demo")[0].scrollIntoView({block: "center"})`);
   await sleep(800);
   const nojs = await evaluate(`({ buttons: Array.from(document.querySelectorAll("button.demo-open")).filter(b => b.offsetParent).length,
     picker: document.getElementById("theme-picker").offsetParent !== null })`);
   check(videoReqs.length === 0 && nojs.buttons === 0 && !nojs.picker, `no JS: no video requests, no Watch demo buttons, no Appearance control`);
   await shot("verify-phone-nojs.png");
-  await setup({ width: 390, height: 844, mobile: true, path: "apps/somaari-plan/" });
+  await setup({ width: 390, height: 844, mobile: true, nojs: true, path: "apps/somaari-plan/" });
   const nojsShot = await evaluate(`Array.from(document.querySelectorAll(".detail-shot img")).filter((i) => i.offsetParent)
     .map((i) => i.naturalWidth && i.currentSrc.split("/").pop())`);
   check(nojsShot.length === 1 && nojsShot[0] === "screenshot-warm-tactile.png", `no JS: somaari-plan shows the default screenshot (${nojsShot})`);
-  await send("Emulation.setScriptExecutionDisabled", { value: false });
 
   const real = problems.filter((p) => !/favicon/i.test(p));
   check(real.length === 0, `no console errors/warnings or CSP violations${real.length ? ": " + real.join(" | ") : ""}`);
 } finally {
-  try { ws?.close(); } catch {}
-  chrome.kill();
-  await sleep(300);
-  rmSync(profile, { recursive: true, force: true });
+  await browser.close();
 }
 console.log(failures ? `${failures} check(s) failed` : "all checks passed");
 process.exit(failures ? 1 : 0);
