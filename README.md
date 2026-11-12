@@ -97,8 +97,10 @@ Nothing is copied between repos; each step is in the repo that owns it.
 3. Main action, chosen from the repo:
    - **Download** only if it has a GitHub Release with assets
      (`gh release view -R ashwinkrpi/NAME --json assets`); link to `/releases/latest`, never a fixed version.
-   - **Installation guide** if there's no release but there are install docs; link to that section.
+   - **Documentation** if there's no release but there is a guide; link to `https://docs.somaari.in/<repo>/`.
    - **View source** otherwise, and then leave out the "View on GitHub" link (same place).
+   Every page with a guide has exactly one "Documentation" link to it: the main action when there's
+   no release, otherwise a secondary button next to Download.
 4. Set `"detail_page": true` in the manifest: that adds the card's "Details" link and the sitemap entry.
 5. Run `node scripts/asset-versions.mjs` and `node scripts/check-shared.mjs`.
 
@@ -114,8 +116,8 @@ somaari-terminal's detail page, when it is written, needs a "How AI is used" sec
 The app guides are on [docs.somaari.in](https://docs.somaari.in/), built by the
 [somaari-docs](https://github.com/ashwinkrpi/somaari-docs) repo from each app repo's `docs/GUIDE.md`.
 This site has no guide pages: `_redirects` sends the old `/apps/<repo>/docs/...` URLs (anchors and
-images included) to `https://docs.somaari.in/<repo>/...`. On a detail page, link "Read the guide" to
-`https://docs.somaari.in/<repo>/` and "Installation guide" to `https://docs.somaari.in/<repo>/#-installation`.
+images included) to `https://docs.somaari.in/<repo>/...`. On a detail page, link "Documentation" to
+`https://docs.somaari.in/<repo>/` (one link only; don't add a separate installation-guide link).
 To publish a new app's guide, follow the somaari-docs README.
 
 ## Screenshots and demo loops from the app repo
