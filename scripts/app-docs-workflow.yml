@@ -1,5 +1,6 @@
-# Copy to .github/workflows/site-docs.yml in an app repo listed in docs.config.json (see the
-# somaari-site README, "Screenshots and demo loops from the app repo"). When docs/ changes on main, it
+# Copy to .github/workflows/site-docs.yml in an app repo whose somaari-common apps/apps.json entry
+# names a screenshot or demo (see the somaari-site README, "Screenshots and demo loops from the app
+# repo"). When docs/ changes on main, it
 # checks the guide and asks Cloudflare Pages to rebuild somaari.in, which downloads the new screenshots.
 # The guide itself is on docs.somaari.in, which picks up guide changes by itself (somaari-docs' hourly refresh).
 # Needs the repo secret SOMAARI_SITE_DEPLOY_HOOK: the somaari-site deploy hook URL.

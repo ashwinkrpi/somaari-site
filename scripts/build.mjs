@@ -1,16 +1,19 @@
 // Builds the published site into dist/: copies the static files, then downloads what isn't kept here.
-// The themes (theme.js, themes.css, fonts) come from somaari-common's theme/ into /theme/. An app's
-// detail page screenshot ("screenshot") and card demo loop ("demo") come from the app repo when
-// docs.config.json names them, into assets/; they are never committed here.
+// The themes (theme.js, themes.css, fonts) come from somaari-common's theme/ into /theme/. The list of
+// apps comes from somaari-common's apps/apps.json (the app manifest): the build writes the landing page
+// cards and the sitemap's /apps/<repo>/ entries from it. An app's detail page screenshot ("screenshot")
+// and card demo loop ("demo") come from the app repo when the manifest names them, into assets/; they
+// are never committed here.
 // The app guides are not built here: docs.somaari.in (the somaari-docs repo) publishes them, and
 // _redirects sends the old /apps/<repo>/docs/ URLs there.
 // Run from the repo root: npm run build
-// With --local <dir> it reads <dir>/<repo>/... instead of GitHub (somaari-common too: <dir>/somaari-common/theme/).
-// Exits 1 (and Cloudflare keeps the current deploy) if a file can't be fetched or a screenshot or demo
-// doesn't fit.
+// With --local <dir> it reads <dir>/<repo>/... instead of GitHub (somaari-common too: <dir>/somaari-common/theme/
+// and apps/apps.json).
+// Exits 1 (and Cloudflare keeps the current deploy) if a file can't be fetched, a screenshot or demo
+// doesn't fit, or a manifest app has no page or text the page can't hold.
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, posix, resolve } from "node:path";
 
@@ -21,20 +24,31 @@ const PUBLISH = ["index.html", "404.html", "style.css", "shots.js", "demo.js", "
 // The card demo files on an app's demo branch, and the most each may weigh.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
 const DEMO_MAX_BYTES = 1024 * 1024;
-const COMMON = { repo: "somaari-common", ref: "main" };
+// somaari-common is fetched before the manifest (which names the owner of the app repos) is read.
+const COMMON = { repo: "somaari-common", ref: "main", owner: "ashwinkrpi" };
 // Read from somaari-common's theme.js by theme().
 let THEMES, DEFAULT_THEME;
 
-const { owner, apps } = JSON.parse(readFileSync("docs.config.json", "utf8"));
+// The manifest's "github" owner and its apps, set by manifest().
+let owner, apps;
+// YouTube walkthrough IDs per app (an empty ID means no video links on the card).
+const VIDEOS = JSON.parse(readFileSync("videos.json", "utf8")).apps;
+const STATUS = { live: "Available", dev: "In development", soon: "Coming soon" };
+// The landing page lists: <!-- APPS:live --> ... <!-- /APPS:live --> and the same for dev ("soon" apps
+// go in the dev list too).
+const LISTS = { live: ["live"], dev: ["dev", "soon"] };
+// Every card's demo poster is 720x406 (scripts/demo/README.md).
+const POSTER = 'width="720" height="406"';
+const SITE = "https://somaari.in";
 const localArg = process.argv.indexOf("--local");
 const local = localArg > 0 ? process.argv[localArg + 1] : null;
 
 async function getFile(app, path, ref) {
   if (local && ref) return execFileSync("git", ["-C", resolve(local, app.repo), "show", `${ref}:${path}`], { maxBuffer: 1 << 26 });
   if (local) return readFileSync(resolve(local, app.repo, path));
-  const url = `https://raw.githubusercontent.com/${owner}/${app.repo}/${ref ?? app.ref}/${path}`;
+  const url = `https://raw.githubusercontent.com/${app.owner ?? owner}/${app.repo}/${ref ?? "main"}/${path}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`${app.repo}: ${path} not found on ${ref ?? app.ref} (HTTP ${res.status}). Is the repo public?`);
+  if (!res.ok) throw new Error(`${app.repo}: ${path} not found on ${ref ?? "main"} (HTTP ${res.status}). Is the repo public?`);
   return Buffer.from(await res.arrayBuffer());
 }
 
@@ -133,19 +147,121 @@ function stampThemeVersions() {
   }
 }
 
+// Reads somaari-common's apps/apps.json (from main, or the local checkout with --local).
+async function manifest() {
+  ({ github: owner, apps } = JSON.parse((await getFile(COMMON, "apps/apps.json")).toString("utf8")));
+  for (const app of apps) {
+    if (app.detail_page && !existsSync(join("apps", app.repo, "index.html"))) {
+      fail(app, `apps.json says it has a detail page, but apps/${app.repo}/index.html is missing`);
+    }
+  }
+  return apps.length;
+}
+
+const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// An HTML comment holding manifest text as it is (the AI chip's source quotes the app's README).
+function comment(app, text) {
+  if (text.includes("--") || text.includes(">")) fail(app, `"--" or ">" can't go in an HTML comment: ${text}`);
+  return `<!-- ${text} -->`;
+}
+
+// One landing page card. The demo poster is the committed assets/demos/<repo>/poster.webp, or the one
+// demo() downloads; the Video links come from videos.json.
+function card(app) {
+  const t = escapeHtml(app.title);
+  const video = VIDEOS[app.repo] ? `/apps/${app.repo}/#video` : "";
+  const hasDemo = app.demo || existsSync(join("assets", "demos", app.repo, "poster.webp"));
+  // trip's loop is made from screenshots by encode.sh alone; the others are recorded (scripts/demo/README.md).
+  const rebuild = existsSync(join("scripts", "demo", app.repo, "encode.sh")) && !existsSync(join("scripts", "demo", app.repo, "record.sh"))
+    ? `scripts/demo/${app.repo}/encode.sh` : "scripts/demo/README.md";
+  const labels = [app.ai.label].flat();
+  const actions = [
+    app.detail_page && `<a class="btn" href="/apps/${app.repo}/">Details<span class="visually-hidden"> about ${t}</span></a>`,
+    video && `<a class="btn btn--secondary" href="${video}"><span aria-hidden="true">&#x25B6;&#xFE0E;&nbsp;</span>Video<span class="visually-hidden">: ${t}</span></a>`,
+    app.public && `<a class="btn btn--secondary" href="https://github.com/${owner}/${app.repo}">View on GitHub<span class="visually-hidden"> (${app.repo})</span></a>`,
+  ].filter(Boolean);
+  return `
+        <!-- CARD START: ${app.repo} -->
+        <li class="card">${hasDemo ? `
+          <!-- Demo: a still poster; "Watch demo" (shown by demo.js) plays the loop in the player
+               dialog at the end of the page. Rebuild: ${rebuild} -->
+          <div class="card-media">
+            <img class="card-demo" src="/assets/demos/${app.repo}/poster.webp" ${POSTER} alt="" loading="lazy">
+            <button type="button" class="btn demo-open" data-demo="${app.repo}" data-title="${t}"${video ? ` data-video="${video}"` : ""} hidden>Watch demo<span class="visually-hidden">: ${t}</span></button>
+          </div>` : ""}
+          <div class="card-head">
+            <div class="card-names">
+              <h3 class="card-title">${t}</h3>
+              <p class="card-repo">${app.repo}</p>
+            </div>
+            ${comment(app, `AI chip: ${app.ai.source}`)}
+            <span class="badges">
+              <span class="badge badge--${app.status}">${STATUS[app.status]}</span>
+${labels.map((l) => `              <span class="badge badge--ai">${escapeHtml(l)}</span>`).join("\n")}
+            </span>
+          </div>
+          <p class="card-desc">${escapeHtml(app.description)}</p>
+          <ul class="tags" aria-label="Tags">
+${app.tags.map((tag) => `            <li>${escapeHtml(tag)}</li>`).join("\n")}
+          </ul>${actions.length ? `
+          <div class="card-actions">
+${actions.map((a) => `            ${a}`).join("\n")}
+          </div>` : ""}${app.public ? "" : `
+          <!-- Repo not public yet: no GitHub link. Set "public": true in apps.json when it is. -->`}
+        </li>
+        <!-- CARD END: ${app.repo} -->
+`;
+}
+
+// Fills the landing page lists with the manifest's cards, in manifest order, and adds the apps with a
+// detail page to the sitemap.
+function cards() {
+  const path = join(OUT, "index.html");
+  let html = readFileSync(path, "utf8");
+  for (const [list, statuses] of Object.entries(LISTS)) {
+    const marker = new RegExp(`(<!-- APPS:${list} -->)[\\s\\S]*?(<!-- /APPS:${list} -->)`);
+    if (!marker.test(html)) throw new Error(`index.html has no <!-- APPS:${list} --> ... <!-- /APPS:${list} --> markers`);
+    const items = apps.filter((app) => statuses.includes(app.status)).map(card).join("");
+    html = html.replace(marker, (_, start, end) => `${start}\n${items}\n        ${end}`);
+  }
+  writeFileSync(path, html);
+
+  const sitemap = join(OUT, "sitemap.xml");
+  const urls = apps.filter((app) => app.detail_page).map((app) => {
+    const date = gitDate(join("apps", app.repo, "index.html"));
+    return `  <url>\n    <loc>${SITE}/apps/${app.repo}/</loc>\n${date ? `    <lastmod>${date}</lastmod>\n` : ""}  </url>\n`;
+  });
+  const xml = readFileSync(sitemap, "utf8");
+  if (!xml.includes("  <!-- APPS -->\n")) throw new Error("sitemap.xml has no <!-- APPS --> line");
+  writeFileSync(sitemap, xml.replace("  <!-- APPS -->\n", urls.join("")));
+  return apps.length;
+}
+
+// The date of the last commit that changed a file, or "" when git can't tell (a shallow clone).
+function gitDate(path) {
+  try {
+    return execFileSync("git", ["log", "-1", "--format=%cs", "--", path], { encoding: "utf8" }).trim();
+  } catch {
+    return "";
+  }
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
   for (const f of PUBLISH) cpSync(f, join(OUT, f), { recursive: true });
   console.log(`themes: ${await theme()} files from somaari-common ${local ? "local copy" : COMMON.ref}`);
+  console.log(`apps: ${await manifest()} in somaari-common apps/apps.json ${local ? "local copy" : COMMON.ref}`);
 
   for (const app of apps) {
-    if (app.screenshot) console.log(`${app.repo}: ${await screenshots(app)} screenshot(s) from ${local ? "local copy" : app.ref}`);
+    if (app.screenshot) console.log(`${app.repo}: ${await screenshots(app)} screenshot(s) from ${local ? "local copy" : "main"}`);
     if (app.demo) {
       await demo(app);
       console.log(`${app.repo}: demo loop from ${app.demo.ref}`);
     }
   }
+  cards();
   stampThemeVersions();
 }
 

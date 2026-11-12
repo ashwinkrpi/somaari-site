@@ -21,16 +21,15 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a 
 | `sitemap.xml` | The home page and each app detail page |
 | `demo.js` | The demo player: "Watch demo" on a card opens a dialog that loads and plays that loop (never autoplays with reduced motion); posters only without JS |
 | `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB); somaari-plan's is downloaded by the build instead |
-| `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only), unless `docs.config.json` names it (see [Screenshots and demo loops from the app repo](#screenshots-and-demo-loops-from-the-app-repo)) |
+| `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only), unless the manifest names it (see [Screenshots and demo loops from the app repo](#screenshots-and-demo-loops-from-the-app-repo)) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
-| `videos.json` | Each app's YouTube walkthrough ID and the "somaari apps" playlist ID; an empty ID means no video UI for that app. The pages are static, so a new ID also needs its Video section, card link and `data-video`; `npm run check` compares them |
+| `videos.json` | Each app's YouTube walkthrough ID and the "somaari apps" playlist ID; an empty ID means no video UI for that app. A new ID also needs the detail page's Video section (the build adds the card links); `npm run check` compares them |
 | `video.js` | Detail pages: swaps the thumbnail for the YouTube embed (`youtube-nocookie.com`) when Play is pressed; nothing loads from YouTube before that |
 | `assets/videos/<id>.jpg` | Self-hosted video thumbnails, so a detail page makes no request to YouTube on load |
 | `scripts/check-videos.mjs` | Checks the pages against `videos.json` |
-| `docs.config.json` | Which screenshots and demo loops the build downloads from the app repos |
-| `scripts/build.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it) and downloads the screenshots and demo loops `docs.config.json` names |
+| `scripts/build.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), writes the landing cards and sitemap entries from somaari-common's `apps/apps.json` and downloads the screenshots and demo loops it names |
 | `_redirects` | Sends the old guide URLs (`/apps/<repo>/docs/...`) to docs.somaari.in |
 | `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a push to `docs/` rebuilds the site (for screenshots) |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Cloudflare Web Analytics and the `youtube-nocookie.com` frame, no inline styles or scripts) |
@@ -45,7 +44,7 @@ python3 -m http.server -d dist 8000
 
 Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.) Only the files listed in
 `PUBLISH` in `scripts/build.mjs` are copied to `dist/`; add a new top-level file there too.
-`npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` from your local somaari-common checkout.
+`npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` and `apps/apps.json` from your local somaari-common checkout.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=dasara-jamboo>.
 Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`, `deepa`.
@@ -66,32 +65,27 @@ with somaari-plan. To add a festival or change a shared colour, edit them there 
 The site's own per-theme tokens and decorations stay in `style.css`.
 Theme styles only change colours, fonts, spacing and decoration; the page text is the same in every theme.
 
-## Add a new app card
+## Adding an app
 
-1. In `index.html`, copy one block from `<!-- CARD START: ... -->` to `<!-- CARD END: ... -->`.
-2. Paste it just before the closing `</ul>` of the right section: **Apps** (`#apps`) for available
-   apps, **In development** (`#in-development`) for apps that aren't out yet. The grid is one column
-   on phones and two from tablet width up; a lone last card keeps the column width.
-3. Every card has the same parts, in this order: demo poster and "Watch demo" button (optional),
-   title, repo label, status badge, description, tags, links. Edit:
-   - the `card-media` block: point the poster and the button's `data-demo` at `/assets/demos/NAME/`
-     and set `data-title` to the card title (or delete the block if there's no demo yet)
-   - `<h3 class="card-title">`: what the tool does, e.g. "Disk Usage Analyzer"
-   - `<p class="card-repo">`: the repo name, e.g. `somaari-disk` (kept outside the `h3`)
-   - the description, tags and status badge. Badge classes:
-     - `badge--dev` – In development
-     - `badge--soon` – Coming soon
-     - `badge--live` – Available
-4. Links go in `<div class="card-actions">`. "Details" links to the app's detail page, once it
-   has one (see below). Only link a repo once it is **public**:
-   ```html
-   <div class="card-actions">
-     <a class="btn" href="/apps/NAME/">Details<span class="visually-hidden"> about TITLE</span></a>
-     <a class="btn btn--secondary" href="https://github.com/ashwinkrpi/NAME">View on GitHub<span class="visually-hidden"> (NAME)</span></a>
-   </div>
-   ```
-   Until then leave the GitHub link out; the status badge already says where the app is.
-5. Commit and push to `main`; Cloudflare Pages redeploys automatically.
+Nothing is copied between repos; each step is in the repo that owns it.
+
+1. **Manifest:** add the app to somaari-common's [`apps/apps.json`](https://github.com/ashwinkrpi/somaari-common/blob/main/apps/apps.json)
+   (title, status, `public`, description, tags, AI chip and its source). A push to `apps/` on `main`
+   runs its tests and rebuilds this site, which writes the card into `index.html` from it: `live`
+   apps under **Apps**, `dev` and `soon` under **In development**, in manifest order. "Details"
+   appears with `"detail_page": true`, "View on GitHub" with `"public": true`. Don't hand-edit the
+   cards: `index.html` holds only the `<!-- APPS:live -->` and `<!-- APPS:dev -->` markers.
+2. **Demo poster (optional):** put `poster.webp`, `loop.webm` and `loop.mp4` in `assets/demos/<repo>/`
+   (see `scripts/demo/README.md`), or have the app repo publish them (`"demo"` in the manifest, see
+   [below](#screenshots-and-demo-loops-from-the-app-repo)). A card without either has no demo block.
+   A YouTube ID in `videos.json` adds the card's Video link.
+3. **Detail page, once it's live:** write `apps/<repo>/index.html` (next section) and set
+   `"status": "live"` and `"detail_page": true`. The build adds it to `sitemap.xml` and fails if
+   the manifest says there's a page but the file is missing.
+4. **Guide, once the repo is public:** write `docs/GUIDE.md` in the app repo and add `"guide"` to its
+   manifest entry; docs.somaari.in picks it up within the hour. If this site shows a screenshot or
+   demo from the app repo, also copy `scripts/app-docs-workflow.yml` to the app repo's
+   `.github/workflows/site-docs.yml` and add its `SOMAARI_SITE_DEPLOY_HOOK` secret.
 
 ## Add an app detail page
 
@@ -105,12 +99,15 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
      (`gh release view -R ashwinkrpi/NAME --json assets`); link to `/releases/latest`, never a fixed version.
    - **Installation guide** if there's no release but there are install docs; link to that section.
    - **View source** otherwise, and then leave out the "View on GitHub" link (same place).
-4. Add the page to `sitemap.xml` and a "Details" link to the app's card.
+4. Set `"detail_page": true` in the manifest: that adds the card's "Details" link and the sitemap entry.
 5. Run `node scripts/asset-versions.mjs` and `node scripts/check-shared.mjs`.
 
 The header and footer sit between `<!-- SHARED HEADER -->` / `<!-- SHARED FOOTER -->` markers and
 must match `index.html` on every page. After changing them in `index.html`, paste the new blocks
 into each `apps/*/index.html`; `node scripts/check-shared.mjs` exits 1 if a copy differs.
+
+somaari-terminal's detail page, when it is written, needs a "How AI is used" section like
+`apps/somaari-plan/`'s, from the somaari-terminal README's Privacy section.
 
 ## App guides
 
@@ -124,10 +121,10 @@ To publish a new app's guide, follow the somaari-docs README.
 ## Screenshots and demo loops from the app repo
 
 An app's detail page screenshot and card demo loop can live only in the app repo, so
-they update on the site when they change there. Add them to the app's entry in `docs.config.json`:
+they update on the site when they change there. Add them to the app's entry in somaari-common's `apps/apps.json`:
 
 - `"screenshot": "docs/screenshots/x.png"`: one PNG or JPEG for the detail page, or
-  `{ "<theme id>": "<path>", ... }` with one per theme (all four, same size). The build downloads
+  `{ "<theme id>": "<path>", ... }` with one per theme (all five, same size). The build downloads
   them into `assets/apps/<repo>/` and fills in the page's `<figure class="detail-shot">`, keeping its
   `alt` and setting `width`/`height`. With one per theme, `shots.js` loads only the current theme's.
   Don't commit a copy to `assets/apps/<repo>/`.
@@ -160,7 +157,7 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
 - **Copyright year:** hard-coded in the footer of every page (the shared footer and `404.html`) (no inline script, to keep the CSP strict).
 - **Demo loops:** re-record and re-encode with `scripts/demo/` (see `scripts/demo/README.md`), except
   apps whose loop comes from their repo (see [above](#screenshots-and-demo-loops-from-the-app-repo)).
-- **Sitemap date:** update `<lastmod>` in `sitemap.xml` after significant changes.
+- **Sitemap date:** update `<lastmod>` in `sitemap.xml` after significant changes. The `/apps/<repo>/` entries are written by the build, dated by the page's last commit.
 
 ## Contributing
 
