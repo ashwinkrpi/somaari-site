@@ -1,11 +1,18 @@
 /* somaari themes: fonts and the tokens every themed somaari app shares (see docs/THEME_SPEC.md).
-   theme.js sets html[data-theme] before first paint. :root holds warm-tactile, the year-round
+   theme.js sets html[data-theme] before first paint. :root holds rangoli, the year-round
    default, so a page keeps it without JS. Load this before the app's stylesheet; the app adds its
    own tokens per theme (and never overrides these). Fonts are self-hosted (OFL-*.txt beside them);
    a browser downloads only the faces its theme uses. */
 
-@font-face { font-family: "Fraunces"; src: url("fonts/Fraunces.woff2") format("woff2"); font-weight: 400 600; font-display: swap; }
 @font-face { font-family: "Hanken Grotesk"; src: url("fonts/HankenGrotesk.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Marcellus"; src: url("fonts/Marcellus.woff2") format("woff2"); font-weight: 400; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Literata"; src: url("fonts/Literata.woff2") format("woff2"); font-weight: 400 700; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans"; src: url("fonts/IBMPlexSans.woff2") format("woff2"); font-weight: 400 700; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; src: url("fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 400 700; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Onest"; src: url("fonts/Onest.woff2") format("woff2"); font-weight: 400 700; font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 /* Onest's arrows, ✓ and ↻ (Google Fonts' math and symbols subsets); where both have a glyph, symbols wins. */
@@ -17,29 +24,58 @@
 @font-face { font-family: "Mukta"; src: url("fonts/Mukta-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "Mukta"; src: url("fonts/Mukta-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 @font-face { font-family: "Mukta"; src: url("fonts/Mukta-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "Rozha One"; src: url("fonts/RozhaOne.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Baloo Tamma 2"; src: url("fonts/BalooTamma2.woff2") format("woff2"); font-weight: 400 800; font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Baloo Tamma 2"; src: url("fonts/BalooTamma2-kannada.woff2") format("woff2"); font-weight: 400 800; font-display: swap;
   unicode-range: U+0C80-0CF3, U+200C-200D, U+25CC; }
 
 :root,
-:root[data-theme="warm-tactile"] {
+:root[data-theme="rangoli"] {
   color-scheme: light;
-  --page-bg:
-    radial-gradient(rgb(74 52 30 / 9%) 0.7px, transparent 1.3px) 0 0 / 6px 6px,
-    radial-gradient(rgb(74 52 30 / 6%) 0.7px, transparent 1.3px) 3px 4px / 9px 9px,
-    radial-gradient(rgb(255 255 255 / 35%) 0.7px, transparent 1.3px) 1px 2px / 7px 7px,
-    #ede3d3;
-  --fg: #2a241e;
-  --line: #d9c9ac;
-  --accent: #9a4424;
+  --page-bg: #fbc96b;
+  --card-bg: #fff6e5;
+  --line: #e39a2d;
+  --shadow: 0 4px 0 #2b2f8f;
+  --fg: #1c1640;
+  --accent: #2b2f8f;
   --on-accent: #ffffff;
-  --focus: #7f3519;
-  --btn-radius: 6px;
+  --focus: #2b2f8f;
+  --btn-radius: 10px;
   --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --display-weight: 500;
+  --font-display: "Marcellus", Georgia, "Times New Roman", serif;
+  --display-weight: 400;
+}
+
+:root[data-theme="monsoon"] {
+  color-scheme: light;
+  --page-bg: #e3ebee;
+  --card-bg: #f7fafb;
+  --line: #c8d6dc;
+  --shadow: 0 1px 2px rgb(20 38 47 / 6%), 0 8px 24px rgb(20 38 47 / 6%);
+  --fg: #13252e;
+  --accent: #0f6e7a;
+  --on-accent: #ffffff;
+  --focus: #0c5d67;
+  --btn-radius: 8px;
+  --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Literata", Georgia, "Times New Roman", serif;
+  --display-weight: 600;
+}
+
+:root[data-theme="pi-console"] {
+  color-scheme: dark;
+  --page-bg: #0d120f;
+  --card-bg: #141b16;
+  --line: #26382b;
+  --shadow: none;
+  --fg: #dcf5e2;
+  --accent: #3ddc84;
+  --on-accent: #08130c;
+  --focus: #7cf0ad;
+  --btn-radius: 4px;
+  --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 700;
 }
 
 :root[data-theme="liquid-glass"] {
@@ -52,21 +88,6 @@
   --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font);
   --display-weight: 600;
-}
-
-:root[data-theme="dasara-jamboo"] {
-  color-scheme: dark;
-  --gold: #e8b33a;
-  --page-bg: #5e0d18;
-  --fg: #fbefd9;
-  --accent: #e8b33a;
-  --on-accent: #3e0810;
-  --focus: #e8b33a;
-  --card-bg: #fbefd9;
-  --btn-radius: 4px;
-  --font: "Mukta", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Rozha One", Georgia, "Times New Roman", serif;
-  --display-weight: 400;
 }
 
 :root[data-theme="rajyotsava"] {
@@ -84,16 +105,4 @@
   --font: "Mukta", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Baloo Tamma 2", system-ui, sans-serif;
   --display-weight: 700;
-}
-
-:root[data-theme="deepa"] {
-  color-scheme: dark;
-  --fg: #fbeedd;
-  --accent: #ffb547;
-  --on-accent: #22140a;
-  --focus: #ffd18a;
-  --btn-radius: 999px;
-  --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --display-weight: 500;
 }

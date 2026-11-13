@@ -55,30 +55,23 @@ def test_every_theme_has_a_css_block_and_schedule_uses_known_themes():
 def test_theme_schedule():
     # Dates are judged by the calendar day in India (UTC+5:30).
     cases = {
-        "2026-10-16T12:00:00+05:30": "warm-tactile",
-        "2026-10-17T12:00:00+05:30": "dasara-jamboo",
-        "2026-10-17T00:00:00+05:30": "dasara-jamboo",
-        "2026-10-20T12:00:00+05:30": "dasara-jamboo",
-        "2026-10-20T23:59:00+05:30": "dasara-jamboo",
-        "2026-10-21T00:00:00+05:30": "warm-tactile",
-        "2026-10-31T12:00:00+05:30": "warm-tactile",
+        "2026-10-16T12:00:00+05:30": "rangoli",
+        "2026-10-18T12:00:00+05:30": "rangoli",  # the old Dasara dates no longer have a theme
+        "2026-10-31T12:00:00+05:30": "rangoli",
         "2026-10-31T18:45:00Z": "rajyotsava",  # 1 Nov 00:15 in India
+        "2026-11-01T00:00:00+05:30": "rajyotsava",
         "2026-11-01T12:00:00+05:30": "rajyotsava",
-        "2026-11-06T23:59:00+05:30": "rajyotsava",
-        "2026-11-07T00:00:00+05:30": "deepa",  # Deepavali 2026 overrides rajyotsava's last day
-        "2026-11-07T12:00:00+05:30": "deepa",
-        "2026-11-08T12:00:00+05:30": "deepa",
-        "2026-11-10T23:59:00+05:30": "deepa",
-        "2026-11-11T00:00:00+05:30": "warm-tactile",
+        "2026-11-07T12:00:00+05:30": "rajyotsava",  # no Deepavali override any more
+        "2026-11-07T23:59:00+05:30": "rajyotsava",
+        "2026-11-08T00:00:00+05:30": "rangoli",
+        "2026-11-09T12:00:00+05:30": "rangoli",
+        "2027-01-01T12:00:00+05:30": "rangoli",
         "2027-11-03T12:00:00+05:30": "rajyotsava",
         "2027-11-07T12:00:00+05:30": "rajyotsava",
-        "2027-11-08T00:00:00+05:30": "warm-tactile",
-        "2027-10-18T12:00:00+05:30": "warm-tactile",  # the Dasara dates are for 2026 only
-        # The day is India's, not UTC's: 00:30 on 17 Oct in India is still 16 Oct in UTC.
-        "2026-10-16T19:00:00Z": "dasara-jamboo",
-        "2026-10-16T18:29:59Z": "warm-tactile",
-        "2026-11-06T18:31:00Z": "deepa",  # 7 Nov 00:01 in India
-        "2026-11-10T18:31:00Z": "warm-tactile",  # 11 Nov 00:01 in India
+        "2027-11-08T00:00:00+05:30": "rangoli",
+        # The day is India's, not UTC's: 00:30 on 1 Nov in India is still 31 Oct in UTC.
+        "2026-10-31T18:29:59Z": "rangoli",
+        "2026-11-07T18:31:00Z": "rangoli",  # 8 Nov 00:01 in India
     }
     got = _node(f"const c = {json.dumps(cases)};"
                 "console.log(JSON.stringify(Object.keys(c).map(d => t.getDefaultTheme(new Date(d)))));")

@@ -13,20 +13,19 @@
 
   // color: <meta name="theme-color">. label: the picker's radio label.
   var THEMES = {
-    "warm-tactile": { color: "#EDE3D3", label: "Warm Tactile" },
+    "rangoli": { color: "#FBC96B", label: "Rangoli" },
+    "monsoon": { color: "#E3EBEE", label: "Monsoon" },
+    "pi-console": { color: "#0D120F", label: "Pi Console" },
     "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" },
-    "dasara-jamboo": { color: "#3E0810", label: "Dasara – Jamboo Savari" },
-    "rajyotsava": { color: "#E2D3A2", label: "Kannada Rajyotsava" },
-    "deepa": { color: "#16112B", label: "Deepavali – Deepa" }
+    "rajyotsava": { color: "#E2D3A2", label: "Kannada Rajyotsava" }
   };
-  var DEFAULT_THEME = "warm-tactile";
+  var DEFAULT_THEME = "rangoli";
 
   // Seasonal defaults, checked in order using the date in India (Asia/Kolkata). Add festivals here:
   //   { from: "YYYY-MM-DD", to: "YYYY-MM-DD", theme: "<id>" }  one-off dates, inclusive
   //   { monthDay: ["MM-DD", "MM-DD"], theme: "<id>" }          every year, inclusive
+  // Remove one-off entries once their dates have passed (and the theme too, if nothing else uses it).
   var SCHEDULE = [
-    { from: "2026-10-17", to: "2026-10-20", theme: "dasara-jamboo" },
-    { from: "2026-11-07", to: "2026-11-10", theme: "deepa" }, // before rajyotsava, so it wins on 7 Nov
     { monthDay: ["11-01", "11-07"], theme: "rajyotsava" }
   ];
 

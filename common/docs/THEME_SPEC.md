@@ -19,11 +19,15 @@ these files.
 
 | id | Name | `color-scheme` | Fonts (body / display) |
 |---|---|---|---|
-| `warm-tactile` | Warm Tactile (default) | light | Hanken Grotesk / Fraunces |
+| `rangoli` | Rangoli (default) | light | Hanken Grotesk / Marcellus |
+| `monsoon` | Monsoon | light | Hanken Grotesk / Literata |
+| `pi-console` | Pi Console | dark | IBM Plex Sans / JetBrains Mono |
 | `liquid-glass` | Liquid Glass | dark | Onest / Onest |
-| `dasara-jamboo` | Dasara – Jamboo Savari | dark | Mukta / Rozha One |
 | `rajyotsava` | Kannada Rajyotsava | light | Mukta / Baloo Tamma 2 |
-| `deepa` | Deepavali – Deepa | dark | Hanken Grotesk / Fraunces |
+
+Rangoli, Monsoon and Pi Console have plain page backgrounds (no pattern); text sits on solid cards.
+Removed on 2026-11-13: `warm-tactile` (the old default), `dasara-jamboo` and `deepa` (their only dates
+had passed). A saved choice or `?theme=` link naming a removed theme falls back to the schedule.
 
 **Which theme shows:** `?theme=<id>` in the URL (a preview, never saved), else the saved choice
 (`localStorage` key `somaari-theme`), else the schedule. "Auto (seasonal)" clears the saved choice.
@@ -31,8 +35,8 @@ Because the key is shared, a choice made on one app is remembered by the others 
 origin.
 
 **Schedule** (`SCHEDULE` in `theme.js`, judged by the calendar day in India, Asia/Kolkata):
-17–20 Oct 2026 `dasara-jamboo`; 7–10 Nov 2026 `deepa` (it comes first, so it wins on 7 Nov); 1–7 Nov
-every year `rajyotsava`; otherwise `warm-tactile`. The first matching entry wins.
+1–7 Nov every year `rajyotsava`; otherwise `rangoli`. The first matching entry wins. Remove a
+one-off entry once its dates have passed.
 To add a festival, add an entry there and a case to `tests/test_theme.py`.
 
 ## 2. How an app loads it
@@ -40,7 +44,7 @@ To add a festival, add an entry there and a case to `tests/test_theme.py`.
 Serve `theme/` at `/theme/` and put this in `<head>`, in this order, before the app's own stylesheet:
 
 ```html
-<meta name="theme-color" content="#EDE3D3">
+<meta name="theme-color" content="#FBC96B">
 <script src="/theme/theme.js"></script>          <!-- blocking on purpose: no flash of the wrong theme -->
 <link rel="stylesheet" href="/theme/themes.css">
 <link rel="stylesheet" href="/your-app.css">
@@ -51,7 +55,7 @@ Serve `theme/` at `/theme/` and put this in `<head>`, in this order, before the 
 | **Python web app** | It already depends on `somaari-common` (`subdirectory=python`). Serve `somaari_theme.static_dir()` at `/theme/`; `somaari_theme.files()` lists the files. |
 | **Static site with a build** | The build downloads `theme/files.json` and the files it lists from `main` (raw.githubusercontent.com) into `<out>/theme/`, and adds cache-busting versions to the two URLs. |
 
-Without JS the page keeps warm-tactile (`:root` holds it) and the picker stays hidden. The fonts
+Without JS the page keeps rangoli (`:root` holds it) and the picker stays hidden. The fonts
 still load, because they come from CSS.
 
 ## 3. The picker markup (per app)
@@ -81,21 +85,21 @@ screenshots.
 ## 4. Tokens
 
 `themes.css` sets these custom properties on `:root[data-theme=<id>]` (`:root` alone holds
-warm-tactile). An app uses them and **never redefines them**. Everything else (layout, panels,
+rangoli). An app uses them and **never redefines them**. Everything else (layout, panels,
 cards, cells, decorations, the picker's look) is the app's, in its own per-theme blocks.
 
-| Token | warm-tactile | liquid-glass | dasara-jamboo | rajyotsava | deepa |
+| Token | rangoli | monsoon | pi-console | liquid-glass | rajyotsava |
 |---|---|---|---|---|---|
 | `color-scheme` | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `--fg` (text) | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `--accent`, `--on-accent` (text on accent), `--focus` | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `--btn-radius` | ✓ | ✓ | ✓ | ✓ | ✓ |
 | `--font`, `--font-display`, `--display-weight` | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `--page-bg` | ✓ | app | ✓ | app | app |
-| `--line` | ✓ | app | app | app | app |
-| `--card-bg` | app | app | ✓ | app | app |
-| `--shadow` | app | app | app | ✓ | app |
-| Named colours | | | `--gold` | `--grain`, `--sand`, `--brick` | |
+| `--page-bg` | ✓ | ✓ | ✓ | app | app |
+| `--card-bg` | ✓ | ✓ | ✓ | app | app |
+| `--line` | ✓ | ✓ | ✓ | app | app |
+| `--shadow` | ✓ | ✓ | ✓ | app | ✓ |
+| Named colours | | | | | `--grain`, `--sand`, `--brick` |
 
 "app" means the token isn't shared for that theme: the apps use different values, so each app sets
 it in its own block. **Rule:** a token moves into `themes.css` only when every themed app uses the
@@ -103,7 +107,7 @@ same value for it. If an app needs a different value, it stays in the app's own 
 
 Selectors: `themes.css` uses `:root[data-theme="<id>"]`. An app's per-theme blocks may use
 `html[data-theme="<id>"]` or `:root[data-theme=<id>]`. They don't conflict, because no token is set
-in both places. Scoped overrides (for example dark ink on dasara's cream cards) may set `--fg`,
+in both places. Scoped overrides (for example dark ink on a light card inside a dark theme) may set `--fg`,
 `--accent` and so on on a descendant. That is a local override, not a redefinition.
 
 ## 5. Fonts
