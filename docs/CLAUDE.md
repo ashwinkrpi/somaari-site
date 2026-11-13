@@ -26,7 +26,7 @@ npm run build -- --local ~/code/ai-projects       # build from sibling checkouts
 npm run build                                      # build from GitHub
 npm run check                                      # anchors, CSP, external hosts, self-host wording
 npm run preview &                                  # dist/ + _headers on :8787 (wrangler dev can't run on the Pi)
-npm run smoke -- http://127.0.0.1:8787             # headless: 5 themes, CSP, external requests, search
+npm run smoke -- http://127.0.0.1:8787             # headless: 4 themes, CSP, external requests, search
 npx --yes wrangler@4 versions upload               # preview URL
 npx --yes wrangler@4 deploy                        # production (after check passes)
 npx --yes wrangler@4 rollback                      # if the live smoke test fails

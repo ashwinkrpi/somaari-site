@@ -48,9 +48,9 @@ From sibling checkouts of the app repos and somaari-common (nothing is fetched):
 npm ci
 npm run build -- --local ~/code/ai-projects
 npm run check
-npm test                                  # import tests (node --test)
+npm test                                  # import and refresh-state tests (node --test)
 npm run preview &                         # dist/ with _headers applied, on http://127.0.0.1:8787
-npm run smoke -- http://127.0.0.1:8787    # headless Chromium: 5 themes, CSP, external requests, search
+npm run smoke -- http://127.0.0.1:8787    # headless Chromium: 4 themes, CSP, external requests, search
 ```
 
 `npm run build` without `--local` reads everything from GitHub (`main` of somaari-common, `guide.ref` of each app).
