@@ -46,18 +46,16 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
 `PUBLISH` in `scripts/build.mjs` are copied to `dist/`; add a new top-level file there too.
 `npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` and `apps/apps.json` from your local somaari-common checkout.
 
-Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=dasara-jamboo>.
-Ids: `warm-tactile`, `liquid-glass`, `dasara-jamboo`, `rajyotsava`, `deepa`.
+Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=pi-console>.
+Ids: `rangoli`, `monsoon`, `pi-console`, `liquid-glass`, `rajyotsava`.
 
 ## Themes
 
 The Appearance control (the round icon button in the header) saves the visitor's choice in `localStorage`; "Auto (seasonal)" clears it
 and follows the date in India (Asia/Kolkata):
 
-- 17–20 October 2026: `dasara-jamboo`
-- 7–10 November 2026 (Deepavali): `deepa` (takes over rajyotsava's 7 November)
 - 1–7 November, every year: `rajyotsava`
-- Otherwise: `warm-tactile`
+- Otherwise: `rangoli`
 
 The themes, schedule and fonts live in somaari-common (`theme/`, standard: `docs/THEME_SPEC.md`), shared
 with somaari-plan. To add a festival or change a shared colour, edit them there (`SCHEDULE` in

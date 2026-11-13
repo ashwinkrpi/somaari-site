@@ -3,25 +3,55 @@
    html[data-theme] before first paint; themes.css holds the fonts and the tokens every somaari app
    shares (--fg, --line, --accent, --on-accent, --focus, --font ...). The blocks below add this site's
    own tokens per theme, plus a few theme-scoped rules for its decorations; the HTML is shared. :root
-   holds warm-tactile, the year-round default, so the page keeps that look without JS. */
+   holds rangoli, the year-round default, so the page keeps that look without JS. */
 
 :root,
-html[data-theme="warm-tactile"] {
-  --muted: #4a4036;
-  --subtle: #6b5d4f;
-  --accent-hover: #7f3519;
-  --status: #5b6236;
-  --tag-border: #c9b79b;
-  --field-bg: #fbf6ec;
+html[data-theme="rangoli"] {
+  --muted: #3a3366;
+  --subtle: #4f4778;
+  --accent-hover: #1d2070;
+  --status: #0b5a43;
+  --tag-border: #e39a2d;
+  --field-bg: #fff6e5;
   --header-bg: none;
-  --footer-border: #c9b79b;
-  --card-bg: #fbf6ec;
-  --card-edge: #e7dcc7;
-  --card-top: 22px;
-  --card-top-color: #e2d2b8;
+  --footer-border: #e39a2d;
+  --card-edge: #e39a2d;
+  --card-top: 1px;
+  --card-top-color: #e39a2d;
+  --card-radius: 18px;
+  --shadow-hover: 0 6px 0 #2b2f8f;
+}
+
+html[data-theme="monsoon"] {
+  --muted: #33505c;
+  --subtle: #4b6672;
+  --accent-hover: #0a525b;
+  --status: #0c5d67;
+  --tag-border: #c8d6dc;
+  --field-bg: #f7fafb;
+  --header-bg: none;
+  --footer-border: #c8d6dc;
+  --card-edge: #c8d6dc;
+  --card-top: 1px;
+  --card-top-color: #c8d6dc;
+  --card-radius: 14px;
+  --shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
+}
+
+html[data-theme="pi-console"] {
+  --muted: #b3cfba;
+  --subtle: #8fae98;
+  --accent-hover: #7cf0ad;
+  --status: #7cf0ad;
+  --tag-border: #26382b;
+  --field-bg: #101712;
+  --header-bg: none;
+  --footer-border: #26382b;
+  --card-edge: #26382b;
+  --card-top: 2px;
+  --card-top-color: #3ddc84;
   --card-radius: 6px;
-  --shadow: 0 12px 24px -12px rgb(90 60 30 / 35%);
-  --shadow-hover: 0 16px 30px -12px rgb(90 60 30 / 45%);
+  --shadow-hover: 0 0 0 1px #3ddc84;
 }
 
 html[data-theme="liquid-glass"] {
@@ -46,37 +76,6 @@ html[data-theme="liquid-glass"] {
   --shadow-hover: 0 28px 56px -24px rgb(0 0 0 / 70%), inset 0 1px 0 rgb(255 255 255 / 16%);
 }
 
-html[data-theme="dasara-jamboo"] {
-  --bar: #3e0810;
-  --muted: #ead9c0;
-  --subtle: #ead9c0;
-  --line: #c8a76a;
-  --accent-hover: #f3c95f;
-  --status: #8a1c2c;
-  --tag-border: #c8a76a;
-  --field-bg: #5e0d18;
-  --header-bg: #3e0810;
-  --footer-border: #e8b33a;
-  --card-edge: #fbefd9;
-  --card-top: 8px;
-  --card-top-color: #e8b33a;
-  --card-radius: 4px;
-  --shadow: 0 0 0 3px #3e0810, 0 0 0 5px #e8b33a;
-  --shadow-hover: 0 0 0 3px #3e0810, 0 0 0 5px #e8b33a, 0 18px 30px -12px rgb(0 0 0 / 55%);
-}
-/* Cream cards on maroon: the card switches to dark ink. */
-html[data-theme="dasara-jamboo"] .card,
-html[data-theme="dasara-jamboo"] .blog-band {
-  color-scheme: light;
-  --fg: #3e0810;
-  --muted: #4e2a22;
-  --subtle: #5e3a2e;
-  --accent: #8a1c2c;
-  --accent-hover: #6e1522;
-  --on-accent: #fbefd9;
-  --focus: #8a1c2c;
-}
-
 html[data-theme="rajyotsava"] {
   --page-bg: #f4f0e6;
   --muted: #4a3e26;
@@ -96,28 +95,6 @@ html[data-theme="rajyotsava"] {
   --shadow-hover: 0 6px 16px -6px rgb(28 20 8 / 14%);
 }
 
-html[data-theme="deepa"] {
-  --page-bg:
-    radial-gradient(60rem 28rem at 78% 8rem, rgb(255 166 48 / 22%), transparent 70%),
-    radial-gradient(40rem 20rem at 10% 0, rgb(255 120 40 / 10%), transparent 70%),
-    #16112b;
-  --muted: #e2d3c2;
-  --subtle: #d4c2ae;
-  --line: #3b2f5c;
-  --accent-hover: #ffc978;
-  --status: #ffcf7a;
-  --tag-border: #5a4a7d;
-  --field-bg: #221a3d;
-  --header-bg: none;
-  --footer-border: #3b2f5c;
-  --card-bg: linear-gradient(180deg, #2a2148, #221a3d);
-  --card-edge: #3b2f5c;
-  --card-top: 3px;
-  --card-top-color: #ffb547;
-  --card-radius: 14px;
-  --shadow: 0 18px 40px -20px rgb(255 150 40 / 35%);
-  --shadow-hover: 0 22px 48px -18px rgb(255 160 50 / 55%);
-}
 
 *,
 *::before,
@@ -298,8 +275,6 @@ a:hover { color: var(--accent-hover); }
 .hero h1 { font-size: clamp(2rem, 6vw, 3.25rem); letter-spacing: -0.02em; max-width: 40rem; }
 .hero-sub { margin: 1rem 0 0; max-width: 42rem; color: var(--muted); font-size: 1.125rem; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.5rem 0 0; }
-.hero-art,
-.hero-art-deepa { display: none; }
 
 /* Sections. scroll-margin keeps a jumped-to heading off the very top edge. */
 .apps,
@@ -674,10 +649,6 @@ html:has(.demo-dialog[open]) { overflow: hidden; }
 /* Decorations (all aria-hidden; each theme shows its own) */
 .glows { display: none; }
 
-/* ---- warm-tactile ---- */
-:root:not([data-theme]) .hero h1,
-html[data-theme="warm-tactile"] .hero h1 { font-weight: 450; }
-
 /* ---- liquid-glass ---- */
 html[data-theme="liquid-glass"] .glows {
   display: block;
@@ -728,68 +699,6 @@ html[data-theme="liquid-glass"] .blog-band { padding: 1.5rem; }
 html[data-theme="liquid-glass"] .card-demo,
 html[data-theme="liquid-glass"] .demo-video { border-radius: 18px; }
 
-/* ---- dasara-jamboo ---- */
-/* Header and footer bars with a gold zig-zag fringe like an elephant's caparison. */
-html[data-theme="dasara-jamboo"] .site-header {
-  padding: 1rem 0;
-  margin-bottom: 11px;
-  border-bottom: 3px solid var(--gold);
-}
-html[data-theme="dasara-jamboo"] .site-header::after,
-html[data-theme="dasara-jamboo"] .site-footer::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 11px;
-  background-size: 22px 22px;
-  background-repeat: repeat-x;
-}
-html[data-theme="dasara-jamboo"] .site-header::after {
-  top: calc(100% + 3px);
-  background-image:
-    linear-gradient(135deg, var(--gold) 25%, transparent 25%),
-    linear-gradient(225deg, var(--gold) 25%, transparent 25%);
-  background-position: -11px 0;
-}
-html[data-theme="dasara-jamboo"] .site-footer {
-  margin-top: 11px;
-  background: var(--bar);
-  border-top: 3px solid var(--gold);
-}
-html[data-theme="dasara-jamboo"] .site-footer::before {
-  bottom: calc(100% + 3px);
-  background-image:
-    linear-gradient(45deg, var(--gold) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--gold) 25%, transparent 25%);
-  background-position: -11px 100%;
-}
-html[data-theme="dasara-jamboo"] .wordmark-mark { border-radius: 4px; }
-html[data-theme="dasara-jamboo"] .hero h1 { letter-spacing: 0; }
-html[data-theme="dasara-jamboo"] .apps h2,
-html[data-theme="dasara-jamboo"] .about h2,
-html[data-theme="dasara-jamboo"] .detail h2 { color: var(--gold); }
-/* Badges outside the cream cards sit on maroon. */
-html[data-theme="dasara-jamboo"] .detail .badge--live { color: var(--gold); }
-@media (min-width: 48rem) {
-  html[data-theme="dasara-jamboo"] .hero .container {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 2rem;
-    align-items: center;
-  }
-  html[data-theme="dasara-jamboo"] .hero h1,
-  html[data-theme="dasara-jamboo"] .hero-sub,
-  html[data-theme="dasara-jamboo"] .hero-actions { grid-column: 1; }
-  html[data-theme="dasara-jamboo"] .hero-art {
-    display: block;
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    width: 240px;
-    height: auto;
-  }
-}
-
 /* ---- rajyotsava ---- */
 /* A muted sand hero, then a brick-red band: the yellow and red of the Kannada flag, matte. */
 html[data-theme="rajyotsava"] .hero {
@@ -827,65 +736,3 @@ html[data-theme="rajyotsava"] .hero::before {
 html[data-theme="rajyotsava"] .hero h1 { letter-spacing: -0.01em; }
 html[data-theme="rajyotsava"] .card,
 html[data-theme="rajyotsava"] .blog-band { padding-top: calc(1.25rem + 16px); }
-
-/* ---- deepa ---- */
-/* Indigo night, warm lamplight: a row of lit diyas under the header, three diyas beside the hero. */
-html[data-theme="deepa"] .site-header { padding-bottom: 2.25rem; }
-html[data-theme="deepa"] .site-header::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 26px;
-  background:
-    radial-gradient(4px 7px at 28px 7px, #fff3c4 0 45%, #ffb547 60%, transparent 75%),
-    radial-gradient(10px 10px at 28px 8px, rgb(255 181 71 / 45%), transparent 70%),
-    radial-gradient(14px 7px at 28px 17px, #c4562a 0 92%, transparent 100%);
-  background-size: 56px 26px;
-  background-repeat: repeat-x;
-  filter: drop-shadow(0 0 6px rgb(255 170 60 / 70%));
-}
-html[data-theme="deepa"] .hero h1 { text-shadow: 0 0 28px rgb(255 170 60 / 35%); }
-html[data-theme="deepa"] .apps h2,
-html[data-theme="deepa"] .about h2,
-html[data-theme="deepa"] .detail h2,
-html[data-theme="deepa"] .blog h2 { color: #ffcf7a; }
-@media (min-width: 48rem) {
-  html[data-theme="deepa"] .hero .container {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 2rem;
-    align-items: center;
-  }
-  html[data-theme="deepa"] .hero h1,
-  html[data-theme="deepa"] .hero-sub,
-  html[data-theme="deepa"] .hero-actions { grid-column: 1; }
-  html[data-theme="deepa"] .hero-art-deepa {
-    display: block;
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    width: 260px;
-    height: auto;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  html[data-theme="deepa"] .hero-art-deepa .flame {
-    animation: deepa-flicker 2.4s ease-in-out infinite;
-    transform-box: fill-box;
-    transform-origin: 50% 100%;
-  }
-  html[data-theme="deepa"] .hero-art-deepa g:nth-of-type(2) .flame { animation-delay: -0.8s; }
-  html[data-theme="deepa"] .hero-art-deepa g:nth-of-type(3) .flame { animation-delay: -1.6s; }
-}
-@keyframes deepa-flicker {
-  0%, 100% { transform: scale(1, 1); }
-  40% { transform: scale(0.94, 1.08); }
-  70% { transform: scale(1.05, 0.95); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card { transition: none; }
-  .card:hover,
-  .card:focus-within { transform: none; }
-}

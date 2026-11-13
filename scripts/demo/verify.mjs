@@ -142,7 +142,7 @@ try {
   await shot("verify-phone-appearance.png");
   await press("ArrowDown");
   a = await appearance();
-  check(a.theme === "warm-tactile" && a.saved === "warm-tactile", `appearance: arrow key picks and saves the next theme (${a.theme}, saved ${a.saved})`);
+  check(a.theme === "rangoli" && a.saved === "rangoli", `appearance: arrow key picks and saves the next theme (${a.theme}, saved ${a.saved})`);
   await press("Escape");
   a = await appearance();
   check(a.hidden && a.expanded === "false" && a.active === "appearance-toggle", "appearance: Esc closes it and returns focus to the button");
@@ -183,7 +183,7 @@ try {
   await setup({ width: 390, height: 844, mobile: true, nojs: true, path: "apps/somaari-plan/" });
   const nojsShot = await evaluate(`Array.from(document.querySelectorAll(".detail-shot img")).filter((i) => i.offsetParent)
     .map((i) => i.naturalWidth && i.currentSrc.split("/").pop())`);
-  check(nojsShot.length === 1 && nojsShot[0] === "screenshot-warm-tactile.png", `no JS: somaari-plan shows the default screenshot (${nojsShot})`);
+  check(nojsShot.length === 1 && nojsShot[0] === "screenshot-rangoli.png", `no JS: somaari-plan shows the default screenshot (${nojsShot})`);
 
   const real = problems.filter((p) => !/favicon/i.test(p));
   check(real.length === 0, `no console errors/warnings or CSP violations${real.length ? ": " + real.join(" | ") : ""}`);
