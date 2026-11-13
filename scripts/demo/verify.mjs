@@ -1,7 +1,7 @@
 // Check the demo player, the Appearance control and the pages in headless Chromium, driven with
 // playwright-core and the system Chromium (CHROMIUM=/path to override; nothing is downloaded).
 //   npm run build && python3 scripts/demo/serve.py 8000 &  node scripts/demo/verify.mjs [http://127.0.0.1:8000/] [outdir]
-// Checks: cards show posters only and nothing loads a video until "Watch demo" opens the player; the
+// Checks: cards show posters only and nothing loads a video until "Play demo" opens the player; the
 // player works from the keyboard (Enter opens, play/pause, Esc closes, focus returns to the button)
 // and closes on a backdrop click; with reduced motion it never autoplays, including a live toggle;
 // the Appearance popover works from the keyboard and saves or clears the choice; app detail pages;
@@ -62,7 +62,7 @@ try {
   const cards = await evaluate(`Array.from(document.querySelectorAll(".card-demo")).map(i => ({
     box: Math.abs(i.getBoundingClientRect().height - i.getBoundingClientRect().width * 9 / 16) <= 2 }))`);
   const buttons = await evaluate(`Array.from(document.querySelectorAll("button.demo-open")).filter(b => !b.hidden).length`);
-  check(cards.length === 4 && buttons === 4, `phone: 4 posters with a visible "Watch demo" button (${cards.length} posters, ${buttons} buttons)`);
+  check(cards.length === 4 && buttons === 4, `phone: 4 posters with a visible "Play demo" button (${cards.length} posters, ${buttons} buttons)`);
   check(cards.every((c) => c.box), "phone: poster boxes keep 16:9");
   for (let i = 0; i < 4; i++) { await evaluate(`document.querySelectorAll(".card-demo")[${i}].scrollIntoView({block: "center"})`); await sleep(400); }
   await sleep(800);
@@ -88,7 +88,7 @@ try {
   await press("Escape");
   p = await player();
   const opener = await evaluate(`document.activeElement === document.querySelector("button.demo-open")`);
-  check(!p.open && opener, "player: Esc closes it and focus returns to the Watch demo button");
+  check(!p.open && opener, "player: Esc closes it and focus returns to the Play demo button");
   check(p.sources === 0 && p.rs === 0, `player: closing unloads the video (readyState ${p.rs})`);
   await evaluate(`document.querySelectorAll("button.demo-open")[1].click()`);
   await sleep(600);
@@ -172,13 +172,13 @@ try {
     check(t.src.endsWith(`screenshot-${id}.png`), `detail page somaari-plan, ${id}: shows that theme's screenshot (${t.src.split("/").pop()})`);
   }
 
-  // No JS: posters only, no Watch demo buttons, no Appearance control.
+  // No JS: posters only, no Play demo buttons, no Appearance control.
   await setup({ width: 390, height: 844, mobile: true, nojs: true });
   await evaluate(`document.querySelectorAll(".card-demo")[0].scrollIntoView({block: "center"})`);
   await sleep(800);
   const nojs = await evaluate(`({ buttons: Array.from(document.querySelectorAll("button.demo-open")).filter(b => b.offsetParent).length,
     picker: document.getElementById("theme-picker").offsetParent !== null })`);
-  check(videoReqs.length === 0 && nojs.buttons === 0 && !nojs.picker, `no JS: no video requests, no Watch demo buttons, no Appearance control`);
+  check(videoReqs.length === 0 && nojs.buttons === 0 && !nojs.picker, `no JS: no video requests, no Play demo buttons, no Appearance control`);
   await shot("verify-phone-nojs.png");
   await setup({ width: 390, height: 844, mobile: true, nojs: true, path: "apps/somaari-plan/" });
   const nojsShot = await evaluate(`Array.from(document.querySelectorAll(".detail-shot img")).filter((i) => i.offsetParent)

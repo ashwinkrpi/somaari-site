@@ -167,7 +167,8 @@ function comment(app, text) {
 }
 
 // One landing page card. The demo poster is the committed assets/demos/<repo>/poster.webp, or the one
-// demo() downloads; the Video links come from videos.json.
+// demo() downloads; the player's walkthrough link comes from videos.json. The title links to the detail
+// page; the actions are one Details button plus Guide (docs.somaari.in) and GitHub text links.
 function card(app) {
   const t = escapeHtml(app.title);
   const video = VIDEOS[app.repo] ? `/apps/${app.repo}/#video` : "";
@@ -178,21 +179,22 @@ function card(app) {
   const labels = [app.ai.label].flat();
   const actions = [
     app.detail_page && `<a class="btn" href="/apps/${app.repo}/">Details<span class="visually-hidden"> about ${t}</span></a>`,
-    video && `<a class="btn btn--secondary" href="${video}"><span aria-hidden="true">&#x25B6;&#xFE0E;&nbsp;</span>Video<span class="visually-hidden">: ${t}</span></a>`,
-    app.public && `<a class="btn btn--secondary" href="https://github.com/${owner}/${app.repo}">View on GitHub<span class="visually-hidden"> (${app.repo})</span></a>`,
+    app.guide && `<a class="card-link" href="https://docs.somaari.in/${app.repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
+    app.public && `<a class="card-link" href="https://github.com/${owner}/${app.repo}">GitHub<span class="visually-hidden"> (${app.repo})</span></a>`,
   ].filter(Boolean);
+  const title = app.detail_page ? `<a href="/apps/${app.repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
   return `
         <!-- CARD START: ${app.repo} -->
         <li class="card">${hasDemo ? `
-          <!-- Demo: a still poster; "Watch demo" (shown by demo.js) plays the loop in the player
+          <!-- Demo: a still poster; "Play demo" (shown by demo.js) plays the loop in the player
                dialog at the end of the page. Rebuild: ${rebuild} -->
           <div class="card-media">
             <img class="card-demo" src="/assets/demos/${app.repo}/poster.webp" ${POSTER} alt="" loading="lazy">
-            <button type="button" class="btn demo-open" data-demo="${app.repo}" data-title="${t}"${video ? ` data-video="${video}"` : ""} hidden>Watch demo<span class="visually-hidden">: ${t}</span></button>
+            <button type="button" class="btn demo-open" data-demo="${app.repo}" data-title="${t}"${video ? ` data-video="${video}"` : ""} hidden><span aria-hidden="true">&#x25B6;&#xFE0E;</span> Play demo<span class="visually-hidden">: ${t}</span></button>
           </div>` : ""}
           <div class="card-head">
             <div class="card-names">
-              <h3 class="card-title">${t}</h3>
+              <h3 class="card-title">${title}</h3>
               <p class="card-repo">${app.repo}</p>
             </div>
             ${comment(app, `AI chip: ${app.ai.source}`)}
@@ -202,9 +204,7 @@ ${labels.map((l) => `              <span class="badge badge--ai">${escapeHtml(l)
             </span>
           </div>
           <p class="card-desc">${escapeHtml(app.description)}</p>
-          <ul class="tags" aria-label="Tags">
-${app.tags.map((tag) => `            <li>${escapeHtml(tag)}</li>`).join("\n")}
-          </ul>${actions.length ? `
+          <p class="card-tags">${app.tags.map(escapeHtml).join(" &middot; ")}</p>${actions.length ? `
           <div class="card-actions">
 ${actions.map((a) => `            ${a}`).join("\n")}
           </div>` : ""}${app.public ? "" : `
