@@ -63,11 +63,11 @@
         "ref": "site-demo"
       },
       "screenshot": {
-        "warm-tactile": "docs/screenshots/theme-warm-tactile.png",
+        "rangoli": "docs/screenshots/theme-rangoli.png",
+        "monsoon": "docs/screenshots/theme-monsoon.png",
+        "pi-console": "docs/screenshots/theme-pi-console.png",
         "liquid-glass": "docs/screenshots/theme-liquid-glass.png",
-        "dasara-jamboo": "docs/screenshots/theme-dasara-jamboo.png",
-        "rajyotsava": "docs/screenshots/theme-rajyotsava.png",
-        "deepa": "docs/screenshots/theme-deepa.png"
+        "rajyotsava": "docs/screenshots/theme-rajyotsava.png"
       },
       "guide": {
         "ref": "main",

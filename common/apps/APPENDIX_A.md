@@ -151,11 +151,11 @@ From somaari-site `index.html` lines 153–289 and `docs.config.json`.
     { "repo": "somaari-disk", "ref": "main", "src": "docs/GUIDE.md" },
     { "repo": "somaari-plan", "ref": "main", "src": "docs/GUIDE.md",
       "screenshot": {
-        "warm-tactile": "docs/screenshots/theme-warm-tactile.png",
+        "rangoli": "docs/screenshots/theme-rangoli.png",
+        "monsoon": "docs/screenshots/theme-monsoon.png",
+        "pi-console": "docs/screenshots/theme-pi-console.png",
         "liquid-glass": "docs/screenshots/theme-liquid-glass.png",
-        "dasara-jamboo": "docs/screenshots/theme-dasara-jamboo.png",
-        "rajyotsava": "docs/screenshots/theme-rajyotsava.png",
-        "deepa": "docs/screenshots/theme-deepa.png"
+        "rajyotsava": "docs/screenshots/theme-rajyotsava.png"
       },
       "demo": { "ref": "site-demo" } },
     { "repo": "somaari-trip", "ref": "main", "src": "docs/GUIDE.md" }
