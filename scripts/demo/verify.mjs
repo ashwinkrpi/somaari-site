@@ -166,7 +166,7 @@ try {
   // Per-theme screenshots (somaari-plan): the image shown is the current theme's.
   const shotTheme = () => evaluate(`({ theme: document.documentElement.dataset.theme,
     src: document.querySelector(".detail-shot img").currentSrc })`);
-  for (const id of ["liquid-glass", "rajyotsava"]) {
+  for (const id of ["liquid-glass", "pi-console"]) {
     await setup({ width: 1280, height: 900, path: `apps/somaari-plan/?theme=${id}` });
     const t = await shotTheme();
     check(t.src.endsWith(`screenshot-${id}.png`), `detail page somaari-plan, ${id}: shows that theme's screenshot (${t.src.split("/").pop()})`);
