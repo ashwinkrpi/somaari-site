@@ -11,10 +11,6 @@ html[data-theme="liquid-glass"] {
 	--page-bg: #0a0e1c; --line: rgb(255 255 255 / 16%);
 	--surface: #0a0e1c; --field-bg: #151b33; --muted: #c9d0e3;
 }
-html[data-theme="rajyotsava"] {
-	--page-bg: #f4f0e6; --line: #e4dcc8;
-	--surface: #f4f0e6; --field-bg: #f4f0e6; --muted: #4a3e26;
-}
 
 :root {
 	--sl-font: var(--font);
