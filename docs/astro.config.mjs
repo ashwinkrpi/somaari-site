@@ -19,7 +19,7 @@ export default defineConfig({
 	markdown: { syntaxHighlight: false },
 	integrations: [
 		starlight({
-			title: 'somaari docs',
+			title: 'Somaari Docs',
 			social: [],
 			expressiveCode: false,
 			customCss: ['./src/styles/somaari.css'],
@@ -37,7 +37,7 @@ export default defineConfig({
 				{ tag: 'script', attrs: { src: '/theme/theme.js' } },
 				{ tag: 'script', attrs: { src: '/sl-theme-bridge.js' } },
 			],
-			sidebar: apps.filter((a) => a.guide).map((a) => ({ label: a.title, link: `/${a.repo}/` })),
+			sidebar: [{ label: 'Guides', items: apps.filter((a) => a.guide).map((a) => ({ label: a.title, link: `/${a.repo}/` })) }],
 		}),
 	],
 });

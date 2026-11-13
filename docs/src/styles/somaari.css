@@ -154,6 +154,8 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 	font-size: 1.2rem;
 }
 .docs-home {
+	padding-left: 0.75rem;
+	border-left: 1px solid var(--line, currentColor);
 	color: var(--muted);
 	font-weight: 600;
 	text-decoration: none;
@@ -170,6 +172,17 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 	text-decoration: none;
 }
 .site-nav a:hover { color: var(--accent); text-decoration: underline; }
+
+/* The guide's source on GitHub: a small muted line under the title (scripts/import-guides.mjs). */
+.sl-markdown-content .guide-source { margin-top: 0; font-size: 0.875rem; color: var(--muted); }
+
+/* Left sidebar: the current guide is a soft tint of the accent, not a solid block. */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+	background: color-mix(in oklab, var(--accent) 16%, var(--surface));
+	color: var(--fg);
+	font-weight: 600;
+}
 
 /* Mobile menu (src/components/MobileMenuFooter.astro): nav above the Appearance control. */
 .somaari-mobile-footer { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }

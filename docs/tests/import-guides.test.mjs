@@ -18,13 +18,26 @@ const OTHER = { repo: 'other-app', title: 'Other App', guide: { ref: 'main', src
 const opts = { owner: 'ashwinkrpi', published: publishedGuides([APP, OTHER]) };
 const convert = (md) => convertGuide(APP, md, opts);
 
-test('frontmatter: manifest title, description and the GitHub banner', () => {
+test('frontmatter: manifest title and description; a muted source line instead of a banner', () => {
 	const { markdown, title } = convert(guide('ok.md'));
 	assert.equal(title, 'Fixture App');
 	assert.match(markdown, /^---\ntitle: "Fixture App"\n/);
 	assert.match(markdown, /description: "How to install, set up and use Fixture App \(fixture-app\)\."/);
-	assert.match(markdown, /This guide is kept in the fixture-app repository on GitHub\./);
-	assert.match(markdown, /href=\\"https:\/\/github\.com\/ashwinkrpi\/fixture-app\/blob\/main\/docs\/GUIDE\.md\\">View it on GitHub/);
+	assert.doesNotMatch(markdown, /^banner:/m);
+	assert.match(markdown, /<p class="guide-source">Source: <a href="https:\/\/github\.com\/ashwinkrpi\/fixture-app\/blob\/main\/docs\/GUIDE\.md">fixture-app\/docs\/GUIDE\.md<\/a> on GitHub<\/p>/);
+});
+
+test('the centred intro becomes one left-aligned paragraph without the section links row', () => {
+	const src = [
+		'<div align="center">', '', '<br>', '',
+		'**The fixture guide: install it and use it.**<br>',
+		'For the internals, see the [README](../README.md).', '', '<br>', '',
+		'[Installation](#-installation) ·', '[Troubleshooting](#-troubleshooting) ·', '[README](../README.md)', '',
+		'</div>', '', '## Installation', '',
+	].join('\n');
+	const { markdown } = convert(src);
+	assert.doesNotMatch(markdown, /align="center"|<br>|\*\*The fixture|\[Installation\]/);
+	assert.match(markdown, /\nThe fixture guide: install it and use it\. For the internals, see the \[README\]\(https:\/\/github\.com\/ashwinkrpi\/fixture-app\/blob\/main\/README\.md\)\.\n/);
 });
 
 test('a "# " heading outside code becomes the title', () => {

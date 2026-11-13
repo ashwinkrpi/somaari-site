@@ -32,6 +32,24 @@ const SCHEME = /^[a-z][a-z0-9+.-]*:/i;
 
 export class GuideError extends Error {}
 
+// A row of section links ("[Installation](#…) ·" on each line), which the "On this page" list replaces.
+const LINK_ROW = /^\[[^\]]+\]\([^)]+\)\s*·?\s*$/;
+
+/**
+ * The guides open with a centred <div align="center"> intro for GitHub: a bold line, a README line and
+ * a row of section links. On the site that becomes one plain left-aligned paragraph, without the
+ * links row (the "On this page" list does that job).
+ */
+export function tidyIntro(text) {
+	const m = text.match(/^(\s*)<div align="center">\n([\s\S]*?)\n<\/div>\n/);
+	if (!m) return text;
+	const paras = m[2].split(/\n\s*\n/).map((p) => p.trim()).filter((p) => p && p !== '<br>');
+	const kept = paras
+		.filter((p) => !p.split('\n').every((l) => LINK_ROW.test(l.trim())))
+		.map((p) => p.replace(/<br>\s*/g, ' ').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\s*\n\s*/g, ' ').trim());
+	return m[1] + kept.join('\n\n') + '\n' + text.slice(m[0].length);
+}
+
 /** The guide pages of every app with a guide: "<repo>:<src>" → "/<repo>/". */
 export const publishedGuides = (apps) =>
 	new Map(apps.filter((a) => a.guide).map((a) => [`${a.repo}:${a.guide.src}`, `/${a.repo}/`]));
@@ -88,7 +106,7 @@ export function convertGuide(app, source, { owner, published }) {
 		return out.replace(/\u0000(\d+)\u0000/g, (_, i) => code[Number(i)]);
 	}
 
-	const text = source.replace(/\r\n/g, '\n').replace(SKIP, '').replace(BANNER, '');
+	const text = tidyIntro(source.replace(/\r\n/g, '\n').replace(SKIP, '').replace(BANNER, ''));
 	const banned = text.match(BANNED);
 	if (banned) fail(`mentions self-hosting ("${banned[0]}"); reword it in the app repo`);
 
@@ -132,12 +150,12 @@ export function convertGuide(app, source, { owner, published }) {
 		'---',
 		`title: ${JSON.stringify(plainTitle)}`,
 		`description: ${JSON.stringify(`How to install, set up and use ${app.title} (${app.repo}).`)}`,
-		'banner:',
-		`  content: ${JSON.stringify(
-			`This guide is kept in the ${app.repo} repository on GitHub. <a href="${githubUrl}">View it on GitHub</a>`,
-		)}`,
 		'editUrl: false',
 		'---',
+		'',
+		// A small muted line under the title (was an accent-coloured banner across the page).
+		`<p class="guide-source">Source: <a href="${githubUrl}">${app.repo}/${src}</a> on GitHub</p>`,
+		'', // a blank line ends the HTML block, so the Markdown after it is parsed
 		'',
 	];
 	return { markdown: frontmatter.join('\n') + out.join('\n').replace(/^\n+/, ''), title: plainTitle, images };
