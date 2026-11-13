@@ -4,22 +4,16 @@
    Starlight's header, sidebars and dialogs. Starlight's own styles sit in a cascade layer, so these
    unlayered rules win. */
 :root,
-html[data-theme="warm-tactile"] { --surface: #ede3d3; --field-bg: #fbf6ec; --muted: #4a4036; }
+html[data-theme="rangoli"] { --surface: #fff6e5; --field-bg: #fffaf0; --muted: #3a3366; }
+html[data-theme="monsoon"] { --surface: #f7fafb; --field-bg: #ffffff; --muted: #33505c; }
+html[data-theme="pi-console"] { --surface: #141b16; --field-bg: #101712; --muted: #b3cfba; }
 html[data-theme="liquid-glass"] {
 	--page-bg: #0a0e1c; --line: rgb(255 255 255 / 16%);
 	--surface: #0a0e1c; --field-bg: #151b33; --muted: #c9d0e3;
 }
-html[data-theme="dasara-jamboo"] { --line: #c8a76a; --surface: #5e0d18; --field-bg: #5e0d18; --muted: #ead9c0; }
 html[data-theme="rajyotsava"] {
 	--page-bg: #f4f0e6; --line: #e4dcc8;
 	--surface: #f4f0e6; --field-bg: #f4f0e6; --muted: #4a3e26;
-}
-html[data-theme="deepa"] {
-	--page-bg:
-		radial-gradient(60rem 28rem at 78% 8rem, rgb(255 166 48 / 22%), transparent 70%),
-		radial-gradient(40rem 20rem at 10% 0, rgb(255 120 40 / 10%), transparent 70%),
-		#16112b;
-	--line: #3b2f5c; --surface: #16112b; --field-bg: #221a3d; --muted: #e2d3c2;
 }
 
 :root {

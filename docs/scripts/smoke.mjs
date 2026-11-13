@@ -11,7 +11,7 @@ const base = (args.find((a) => !a.startsWith('--') && /^https?:/.test(a)) || '')
 const opt = (name) => { const i = args.indexOf(`--${name}`); return i >= 0 ? args[i + 1] : null; };
 if (!base) { console.error('usage: node scripts/smoke.mjs <base URL> [--shots dir] [--themes a,b] [--pages /,/x/]'); process.exit(2); }
 
-const THEMES = (opt('themes') || 'warm-tactile,liquid-glass,dasara-jamboo,rajyotsava,deepa').split(',');
+const THEMES = (opt('themes') || 'rangoli,monsoon,pi-console,liquid-glass,rajyotsava').split(',');
 const PAGES = (opt('pages') || '/,/somaari-plan/').split(',');
 const SEARCH = opt('search') || 'install';
 const shots = opt('shots');
