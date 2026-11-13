@@ -3,7 +3,7 @@
 Single source of truth for what somaari apps share:
 
 - the **About** section, used by all somaari apps (somaari-terminal, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
-- the **themes** (five themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan, the blog at blog.somaari.in (somaari-blog) and games.somaari.in (somaari-games). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+- the **themes** (four themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan, somaari-server, the blog at blog.somaari.in (somaari-blog), docs.somaari.in (somaari-docs) and games.somaari.in (somaari-games). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 somaari-common is not versioned: apps always use the latest `main`.
 
@@ -40,13 +40,13 @@ Then write a native collector that outputs exactly the keys in `debug-fields.jso
 
 ## Themes
 
-Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site downloads the files in `theme/files.json` at build time. somaari-blog (Astro) instead commits a copy made by its `npm run sync:common`, so run that there after changing `theme/` or `about/`. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site (somaari-site, somaari-docs) downloads the files in `theme/files.json` at build time. somaari-blog (Astro) instead commits a copy made by its `npm run sync:common`, so run that there after changing `theme/` or `about/`. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 A push that changes `theme/` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-theme.yml`, repo secret `SOMAARI_SITE_DEPLOY_HOOK`).
 
 ## How apps pick up changes
 
-Every app reads `main`, but each one picks up a change at a different time. Only somaari.in updates on its own.
+Every app reads `main`, but each one picks up a change at a different time. somaari.in, docs.somaari.in and games.somaari.in update on their own; the others need a step from you.
 
 ![How somaari apps pick up changes to somaari-common](docs/integration.svg)
 
@@ -57,11 +57,13 @@ Every app reads `main`, but each one picks up a change at a different time. Only
 | somaari-plan | About, themes | uv git dependency, pinned in `uv.lock` | you run `uv lock --upgrade-package somaari-common` and commit |
 | somaari-server | About, themes | committed copy in `vendor/somaari-about/` and `web/theme/`, embedded in the binary | you run `scripts/sync-common.sh`, commit and release |
 | somaari-blog | About, themes, fonts | committed copy from `npm run sync:common` | you run `npm run sync:common` and commit |
+| somaari-build-guru | About | unpinned git dependency (no `uv.lock`) | you reinstall it (`uv pip install -e ".[dev]"`) |
+| somaari-docs (docs.somaari.in) | themes, app list | its build downloads the files in `theme/files.json` and `apps/apps.json` from `main` (not committed) | automatically: its hourly `refresh.sh` sees the new commit on `theme/` or `apps/` and redeploys |
 | somaari-games (games.somaari.in) | About, themes | `pipeline/sync_common.py` downloads the files in `theme/files.json` and the About JSON from `main` at each weekly run (not committed) | automatically: the next weekly run (Sunday 23:00 IST) |
 
 **After changing somaari-common:**
 
-1. Run the tests (reinstall `./python` first) and push to `main`. Changes to `theme/` or `apps/` rebuild somaari.in. Changes to `about/` or `python/` trigger nothing.
+1. Run the tests (reinstall `./python` first) and push to `main`. Changes to `theme/` or `apps/` rebuild somaari.in at once and docs.somaari.in within the hour. Changes to `about/` or `python/` trigger nothing.
 2. Update each app that should get the change, using the step in the table. For somaari-blog, also diff `vendor/somaari-common/theme/themes.css` to check the colours in its `global.css`.
 3. The sync scripts read the committed `main` of the somaari-common checkout next to the app, not the working tree. They refuse to run while `theme/` has uncommitted changes.
 

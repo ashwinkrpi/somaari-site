@@ -1,7 +1,9 @@
 # somaari Themes — Specification
 
-The five somaari themes, the seasonal schedule and the theme picker, shared by every themed somaari
-app. Today that is somaari-site (somaari.in) and somaari-plan. Other apps keep their own UI and don't
+The four somaari themes, the seasonal schedule and the theme picker, shared by every themed somaari
+app. Today those are somaari-site (somaari.in), somaari-plan, somaari-server, somaari-blog
+(blog.somaari.in), somaari-docs (docs.somaari.in) and somaari-games (games.somaari.in); README
+"How apps pick up changes" says how each gets the files. Other apps keep their own UI and don't
 have to adopt this. The canonical files live in this repo:
 
 - `theme/theme.js`: the theme list (id, `<meta theme-color>` colour, picker label), the seasonal
@@ -10,8 +12,9 @@ have to adopt this. The canonical files live in this repo:
 - `theme/fonts/`: self-hosted woff2 fonts, `OFL-<Family>.txt` beside them
 - `theme/files.json`: every file an app must serve under `/theme/`
 
-somaari-common is **not versioned**. Apps always use the latest `main`. Apps never commit a copy of
-these files.
+somaari-common is **not versioned**. Apps always use the latest `main`. Apps never edit these files.
+Most fetch them at build or install time; somaari-blog and somaari-server commit a copy made by their
+sync scripts, which the next sync overwrites.
 
 ---
 
@@ -122,7 +125,9 @@ The licences (`OFL-<Family>.txt`) must be served alongside the fonts.
 ## 6. Changing the themes
 
 1. Edit `theme/` (and `tests/test_theme.py`). Add any new file to `theme/files.json`.
-2. Run the tests (see README). Check both apps in every theme with `?theme=<id>`, at desktop and
-   380 px phone width.
-3. Push to `main`. `.github/workflows/site-theme.yml` runs the tests and rebuilds somaari.in.
-   somaari-plan picks up the change with `uv lock --upgrade-package somaari-common`.
+2. Run the tests (see README). Check the themed apps in every theme with `?theme=<id>`, at desktop
+   and 380 px phone width.
+3. Push to `main`. `.github/workflows/site-theme.yml` runs the tests and rebuilds somaari.in, and
+   docs.somaari.in redeploys at its next hourly refresh. The other apps pick up the change as the
+   README table "How apps pick up changes" says (for somaari-plan,
+   `uv lock --upgrade-package somaari-common`; for somaari-blog, `npm run sync:common`).
