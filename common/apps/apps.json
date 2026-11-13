@@ -48,7 +48,7 @@
       "title": "Task Planner",
       "status": "live",
       "public": true,
-      "description": "A small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views. AI is optional: with it off, nothing leaves your Pi.",
+      "description": "A planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views. AI is optional: with it off, nothing leaves your Pi.",
       "tags": [
         "Planner",
         "Markdown",
