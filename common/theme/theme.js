@@ -6,6 +6,10 @@
 // Which theme shows: ?theme=<id> in the URL (a preview, never saved), else the saved choice, else
 // the date schedule below. Choosing "Auto (seasonal)" clears the saved choice.
 //
+// The choice is saved in localStorage. On somaari.in and its subdomains it is also saved in a
+// cookie for the whole domain, so a choice made on one site (say docs.somaari.in) carries over to
+// the others; the cookie wins over localStorage, and "auto" in it means "no saved choice".
+//
 // Every time a theme is applied, <html> gets a "somaari-theme" event (detail: { id }), for app code
 // that needs more than CSS (somaari-site swaps its per-theme screenshots this way).
 (function () {
@@ -16,8 +20,7 @@
     "rangoli": { color: "#FBC96B", label: "Rangoli" },
     "monsoon": { color: "#E3EBEE", label: "Monsoon" },
     "pi-console": { color: "#0D120F", label: "Pi Console" },
-    "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" },
-    "rajyotsava": { color: "#E2D3A2", label: "Kannada Rajyotsava" }
+    "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" }
   };
   var DEFAULT_THEME = "rangoli";
 
@@ -25,9 +28,7 @@
   //   { from: "YYYY-MM-DD", to: "YYYY-MM-DD", theme: "<id>" }  one-off dates, inclusive
   //   { monthDay: ["MM-DD", "MM-DD"], theme: "<id>" }          every year, inclusive
   // Remove one-off entries once their dates have passed (and the theme too, if nothing else uses it).
-  var SCHEDULE = [
-    { monthDay: ["11-01", "11-07"], theme: "rajyotsava" }
-  ];
+  var SCHEDULE = [];
 
   var IST_OFFSET_MS = 330 * 60 * 1000; // UTC+5:30; India has no daylight saving
 
@@ -56,7 +57,28 @@
 
   function isTheme(id) { return Object.prototype.hasOwnProperty.call(THEMES, id); }
 
+  // On somaari.in (and its subdomains) the choice is also kept in a cookie for the whole domain.
+  var COOKIE_DOMAIN = /(^|\.)somaari\.in$/.test(location.hostname) ? "somaari.in" : null;
+
+  function readCookie() {
+    if (!COOKIE_DOMAIN) return null;
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)somaari-theme=([^;]*)/);
+      return m ? decodeURIComponent(m[1]) : null;
+    } catch (e) { return null; }
+  }
+
+  function writeCookie(value) {
+    if (!COOKIE_DOMAIN) return;
+    try {
+      document.cookie = STORAGE_KEY + "=" + encodeURIComponent(value) + "; Domain=" + COOKIE_DOMAIN +
+        "; Path=/; Max-Age=34560000; SameSite=Lax" + (location.protocol === "https:" ? "; Secure" : "");
+    } catch (e) { /* cookies blocked: localStorage still remembers it for this site */ }
+  }
+
   function readSaved() {
+    var c = readCookie();
+    if (c !== null) return isTheme(c) ? c : null; // "auto" (or a removed theme): no saved choice
     try {
       var v = localStorage.getItem(STORAGE_KEY);
       return isTheme(v) ? v : null;
@@ -64,6 +86,7 @@
   }
 
   function save(id) {
+    writeCookie(id || "auto");
     try {
       if (id) localStorage.setItem(STORAGE_KEY, id); else localStorage.removeItem(STORAGE_KEY);
     } catch (e) { /* storage blocked: the choice lasts for this page view only */ }

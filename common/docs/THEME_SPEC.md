@@ -23,20 +23,22 @@ these files.
 | `monsoon` | Monsoon | light | Hanken Grotesk / Literata |
 | `pi-console` | Pi Console | dark | IBM Plex Sans / JetBrains Mono |
 | `liquid-glass` | Liquid Glass | dark | Onest / Onest |
-| `rajyotsava` | Kannada Rajyotsava | light | Mukta / Baloo Tamma 2 |
 
 Rangoli, Monsoon and Pi Console have plain page backgrounds (no pattern); text sits on solid cards.
 Removed on 2026-11-13: `warm-tactile` (the old default), `dasara-jamboo` and `deepa` (their only dates
-had passed). A saved choice or `?theme=` link naming a removed theme falls back to the schedule.
+had passed), and `rajyotsava` (seasonal, 1–7 Nov; removed for now). A saved choice or `?theme=`
+link naming a removed theme falls back to the schedule.
 
 **Which theme shows:** `?theme=<id>` in the URL (a preview, never saved), else the saved choice
 (`localStorage` key `somaari-theme`), else the schedule. "Auto (seasonal)" clears the saved choice.
-Because the key is shared, a choice made on one app is remembered by the others only on the same
-origin.
+localStorage is per origin, so on `somaari.in` and its subdomains the choice is also saved in a
+`somaari-theme` cookie with `Domain=somaari.in` (value: a theme id, or `auto` for no saved choice).
+The cookie wins over localStorage, so a choice made on docs.somaari.in also applies on somaari.in and
+blog.somaari.in. Other hosts (an app on localhost or a Pi) use localStorage only.
 
 **Schedule** (`SCHEDULE` in `theme.js`, judged by the calendar day in India, Asia/Kolkata):
-1–7 Nov every year `rajyotsava`; otherwise `rangoli`. The first matching entry wins. Remove a
-one-off entry once its dates have passed.
+empty for now, so every day gets `rangoli`. The first matching entry wins. Remove a one-off entry
+once its dates have passed.
 To add a festival, add an entry there and a case to `tests/test_theme.py`.
 
 ## 2. How an app loads it
@@ -88,18 +90,17 @@ screenshots.
 rangoli). An app uses them and **never redefines them**. Everything else (layout, panels,
 cards, cells, decorations, the picker's look) is the app's, in its own per-theme blocks.
 
-| Token | rangoli | monsoon | pi-console | liquid-glass | rajyotsava |
-|---|---|---|---|---|---|
-| `color-scheme` | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `--fg` (text) | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `--accent`, `--on-accent` (text on accent), `--focus` | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `--btn-radius` | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `--font`, `--font-display`, `--display-weight` | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `--page-bg` | ✓ | ✓ | ✓ | app | app |
-| `--card-bg` | ✓ | ✓ | ✓ | app | app |
-| `--line` | ✓ | ✓ | ✓ | app | app |
-| `--shadow` | ✓ | ✓ | ✓ | app | ✓ |
-| Named colours | | | | | `--grain`, `--sand`, `--brick` |
+| Token | rangoli | monsoon | pi-console | liquid-glass |
+|---|---|---|---|---|
+| `color-scheme` | ✓ | ✓ | ✓ | ✓ |
+| `--fg` (text) | ✓ | ✓ | ✓ | ✓ |
+| `--accent`, `--on-accent` (text on accent), `--focus` | ✓ | ✓ | ✓ | ✓ |
+| `--btn-radius` | ✓ | ✓ | ✓ | ✓ |
+| `--font`, `--font-display`, `--display-weight` | ✓ | ✓ | ✓ | ✓ |
+| `--page-bg` | ✓ | ✓ | ✓ | app |
+| `--card-bg` | ✓ | ✓ | ✓ | app |
+| `--line` | ✓ | ✓ | ✓ | app |
+| `--shadow` | ✓ | ✓ | ✓ | app |
 
 "app" means the token isn't shared for that theme: the apps use different values, so each app sets
 it in its own block. **Rule:** a token moves into `themes.css` only when every themed app uses the
@@ -112,7 +113,7 @@ in both places. Scoped overrides (for example dark ink on a light card inside a 
 
 ## 5. Fonts
 
-Self-hosted woff2 (Latin subsets; Baloo Tamma 2 also has a Kannada subset for "ಕ"; Onest also has
+Self-hosted woff2 (Latin subsets; Onest also has
 Google Fonts' math and symbols subsets for its arrows, ✓ and ↻). A browser downloads only the faces
 the current theme uses, and only the subsets whose characters appear on the page. There are no
 third-party font requests, so a strict CSP can use `font-src 'self'` and `style-src 'self'`.

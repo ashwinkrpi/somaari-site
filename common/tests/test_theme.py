@@ -53,26 +53,32 @@ def test_every_theme_has_a_css_block_and_schedule_uses_known_themes():
 
 @needs_node
 def test_theme_schedule():
-    # Dates are judged by the calendar day in India (UTC+5:30).
+    # No seasonal themes are scheduled now, so every date gets the default.
+    dates = ["2026-10-18T12:00:00+05:30", "2026-11-03T12:00:00+05:30", "2027-01-01T12:00:00+05:30",
+             "2027-11-03T12:00:00+05:30"]
+    got = _node(f"console.log(JSON.stringify({json.dumps(dates)}.map(d => t.getDefaultTheme(new Date(d)))));")
+    assert got == ["rangoli"] * len(dates)
+
+
+@needs_node
+def test_schedule_matching():
+    # How entries match, using sample entries: dates are judged by the calendar day in India (UTC+5:30).
+    entries = [{"from": "2027-03-01", "to": "2027-03-03", "theme": "monsoon"},
+               {"monthDay": ["11-01", "11-07"], "theme": "pi-console"},
+               {"monthDay": ["12-30", "01-02"], "theme": "liquid-glass"}]  # wraps the new year
     cases = {
-        "2026-10-16T12:00:00+05:30": "rangoli",
-        "2026-10-18T12:00:00+05:30": "rangoli",  # the old Dasara dates no longer have a theme
-        "2026-10-31T12:00:00+05:30": "rangoli",
-        "2026-10-31T18:45:00Z": "rajyotsava",  # 1 Nov 00:15 in India
-        "2026-11-01T00:00:00+05:30": "rajyotsava",
-        "2026-11-01T12:00:00+05:30": "rajyotsava",
-        "2026-11-07T12:00:00+05:30": "rajyotsava",  # no Deepavali override any more
-        "2026-11-07T23:59:00+05:30": "rajyotsava",
-        "2026-11-08T00:00:00+05:30": "rangoli",
-        "2026-11-09T12:00:00+05:30": "rangoli",
-        "2027-01-01T12:00:00+05:30": "rangoli",
-        "2027-11-03T12:00:00+05:30": "rajyotsava",
-        "2027-11-07T12:00:00+05:30": "rajyotsava",
+        "2027-02-28T23:59:00+05:30": "rangoli",
+        "2027-03-01T00:00:00+05:30": "monsoon",
+        "2027-03-03T23:59:00+05:30": "monsoon",
+        "2027-03-04T00:00:00+05:30": "rangoli",
+        "2026-10-31T18:45:00Z": "pi-console",  # 1 Nov 00:15 in India
+        "2026-10-31T18:29:59Z": "rangoli",  # 31 Oct 23:59 in India
+        "2027-11-07T23:59:00+05:30": "pi-console",
         "2027-11-08T00:00:00+05:30": "rangoli",
-        # The day is India's, not UTC's: 00:30 on 1 Nov in India is still 31 Oct in UTC.
-        "2026-10-31T18:29:59Z": "rangoli",
-        "2026-11-07T18:31:00Z": "rangoli",  # 8 Nov 00:01 in India
+        "2026-12-31T12:00:00+05:30": "liquid-glass",
+        "2027-01-02T12:00:00+05:30": "liquid-glass",
+        "2027-01-03T12:00:00+05:30": "rangoli",
     }
-    got = _node(f"const c = {json.dumps(cases)};"
+    got = _node(f"t.SCHEDULE.push(...{json.dumps(entries)}); const c = {json.dumps(cases)};"
                 "console.log(JSON.stringify(Object.keys(c).map(d => t.getDefaultTheme(new Date(d)))));")
     assert dict(zip(cases, got)) == cases

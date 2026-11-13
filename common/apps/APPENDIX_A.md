@@ -154,8 +154,7 @@ From somaari-site `index.html` lines 153–289 and `docs.config.json`.
         "rangoli": "docs/screenshots/theme-rangoli.png",
         "monsoon": "docs/screenshots/theme-monsoon.png",
         "pi-console": "docs/screenshots/theme-pi-console.png",
-        "liquid-glass": "docs/screenshots/theme-liquid-glass.png",
-        "rajyotsava": "docs/screenshots/theme-rajyotsava.png"
+        "liquid-glass": "docs/screenshots/theme-liquid-glass.png"
       },
       "demo": { "ref": "site-demo" } },
     { "repo": "somaari-trip", "ref": "main", "src": "docs/GUIDE.md" }

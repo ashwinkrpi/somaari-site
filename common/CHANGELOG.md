@@ -4,6 +4,8 @@ somaari-common is not versioned. Entries are dated; changes that break apps are 
 
 ## 2026-11-13
 
+- **BREAKING** Themes: removed `rajyotsava` (for now), its schedule entry and its fonts (Mukta, Baloo Tamma 2). `SCHEDULE` is empty, so every day gets `rangoli`. Apps must drop their `rajyotsava` blocks and screenshots. Saved choices and `?theme=rajyotsava` links fall back to `rangoli`.
+- Themes: on `somaari.in` and its subdomains `theme.js` also saves the choice in a `somaari-theme` cookie with `Domain=somaari.in` (a theme id, or `auto`), and reads it before localStorage, so one choice carries across somaari.in, docs and the blog. Other hosts are unchanged.
 - **BREAKING** Themes: removed `warm-tactile`, `dasara-jamboo` and `deepa` (the last two had only 2026 dates, now past). New themes `rangoli` (the new default and `:root` fallback; marigold, indigo and vermilion; Hanken Grotesk / Marcellus), `monsoon` (cool grey-blue and teal; Hanken Grotesk / Literata) and `pi-console` (dark, terminal green; IBM Plex Sans / JetBrains Mono), all with plain page backgrounds. They set `--page-bg`, `--card-bg`, `--line` and `--shadow` here, so apps must not redefine those for them. Fonts: added Marcellus, Literata, IBM Plex Sans and JetBrains Mono (Latin, OFL); removed Fraunces and Rozha One. `SCHEDULE` now holds only the yearly Rajyotsava entry. Apps must drop their blocks for the removed themes, add blocks for the new ones, and replace per-theme screenshots (somaari-site, somaari-plan). Saved choices and `?theme=` links for removed themes fall back to the schedule.
 
 ## 2026-11-07
