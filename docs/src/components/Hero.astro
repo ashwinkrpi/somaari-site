@@ -1,0 +1,20 @@
+---
+// The home page hero, laid out like somaari.in's (index.html .hero): a large title, a muted
+// tagline and two buttons. Replaces Starlight's Hero, which centres an image beside the text.
+const PAGE_TITLE_ID = '_top'; // Starlight's PAGE_TITLE_ID (not exported)
+
+const { data } = Astro.locals.starlightRoute.entry;
+const { title = data.title, tagline, actions = [] } = data.hero || {};
+---
+
+<section class="docs-hero">
+	<h1 id={PAGE_TITLE_ID} set:html={title} />
+	{tagline && <p class="docs-hero-sub" set:html={tagline} />}
+	{actions.length > 0 && (
+		<p class="docs-hero-actions">
+			{actions.map(({ text, link, variant }) => (
+				<a class:list={['btn', { 'btn--secondary': variant !== 'primary' }]} href={link}>{text}</a>
+			))}
+		</p>
+	)}
+</section>

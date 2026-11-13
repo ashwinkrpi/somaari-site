@@ -1,17 +1,47 @@
 ---
 title: Guides
 description: How to install, set up and use the somaari apps.
+template: splash
+hero:
+  title: Guides for the somaari apps.
+  tagline: How to install, set up and use each app. Every guide is kept in its app's repository on GitHub and copied here.
+  actions:
+    - text: Browse the guides
+      link: '#guides'
+      variant: primary
+    - text: Back to somaari.in
+      link: https://somaari.in/
+      variant: secondary
 ---
 
 import apps from '../../generated/apps.json';
 
-Guides for the Somaari apps. Each guide is kept in its app's repository on GitHub and copied here.
-
-<ul>
-	{apps.filter((a) => a.guide).map((a) => (
-		<li>
-			<a href={`/${a.repo}/`}><strong>{a.title}</strong></a> ({a.repo}): {a.description}
-			{a.detail_page && <> <a href={`https://somaari.in/apps/${a.repo}/`}>About {a.title} on somaari.in</a></>}
-		</li>
-	))}
-</ul>
+{/* The cards mirror somaari.in's app cards (somaari-site style.css .card), minus the demo posters. */}
+<section class="not-content docs-guides" id="guides" aria-labelledby="guides-heading">
+	<h2 id="guides-heading">Guides</h2>
+	<ul class="card-grid" role="list">
+		{apps.filter((a) => a.guide).map((a) => (
+			<li class="card">
+				<div class="card-head">
+					<div class="card-names">
+						<h3 class="card-title"><a href={`/${a.repo}/`}>{a.title}<span aria-hidden="true"> &rarr;</span></a></h3>
+						<p class="card-repo">{a.repo}</p>
+					</div>
+					{(a.status === 'live' || a.ai) && (
+						<span class="badges">
+							{a.status === 'live' && <span class="badge badge--live">Available</span>}
+							{a.ai && <span class="badge badge--ai">{a.ai}</span>}
+						</span>
+					)}
+				</div>
+				<p class="card-desc">{a.description}</p>
+				{a.tags.length > 0 && <p class="card-tags">{a.tags.join(' · ')}</p>}
+				<div class="card-actions">
+					<a class="btn" href={`/${a.repo}/`}>Read the guide<span class="visually-hidden">: {a.title}</span></a>
+					{a.detail_page && <a class="card-link" href={`https://somaari.in/apps/${a.repo}/`}>About<span class="visually-hidden"> {a.title} on somaari.in</span></a>}
+					<a class="card-link" href={`https://github.com/ashwinkrpi/${a.repo}`}>GitHub<span class="visually-hidden"> ({a.repo})</span></a>
+				</div>
+			</li>
+		))}
+	</ul>
+</section>

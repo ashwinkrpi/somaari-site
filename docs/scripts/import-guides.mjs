@@ -213,8 +213,10 @@ async function main(argv) {
 		console.log(`import-guides: ${app.repo} (${images.size} images)`);
 	}
 
-	const list = apps.map(({ repo, title, description, detail_page, guide }) => ({
-		repo, title, description, detail_page: !!detail_page, guide: !!guide,
+	// status, tags and the AI chip feed the home page cards, which match somaari.in's.
+	const list = apps.map(({ repo, title, description, status, tags, ai, detail_page, guide }) => ({
+		repo, title, description, status: status || null, tags: tags || [], ai: ai?.label || null,
+		detail_page: !!detail_page, guide: !!guide,
 	}));
 	await mkdir(dirname(generated), { recursive: true });
 	await writeFile(generated, JSON.stringify(list, null, 2) + '\n');

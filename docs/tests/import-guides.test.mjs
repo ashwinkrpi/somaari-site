@@ -122,7 +122,7 @@ test('import writes the guide, its images and the app list', () => {
 	assert.ok(r.wrote('public/fixture-app/screenshots/shot.png'));
 	assert.ok(!r.wrote('public/fixture-app/images/banner.svg'));
 	assert.deepEqual(JSON.parse(r.read('src/generated/apps.json')), [
-		{ repo: 'fixture-app', title: 'Fixture App', description: 'A fixture.', detail_page: true, guide: true },
+		{ repo: 'fixture-app', title: 'Fixture App', description: 'A fixture.', status: null, tags: [], ai: null, detail_page: true, guide: true },
 	]);
 });
 
