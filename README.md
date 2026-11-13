@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are self-hosted). The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are self-hosted), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 ## Files
 
