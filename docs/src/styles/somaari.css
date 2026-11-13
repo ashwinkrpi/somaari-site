@@ -30,7 +30,7 @@ html[data-theme="liquid-glass"] {
 	--sl-color-text-accent: var(--accent);
 	--sl-color-text-invert: var(--on-accent);
 	--sl-color-bg: transparent;
-	--sl-color-bg-nav: var(--sl-color-black);
+	--sl-color-bg-nav: var(--page-bg); /* the header sits on the page colour, as on somaari.in */
 	--sl-color-bg-sidebar: var(--sl-color-black);
 	--sl-color-bg-accent: var(--accent);
 	--sl-color-hairline: var(--line);
