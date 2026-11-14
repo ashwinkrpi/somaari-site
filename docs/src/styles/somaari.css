@@ -6,7 +6,7 @@
 :root,
 html[data-theme="rangoli"] { --surface: #fff6e5; --field-bg: #fffaf0; --muted: #3a3366; }
 html[data-theme="monsoon"] { --surface: #f7fafb; --field-bg: #ffffff; --muted: #33505c; }
-html[data-theme="pi-console"] { --surface: #141b16; --field-bg: #101712; --muted: #b3cfba; }
+html[data-theme="pi-console"] { --surface: #1b1510; --field-bg: #17120d; --muted: #d9c1ad; }
 html[data-theme="liquid-glass"] {
 	--page-bg: #0a0e1c; --line: rgb(255 255 255 / 16%);
 	--surface: #0a0e1c; --field-bg: #151b33; --muted: #c9d0e3;
@@ -222,9 +222,9 @@ html[data-theme="monsoon"] {
 	--shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
 }
 html[data-theme="pi-console"] {
-	--subtle: #8fae98; --accent-hover: #7cf0ad; --status: #7cf0ad; --tag-border: #26382b;
-	--card-edge: #26382b; --card-top: 2px; --card-top-color: #3ddc84; --card-radius: 6px;
-	--shadow-hover: 0 0 0 1px #3ddc84;
+	--subtle: #b8987e; --accent-hover: #ffb36b; --status: #ffb36b; --tag-border: #3a2a1e;
+	--card-edge: #3a2a1e; --card-top: 2px; --card-top-color: #ff8c2e; --card-radius: 6px;
+	--shadow-hover: 0 0 0 1px #ff8c2e;
 }
 html[data-theme="liquid-glass"] {
 	--subtle: #c9d0e3; --accent-hover: #d2ddff; --status: #8ef0d6; --tag-border: rgb(255 255 255 / 24%);
