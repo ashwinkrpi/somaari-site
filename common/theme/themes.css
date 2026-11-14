@@ -56,14 +56,14 @@
 
 :root[data-theme="pi-console"] {
   color-scheme: dark;
-  --page-bg: #0d120f;
-  --card-bg: #141b16;
-  --line: #26382b;
+  --page-bg: #120e0b;
+  --card-bg: #1b1510;
+  --line: #3a2a1e;
   --shadow: none;
-  --fg: #dcf5e2;
-  --accent: #3ddc84;
-  --on-accent: #08130c;
-  --focus: #7cf0ad;
+  --fg: #f7e6d8;
+  --accent: #ff8c2e;
+  --on-accent: #1a0c02;
+  --focus: #ffb36b;
   --btn-radius: 4px;
   --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;

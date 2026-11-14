@@ -19,7 +19,7 @@
   var THEMES = {
     "rangoli": { color: "#FBC96B", label: "Rangoli" },
     "monsoon": { color: "#E3EBEE", label: "Monsoon" },
-    "pi-console": { color: "#0D120F", label: "Pi Console" },
+    "pi-console": { color: "#120E0B", label: "Pi Console" },
     "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" }
   };
   var DEFAULT_THEME = "rangoli";
