@@ -57,27 +57,27 @@ def test_theme_schedule():
     dates = ["2026-10-18T12:00:00+05:30", "2026-11-03T12:00:00+05:30", "2027-01-01T12:00:00+05:30",
              "2027-11-03T12:00:00+05:30"]
     got = _node(f"console.log(JSON.stringify({json.dumps(dates)}.map(d => t.getDefaultTheme(new Date(d)))));")
-    assert got == ["rangoli"] * len(dates)
+    assert got == ["pi-console"] * len(dates)
 
 
 @needs_node
 def test_schedule_matching():
     # How entries match, using sample entries: dates are judged by the calendar day in India (UTC+5:30).
     entries = [{"from": "2027-03-01", "to": "2027-03-03", "theme": "monsoon"},
-               {"monthDay": ["11-01", "11-07"], "theme": "pi-console"},
+               {"monthDay": ["11-01", "11-07"], "theme": "rangoli"},
                {"monthDay": ["12-30", "01-02"], "theme": "liquid-glass"}]  # wraps the new year
     cases = {
-        "2027-02-28T23:59:00+05:30": "rangoli",
+        "2027-02-28T23:59:00+05:30": "pi-console",
         "2027-03-01T00:00:00+05:30": "monsoon",
         "2027-03-03T23:59:00+05:30": "monsoon",
-        "2027-03-04T00:00:00+05:30": "rangoli",
-        "2026-10-31T18:45:00Z": "pi-console",  # 1 Nov 00:15 in India
-        "2026-10-31T18:29:59Z": "rangoli",  # 31 Oct 23:59 in India
-        "2027-11-07T23:59:00+05:30": "pi-console",
-        "2027-11-08T00:00:00+05:30": "rangoli",
+        "2027-03-04T00:00:00+05:30": "pi-console",
+        "2026-10-31T18:45:00Z": "rangoli",  # 1 Nov 00:15 in India
+        "2026-10-31T18:29:59Z": "pi-console",  # 31 Oct 23:59 in India
+        "2027-11-07T23:59:00+05:30": "rangoli",
+        "2027-11-08T00:00:00+05:30": "pi-console",
         "2026-12-31T12:00:00+05:30": "liquid-glass",
         "2027-01-02T12:00:00+05:30": "liquid-glass",
-        "2027-01-03T12:00:00+05:30": "rangoli",
+        "2027-01-03T12:00:00+05:30": "pi-console",
     }
     got = _node(f"t.SCHEDULE.push(...{json.dumps(entries)}); const c = {json.dumps(cases)};"
                 "console.log(JSON.stringify(Object.keys(c).map(d => t.getDefaultTheme(new Date(d)))));")

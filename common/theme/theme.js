@@ -22,7 +22,7 @@
     "pi-console": { color: "#120E0B", label: "Pi Console" },
     "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" }
   };
-  var DEFAULT_THEME = "rangoli";
+  var DEFAULT_THEME = "pi-console";
 
   // Seasonal defaults, checked in order using the date in India (Asia/Kolkata). Add festivals here:
   //   { from: "YYYY-MM-DD", to: "YYYY-MM-DD", theme: "<id>" }  one-off dates, inclusive

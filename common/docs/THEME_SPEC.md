@@ -22,9 +22,9 @@ sync scripts, which the next sync overwrites.
 
 | id | Name | `color-scheme` | Fonts (body / display) |
 |---|---|---|---|
-| `rangoli` | Rangoli (default) | light | Hanken Grotesk / Marcellus |
+| `rangoli` | Rangoli | light | Hanken Grotesk / Marcellus |
 | `monsoon` | Monsoon | light | Hanken Grotesk / Literata |
-| `pi-console` | Pi Console | dark | IBM Plex Sans / JetBrains Mono |
+| `pi-console` | Pi Console (default) | dark | IBM Plex Sans / JetBrains Mono |
 | `liquid-glass` | Liquid Glass | dark | Onest / Onest |
 
 Rangoli, Monsoon and Pi Console have plain page backgrounds (no pattern); text sits on solid cards.
@@ -60,7 +60,7 @@ Serve `theme/` at `/theme/` and put this in `<head>`, in this order, before the 
 | **Python web app** | It already depends on `somaari-common` (`subdirectory=python`). Serve `somaari_theme.static_dir()` at `/theme/`; `somaari_theme.files()` lists the files. |
 | **Static site with a build** | The build downloads `theme/files.json` and the files it lists from `main` (raw.githubusercontent.com) into `<out>/theme/`, and adds cache-busting versions to the two URLs. |
 
-Without JS the page keeps rangoli (`:root` holds it) and the picker stays hidden. The fonts
+Without JS the page keeps rangoli (`:root` holds it; the default, pi-console, needs `theme.js` to set `data-theme`) and the picker stays hidden. The fonts
 still load, because they come from CSS.
 
 ## 3. The picker markup (per app)

@@ -2,6 +2,10 @@
 
 somaari-common is not versioned. Entries are dated; changes that break apps are marked **BREAKING**.
 
+## 2026-11-15
+
+- Themes: `pi-console` is now the default (`DEFAULT_THEME`), and its accent is tangerine orange instead of green. `:root` still holds rangoli, so pages without JS keep the rangoli look.
+
 ## 2026-11-13
 
 - **BREAKING** Themes: removed `rajyotsava` (for now), its schedule entry and its fonts (Mukta, Baloo Tamma 2). `SCHEDULE` is empty, so every day gets `rangoli`. Apps must drop their `rajyotsava` blocks and screenshots. Saved choices and `?theme=rajyotsava` links fall back to `rangoli`.
