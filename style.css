@@ -39,19 +39,19 @@ html[data-theme="monsoon"] {
 }
 
 html[data-theme="pi-console"] {
-  --muted: #b3cfba;
-  --subtle: #8fae98;
-  --accent-hover: #7cf0ad;
-  --status: #7cf0ad;
-  --tag-border: #26382b;
-  --field-bg: #101712;
+  --muted: #d9c1ad;
+  --subtle: #b8987e;
+  --accent-hover: #ffb36b;
+  --status: #ffb36b;
+  --tag-border: #3a2a1e;
+  --field-bg: #17120d;
   --header-bg: none;
-  --footer-border: #26382b;
-  --card-edge: #26382b;
+  --footer-border: #3a2a1e;
+  --card-edge: #3a2a1e;
   --card-top: 2px;
-  --card-top-color: #3ddc84;
+  --card-top-color: #ff8c2e;
   --card-radius: 6px;
-  --shadow-hover: 0 0 0 1px #3ddc84;
+  --shadow-hover: 0 0 0 1px #ff8c2e;
 }
 
 html[data-theme="liquid-glass"] {
