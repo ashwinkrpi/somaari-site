@@ -223,8 +223,9 @@ html[data-theme="monsoon"] {
 }
 html[data-theme="pi-console"] {
 	--subtle: #b8987e; --accent-hover: #ffb36b; --status: #ffb36b; --tag-border: #3a2a1e;
-	--card-edge: #3a2a1e; --card-top: 2px; --card-top-color: #ff8c2e; --card-radius: 6px;
-	--shadow-hover: 0 0 0 1px #ff8c2e;
+	--card-edge: #ff8c2e; --card-top: 2px; --card-top-color: #ff8c2e; --card-radius: 6px;
+	--card-title: var(--accent); --card-title-hover: var(--focus); /* orange card titles, lighter on hover */
+	--shadow-hover: 0 0 0 1px #ffb36b;
 }
 html[data-theme="liquid-glass"] {
 	--subtle: #c9d0e3; --accent-hover: #d2ddff; --status: #8ef0d6; --tag-border: rgb(255 255 255 / 24%);
@@ -262,8 +263,8 @@ html[data-theme="liquid-glass"] {
 .card-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
 .card-names { min-width: 0; }
 .card-title { margin: 0; font-size: 1.3rem; }
-.card-title a { color: var(--fg); text-decoration: none; }
-.card-title a:hover { color: var(--accent); text-decoration: underline; }
+.card-title a { color: var(--card-title, var(--fg)); text-decoration: none; }
+.card-title a:hover { color: var(--card-title-hover, var(--accent)); text-decoration: underline; }
 .card-repo { margin: 0.1rem 0 0; font-size: 0.88rem; font-weight: 500; color: var(--subtle); }
 .card-desc { margin: 0; color: var(--muted); flex: 1; }
 .card-tags { margin: 0; font-size: 0.88rem; color: var(--subtle); }
