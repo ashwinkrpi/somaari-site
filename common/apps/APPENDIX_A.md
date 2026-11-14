@@ -90,7 +90,7 @@ From somaari-site `index.html` lines 153–289 and `docs.config.json`.
               <span class="badge badge--ai">AI optional</span>
             </span>
           </div>
-          <p class="card-desc">A small planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views. AI is optional: with it off, nothing leaves your Pi.</p>
+          <p class="card-desc">A planner that runs on your own Raspberry Pi or other Linux machine. Turn Markdown plans, pasted notes or a quick line into dated tasks, with Today, calendar and board views. AI is optional: with it off, nothing leaves your Pi.</p>
           <ul class="tags" aria-label="Tags">
             <li>Planner</li>
             <li>Markdown</li>
