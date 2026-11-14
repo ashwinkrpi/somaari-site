@@ -28,6 +28,8 @@ const DEMO_MAX_BYTES = 1024 * 1024;
 const COMMON = { repo: "somaari-common", ref: "main", owner: "ashwinkrpi" };
 // Read from somaari-common's theme.js by theme().
 let THEMES, DEFAULT_THEME;
+// The theme style.css gives :root, so the look without JS; its screenshot goes in <noscript>.
+const NOJS_THEME = "rangoli";
 
 // The manifest's "github" owner and its apps, set by manifest().
 let owner, apps;
@@ -104,7 +106,7 @@ async function screenshots(app) {
   const attrs = `width="${width}" height="${height}" alt="${alt}"`;
   const img = perTheme
     ? `<img data-shots ${ids.map((id) => `data-shot-${id}="${urls[id]}"`).join(" ")} ${attrs}>\n      ` +
-      `<noscript><img src="${urls[DEFAULT_THEME]}" ${attrs}></noscript>`
+      `<noscript><img src="${urls[NOJS_THEME]}" ${attrs}></noscript>`
     : `<img src="${urls[DEFAULT_THEME]}" ${attrs}>`;
   writeFileSync(pagePath, html.replace(figure[0], `${figure[1]}\n      ${img}\n    ${figure[2]}`));
   return Object.keys(urls).length;

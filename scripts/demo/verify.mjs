@@ -183,7 +183,7 @@ try {
   await setup({ width: 390, height: 844, mobile: true, nojs: true, path: "apps/somaari-plan/" });
   const nojsShot = await evaluate(`Array.from(document.querySelectorAll(".detail-shot img")).filter((i) => i.offsetParent)
     .map((i) => i.naturalWidth && i.currentSrc.split("/").pop())`);
-  check(nojsShot.length === 1 && nojsShot[0] === "screenshot-rangoli.png", `no JS: somaari-plan shows the default screenshot (${nojsShot})`);
+  check(nojsShot.length === 1 && nojsShot[0] === "screenshot-rangoli.png", `no JS: somaari-plan shows the rangoli (no-JS) screenshot (${nojsShot})`);
 
   const real = problems.filter((p) => !/favicon/i.test(p));
   check(real.length === 0, `no console errors/warnings or CSP violations${real.length ? ": " + real.join(" | ") : ""}`);

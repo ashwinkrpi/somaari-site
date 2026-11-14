@@ -3,7 +3,7 @@
    html[data-theme] before first paint; themes.css holds the fonts and the tokens every somaari app
    shares (--fg, --line, --accent, --on-accent, --focus, --font ...). The blocks below add this site's
    own tokens per theme, plus a few theme-scoped rules for its decorations; the HTML is shared. :root
-   holds rangoli, the year-round default, so the page keeps that look without JS. */
+   holds rangoli, so the page keeps that look without JS (the default, pi-console, needs theme.js). */
 
 :root,
 html[data-theme="rangoli"] {

@@ -53,7 +53,7 @@ Ids: `rangoli`, `monsoon`, `pi-console`, `liquid-glass`.
 
 The Appearance control (the round icon button in the header) saves the visitor's choice in `localStorage` and in a
 `somaari-theme` cookie for `somaari.in`, so docs.somaari.in and blog.somaari.in follow it too. "Auto (seasonal)" clears it
-and follows the date in India (Asia/Kolkata); no seasonal themes are scheduled at the moment, so it shows `rangoli`.
+and follows the date in India (Asia/Kolkata); no seasonal themes are scheduled at the moment, so it shows `pi-console`, the default. Without JS the page keeps `rangoli`.
 
 The themes, schedule and fonts live in somaari-common (`theme/`, standard: `docs/THEME_SPEC.md`), shared
 with somaari-plan. To add a festival or change a shared colour, edit them there (`SCHEDULE` in
