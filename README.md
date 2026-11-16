@@ -18,13 +18,13 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a 
 | `privacy/index.html`, `terms/index.html` | Privacy policy and terms of service at `/privacy/` and `/terms/`, linked from the footer (also the somaari-video Google OAuth app's policy links) |
 | `favicon.svg` | "S" mark icon |
 | `robots.txt` | Allows all crawlers, points to the sitemap |
-| `sitemap.xml` | The home page and each app detail page |
+| `sitemap.xml` | The home, About, privacy and terms pages, and each app detail page (written by the build) |
 | `demo.js` | The demo player: "Watch demo" on a card opens a dialog that loads and plays that loop (never autoplays with reduced motion); posters only without JS |
 | `assets/demos/<app>/` | Each card's `poster.webp` and the player's `loop.webm`, `loop.mp4` (720 px, < 1 MB); somaari-plan's is downloaded by the build instead |
 | `assets/apps/<app>/` | The detail page's screenshot, copied from the app repo's docs (sample or demo data only), unless the manifest names it (see [Screenshots and demo loops from the app repo](#screenshots-and-demo-loops-from-the-app-repo)) |
 | `scripts/asset-versions.mjs` | Adds `?v=<hash>` to the CSS/JS links so browsers never mix new HTML with a cached old file |
 | `scripts/check-shared.mjs` | Checks every page has the same header and footer as `index.html` |
-| `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops (see its README) |
+| `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops, plus `serve.py` (serves `dist/` with the `_headers` headers) and `verify.mjs` (browser checks of the built site); see its README |
 | `videos.json` | Each app's YouTube walkthrough ID and the "somaari apps" playlist ID; an empty ID means no video UI for that app. A new ID also needs the detail page's Video section (the build adds the card links); `npm run check` compares them |
 | `video.js` | Detail pages: swaps the thumbnail for the YouTube embed (`youtube-nocookie.com`) when Play is pressed; nothing loads from YouTube before that |
 | `assets/videos/<id>.jpg` | Self-hosted video thumbnails, so a detail page makes no request to YouTube on load |
@@ -44,7 +44,9 @@ python3 -m http.server -d dist 8000
 
 Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.) Only the files listed in
 `PUBLISH` in `scripts/build.mjs` are copied to `dist/`; add a new top-level file there too.
-`npm run check` runs the header/footer and asset-version checks. `npm run build -- --local ~/code/ai-projects` also takes `theme/` and `apps/apps.json` from your local somaari-common checkout.
+`npm run check` runs the header/footer, asset-version and video checks.
+To test with the CSP and other `_headers` headers applied, serve with `python3 scripts/demo/serve.py 8000` instead,
+and `node scripts/demo/verify.mjs` checks the demo player, the Appearance control and every page in headless Chromium. `npm run build -- --local ~/code/ai-projects` also takes `theme/` and `apps/apps.json` from your local somaari-common checkout.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=pi-console>.
 Ids: `rangoli`, `monsoon`, `pi-console`, `liquid-glass`.
@@ -122,7 +124,7 @@ An app's detail page screenshot and card demo loop can live only in the app repo
 they update on the site when they change there. Add them to the app's entry in somaari-common's `apps/apps.json`:
 
 - `"screenshot": "docs/screenshots/x.png"`: one PNG or JPEG for the detail page, or
-  `{ "<theme id>": "<path>", ... }` with one per theme (all five, same size). The build downloads
+  `{ "<theme id>": "<path>", ... }` with one per theme (all four, same size). The build downloads
   them into `assets/apps/<repo>/` and fills in the page's `<figure class="detail-shot">`, keeping its
   `alt` and setting `width`/`height`. With one per theme, `shots.js` loads only the current theme's.
   Don't commit a copy to `assets/apps/<repo>/`.
@@ -147,7 +149,6 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
   status badge (`.badge--ai`). These say whether the app *uses* AI, taken from its README; "built
   with AI" in the tagline and About section is about how the apps are made.
 - **Hero headline and buttons:** the `hero` section at the top of `<main>` in `index.html`.
-- **Games link:** <https://games.somaari.in/> (somaari-games, top Genshin Impact videos from Reddit) is in the shared footer, after Blog.
 - **Blog link:** the blog (<https://blog.somaari.in/>) is linked from the shared footer and from the
   "From the blog" band after "In development" in `index.html`, whose text is the blog's own description.
   `index.html`'s `<head>` also points feed readers at `https://blog.somaari.in/rss.xml`.

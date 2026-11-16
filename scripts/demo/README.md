@@ -53,6 +53,21 @@ approximate: if a cut is off, fix the numbers in the `.times` file (or pass `SEG
   the guide screenshots change. Each shot is cropped from 66 px down (`CROP_Y`), which drops the
   app's header row: it shows a "Self-Hosted" label, and the site doesn't mention self-hosting.
 
+## Check the built site
+
+```sh
+npm run build && python3 scripts/demo/serve.py 8000 &
+node scripts/demo/verify.mjs [http://127.0.0.1:8000/] [outdir]
+```
+
+`serve.py` serves `dist/` with the headers from `_headers`, as Cloudflare Pages does (without
+`upgrade-insecure-requests`, so plain-http localhost works). `verify.mjs` drives the system Chromium
+through playwright-core (`CHROMIUM=/path` to override; nothing is downloaded) and checks that cards
+load no video until the player opens, the player and the Appearance control work from the keyboard,
+reduced motion never autoplays, the pages work without JavaScript, and there are no console errors,
+CSP violations or horizontal scroll at phone width. Screenshots go to `outdir` (default: the system
+temp folder; keep them out of the repo, which is published).
+
 ## encode.sh
 
 `encode.sh <input> <app-slug>` writes `loop.webm` (VP9, CRF 38), `loop.mp4` (H.264, CRF 28,
