@@ -6,7 +6,7 @@
 :root,
 html[data-theme="rangoli"] { --surface: #fff6e5; --field-bg: #fffaf0; --muted: #3a3366; }
 html[data-theme="monsoon"] { --surface: #f7fafb; --field-bg: #ffffff; --muted: #33505c; }
-html[data-theme="pi-console"] { --surface: #1b1510; --field-bg: #17120d; --muted: #d9c1ad; }
+html[data-theme="graphite"] { --surface: #18191c; --field-bg: #1f2024; --muted: #c7c8cc; }
 html[data-theme="liquid-glass"] {
 	--page-bg: #0a0e1c; --line: rgb(255 255 255 / 16%);
 	--surface: #0a0e1c; --field-bg: #151b33; --muted: #c9d0e3;
@@ -221,11 +221,10 @@ html[data-theme="monsoon"] {
 	--card-edge: #c8d6dc; --card-top: 1px; --card-top-color: #c8d6dc; --card-radius: 14px;
 	--shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
 }
-html[data-theme="pi-console"] {
-	--subtle: #b8987e; --accent-hover: #ffb36b; --status: #ffb36b; --tag-border: #3a2a1e;
-	--card-edge: #ff8c2e; --card-top: 2px; --card-top-color: #ff8c2e; --card-radius: 6px;
-	--card-title: var(--accent); --card-title-hover: var(--focus); /* orange card titles, lighter on hover */
-	--shadow-hover: 0 0 0 1px #ffb36b;
+html[data-theme="graphite"] {
+	--subtle: #9b9da3; --accent-hover: #fcd38a; --status: #fcd38a; --tag-border: #33363b;
+	--card-edge: #2c2e33; --card-top: 1px; --card-top-color: #2c2e33; --card-radius: 14px;
+	--shadow-hover: 0 0 0 1px #f59e0b;
 }
 html[data-theme="liquid-glass"] {
 	--subtle: #c9d0e3; --accent-hover: #d2ddff; --status: #8ef0d6; --tag-border: rgb(255 255 255 / 24%);
