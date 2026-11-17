@@ -71,7 +71,7 @@ Nothing is copied between repos; each step is in the repo that owns it.
    (title, status, `public`, description, tags, AI chip and its source). A push to `apps/` on `main`
    runs its tests and rebuilds this site, which writes the card into `index.html` from it: `live`
    apps under **Apps**, `dev` and `soon` under **In development**, in manifest order. "Details"
-   appears with `"detail_page": true`, "View on GitHub" with `"public": true`. Don't hand-edit the
+   appears with `"detail_page": true`, "Guide" with `"guide"`, "GitHub" with `"public": true`. Don't hand-edit the
    cards: `index.html` holds only the `<!-- APPS:live -->` and `<!-- APPS:dev -->` markers.
 2. **Demo poster (optional):** put `poster.webp`, `loop.webm` and `loop.mp4` in `assets/demos/<repo>/`
    (see `scripts/demo/README.md`), or have the app repo publish them (`"demo"` in the manifest, see

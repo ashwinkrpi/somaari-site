@@ -11,3 +11,9 @@
 - Already done (#14): `index.html` has empty `<!-- APPS:live -->`/`<!-- APPS:dev -->` markers and a one-line pointer to `apps/apps.json` in place of "HOW TO ADD AN APP CARD". `card()` in `scripts/build.mjs` fills them: `soon` goes in the dev list as `badge--soon`, all text is escaped with `escapeHtml`, the AI source is an HTML comment (fails on `--`/`>`), the GitHub link appears only when `public`, and Details only with `detail_page`.
 - Verified: `build` (`--local`) and `check` pass, and `diff -w -B dist-baseline/card-grids.html dist/index.html` only adds lines, so both card-grid blocks match the baseline. No code change, no files added.
 - Open: none for SC-02. SC-03 (sitemap and README) still needs its own check in sub-task 3.
+
+## Stage 3.1, sub-task 3 (SC-03): sitemap and README from the manifest
+
+- Already done (#14): `sitemap.xml` holds a `<!-- APPS -->` line that `cards()` in `scripts/build.mjs` replaces with one `/apps/<repo>/` entry per `detail_page: true` app (`<lastmod>` from the page's last commit). The build fails if the manifest names a detail page whose `apps/<repo>/index.html` is missing. Built `dist/sitemap.xml` has somaari-trip, somaari-disk, somaari-plan (the three `apps/*/index.html` pages).
+- README "Adding an app" already runs manifest entry → detail page once live → `docs/GUIDE.md` in the app repo. Changed only step 1's link names to match the cards ("Guide" with `"guide"`, "GitHub" instead of "View on GitHub").
+- Verified: `build` (`--local`) and `check` pass; the card-grid baseline diff still only adds lines. No files added. Open: the expected `dist/` differences for sub-task 4 are the sitemap app entries (now from the manifest, same three URLs) and nothing else from SC-03.
