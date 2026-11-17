@@ -24,3 +24,29 @@
 - Added: `card()` now escapes `repo` and the owner too (and the sitemap `<loc>`); RU-02 rewording of "self-hosted" in the `video.js` and `apps/somaari-trip/` comments (both published) and in README, with new `?v=` stamps on the three detail pages. Cards render byte-for-byte as before.
 - Expected `dist/` differences: sitemap app entries (same three URLs, from the manifest), the two comments, and the `video.js?v=` hash on the detail pages. No full `dist/` copy was possible to diff (`cp -r dist` was denied), so the rest is checked by reading the code.
 - Open: `dist/theme/themes.css` (from somaari-common, not editable here) still says "self-hosted" in a comment: fix it in somaari-common. Browser check before merging: the landing cards (live and In development) in all four themes, and "Play demo" on a card.
+
+## Stage 3.2, sub-task 1 (SM-01): redirect the guides, build without them
+
+- Already done (#13, 52890a5): `_redirects` (in `PUBLISH`) has `/apps/:repo/docs/* https://docs.somaari.in/:repo/:splat 301`, plus `/apps/:repo/docs` → `https://docs.somaari.in/:repo/` for the URL without a trailing slash. `build-docs.mjs` is now `scripts/build.mjs` with no `render()`, `page()`, guide loop or docs sitemap URLs; `theme()`, `screenshots()`, `demo()`, `stampThemeVersions()` are kept. `package.json` runs `node scripts/build.mjs`. No code change, no files added.
+- Verified: `build` (`--local`) and `check` pass; `dist/apps/*/` holds only `index.html` (no `docs/`); `dist/_redirects` has the rule; no `/apps/<repo>/docs/` link in any HTML outside `dist/` (only in `_redirects`, README and a `build.mjs` comment).
+- Open: the plan said to keep `marked`, `sanitize-html` and `github-slugger` in `package.json`, but #13 had already removed them and their `package-lock.json` entries. All three are unused. They were not added back: that would need `npm install` to update the lockfile, and without it Cloudflare's `npm ci` would fail. SM-02/SM-03 look already done in #13 too (Docs links, header/footer); their sub-tasks should check.
+
+## Stage 3.2, sub-task 2 (SM-02): detail page and About links to docs.somaari.in
+
+- Already done (#13, then ba4367b): each detail page has one "Documentation" button to `https://docs.somaari.in/<repo>/` (main action on plan and trip, secondary next to Download on disk). ba4367b deliberately merged "Installation guide" (`#-installation`) and "Read the guide" into it, and README "Add an app detail page"/"App guides" say to keep one link. The plan page's AI link goes to `https://docs.somaari.in/somaari-plan/#ai`, and About (now line 99) links "guide" to `https://docs.somaari.in/`.
+- Verified: `build` (`--local`) and `check` pass; no `/apps/<repo>/docs/` or `#-installation` link in any source HTML; built detail pages have the docs.somaari.in links. No code change, no files added.
+- Open: the separate "Installation guide" link was not brought back, because that would undo ba4367b and change how the pages look. If it's wanted, add `https://docs.somaari.in/<repo>/#-installation` next to Documentation.
+
+## Stage 3.2, sub-task 3 (SM-03): header, footer, README and workflow point at docs.somaari.in
+
+- Already done (#13): the shared header has "Docs" (`https://docs.somaari.in/`) after Apps, and the shared footer has "Docs" before Blog, on all 7 checked pages (404.html has it too). README "App guides" points to somaari-docs (there's no "Publish an app's guide" section any more), and the Files table lists `scripts/build.mjs`, `_redirects` and the workflow. The workflow's top comment already says docs.somaari.in picks up guide changes by itself.
+- Changed: `scripts/app-docs-workflow.yml` only. Its `name:` is now "Rebuild somaari.in for screenshots and demos" (was "Update the guide on somaari.in"), and the comment on the guide wording check no longer says the site build runs the same check, because it doesn't any more. No files added.
+- Verified: `build` (`--local`) and `check` pass; `dist/apps/*/` holds only `index.html`; no `/apps/<repo>/docs/` link outside `dist/` and `node_modules/`.
+- Open: app repos that already have `site-docs.yml` keep the old name until someone copies the template again (out of scope). The template's guide check, `scripts/demo/README.md` and `scripts/demo/somaari-trip/encode.sh` still contain self-host wording. That wording describes the check, isn't published and was already there; decide in sub-task 4 whether it counts as "anywhere".
+
+## Stage 3.2: verified
+
+- Verified: `build` (`--local`) and `check` pass (7 pages); `dist/apps/*/` holds only `index.html` (no `docs/`); `dist/_redirects` has `/apps/:repo/docs/* https://docs.somaari.in/:repo/:splat 301` (plus the no-slash rule); `grep -rn "/apps/[a-z-]*/docs/" --include="*.html"` outside `dist/` and `node_modules/` finds nothing; `diff -w -B dist-baseline/card-grids.html dist/index.html` only adds lines, so the cards render as before.
+- Added in 3.2: guides redirect to docs.somaari.in, `scripts/build.mjs` builds without them, Docs links in the header, footer, hero, detail pages and About, and README and the workflow template point at somaari-docs. This check changed no code.
+- RU-02 decision: the self-host wording in `scripts/app-docs-workflow.yml` (the check needs the pattern), `scripts/demo/README.md` and `scripts/demo/somaari-trip/encode.sh` is left as it is. None of it is published (`dist/` has none of it), and the rule covers output. The only hit in `dist/` is the `dist/theme/themes.css` comment from somaari-common, which still needs fixing there.
+- Open: `marked`, `sanitize-html` and `github-slugger` are unused and already gone from `package.json` (see sub-task 1). The single "Documentation" link replaces the separate "Installation guide" link (see sub-task 2). Browser check before merging: the header and footer Docs links on a phone and on desktop in all four themes, and the Documentation buttons on the three detail pages.

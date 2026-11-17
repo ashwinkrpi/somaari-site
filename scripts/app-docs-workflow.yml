@@ -4,7 +4,7 @@
 # checks the guide and asks Cloudflare Pages to rebuild somaari.in, which downloads the new screenshots.
 # The guide itself is on docs.somaari.in, which picks up guide changes by itself (somaari-docs' hourly refresh).
 # Needs the repo secret SOMAARI_SITE_DEPLOY_HOOK: the somaari-site deploy hook URL.
-name: Update the guide on somaari.in
+name: Rebuild somaari.in for screenshots and demos
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # The same rule the site build enforces, so a mistake shows up here and not only in Cloudflare.
+      # The guide is published on docs.somaari.in, which follows the same wording rule; this catches a slip at push time.
       - name: The guide doesn't mention self-hosting
         run: |
           if grep -inE 'self[- ]?host' docs/GUIDE.md; then
