@@ -24,11 +24,12 @@ sync scripts, which the next sync overwrites.
 |---|---|---|---|
 | `rangoli` | Rangoli | light | Hanken Grotesk / Marcellus |
 | `monsoon` | Monsoon | light | Hanken Grotesk / Literata |
-| `pi-console` | Pi Console (default) | dark | IBM Plex Sans / JetBrains Mono |
+| `graphite` | Graphite (default) | dark | Inter / Inter Tight |
 | `liquid-glass` | Liquid Glass | dark | Onest / Onest |
 
-Rangoli, Monsoon and Pi Console have plain page backgrounds (no pattern); text sits on solid cards.
-Removed on 2026-11-13: `warm-tactile` (the old default), `dasara-jamboo` and `deepa` (their only dates
+Rangoli, Monsoon and Graphite have plain page backgrounds (no pattern); text sits on solid cards.
+Graphite is cool neutral grey with a marigold-orange accent (`#f59e0b`).
+Removed on 2026-11-17: `pi-console` (replaced by `graphite` as the default). Removed on 2026-11-13: `warm-tactile` (the old default), `dasara-jamboo` and `deepa` (their only dates
 had passed), and `rajyotsava` (seasonal, 1–7 Nov; removed for now). A saved choice or `?theme=`
 link naming a removed theme falls back to the schedule.
 
@@ -40,7 +41,7 @@ The cookie wins over localStorage, so a choice made on docs.somaari.in also appl
 blog.somaari.in. Other hosts (an app on localhost or a Pi) use localStorage only.
 
 **Schedule** (`SCHEDULE` in `theme.js`, judged by the calendar day in India, Asia/Kolkata):
-empty for now, so every day gets `rangoli`. The first matching entry wins. Remove a one-off entry
+empty for now, so every day gets the default, `graphite` (`DEFAULT_THEME`). The first matching entry wins. Remove a one-off entry
 once its dates have passed.
 To add a festival, add an entry there and a case to `tests/test_theme.py`.
 
@@ -60,7 +61,7 @@ Serve `theme/` at `/theme/` and put this in `<head>`, in this order, before the 
 | **Python web app** | It already depends on `somaari-common` (`subdirectory=python`). Serve `somaari_theme.static_dir()` at `/theme/`; `somaari_theme.files()` lists the files. |
 | **Static site with a build** | The build downloads `theme/files.json` and the files it lists from `main` (raw.githubusercontent.com) into `<out>/theme/`, and adds cache-busting versions to the two URLs. |
 
-Without JS the page keeps rangoli (`:root` holds it; the default, pi-console, needs `theme.js` to set `data-theme`) and the picker stays hidden. The fonts
+Without JS the page keeps rangoli (`:root` holds it; the default, graphite, needs `theme.js` to set `data-theme`) and the picker stays hidden. The fonts
 still load, because they come from CSS.
 
 ## 3. The picker markup (per app)
@@ -93,7 +94,7 @@ screenshots.
 rangoli). An app uses them and **never redefines them**. Everything else (layout, panels,
 cards, cells, decorations, the picker's look) is the app's, in its own per-theme blocks.
 
-| Token | rangoli | monsoon | pi-console | liquid-glass |
+| Token | rangoli | monsoon | graphite | liquid-glass |
 |---|---|---|---|---|
 | `color-scheme` | ✓ | ✓ | ✓ | ✓ |
 | `--fg` (text) | ✓ | ✓ | ✓ | ✓ |

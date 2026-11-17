@@ -19,10 +19,10 @@
   var THEMES = {
     "rangoli": { color: "#FBC96B", label: "Rangoli" },
     "monsoon": { color: "#E3EBEE", label: "Monsoon" },
-    "pi-console": { color: "#120E0B", label: "Pi Console" },
+    "graphite": { color: "#111214", label: "Graphite" },
     "liquid-glass": { color: "#0A0E1C", label: "Liquid Glass" }
   };
-  var DEFAULT_THEME = "pi-console";
+  var DEFAULT_THEME = "graphite";
 
   // Seasonal defaults, checked in order using the date in India (Asia/Kolkata). Add festivals here:
   //   { from: "YYYY-MM-DD", to: "YYYY-MM-DD", theme: "<id>" }  one-off dates, inclusive

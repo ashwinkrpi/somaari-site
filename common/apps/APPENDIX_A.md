@@ -153,7 +153,7 @@ From somaari-site `index.html` lines 153–289 and `docs.config.json`.
       "screenshot": {
         "rangoli": "docs/screenshots/theme-rangoli.png",
         "monsoon": "docs/screenshots/theme-monsoon.png",
-        "pi-console": "docs/screenshots/theme-pi-console.png",
+        "graphite": "docs/screenshots/theme-graphite.png",
         "liquid-glass": "docs/screenshots/theme-liquid-glass.png"
       },
       "demo": { "ref": "site-demo" } },

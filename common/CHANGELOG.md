@@ -2,6 +2,10 @@
 
 somaari-common is not versioned. Entries are dated; changes that break apps are marked **BREAKING**.
 
+## 2026-11-17
+
+- **BREAKING** Themes: removed `pi-console`. New theme `graphite` (dark: cool neutral grey `#111214`, cards `#18191c`, marigold-orange accent `#f59e0b`; Inter / Inter Tight 700) is the new default (`DEFAULT_THEME`). It sets `--page-bg`, `--card-bg`, `--line` and `--shadow` here, like rangoli and monsoon. Fonts: added Inter and Inter Tight (Latin, OFL); removed IBM Plex Sans and JetBrains Mono (only pi-console used them). `:root` still holds rangoli for pages without JS. Apps must replace their `pi-console` blocks with `graphite` ones, and somaari-plan needs `docs/screenshots/theme-graphite.png` (now named in `apps.json`) before somaari.in rebuilds. Saved choices and `?theme=pi-console` links fall back to the default, graphite.
+
 ## 2026-11-15
 
 - Themes: `pi-console` is now the default (`DEFAULT_THEME`), and its accent is tangerine orange instead of green. `:root` still holds rangoli, so pages without JS keep the rangoli look.
