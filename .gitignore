@@ -14,5 +14,6 @@ desktop.ini
 .env.*
 node_modules/
 
-# Build output (npm run build)
+# Build output (npm run build), and a saved copy to diff a new build against
 dist/
+dist-baseline/
