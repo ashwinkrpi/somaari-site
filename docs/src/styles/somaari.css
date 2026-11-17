@@ -1,16 +1,12 @@
 /* Maps the somaari theme tokens onto Starlight's variables. themes.css (somaari-common) holds the
-   shared tokens; per THEME_SPEC section 4, each app sets the rest per theme. The values below are
-   somaari-site's (style.css), so the two sites look the same. --surface is the plain colour behind
-   Starlight's header, sidebars and dialogs. Starlight's own styles sit in a cascade layer, so these
-   unlayered rules win. */
+   standard tokens every theme sets (THEME_SPEC section 4: --fg, --muted, --subtle, --line, --field-bg,
+   --card-bg ...); this file derives the rest from them once, for every theme, so a theme added in
+   somaari-common needs no change here. --surface is the plain colour behind Starlight's header,
+   sidebars and dialogs. The per-theme blocks are optional fine-tuning, matching somaari-site.
+   Starlight's own styles sit in a cascade layer, so these unlayered rules win. */
 :root,
-html[data-theme="rangoli"] { --surface: #fff6e5; --field-bg: #fffaf0; --muted: #3a3366; }
-html[data-theme="monsoon"] { --surface: #f7fafb; --field-bg: #ffffff; --muted: #33505c; }
-html[data-theme="graphite"] { --surface: #18191c; --field-bg: #1f2024; --muted: #c7c8cc; }
-html[data-theme="liquid-glass"] {
-	--page-bg: #0a0e1c; --line: rgb(255 255 255 / 16%);
-	--surface: #0a0e1c; --field-bg: #151b33; --muted: #c9d0e3;
-}
+:root[data-theme] { --surface: var(--card-bg); }
+:root[data-theme="liquid-glass"] { --surface: var(--page-bg); }
 
 :root {
 	--sl-font: var(--font);
@@ -209,30 +205,13 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 .sl-markdown-content table { display: block; max-width: 100%; overflow-x: auto; }
 
 /* Home page: a hero and a card per guide, laid out like somaari.in's hero and app cards (somaari-site
-   style.css .hero, .card). The card tokens are somaari-site's, per theme. */
+   style.css .hero, .card), with the same derived tokens and fine-tuning. */
 :root,
-html[data-theme="rangoli"] {
-	--subtle: #4f4778; --accent-hover: #1d2070; --status: #0b5a43; --tag-border: #e39a2d;
-	--card-edge: #e39a2d; --card-top: 1px; --card-top-color: #e39a2d; --card-radius: 18px;
-	--shadow-hover: 0 6px 0 #2b2f8f;
+:root[data-theme] {
+	--tag-border: var(--line); --card-edge: var(--line); --card-top: 1px; --card-top-color: var(--card-edge);
 }
-html[data-theme="monsoon"] {
-	--subtle: #4b6672; --accent-hover: #0a525b; --status: #0c5d67; --tag-border: #c8d6dc;
-	--card-edge: #c8d6dc; --card-top: 1px; --card-top-color: #c8d6dc; --card-radius: 14px;
-	--shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
-}
-html[data-theme="graphite"] {
-	--subtle: #9b9da3; --accent-hover: #fcd38a; --status: #fcd38a; --tag-border: #33363b;
-	--card-edge: #2c2e33; --card-top: 1px; --card-top-color: #2c2e33; --card-radius: 14px;
-	--shadow-hover: 0 0 0 1px #f59e0b;
-}
-html[data-theme="liquid-glass"] {
-	--subtle: #c9d0e3; --accent-hover: #d2ddff; --status: #8ef0d6; --tag-border: rgb(255 255 255 / 24%);
-	--card-bg: #1a2038; --card-edge: rgb(255 255 255 / 16%); --card-top: 1px;
-	--card-top-color: rgb(255 255 255 / 16%); --card-radius: 28px;
-	--shadow: 0 24px 48px -24px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 10%);
-	--shadow-hover: 0 28px 56px -24px rgb(0 0 0 / 70%), inset 0 1px 0 rgb(255 255 255 / 16%);
-}
+:root[data-theme="graphite"] { --tag-border: #33363b; }
+:root[data-theme="liquid-glass"] { --tag-border: rgb(255 255 255 / 24%); }
 
 [data-has-hero] .sl-container { max-width: 72rem; }
 .docs-hero { padding: 1.5rem 0 2.5rem; }
