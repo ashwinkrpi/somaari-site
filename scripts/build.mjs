@@ -26,10 +26,9 @@ const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
 const DEMO_MAX_BYTES = 1024 * 1024;
 // somaari-common is fetched before the manifest (which names the owner of the app repos) is read.
 const COMMON = { repo: "somaari-common", ref: "main", owner: "ashwinkrpi" };
-// Read from somaari-common's theme.js by theme().
-let THEMES, DEFAULT_THEME;
-// The theme style.css gives :root, so the look without JS; its screenshot goes in <noscript>.
-const NOJS_THEME = "rangoli";
+// Read from somaari-common's theme.js by theme(). NOJS_THEME is the theme themes.css gives :root (the
+// look without JS); its screenshot goes in <noscript>.
+let THEMES, DEFAULT_THEME, NOJS_THEME;
 
 // The manifest's "github" owner and its apps, set by manifest().
 let owner, apps;
@@ -73,15 +72,28 @@ function imageSize(app, path, data) {
 }
 
 // Downloads the detail page screenshot(s) and fills in the page's <figure class="detail-shot">, keeping
-// its alt text. "screenshot" is one path, or { "<theme id>": path } for every theme in theme.js: then the
+// its alt text. "screenshot" is one path, or { "<theme id>": path } per theme in theme.js: then the
 // <img> is marked data-shots, has each theme's path in data-shot-<id> and shots.js sets src to the current
-// theme's, so only that one is downloaded; a <noscript> copy shows the default theme's without JS.
+// theme's, so only that one is downloaded; a <noscript> copy shows the no-JS theme's without JS.
+// Themes change in somaari-common alone, so the map may lag behind theme.js: a theme with no screenshot
+// shows the default theme's (else the no-JS theme's, else any), and an entry for a theme theme.js no
+// longer has is skipped. Both only warn, so a theme change never stops the deploy.
 async function screenshots(app) {
   const perTheme = typeof app.screenshot === "object";
-  const shots = perTheme ? app.screenshot : { [DEFAULT_THEME]: app.screenshot };
+  const shots = perTheme ? { ...app.screenshot } : { [DEFAULT_THEME]: app.screenshot };
   const ids = Object.keys(THEMES);
-  if (perTheme && (ids.some((id) => !shots[id]) || Object.keys(shots).some((id) => !THEMES[id]))) {
-    fail(app, `"screenshot" needs exactly one path per theme: ${ids.join(", ")}`);
+  let fallback = DEFAULT_THEME;
+  if (perTheme) {
+    for (const id of Object.keys(shots)) {
+      if (!THEMES[id]) {
+        console.warn(`${app.repo}: "screenshot" has "${id}", which is not a theme in theme.js; skipped`);
+        delete shots[id];
+      }
+    }
+    fallback = [DEFAULT_THEME, NOJS_THEME].find((id) => shots[id]) ?? Object.keys(shots)[0];
+    if (!fallback) fail(app, `"screenshot" names none of the themes in theme.js (${ids.join(", ")})`);
+    const missing = ids.filter((id) => !shots[id]);
+    if (missing.length) console.warn(`${app.repo}: no screenshot for ${missing.join(", ")}; shows the ${fallback} one`);
   }
   const pagePath = join(OUT, "apps", app.repo, "index.html");
   const html = readFileSync(pagePath, "utf8");
@@ -105,8 +117,8 @@ async function screenshots(app) {
   const [width, height] = size.split("x");
   const attrs = `width="${width}" height="${height}" alt="${alt}"`;
   const img = perTheme
-    ? `<img data-shots ${ids.map((id) => `data-shot-${id}="${urls[id]}"`).join(" ")} ${attrs}>\n      ` +
-      `<noscript><img src="${urls[NOJS_THEME]}" ${attrs}></noscript>`
+    ? `<img data-shots ${ids.map((id) => `data-shot-${id}="${urls[id] ?? urls[fallback]}"`).join(" ")} ${attrs}>\n      ` +
+      `<noscript><img src="${urls[NOJS_THEME] ?? urls[fallback]}" ${attrs}></noscript>`
     : `<img src="${urls[DEFAULT_THEME]}" ${attrs}>`;
   writeFileSync(pagePath, html.replace(figure[0], `${figure[1]}\n      ${img}\n    ${figure[2]}`));
   return Object.keys(urls).length;
@@ -133,6 +145,9 @@ async function theme() {
     writeFileSync(join(OUT, "theme", f), await getFile(COMMON, `theme/${f}`));
   }
   ({ THEMES, DEFAULT_THEME } = createRequire(import.meta.url)(resolve(OUT, "theme", "theme.js")));
+  const css = readFileSync(join(OUT, "theme", "themes.css"), "utf8");
+  NOJS_THEME = css.match(/:root,\s*:root\[data-theme="([^"]+)"\]/)?.[1];
+  if (!THEMES[NOJS_THEME]) throw new Error(`somaari-common: themes.css should start a theme block with ":root, :root[data-theme=\"<id>\"]" (the no-JS look)`);
   return files.length;
 }
 

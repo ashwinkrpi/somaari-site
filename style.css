@@ -1,81 +1,31 @@
 /* Somaari landing page styles. Mobile-first.
    Themes: the somaari themes from somaari-common (/theme/, copied in by the build). theme.js sets
-   html[data-theme] before first paint; themes.css holds the fonts and the tokens every somaari app
-   shares (--fg, --line, --accent, --on-accent, --focus, --font ...). The blocks below add this site's
-   own tokens per theme, plus a few theme-scoped rules for its decorations; the HTML is shared. :root
-   holds rangoli, so the page keeps that look without JS (the default, pi-console, needs theme.js). */
+   html[data-theme] before first paint; themes.css holds the fonts and the standard tokens every theme
+   sets (--fg, --muted, --subtle, --line, --accent, --accent-hover, --field-bg, --card-radius,
+   --shadow-hover ... see somaari-common docs/THEME_SPEC.md section 4). This site derives its own tokens
+   from them below, once for every theme, so a theme added in somaari-common needs no change here. The
+   fine-tuning blocks after that, and the liquid-glass decorations further down, are optional. :root
+   holds the no-JS theme (rangoli). */
 
 :root,
-html[data-theme="rangoli"] {
-  --muted: #3a3366;
-  --subtle: #4f4778;
-  --accent-hover: #1d2070;
-  --status: #0b5a43;
-  --tag-border: #e39a2d;
-  --field-bg: #fff6e5;
+:root[data-theme] {
+  --tag-border: var(--line);
   --header-bg: none;
-  --footer-border: #e39a2d;
-  --card-edge: #e39a2d;
+  --footer-border: var(--line);
+  --card-edge: var(--line);
   --card-top: 1px;
-  --card-top-color: #e39a2d;
-  --card-radius: 18px;
-  --shadow-hover: 0 6px 0 #2b2f8f;
+  --card-top-color: var(--card-edge);
 }
 
-html[data-theme="monsoon"] {
-  --muted: #33505c;
-  --subtle: #4b6672;
-  --accent-hover: #0a525b;
-  --status: #0c5d67;
-  --tag-border: #c8d6dc;
-  --field-bg: #f7fafb;
-  --header-bg: none;
-  --footer-border: #c8d6dc;
-  --card-edge: #c8d6dc;
-  --card-top: 1px;
-  --card-top-color: #c8d6dc;
-  --card-radius: 14px;
-  --shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
-}
-
-html[data-theme="pi-console"] {
-  --muted: #d9c1ad;
-  --subtle: #b8987e;
-  --accent-hover: #ffb36b;
-  --status: #ffb36b;
-  --tag-border: #3a2a1e;
-  --field-bg: #17120d;
-  --header-bg: none;
-  --footer-border: #3a2a1e;
-  --card-edge: #ff8c2e;
-  --card-top: 2px;
-  --card-top-color: #ff8c2e;
-  --card-title: var(--accent); /* orange card titles at rest, lighter on hover */
-  --card-title-hover: var(--focus);
-  --card-radius: 6px;
-  --shadow-hover: 0 0 0 1px #ffb36b;
-}
-
-html[data-theme="liquid-glass"] {
-  --page-bg: #0a0e1c;
-  --muted: #c9d0e3;
-  --subtle: #c9d0e3;
-  --line: rgb(255 255 255 / 16%);
-  --accent-hover: #d2ddff;
-  --status: #8ef0d6;
+/* Optional fine-tuning per theme: values a formula above doesn't give. A theme needs none. */
+:root:not([data-theme]),
+:root[data-theme="rangoli"] { --field-bg: #fff6e5; }
+:root[data-theme="monsoon"] { --field-bg: #f7fafb; }
+:root[data-theme="graphite"] { --tag-border: #33363b; }
+:root[data-theme="liquid-glass"] {
   --tag-border: rgb(255 255 255 / 24%);
-  --field-bg: #151b33;
   --glass: rgb(255 255 255 / 7%);
   --glass-solid: #1a2038; /* where backdrop-filter is unsupported */
-  --header-bg: none;
-  --footer-border: rgb(255 255 255 / 16%);
-  --card-bg: var(--glass-solid);
-  --card-edge: rgb(255 255 255 / 16%);
-  --card-top: 1px;
-  --card-top-color: rgb(255 255 255 / 16%);
-  --card-radius: 28px;
-  --shadow: 0 24px 48px -24px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 10%);
-  --shadow-hover: 0 28px 56px -24px rgb(0 0 0 / 70%), inset 0 1px 0 rgb(255 255 255 / 16%);
 }
 
 *,
