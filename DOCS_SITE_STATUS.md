@@ -17,3 +17,10 @@
 - Already done (#14): `sitemap.xml` holds a `<!-- APPS -->` line that `cards()` in `scripts/build.mjs` replaces with one `/apps/<repo>/` entry per `detail_page: true` app (`<lastmod>` from the page's last commit). The build fails if the manifest names a detail page whose `apps/<repo>/index.html` is missing. Built `dist/sitemap.xml` has somaari-trip, somaari-disk, somaari-plan (the three `apps/*/index.html` pages).
 - README "Adding an app" already runs manifest entry → detail page once live → `docs/GUIDE.md` in the app repo. Changed only step 1's link names to match the cards ("Guide" with `"guide"`, "GitHub" instead of "View on GitHub").
 - Verified: `build` (`--local`) and `check` pass; the card-grid baseline diff still only adds lines. No files added. Open: the expected `dist/` differences for sub-task 4 are the sitemap app entries (now from the manifest, same three URLs) and nothing else from SC-03.
+
+## Stage 3.1: verified
+
+- Verified: `build` (`--local`) and `check` pass; `diff -w -B dist-baseline/card-grids.html dist/index.html` shows no changed or removed lines, so both card-grid blocks match. SC-01–SC-03 were already in #14; `docs.config.json` and `build-docs.mjs` are gone.
+- Added: `card()` now escapes `repo` and the owner too (and the sitemap `<loc>`); RU-02 rewording of "self-hosted" in the `video.js` and `apps/somaari-trip/` comments (both published) and in README, with new `?v=` stamps on the three detail pages. Cards render byte-for-byte as before.
+- Expected `dist/` differences: sitemap app entries (same three URLs, from the manifest), the two comments, and the `video.js?v=` hash on the detail pages. No full `dist/` copy was possible to diff (`cp -r dist` was denied), so the rest is checked by reading the code.
+- Open: `dist/theme/themes.css` (from somaari-common, not editable here) still says "self-hosted" in a comment: fix it in somaari-common. Browser check before merging: the landing cards (live and In development) in all four themes, and "Play demo" on a card.

@@ -1,4 +1,4 @@
-// Click-to-load YouTube player for the detail pages. The page shows a self-hosted thumbnail; nothing
+// Click-to-load YouTube player for the detail pages. The page shows a thumbnail served from this site; nothing
 // is requested from YouTube until the visitor presses Play, which loads the youtube-nocookie.com
 // embed. The thumbnail stays up with a spinner until the embed has loaded, and further clicks are
 // ignored, so one press is enough. Without JS the Play button stays hidden and the "Watch on YouTube"

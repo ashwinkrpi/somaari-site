@@ -2,7 +2,7 @@
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are self-hosted), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are served from this site), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 ## Files
 
@@ -27,7 +27,7 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a 
 | `scripts/demo/` | Re-runnable recorders and the encoder for the demo loops, plus `serve.py` (serves `dist/` with the `_headers` headers) and `verify.mjs` (browser checks of the built site); see its README |
 | `videos.json` | Each app's YouTube walkthrough ID and the "somaari apps" playlist ID; an empty ID means no video UI for that app. A new ID also needs the detail page's Video section (the build adds the card links); `npm run check` compares them |
 | `video.js` | Detail pages: swaps the thumbnail for the YouTube embed (`youtube-nocookie.com`) when Play is pressed; nothing loads from YouTube before that |
-| `assets/videos/<id>.jpg` | Self-hosted video thumbnails, so a detail page makes no request to YouTube on load |
+| `assets/videos/<id>.jpg` | Video thumbnails served from this site, so a detail page makes no request to YouTube on load |
 | `scripts/check-videos.mjs` | Checks the pages against `videos.json` |
 | `scripts/build.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), writes the landing cards and sitemap entries from somaari-common's `apps/apps.json` and downloads the screenshots and demo loops it names |
 | `_redirects` | Sends the old guide URLs (`/apps/<repo>/docs/...`) to docs.somaari.in |

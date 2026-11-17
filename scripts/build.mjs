@@ -173,31 +173,32 @@ function comment(app, text) {
 // page; the actions are one Details button plus Guide (docs.somaari.in) and GitHub text links.
 function card(app) {
   const t = escapeHtml(app.title);
-  const video = VIDEOS[app.repo] ? `/apps/${app.repo}/#video` : "";
+  const repo = escapeHtml(app.repo);
+  const video = VIDEOS[app.repo] ? `/apps/${repo}/#video` : "";
   const hasDemo = app.demo || existsSync(join("assets", "demos", app.repo, "poster.webp"));
   // trip's loop is made from screenshots by encode.sh alone; the others are recorded (scripts/demo/README.md).
   const rebuild = existsSync(join("scripts", "demo", app.repo, "encode.sh")) && !existsSync(join("scripts", "demo", app.repo, "record.sh"))
-    ? `scripts/demo/${app.repo}/encode.sh` : "scripts/demo/README.md";
+    ? `scripts/demo/${repo}/encode.sh` : "scripts/demo/README.md";
   const labels = [app.ai.label].flat();
   const actions = [
-    app.detail_page && `<a class="btn" href="/apps/${app.repo}/">Details<span class="visually-hidden"> about ${t}</span></a>`,
-    app.guide && `<a class="card-link" href="https://docs.somaari.in/${app.repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
-    app.public && `<a class="card-link" href="https://github.com/${owner}/${app.repo}">GitHub<span class="visually-hidden"> (${app.repo})</span></a>`,
+    app.detail_page && `<a class="btn" href="/apps/${repo}/">Details<span class="visually-hidden"> about ${t}</span></a>`,
+    app.guide && `<a class="card-link" href="https://docs.somaari.in/${repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
+    app.public && `<a class="card-link" href="https://github.com/${escapeHtml(owner)}/${repo}">GitHub<span class="visually-hidden"> (${repo})</span></a>`,
   ].filter(Boolean);
-  const title = app.detail_page ? `<a href="/apps/${app.repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
+  const title = app.detail_page ? `<a href="/apps/${repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
   return `
-        <!-- CARD START: ${app.repo} -->
+        <!-- CARD START: ${repo} -->
         <li class="card">${hasDemo ? `
           <!-- Demo: a still poster; "Play demo" (shown by demo.js) plays the loop in the player
                dialog at the end of the page. Rebuild: ${rebuild} -->
           <div class="card-media">
-            <img class="card-demo" src="/assets/demos/${app.repo}/poster.webp" ${POSTER} alt="" loading="lazy">
-            <button type="button" class="btn demo-open" data-demo="${app.repo}" data-title="${t}"${video ? ` data-video="${video}"` : ""} hidden><span aria-hidden="true">&#x25B6;&#xFE0E;</span> Play demo<span class="visually-hidden">: ${t}</span></button>
+            <img class="card-demo" src="/assets/demos/${repo}/poster.webp" ${POSTER} alt="" loading="lazy">
+            <button type="button" class="btn demo-open" data-demo="${repo}" data-title="${t}"${video ? ` data-video="${video}"` : ""} hidden><span aria-hidden="true">&#x25B6;&#xFE0E;</span> Play demo<span class="visually-hidden">: ${t}</span></button>
           </div>` : ""}
           <div class="card-head">
             <div class="card-names">
               <h3 class="card-title">${title}</h3>
-              <p class="card-repo">${app.repo}</p>
+              <p class="card-repo">${repo}</p>
             </div>
             ${comment(app, `AI chip: ${app.ai.source}`)}
             <span class="badges">
@@ -212,7 +213,7 @@ ${actions.map((a) => `            ${a}`).join("\n")}
           </div>` : ""}${app.public ? "" : `
           <!-- Repo not public yet: no GitHub link. Set "public": true in apps.json when it is. -->`}
         </li>
-        <!-- CARD END: ${app.repo} -->
+        <!-- CARD END: ${repo} -->
 `;
 }
 
@@ -232,7 +233,7 @@ function cards() {
   const sitemap = join(OUT, "sitemap.xml");
   const urls = apps.filter((app) => app.detail_page).map((app) => {
     const date = gitDate(join("apps", app.repo, "index.html"));
-    return `  <url>\n    <loc>${SITE}/apps/${app.repo}/</loc>\n${date ? `    <lastmod>${date}</lastmod>\n` : ""}  </url>\n`;
+    return `  <url>\n    <loc>${SITE}/apps/${escapeHtml(app.repo)}/</loc>\n${date ? `    <lastmod>${date}</lastmod>\n` : ""}  </url>\n`;
   });
   const xml = readFileSync(sitemap, "utf8");
   if (!xml.includes("  <!-- APPS -->\n")) throw new Error("sitemap.xml has no <!-- APPS --> line");
