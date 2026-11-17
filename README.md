@@ -48,14 +48,14 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
 To test with the CSP and other `_headers` headers applied, serve with `python3 scripts/demo/serve.py 8000` instead,
 and `node scripts/demo/verify.mjs` checks the demo player, the Appearance control and every page in headless Chromium. `npm run build -- --local ~/code/ai-projects` also takes `theme/` and `apps/apps.json` from your local somaari-common checkout.
 
-Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=pi-console>.
-Ids: `rangoli`, `monsoon`, `pi-console`, `liquid-glass`.
+Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=graphite>.
+Ids: `rangoli`, `monsoon`, `graphite`, `liquid-glass`.
 
 ## Themes
 
 The Appearance control (the round icon button in the header) saves the visitor's choice in `localStorage` and in a
 `somaari-theme` cookie for `somaari.in`, so docs.somaari.in and blog.somaari.in follow it too. "Auto (seasonal)" clears it
-and follows the date in India (Asia/Kolkata); no seasonal themes are scheduled at the moment, so it shows `pi-console`, the default. Without JS the page keeps `rangoli`.
+and follows the date in India (Asia/Kolkata); no seasonal themes are scheduled at the moment, so it shows `graphite`, the default. Without JS the page keeps `rangoli`.
 
 The themes, schedule and fonts live in somaari-common (`theme/`, standard: `docs/THEME_SPEC.md`), shared
 with somaari-plan. To add a festival or change a shared colour, edit them there (`SCHEDULE` in

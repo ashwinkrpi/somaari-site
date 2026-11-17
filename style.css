@@ -3,7 +3,7 @@
    html[data-theme] before first paint; themes.css holds the fonts and the tokens every somaari app
    shares (--fg, --line, --accent, --on-accent, --focus, --font ...). The blocks below add this site's
    own tokens per theme, plus a few theme-scoped rules for its decorations; the HTML is shared. :root
-   holds rangoli, so the page keeps that look without JS (the default, pi-console, needs theme.js). */
+   holds rangoli, so the page keeps that look without JS (the default, graphite, needs theme.js). */
 
 :root,
 html[data-theme="rangoli"] {
@@ -38,22 +38,20 @@ html[data-theme="monsoon"] {
   --shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
 }
 
-html[data-theme="pi-console"] {
-  --muted: #d9c1ad;
-  --subtle: #b8987e;
-  --accent-hover: #ffb36b;
-  --status: #ffb36b;
-  --tag-border: #3a2a1e;
-  --field-bg: #17120d;
+html[data-theme="graphite"] {
+  --muted: #c7c8cc;
+  --subtle: #9b9da3;
+  --accent-hover: #fcd38a;
+  --status: #fcd38a;
+  --tag-border: #33363b;
+  --field-bg: #1f2024;
   --header-bg: none;
-  --footer-border: #3a2a1e;
-  --card-edge: #ff8c2e;
-  --card-top: 2px;
-  --card-top-color: #ff8c2e;
-  --card-title: var(--accent); /* orange card titles at rest, lighter on hover */
-  --card-title-hover: var(--focus);
-  --card-radius: 6px;
-  --shadow-hover: 0 0 0 1px #ffb36b;
+  --footer-border: #2c2e33;
+  --card-edge: #2c2e33;
+  --card-top: 1px;
+  --card-top-color: #2c2e33;
+  --card-radius: 14px;
+  --shadow-hover: 0 0 0 1px #f59e0b;
 }
 
 html[data-theme="liquid-glass"] {
