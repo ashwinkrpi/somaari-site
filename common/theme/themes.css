@@ -1,8 +1,9 @@
-/* somaari themes: fonts and the tokens every themed somaari app shares (see docs/THEME_SPEC.md).
-   theme.js sets html[data-theme] before first paint. :root holds rangoli, the year-round
-   default, so a page keeps it without JS. Load this before the app's stylesheet; the app adds its
-   own tokens per theme (and never overrides these). Fonts are self-hosted (OFL-*.txt beside them);
-   a browser downloads only the faces its theme uses. */
+/* somaari themes: fonts and the standard tokens every themed somaari app uses (see docs/THEME_SPEC.md).
+   theme.js sets html[data-theme] before first paint. :root holds rangoli, so a page keeps it
+   without JS. Load this before the app's stylesheet. Every theme sets every standard token (the
+   tests check), so an app derives its own tokens from these once, for all themes, and a new theme
+   here needs no change in any app. Fonts are self-hosted (OFL-*.txt beside them); a browser
+   downloads only the faces its theme uses. */
 
 @font-face { font-family: "Hanken Grotesk"; src: url("fonts/HankenGrotesk.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
 @font-face { font-family: "Marcellus"; src: url("fonts/Marcellus.woff2") format("woff2"); font-weight: 400; font-display: swap;
@@ -26,58 +27,114 @@
   color-scheme: light;
   --page-bg: #fbc96b;
   --card-bg: #fff6e5;
+  --field-bg: #fffaf0;
   --line: #e39a2d;
   --shadow: 0 4px 0 #2b2f8f;
+  --shadow-hover: 0 6px 0 #2b2f8f;
   --fg: #1c1640;
+  --muted: #3a3366;
+  --subtle: #4f4778;
   --accent: #2b2f8f;
+  --accent-hover: #1d2070;
+  --accent-text: #9a3412;
   --on-accent: #ffffff;
   --focus: #2b2f8f;
+  --status: #0b5a43;
+  --ok: #0b5a43;
+  --danger: #b42318;
   --btn-radius: 10px;
+  --radius: 10px;
+  --field-radius: 8px;
+  --card-radius: 18px;
   --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Marcellus", Georgia, "Times New Roman", serif;
   --display-weight: 400;
+  --display-tracking: 0;
 }
 
 :root[data-theme="monsoon"] {
   color-scheme: light;
   --page-bg: #e3ebee;
   --card-bg: #f7fafb;
+  --field-bg: #ffffff;
   --line: #c8d6dc;
   --shadow: 0 1px 2px rgb(20 38 47 / 6%), 0 8px 24px rgb(20 38 47 / 6%);
+  --shadow-hover: 0 2px 4px rgb(20 38 47 / 8%), 0 14px 32px rgb(20 38 47 / 10%);
   --fg: #13252e;
+  --muted: #33505c;
+  --subtle: #4b6672;
   --accent: #0f6e7a;
+  --accent-hover: #0a525b;
+  --accent-text: #0c5d67;
   --on-accent: #ffffff;
   --focus: #0c5d67;
+  --status: #0c5d67;
+  --ok: #1f6b3a;
+  --danger: #b42318;
   --btn-radius: 8px;
+  --radius: 12px;
+  --field-radius: 8px;
+  --card-radius: 14px;
   --font: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Literata", Georgia, "Times New Roman", serif;
   --display-weight: 600;
+  --display-tracking: -0.01em;
 }
 
 :root[data-theme="graphite"] {
   color-scheme: dark;
   --page-bg: #111214;
   --card-bg: #18191c;
+  --field-bg: #1f2024;
   --line: #2c2e33;
-  --shadow: none;
+  --shadow: 0 0 #0000;
+  --shadow-hover: 0 0 0 1px #f59e0b;
   --fg: #ededef;
+  --muted: #c7c8cc;
+  --subtle: #9b9da3;
   --accent: #f59e0b;
+  --accent-hover: #fcd38a;
+  --accent-text: #f7b13a;
   --on-accent: #111214;
   --focus: #fcd38a;
+  --status: #fcd38a;
+  --ok: #7cf0ad;
+  --danger: #ff8f86;
   --btn-radius: 10px;
+  --radius: 10px;
+  --field-radius: 8px;
+  --card-radius: 14px;
   --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --display-weight: 700;
+  --display-tracking: -0.02em;
 }
 
 :root[data-theme="liquid-glass"] {
   color-scheme: dark;
+  --page-bg: #0a0e1c;
+  --card-bg: #1a2038;
+  --field-bg: #151b33;
+  --line: rgb(255 255 255 / 16%);
+  --shadow: 0 24px 48px -24px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 10%);
+  --shadow-hover: 0 28px 56px -24px rgb(0 0 0 / 70%), inset 0 1px 0 rgb(255 255 255 / 16%);
   --fg: #f3f5fb;
+  --muted: #c9d0e3;
+  --subtle: #c9d0e3;
   --accent: #b3c6ff;
+  --accent-hover: #d2ddff;
+  --accent-text: #b3c6ff;
   --on-accent: #0a0e1c;
   --focus: #ffffff;
+  --status: #8ef0d6;
+  --ok: #7fe0a0;
+  --danger: #ff9a8f;
   --btn-radius: 999px;
+  --radius: 14px;
+  --field-radius: 10px;
+  --card-radius: 28px;
   --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font);
   --display-weight: 600;
+  --display-tracking: -0.03em;
 }

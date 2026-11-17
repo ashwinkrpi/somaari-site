@@ -27,7 +27,8 @@ sync scripts, which the next sync overwrites.
 | `graphite` | Graphite (default) | dark | Inter / Inter Tight |
 | `liquid-glass` | Liquid Glass | dark | Onest / Onest |
 
-Rangoli, Monsoon and Graphite have plain page backgrounds (no pattern); text sits on solid cards.
+All four have plain page backgrounds (no pattern); text sits on solid cards. (Apps may decorate a
+theme, as somaari.in and somaari-plan add liquid-glass's glows.)
 Graphite is cool neutral grey with a marigold-orange accent (`#f59e0b`).
 Removed on 2026-11-17: `pi-console` (replaced by `graphite` as the default). Removed on 2026-11-13: `warm-tactile` (the old default), `dasara-jamboo` and `deepa` (their only dates
 had passed), and `rajyotsava` (seasonal, 1–7 Nov; removed for now). A saved choice or `?theme=`
@@ -90,30 +91,49 @@ screenshots.
 
 ## 4. Tokens
 
-`themes.css` sets these custom properties on `:root[data-theme=<id>]` (`:root` alone holds
-rangoli). An app uses them and **never redefines them**. Everything else (layout, panels,
-cards, cells, decorations, the picker's look) is the app's, in its own per-theme blocks.
+`themes.css` sets the **standard tokens** below on `:root[data-theme="<id>"]` (`:root` alone holds
+rangoli). **Every theme sets every standard token**; `tests/test_theme.py` fails if one is missing.
+That is what lets a theme be added, changed or removed here without changing any app.
 
-| Token | rangoli | monsoon | graphite | liquid-glass |
-|---|---|---|---|---|
-| `color-scheme` | ✓ | ✓ | ✓ | ✓ |
-| `--fg` (text) | ✓ | ✓ | ✓ | ✓ |
-| `--accent`, `--on-accent` (text on accent), `--focus` | ✓ | ✓ | ✓ | ✓ |
-| `--btn-radius` | ✓ | ✓ | ✓ | ✓ |
-| `--font`, `--font-display`, `--display-weight` | ✓ | ✓ | ✓ | ✓ |
-| `--page-bg` | ✓ | ✓ | ✓ | app |
-| `--card-bg` | ✓ | ✓ | ✓ | app |
-| `--line` | ✓ | ✓ | ✓ | app |
-| `--shadow` | ✓ | ✓ | ✓ | app |
+| Token | What it is |
+|---|---|
+| `color-scheme` | `light` or `dark` |
+| `--page-bg` | page background; a plain colour (no gradient or image) |
+| `--card-bg` | cards, panels, menus |
+| `--field-bg` | inputs and other fields |
+| `--line` | borders and dividers |
+| `--shadow`, `--shadow-hover` | card shadow at rest and on hover; always a valid shadow (`0 0 #0000` for none, never `none`), so it can be combined with others |
+| `--fg` | text |
+| `--muted` | secondary text (subtitles, intros) |
+| `--subtle` | tertiary text (dates, meta, captions) |
+| `--accent`, `--accent-hover` | links, buttons, highlights, and their hover |
+| `--accent-text` | accent-coloured text on the page or a card, where `--accent` is too light or too dark for text |
+| `--on-accent` | text on an `--accent` background |
+| `--focus` | focus rings |
+| `--status`, `--ok`, `--danger` | an "Available"-style highlight; success; errors |
+| `--btn-radius`, `--radius`, `--field-radius`, `--card-radius` | buttons; small boxes and panels; fields; large cards |
+| `--font`, `--font-display`, `--display-weight`, `--display-tracking` | body font, heading font, its weight and letter-spacing |
 
-"app" means the token isn't shared for that theme: the apps use different values, so each app sets
-it in its own block. **Rule:** a token moves into `themes.css` only when every themed app uses the
-same value for it. If an app needs a different value, it stays in the app's own CSS.
+**How an app uses them:**
 
-Selectors: `themes.css` uses `:root[data-theme="<id>"]`. An app's per-theme blocks may use
-`html[data-theme="<id>"]` or `:root[data-theme=<id>]`. They don't conflict, because no token is set
-in both places. Scoped overrides (for example dark ink on a light card inside a dark theme) may set `--fg`,
-`--accent` and so on on a descendant. That is a local override, not a redefinition.
+1. **Derive, once, for all themes.** The app's own tokens are set in one block that applies to every
+   theme, from the standard ones: `:root, :root[data-theme] { --panel: var(--card-bg); --track:
+   color-mix(in srgb, var(--line) 70%, var(--card-bg)); }`. With only this, a new theme looks right.
+2. **Fine-tune, optionally, per theme.** An app may add `:root[data-theme="<id>"]` blocks after that,
+   for values a formula can't give (a calendar shade, a decoration such as liquid-glass's glows). They
+   are taste, never required: a theme without one still works, and a block for a removed theme is
+   ignored. Use `:root:not([data-theme]), :root[data-theme="rangoli"]` for rangoli, so it also covers
+   the look without JS. A fine-tune block may override a standard token (liquid-glass's gradient page
+   in somaari-plan) because it loads after `themes.css`.
+3. **Don't set a standard token in the derive block**, unless the app deliberately replaces it for
+   every theme.
+
+Scoped overrides (for example dark ink on a light card inside a dark theme) may set `--fg`, `--accent`
+and so on on a descendant.
+
+**Adding a standard token:** add it to every theme here and to `STANDARD_TOKENS` in the tests. Apps
+keep working (they don't use it yet). Removing or renaming one breaks the apps that use it: mark it
+**BREAKING** in the changelog and update those apps first.
 
 ## 5. Fonts
 
@@ -125,10 +145,24 @@ The licences (`OFL-<Family>.txt`) must be served alongside the fonts.
 
 ## 6. Changing the themes
 
-1. Edit `theme/` (and `tests/test_theme.py`). Add any new file to `theme/files.json`.
-2. Run the tests (see README). Check the themed apps in every theme with `?theme=<id>`, at desktop
+Every change is made here only; no app needs editing.
+
+- **Change a theme:** edit its block in `themes.css` (or its entry in `THEMES`).
+- **Add a theme:** add it to `THEMES` in `theme.js` and give it a block in `themes.css` that sets
+  every standard token (section 4). New fonts go in `theme/fonts/` with their `OFL-<Family>.txt`, an
+  `@font-face` here and entries in `theme/files.json`. Optional: somaari-plan's screenshot for it
+  (`scripts/screenshots/take.sh` there reads the theme list from `theme.js`) and its path in
+  `apps/apps.json`; until then somaari.in shows the default theme's screenshot for it.
+- **Remove a theme:** take it out of `THEMES` and `themes.css`, and its fonts if nothing else uses
+  them. Saved choices and links for it fall back to the schedule. Apps' fine-tune blocks for it are
+  ignored (tidy them when convenient); somaari.in skips its `apps.json` screenshot with a warning.
+
+Then:
+
+1. Run the tests (see README). Check the themed apps in every theme with `?theme=<id>`, at desktop
    and 380 px phone width.
-3. Push to `main`. `.github/workflows/site-theme.yml` runs the tests and rebuilds somaari.in, and
+2. Push to `main`. `.github/workflows/site-theme.yml` runs the tests and rebuilds somaari.in, and
    docs.somaari.in redeploys at its next hourly refresh. The other apps pick up the change as the
    README table "How apps pick up changes" says (for somaari-plan,
-   `uv lock --upgrade-package somaari-common`; for somaari-blog, `npm run sync:common`).
+   `uv lock --upgrade-package somaari-common`; for somaari-server, `scripts/sync-common.sh` and a
+   release; for somaari-blog, `npm run sync:common`). Those are only syncs: no CSS changes.

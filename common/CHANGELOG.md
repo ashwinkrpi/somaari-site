@@ -2,6 +2,11 @@
 
 somaari-common is not versioned. Entries are dated; changes that break apps are marked **BREAKING**.
 
+## 2026-11-17 (standard tokens)
+
+- Themes: every theme now sets the same **standard tokens** (`docs/THEME_SPEC.md` section 4): `--page-bg`, `--card-bg`, `--field-bg`, `--line`, `--shadow`, `--shadow-hover`, `--fg`, `--muted`, `--subtle`, `--accent`, `--accent-hover`, `--accent-text`, `--on-accent`, `--focus`, `--status`, `--ok`, `--danger`, the four radii, the fonts, `--display-weight` and `--display-tracking`. liquid-glass now sets `--page-bg`, `--card-bg`, `--line` and `--shadow` too. Values are the ones the apps already used, so nothing looks different. `tests/test_theme.py` fails if a theme misses one. Apps derive their own tokens from these once for every theme, so a theme added, changed or removed here needs no app CSS change; per-theme app blocks are now optional fine-tuning.
+- Themes: graphite's `--shadow` is `0 0 #0000` instead of `none` (looks the same), so a shadow token can always be combined with others.
+
 ## 2026-11-17
 
 - **BREAKING** Themes: removed `pi-console`. New theme `graphite` (dark: cool neutral grey `#111214`, cards `#18191c`, marigold-orange accent `#f59e0b`; Inter / Inter Tight 700) is the new default (`DEFAULT_THEME`). It sets `--page-bg`, `--card-bg`, `--line` and `--shadow` here, like rangoli and monsoon. Fonts: added Inter and Inter Tight (Latin, OFL); removed IBM Plex Sans and JetBrains Mono (only pi-console used them). `:root` still holds rangoli for pages without JS. Apps must replace their `pi-console` blocks with `graphite` ones, and somaari-plan needs `docs/screenshots/theme-graphite.png` (now named in `apps.json`) before somaari.in rebuilds. Saved choices and `?theme=pi-console` links fall back to the default, graphite.

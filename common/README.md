@@ -3,7 +3,7 @@
 Single source of truth for what somaari apps share:
 
 - the **About** section, used by all somaari apps (somaari-terminal, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
-- the **themes** (four themes, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan, somaari-server, the blog at blog.somaari.in (somaari-blog), docs.somaari.in (somaari-docs) and games.somaari.in (somaari-games). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+- the **themes** (the theme list, every theme's standard tokens, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan, somaari-server, the blog at blog.somaari.in (somaari-blog), docs.somaari.in (somaari-docs) and games.somaari.in (somaari-games). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 somaari-common is not versioned: apps always use the latest `main`.
 
@@ -39,6 +39,8 @@ text = as_text(collect("my-app", __version__), load_developer())
 Then write a native collector that outputs exactly the keys in `debug-fields.json`, in the text format from the spec.
 
 ## Themes
+
+Themes are added, changed and removed here only: every theme sets every standard token in `themes.css`, and each app derives its own tokens from those once for all themes, so no app needs a CSS change (an app's per-theme blocks are optional fine-tuning). The apps that copy the files still need their sync step (table below).
 
 Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site (somaari-site, somaari-docs) downloads the files in `theme/files.json` at build time. somaari-blog (Astro) instead commits a copy made by its `npm run sync:common`, so run that there after changing `theme/` or `about/`. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 

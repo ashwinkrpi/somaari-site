@@ -82,3 +82,42 @@ def test_schedule_matching():
     got = _node(f"t.SCHEDULE.push(...{json.dumps(entries)}); const c = {json.dumps(cases)};"
                 "console.log(JSON.stringify(Object.keys(c).map(d => t.getDefaultTheme(new Date(d)))));")
     assert dict(zip(cases, got)) == cases
+
+
+# The standard tokens (docs/THEME_SPEC.md section 4). Every theme sets all of them, so apps derive their
+# own tokens from these once and a new theme works in every app without an app change.
+STANDARD_TOKENS = [
+    "page-bg", "card-bg", "field-bg", "line", "shadow", "shadow-hover", "fg", "muted", "subtle", "accent",
+    "accent-hover", "accent-text", "on-accent", "focus", "status", "ok", "danger", "btn-radius", "radius",
+    "field-radius", "card-radius", "font", "font-display", "display-weight", "display-tracking",
+]
+
+
+def _theme_blocks():
+    blocks = {}
+    for sel, body in re.findall(r'((?::root[^{]*))\{([^}]*)\}', CSS):
+        for th in re.findall(r':root\[data-theme="([^"]+)"\]', sel):
+            blocks[th] = body
+    return blocks
+
+
+@needs_node
+def test_every_theme_sets_every_standard_token():
+    themes = _node("console.log(JSON.stringify(Object.keys(t.THEMES)))")
+    blocks = _theme_blocks()
+    for th in themes:
+        assert re.search(r"color-scheme:\s*(light|dark)\s*;", blocks[th]), th
+        declared = set(re.findall(r"--([a-z-]+)\s*:", blocks[th]))
+        missing = [k for k in STANDARD_TOKENS if k not in declared]
+        assert not missing, f"{th} is missing {missing}"
+        assert re.search(r"--shadow:\s*none", blocks[th]) is None, f"{th}: --shadow must be a shadow (0 0 #0000 for none)"
+        page_bg = re.search(r"--page-bg:\s*([^;]+);", blocks[th]).group(1)
+        assert "gradient" not in page_bg and "url(" not in page_bg, f"{th}: --page-bg must be a plain colour"
+
+
+@needs_node
+def test_one_theme_is_the_no_js_root():
+    # somaari.in and its checks read the no-JS theme from this ":root, :root[data-theme=...]" block.
+    themes = _node("console.log(JSON.stringify(Object.keys(t.THEMES)))")
+    roots = re.findall(r':root,\s*:root\[data-theme="([^"]+)"\]\s*\{', CSS)
+    assert len(roots) == 1 and roots[0] in themes
