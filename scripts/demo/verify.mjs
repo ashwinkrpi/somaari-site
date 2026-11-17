@@ -12,6 +12,12 @@ import { join } from "node:path";
 import { chromium } from "playwright-core";
 
 const URL_ = process.argv[2] || "http://127.0.0.1:8000/";
+// The theme list comes from the site's own copy of somaari-common's theme.js and themes.css, so these
+// checks follow theme changes made there: THEME_IDS in picker order, NOJS_THEME the :root (no-JS) one.
+const themeMod = { exports: {} };
+new Function("module", await (await fetch(new URL("theme/theme.js", URL_))).text())(themeMod);
+const THEME_IDS = Object.keys(themeMod.exports.THEMES);
+const NOJS_THEME = (await (await fetch(new URL("theme/themes.css", URL_))).text()).match(/:root,\s*:root\[data-theme="([^"]+)"\]/)?.[1];
 const OUT = process.argv[3] || tmpdir();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -142,7 +148,7 @@ try {
   await shot("verify-phone-appearance.png");
   await press("ArrowDown");
   a = await appearance();
-  check(a.theme === "rangoli" && a.saved === "rangoli", `appearance: arrow key picks and saves the next theme (${a.theme}, saved ${a.saved})`);
+  check(a.theme === THEME_IDS[0] && a.saved === THEME_IDS[0], `appearance: arrow key picks and saves the next theme (${a.theme}, saved ${a.saved})`);
   await press("Escape");
   a = await appearance();
   check(a.hidden && a.expanded === "false" && a.active === "appearance-toggle", "appearance: Esc closes it and returns focus to the button");
@@ -163,13 +169,13 @@ try {
       img: document.querySelector(".detail-shot img")?.naturalWidth || 0, picker: !document.getElementById("theme-picker").hidden })`);
     check(d.h1 === 1 && d.sw <= 390 && d.img > 0 && d.picker, `detail page ${slug}: one h1, screenshot, Appearance control, no horizontal scroll (scrollWidth ${d.sw})`);
   }
-  // Per-theme screenshots (somaari-plan): the image shown is the current theme's.
-  const shotTheme = () => evaluate(`({ theme: document.documentElement.dataset.theme,
-    src: document.querySelector(".detail-shot img").currentSrc })`);
-  for (const id of ["liquid-glass", "graphite"]) {
+  // Per-theme screenshots (somaari-plan): the image shown is the current theme's (data-shot-<id>, which
+  // the build points at the default theme's screenshot when a theme has none).
+  for (const id of THEME_IDS) {
     await setup({ width: 1280, height: 900, path: `apps/somaari-plan/?theme=${id}` });
-    const t = await shotTheme();
-    check(t.src.endsWith(`screenshot-${id}.png`), `detail page somaari-plan, ${id}: shows that theme's screenshot (${t.src.split("/").pop()})`);
+    const t = await evaluate(`({ src: document.querySelector(".detail-shot img").currentSrc,
+      want: document.querySelector(".detail-shot img").getAttribute("data-shot-${id}") })`);
+    check(t.want && t.src.endsWith(t.want), `detail page somaari-plan, ${id}: shows that theme's screenshot (${t.src.split("/").pop()})`);
   }
 
   // No JS: posters only, no Play demo buttons, no Appearance control.
@@ -183,7 +189,8 @@ try {
   await setup({ width: 390, height: 844, mobile: true, nojs: true, path: "apps/somaari-plan/" });
   const nojsShot = await evaluate(`Array.from(document.querySelectorAll(".detail-shot img")).filter((i) => i.offsetParent)
     .map((i) => i.naturalWidth && i.currentSrc.split("/").pop())`);
-  check(nojsShot.length === 1 && nojsShot[0] === "screenshot-rangoli.png", `no JS: somaari-plan shows the rangoli (no-JS) screenshot (${nojsShot})`);
+  const nojsWant = (await evaluate(`document.querySelector(".detail-shot img[data-shots]").getAttribute("data-shot-${NOJS_THEME}")`)).split("/").pop();
+  check(nojsShot.length === 1 && nojsShot[0] === nojsWant, `no JS: somaari-plan shows the ${NOJS_THEME} (no-JS) screenshot (${nojsShot})`);
 
   const real = problems.filter((p) => !/favicon/i.test(p));
   check(real.length === 0, `no console errors/warnings or CSP violations${real.length ? ": " + real.join(" | ") : ""}`);

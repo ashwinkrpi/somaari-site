@@ -58,9 +58,11 @@ The Appearance control (the round icon button in the header) saves the visitor's
 and follows the date in India (Asia/Kolkata); no seasonal themes are scheduled at the moment, so it shows `graphite`, the default. Without JS the page keeps `rangoli`.
 
 The themes, schedule and fonts live in somaari-common (`theme/`, standard: `docs/THEME_SPEC.md`), shared
-with somaari-plan. To add a festival or change a shared colour, edit them there (`SCHEDULE` in
-`theme/theme.js`, with a case in `tests/test_theme.py`); a push to its `main` rebuilds this site.
-The site's own per-theme tokens and decorations stay in `style.css`.
+with the other somaari apps. Add, change or remove a theme there only (`THEMES` and `SCHEDULE` in
+`theme/theme.js`, the tokens in `theme/themes.css`); a push to its `main` rebuilds this site.
+`style.css` derives this site's tokens from the standard ones once for every theme, so a new theme
+needs no change here; its per-theme blocks (and the liquid-glass decorations) are optional fine-tuning.
+A theme with no somaari-plan screenshot in `apps.json` shows the default theme's (the build warns).
 Theme styles only change colours, fonts, spacing and decoration; the page text is the same in every theme.
 
 ## Adding an app
