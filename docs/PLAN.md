@@ -31,4 +31,4 @@ touching inline scripts or the theme bridge), no external requests, never hand-e
 
 ### Manual
 - [x] [manual] Preview the branch (`npm run build && npm run preview`, then `npm run smoke -- http://127.0.0.1:8787`) on phone and desktop. <!-- done 2026-11-18: built on the branch; npm test, npm run check and the smoke test (4 themes, CSP, search) passed; checked in Chromium at desktop and 360 px -->
-- [x] [manual] Merge into `main`, push, and deploy (`bash scripts/deploy.sh`, or FORCE=1 bash scripts/refresh.sh). <!-- done 2026-11-18: merged, pushed and deployed with scripts/deploy.sh -->
+- [x] [manual] Merge into `main`, push, and deploy (`bash scripts/deploy.sh`, or FORCE=1 bash scripts/refresh.sh). <!-- done 2026-11-18: merged and pushed. deploy.sh's live smoke test failed twice and rolled back: the zone caches docs HTML (cf-cache-status HIT), so cached pages pointed at the other build's common.*.css. Deployed by hand (wrangler versions upload + deploy, smoke OK) with the previous build's common.nsXADoMB.css kept in dist/_astro. Purge the docs cache / add a cache-bypass rule for HTML. -->
