@@ -32,6 +32,47 @@ function decodeXml(s) {
     .replace(/&amp;/g, "&").trim();
 }
 
+// The latest 3 posts of the blog's rss.xml: { title, url, date (ms or NaN), tag }[]. Throws if unusable.
+async function latestPosts(site) {
+  const xml = await getText(new URL("rss.xml", site.url).href);
+  const tag = (item, name) => decodeXml(item.match(new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)</${name}>`))?.[1] ?? "");
+  const items = [...xml.matchAll(/<item\b[\s\S]*?<\/item>/g)].map(([item]) => {
+    const link = tag(item, "link");
+    return {
+      title: tag(item, "title"),
+      url: /^https?:\/\//.test(link) ? link : undefined,
+      date: Date.parse(tag(item, "pubDate")),
+      tag: tag(item, "category"),
+    };
+  }).filter((i) => i.title);
+  if (!items.length) throw new Error("rss.xml has no posts");
+  if (items.every((i) => !Number.isNaN(i.date))) items.sort((a, b) => b.date - a.date);
+  return items.slice(0, 3);
+}
+
+// The landing page's blog post cards (title, date, tag), or null when rss.xml is unreachable (the page
+// then keeps its plain blurb).
+export async function blogCards(network) {
+  const site = network.sites.find((s) => s.id === "blog");
+  try {
+    const posts = await latestPosts(site);
+    const cards = posts.map((p) => {
+      const title = p.url ? `<a href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>` : escapeHtml(p.title);
+      const iso = Number.isNaN(p.date) ? "" : new Date(p.date).toISOString().slice(0, 10);
+      const date = iso ? `<time datetime="${iso}">${iso}</time>` : "";
+      const label = p.tag ? `<span class="badge badge--platform">${escapeHtml(p.tag)}</span>` : "";
+      return `            <li class="post-card">
+              <h3 class="post-title">${title}</h3>
+              <p class="post-meta">${date}${date && label ? " " : ""}${label}</p>
+            </li>`;
+    });
+    return `\n          <ul class="post-grid" role="list">\n${cards.join("\n")}\n          </ul>\n          `;
+  } catch (e) {
+    console.warn(`blog posts: ${e?.cause?.code ?? e?.message ?? e}; keeping the plain blurb`);
+    return null;
+  }
+}
+
 // Each returns the tile's live lines ({ text, url? }[]), or throws when the source can't be used.
 const LIVE = {
   async docs(_site, network) {
@@ -45,15 +86,8 @@ const LIVE = {
     return [{ text: `Volume 1 · free · ${plural(n, "chapter", "chapters")}` }];
   },
   async blog(site) {
-    const xml = await getText(new URL("rss.xml", site.url).href);
-    const items = [...xml.matchAll(/<item\b[\s\S]*?<\/item>/g)].map(([item]) => ({
-      title: decodeXml(item.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? ""),
-      link: decodeXml(item.match(/<link>([\s\S]*?)<\/link>/)?.[1] ?? ""),
-      date: Date.parse(decodeXml(item.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1] ?? "")),
-    })).filter((i) => i.title);
-    if (!items.length) throw new Error("rss.xml has no posts");
-    if (items.every((i) => !Number.isNaN(i.date))) items.sort((a, b) => b.date - a.date);
-    return items.slice(0, 3).map((i) => ({ text: i.title, url: /^https?:\/\//.test(i.link) ? i.link : undefined }));
+    const items = await latestPosts(site);
+    return items.map((i) => ({ text: i.title, url: i.url }));
   },
   async games(site) {
     const stats = JSON.parse(await getText(new URL("stats.json", site.url).href));

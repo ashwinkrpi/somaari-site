@@ -18,7 +18,7 @@ import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, posix, resolve } from "node:path";
-import { explore } from "./explore.mjs";
+import { blogCards, explore } from "./explore.mjs";
 import { SITE, escapeHtml, footer, header } from "./partials.mjs";
 
 const OUT = "dist";
@@ -360,6 +360,18 @@ async function exploreRow() {
   return row;
 }
 
+// Replaces the blog blurb between <!-- BLOGPOSTS ... --> and <!-- /BLOGPOSTS --> with 3 post cards; if
+// rss.xml is unreachable the blurb stays.
+async function blogPosts() {
+  const path = join(OUT, "index.html");
+  const html = readFileSync(path, "utf8");
+  const marker = /(<!-- BLOGPOSTS[^>]*-->)[\s\S]*?(<!-- \/BLOGPOSTS -->)/;
+  if (!marker.test(html)) throw new Error("index.html has no <!-- BLOGPOSTS --> ... <!-- /BLOGPOSTS --> markers");
+  const cardsHtml = await blogCards(JSON.parse(readFileSync("network.json", "utf8")));
+  if (cardsHtml) writeFileSync(path, html.replace(marker, (_, start, end) => `${start}${cardsHtml}${end}`));
+  return Boolean(cardsHtml);
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
@@ -379,6 +391,7 @@ async function main() {
   cards();
   const row = await exploreRow();
   console.log(`explore: ${row.total} tiles, ${row.live} with live data`);
+  console.log(`blog posts: ${(await blogPosts()) ? "3 cards from rss.xml" : "rss.xml unreachable; blurb kept"}`);
   console.log(`header: built from network.json into ${headers()} pages`);
   console.log(`footer: built from network.json into ${footers()} pages`);
   stampThemeVersions();

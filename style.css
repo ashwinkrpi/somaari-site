@@ -492,6 +492,12 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
 }
 .blog h2 { font-size: 1.5rem; margin-bottom: 0.35rem; }
 .blog-text p { margin: 0; max-width: 40rem; color: var(--muted); }
+.post-grid { list-style: none; margin: 0.9rem 0 0; padding: 0; display: grid; gap: 0.75rem; }
+@media (min-width: 48rem) { .post-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.post-card { padding: 0.8rem 0.9rem; border: 1px solid var(--card-edge); border-radius: var(--card-radius); }
+.post-title { font-size: 1rem; margin: 0 0 0.4rem; }
+.post-title a { color: inherit; }
+.post-meta { margin: 0; font-size: 0.875rem; color: var(--muted); }
 .blog-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; }
 .rss-icon { flex: none; margin-right: 0.45rem; }
 

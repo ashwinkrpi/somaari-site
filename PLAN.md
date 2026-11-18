@@ -23,7 +23,7 @@
 - [x] [complex] Add an "Explore Somaari" row right under the hero, one tile per site generated from `network.json` at build time: Docs "Guides for N apps" (N counted from `apps`), Book "Volume 1 · free · N chapters", Blog titles of the latest 3 posts from `rss.xml`, Games (Lab) "Genshin <version> · N videos · refreshed Sundays" read from the games site's `stats.json`. Each tile must fall back to plain text when its source is unreachable. <!-- bg: done opus 2026-11-18 -->
 - [x] [moderate] App cards: add platform badges (Raspberry Pi, Linux, Windows), latest version and release date from the GitHub Releases API at build time (cached, skipped if offline), and a screenshot thumbnail when the app has one. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [manual] Remove the empty Demo section from the homepage. <!-- bg: blocked haiku 2026-11-18: the homepage has no empty Demo section to remove. The only "Demo" element is the `<dialog id="demo-dialog">` player in `index.html` (lines 156-172), and it is live: `demo.js` opens it from the "Play d -->
-- [ ] [moderate] Replace the "From the blog" blurb with 3 post cards (title, date, tag) from `rss.xml`.
+- [x] [moderate] Replace the "From the blog" blurb with 3 post cards (title, date, tag) from `rss.xml`. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [simple] Add a contact line with both emails and a "Report an issue" link to GitHub Issues.
 - [ ] [simple] Check that the homepage still shows its main content with JavaScript turned off.
 
