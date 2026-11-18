@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node scripts/check-shared.mjs && node scripts/asset-versions.mjs --check && node scripts/check-videos.mjs && node scripts/check-links.mjs && node scripts/fetch-network.mjs --check"
+    "check": "node scripts/check-shared.mjs && node scripts/check-seo.mjs && node scripts/asset-versions.mjs --check && node scripts/check-videos.mjs && node scripts/check-links.mjs && node scripts/fetch-network.mjs --check"
   },
   "devDependencies": {
     "playwright-core": "1.65.0"

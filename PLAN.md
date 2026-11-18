@@ -41,7 +41,7 @@
 - [x] [moderate] Generate OG images at build time (site name and page title on the Warm Tactile palette) and add canonical URLs plus OG and Twitter meta tags. <!-- bg: done sonnet 2026-11-18 -->
 - [x] [simple] Add JSON-LD: `Organization` and `WebSite` with `sameAs` listing the GitHub, YouTube and subdomain URLs; `SoftwareApplication` on each app page. <!-- bg: done haiku 2026-11-18 -->
 - [x] [simple] Use the title pattern "Page · Somaari" on every page. <!-- bg: done haiku 2026-11-18 -->
-- [ ] [moderate] Add a script to `npm run check` that confirms each page has a title, description, canonical URL and OG image.
+- [x] [moderate] Add a script to `npm run check` that confirms each page has a title, description, canonical URL and OG image. <!-- bg: done sonnet 2026-11-18 -->
 
 ### Manual
 - [ ] [manual] Open the `build-guru/PLAN` preview on Cloudflare Pages on phone and desktop; click through the switcher and footer links.
