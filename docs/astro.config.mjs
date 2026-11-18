@@ -27,7 +27,10 @@ export default defineConfig({
 				ThemeProvider: './src/components/ThemeProvider.astro',
 				ThemeSelect: './src/components/ThemeSelect.astro',
 				Header: './src/components/Header.astro',
-				Hero: './src/components/Hero.astro',
+				PageTitle: './src/components/PageTitle.astro',
+				// The date is shown under the title instead (PageTitle.astro).
+				LastUpdated: './src/components/Empty.astro',
+				Hero:'./src/components/Hero.astro',
 				Footer: './src/components/Footer.astro',
 				MobileMenuFooter: './src/components/MobileMenuFooter.astro',
 			},

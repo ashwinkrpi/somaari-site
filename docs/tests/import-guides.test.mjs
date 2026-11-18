@@ -27,6 +27,14 @@ test('frontmatter: manifest title and description; a muted source line instead o
 	assert.match(markdown, /<p class="guide-source">Source: <a href="https:\/\/github\.com\/ashwinkrpi\/fixture-app\/blob\/main\/docs\/GUIDE\.md">fixture-app\/docs\/GUIDE\.md<\/a> on GitHub<\/p>/);
 });
 
+test('lastUpdated: the commit date in frontmatter, nothing when unknown or invalid', () => {
+	const withDate = convertGuide(APP, guide('ok.md'), { ...opts, lastUpdated: '2026-05-04T10:20:30+02:00' }).markdown;
+	assert.match(withDate, /\neditUrl: false\nlastUpdated: 2026-05-04T08:20:30\.000Z\n---/);
+	for (const lastUpdated of [undefined, null, 'garbage']) {
+		assert.doesNotMatch(convertGuide(APP, guide('ok.md'), { ...opts, lastUpdated }).markdown, /lastUpdated/);
+	}
+});
+
 test('the centred intro becomes one left-aligned paragraph without the section links row', () => {
 	const src = [
 		'<div align="center">', '', '<br>', '',

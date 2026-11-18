@@ -11,7 +11,7 @@
 import { mkdir, rm, writeFile, readFile } from 'node:fs/promises';
 import { dirname, join, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getFile, getManifest, option } from './lib.mjs';
+import { getFile, getLastCommitDate, getManifest, option } from './lib.mjs';
 
 // The somaari sites never mention self-hosting (not every somaari app is self-hosted).
 export const BANNED = /self[- ]?host/i;
@@ -58,7 +58,7 @@ export const publishedGuides = (apps) =>
  * One guide's Markdown → Starlight Markdown with frontmatter. Returns { markdown, title, images },
  * images being Map(repo path → path relative to the guide's folder). Throws GuideError.
  */
-export function convertGuide(app, source, { owner, published }) {
+export function convertGuide(app, source, { owner, published, lastUpdated = null }) {
 	const { src, ref } = app.guide;
 	const docDir = posix.dirname(src);
 	const fail = (message) => {
@@ -151,6 +151,9 @@ export function convertGuide(app, source, { owner, published }) {
 		`title: ${JSON.stringify(plainTitle)}`,
 		`description: ${JSON.stringify(`How to install, set up and use ${app.title} (${app.repo}).`)}`,
 		'editUrl: false',
+		// The guide's latest commit in its app repo (Starlight reads a bare YAML timestamp as a date).
+		// Left out when it couldn't be read: no date is shown, never the build date.
+		...(lastUpdated && !Number.isNaN(Date.parse(lastUpdated)) ? [`lastUpdated: ${new Date(lastUpdated).toISOString()}`] : []),
 		'---',
 		'',
 		// A small muted line under the title (was an accent-coloured banner across the page).
@@ -193,7 +196,9 @@ async function main(argv) {
 		} catch (e) {
 			throw new GuideError(`${app.repo}/${app.guide.src}: can't read the guide (${e.message})`);
 		}
-		const { markdown, images } = convertGuide(app, source, { owner, published });
+		const lastUpdated = await getLastCommitDate(src, app.repo, app.guide.ref, app.guide.src);
+		if (!lastUpdated) console.warn(`import-guides: ${app.repo}: no commit date for ${app.guide.src}; showing no date`);
+		const { markdown, images } = convertGuide(app, source, { owner, published, lastUpdated });
 		await mkdir(join(docsDir, app.repo), { recursive: true });
 		await writeFile(join(docsDir, app.repo, 'index.md'), markdown);
 		for (const [repoPath, rel] of images) {

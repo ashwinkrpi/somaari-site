@@ -191,6 +191,14 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 /* The guide's source on GitHub: a small muted line under the title (scripts/import-guides.mjs). */
 .sl-markdown-content .guide-source { margin-top: 0; font-size: 0.875rem; color: var(--muted); }
 
+/* Breadcrumb above the guide title, and the "Last updated" line under it (PageTitle.astro). */
+.crumbs { display: flex; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.875rem; color: var(--muted); }
+.crumbs a { color: var(--muted); text-decoration: none; }
+.crumbs a:hover { color: var(--accent); text-decoration: underline; }
+.crumbs [aria-current='page'] { color: var(--fg); }
+.crumbs + h1 { margin-top: 0.25rem; }
+.guide-updated { margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--muted); }
+
 /* Left sidebar: the current guide is a soft tint of the accent, not a solid block. */
 .sidebar-content a[aria-current='page'],
 .sidebar-content a[aria-current='page']:hover {
