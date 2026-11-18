@@ -1,3 +1,4 @@
+<!-- bg: branch build-guru/PLAN -->
 # Somaari site improvements: docs
 
 Part E of `somaari-website/somaari-site-improvements-plan.md` (in the somaari-website folder). Shared files
