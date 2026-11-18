@@ -3,7 +3,7 @@
 
 ### Stage 1: Single source of truth
 - [x] [moderate] Create `network.json` at the repo root, served at https://somaari.in/network.json. Keys: `sites` (id, label, url, one-line description, icon, group `main` or `lab`), `apps` (id, name, status, AI tag, details URL, guide URL, repo URL), `contact`, `author`, `social` (GitHub, YouTube). Fill it from the current site. Nav order: Apps, Docs, Book, Blog, Games (Games in group `lab`, with its "fan project" note). Terminal app is named `somaari-terminal`. Contact: hello@somaari.in (general), support@somaari.in (apps). Author: "Ashwin Koppam Raghavendra, Bengaluru". <!-- bg: done sonnet 2026-11-18 -->
-- [ ] [moderate] Add `scripts/fetch-network.mjs` that the other repos can copy: it downloads `network.json` at build time and falls back to a committed copy if the download fails. Add a check for it to `npm run check`.
+- [x] [moderate] Add `scripts/fetch-network.mjs` that the other repos can copy: it downloads `network.json` at build time and falls back to a committed copy if the download fails. Add a check for it to `npm run check`. <!-- bg: done sonnet 2026-11-18 -->
 
 ### Stage 2: Shared header and footer
 - [ ] [moderate] Build the shared header from `network.json`: Somaari logo (links to somaari.in), Apps, Docs, Book, Blog, Games, with the current site highlighted. On phones collapse it into a menu button that opens a drawer usable with a keyboard.
