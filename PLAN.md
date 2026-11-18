@@ -37,7 +37,7 @@
 - [ ] [manual] Add an RSS discovery `<link>` tag to the homepage head. <!-- bg: blocked sonnet 2026-11-18: the homepage head already has the RSS discovery `<link rel="alternate" type="application/rss+xml">` tag (index.html:10), so there is nothing left to change. -->
 
 ### Stage 6: SEO and sharing
-- [ ] [simple] Make `sitemap.xml` and `robots.txt` correct; robots.txt lists every subdomain's sitemap.
+- [x] [simple] Make `sitemap.xml` and `robots.txt` correct; robots.txt lists every subdomain's sitemap. <!-- bg: done haiku 2026-11-18 -->
 - [ ] [moderate] Generate OG images at build time (site name and page title on the Warm Tactile palette) and add canonical URLs plus OG and Twitter meta tags.
 - [ ] [simple] Add JSON-LD: `Organization` and `WebSite` with `sameAs` listing the GitHub, YouTube and subdomain URLs; `SoftwareApplication` on each app page.
 - [ ] [simple] Use the title pattern "Page · Somaari" on every page.

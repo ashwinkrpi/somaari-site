@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://somaari.in/sitemap.xml
+Sitemap: https://docs.somaari.in/sitemap.xml
+Sitemap: https://book.somaari.in/sitemap.xml
+Sitemap: https://blog.somaari.in/sitemap.xml
+Sitemap: https://games.somaari.in/sitemap.xml
