@@ -1,3 +1,4 @@
+<!-- bg: branch build-guru/PLAN -->
 # Somaari site improvements: somaari-site
 
 ### Stage 1: Single source of truth
