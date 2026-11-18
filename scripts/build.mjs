@@ -425,6 +425,85 @@ async function blogPosts() {
   return Boolean(cardsHtml);
 }
 
+// Wraps text into lines of at most `max` characters (a single longer word stays whole).
+function wrap(text, max, maxLines) {
+  const lines = [];
+  for (const word of text.split(/\s+/)) {
+    if (lines.length && (lines.at(-1) + " " + word).length <= max) lines[lines.length - 1] += " " + word;
+    else lines.push(word);
+  }
+  if (lines.length > maxLines) {
+    lines.length = maxLines;
+    lines[maxLines - 1] = lines[maxLines - 1].replace(/[\s.,;:]*\S*$/, "") + "…";
+  }
+  return lines;
+}
+
+// Makes a 1200x630 OG image per indexable page (site name and page title on the Warm Tactile / rangoli
+// palette) with rsvg-convert, into dist/og/, and adds og:image and the Twitter card tags to the page's
+// <head> (plus a canonical URL and Twitter title/description when the page lacks them). Pages marked
+// noindex (404) are skipped. Without rsvg-convert it warns and leaves the pages as they are.
+function ogImages() {
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
+  mkdirSync(join(OUT, "og"), { recursive: true });
+  let n = 0;
+  for (const page of pages) {
+    const path = join(OUT, page);
+    let html = readFileSync(path, "utf8");
+    if (/<meta name="robots" content="noindex/.test(html)) continue;
+    const dir = posix.dirname(page.split("\\").join("/"));
+    const slug = dir === "." ? "home" : dir.replace(/\//g, "-");
+    const url = `${SITE}${dir === "." ? "/" : `/${dir}/`}`;
+    const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "Somaari";
+    const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "";
+    // "Page – Somaari" shows "Page"; the home title "Somaari – Tagline" shows the tagline.
+    const heading = title.replace(/\s+[–·-]\s+Somaari$/, "").replace(/^Somaari\s+[–·-]\s+/, "");
+    const lines = wrap(heading.replace(/&amp;/g, "&").replace(/&#?\w+;/g, ""), 26, 3);
+    const tspans = lines.map((l, i) => `<tspan x="80" dy="${i ? 84 : 0}">${escapeHtml(l)}</tspan>`).join("");
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<rect width="1200" height="630" fill="#fbc96b"/>
+<rect x="48" y="48" width="1104" height="534" rx="28" fill="#fff6e5" stroke="#e39a2d" stroke-width="3"/>
+<text x="80" y="140" font-family="Marcellus, Georgia, serif" font-size="44" letter-spacing="2" fill="#2b2f8f">Somaari</text>
+<text x="80" y="290" font-family="Marcellus, Georgia, serif" font-size="72" fill="#1c1640">${tspans}</text>
+<rect x="80" y="520" width="120" height="8" rx="4" fill="#2b2f8f"/>
+<text x="1120" y="530" text-anchor="end" font-family="Hanken Grotesk, Arial, sans-serif" font-size="28" fill="#3a3366">somaari.in</text>
+</svg>`;
+    const file = `og/${slug}.png`;
+    try {
+      execFileSync("rsvg-convert", ["-o", join(OUT, file)], { input: svg, stdio: ["pipe", "ignore", "ignore"] });
+    } catch {
+      console.warn("og: rsvg-convert is not available (or failed); no OG images");
+      return 0;
+    }
+    const image = `${SITE}/${file}`;
+    const alt = escapeHtml(`Somaari: ${heading.replace(/&amp;/g, "&")}`);
+    const metaDesc = html.match(/<meta property="og:description" content="([^"]*)"/)?.[1] ?? description;
+    const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1] ?? title;
+    html = html.replace(/\n?\s*<meta name="twitter:card"[^>]*>/g, "");
+    const add = [
+      !/rel="canonical"/.test(html) && `<link rel="canonical" href="${url}">`,
+      !/property="og:title"/.test(html) && `<meta property="og:title" content="${ogTitle}">`,
+      !/property="og:description"/.test(html) && `<meta property="og:description" content="${metaDesc}">`,
+      !/property="og:url"/.test(html) && `<meta property="og:url" content="${url}">`,
+      !/property="og:type"/.test(html) && `<meta property="og:type" content="website">`,
+      !/property="og:site_name"/.test(html) && `<meta property="og:site_name" content="Somaari">`,
+      `<meta property="og:image" content="${image}">`,
+      `<meta property="og:image:width" content="1200">`,
+      `<meta property="og:image:height" content="630">`,
+      `<meta property="og:image:alt" content="${alt}">`,
+      `<meta name="twitter:card" content="summary_large_image">`,
+      !/name="twitter:title"/.test(html) && `<meta name="twitter:title" content="${ogTitle}">`,
+      !/name="twitter:description"/.test(html) && `<meta name="twitter:description" content="${metaDesc}">`,
+      `<meta name="twitter:image" content="${image}">`,
+      `<meta name="twitter:image:alt" content="${alt}">`,
+    ].filter(Boolean).map((t) => `  ${t}`).join("\n");
+    html = html.replace("</head>", () => `${add}\n</head>`);
+    writeFileSync(path, html);
+    n++;
+  }
+  return n;
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
@@ -447,7 +526,8 @@ async function main() {
   console.log(`blog posts: ${(await blogPosts()) ? "3 cards from rss.xml" : "rss.xml unreachable; blurb kept"}`);
   console.log(`header: built from network.json into ${headers()} pages`);
   console.log(`footer: built from network.json into ${footers()} pages`);
-  console.log(`images: ${convertImages()} converted to WebP`);
+  console.log(`og: ${ogImages()} images and meta tags`);
+  console.log(`images:${convertImages()} converted to WebP`);
   console.log(`fonts: ${preloadFonts()} preloaded`);
   stampThemeVersions();
 }

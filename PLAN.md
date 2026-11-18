@@ -38,7 +38,7 @@
 
 ### Stage 6: SEO and sharing
 - [x] [simple] Make `sitemap.xml` and `robots.txt` correct; robots.txt lists every subdomain's sitemap. <!-- bg: done haiku 2026-11-18 -->
-- [ ] [moderate] Generate OG images at build time (site name and page title on the Warm Tactile palette) and add canonical URLs plus OG and Twitter meta tags.
+- [x] [moderate] Generate OG images at build time (site name and page title on the Warm Tactile palette) and add canonical URLs plus OG and Twitter meta tags. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [simple] Add JSON-LD: `Organization` and `WebSite` with `sameAs` listing the GitHub, YouTube and subdomain URLs; `SoftwareApplication` on each app page.
 - [ ] [simple] Use the title pattern "Page · Somaari" on every page.
 - [ ] [moderate] Add a script to `npm run check` that confirms each page has a title, description, canonical URL and OG image.
