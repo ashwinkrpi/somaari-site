@@ -171,19 +171,47 @@ a:hover { color: var(--accent-hover); }
 .header-social a:hover { color: var(--accent); }
 .appearance { position: relative; }
 
-/* Phones: logo and theme button share the first row, the menu gets its own row below. */
+.site-nav a[aria-current] { color: var(--accent); text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: 2px; }
+.menu-toggle {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--fg);
+  background: var(--field-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+}
+
+/* Phones: logo, theme button and (with JS) menu button share the first row. The links get their own row
+   below; with JS (nav.js sets html.nav-js) they collapse into a drawer the menu button opens. */
 @media (max-width: 47.99rem) {
   .header-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: "brand theme" "nav nav";
-    gap: 0.5rem 1rem;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: "brand theme menu" "nav nav nav";
+    gap: 0.5rem 0.5rem;
   }
   .brand { grid-area: brand; }
   .header-end { display: contents; }
   .appearance { grid-area: theme; align-self: start; }
+  .menu-toggle { grid-area: menu; align-self: start; }
   .site-nav { grid-area: nav; margin-left: -0.6rem; }
-  .site-nav ul { flex-wrap: nowrap; }
+  .site-nav ul { flex-wrap: wrap; }
+  .nav-js .menu-toggle { display: inline-grid; }
+  .nav-js .site-nav {
+    display: none;
+    margin-left: 0;
+    padding: 0.5rem;
+    background: var(--field-bg);
+    border: 1px solid var(--tag-border);
+    border-radius: 12px;
+  }
+  .nav-js.nav-open .site-nav { display: block; }
+  .nav-js .site-nav ul { flex-direction: column; gap: 0; }
+  .nav-js .site-nav a { width: 100%; }
 }
 @media (min-width: 48rem) {
   .header-social { display: flex; align-items: center; }

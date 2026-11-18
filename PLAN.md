@@ -6,7 +6,7 @@
 - [x] [moderate] Add `scripts/fetch-network.mjs` that the other repos can copy: it downloads `network.json` at build time and falls back to a committed copy if the download fails. Add a check for it to `npm run check`. <!-- bg: done sonnet 2026-11-18 -->
 
 ### Stage 2: Shared header and footer
-- [ ] [moderate] Build the shared header from `network.json`: Somaari logo (links to somaari.in), Apps, Docs, Book, Blog, Games, with the current site highlighted. On phones collapse it into a menu button that opens a drawer usable with a keyboard.
+- [x] [moderate] Build the shared header from `network.json`: Somaari logo (links to somaari.in), Apps, Docs, Book, Blog, Games, with the current site highlighted. On phones collapse it into a menu button that opens a drawer usable with a keyboard. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [moderate] Add the "Somaari sites" switcher: a small grid menu listing every site with its one-line description, Lab sites in a separate group.
 - [ ] [moderate] Build the shared footer from `network.json`: all sites (Lab marked), GitHub, YouTube and RSS, both contact emails, Privacy and Terms, and the author line "Built by Ashwin Koppam Raghavendra, Bengaluru". Show the author line on the About page too.
 - [ ] [moderate] Add the theme picker cookie on `.somaari.in`: read it on load and write it when the theme changes. Keep working when cookies are blocked.

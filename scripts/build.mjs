@@ -19,7 +19,7 @@ import { dirname, join, posix, resolve } from "node:path";
 
 const OUT = "dist";
 // Top-level files and folders copied to dist/ as they are.
-const PUBLISH = ["index.html", "404.html", "style.css", "shots.js", "demo.js", "video.js", "favicon.svg", "robots.txt",
+const PUBLISH = ["index.html", "404.html", "style.css", "shots.js", "demo.js", "video.js", "nav.js", "favicon.svg", "robots.txt",
   "sitemap.xml", "network.json", "_headers", "_redirects", "apps", "assets", "about", "privacy", "terms"];
 // The card demo files on an app's demo branch, and the most each may weigh.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
@@ -265,6 +265,89 @@ function gitDate(path) {
   }
 }
 
+// The shared header, built from network.json: the logo (links to somaari.in), then the "main" and "lab"
+// sites in network.json order (Apps, Docs, Book, Blog, Games), the current site marked aria-current. On
+// phones nav.js turns the links into a drawer opened by the menu button; without JS they stay visible.
+// Every page of this site is the "apps" site. Links to somaari.in itself are written relative.
+const CURRENT_SITE = "apps";
+function header() {
+  const network = JSON.parse(readFileSync("network.json", "utf8"));
+  const href = (url) => escapeHtml(url.startsWith(`${SITE}/`) ? url.slice(SITE.length) : url);
+  const items = network.sites.map((s) => {
+    const current = s.id === CURRENT_SITE ? ' aria-current="true"' : "";
+    return `            <li><a href="${href(s.url)}"${current}>${escapeHtml(s.label)}</a></li>`;
+  }).join("\n");
+  const github = escapeHtml(network.social.github);
+  const youtube = escapeHtml(network.social.youtube);
+  return `<!-- SHARED HEADER: built from network.json by scripts/build.mjs; identical on every page except 404.html -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" id="site-drawer" aria-label="Main">
+          <ul role="list">
+${items}
+          </ul>
+        </nav>
+        <ul class="header-social" role="list">
+          <li><a href="${github}" aria-label="GitHub">
+            <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a></li>
+          <li><a href="${youtube}" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+          </a></li>
+        </ul>
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+            </fieldset>
+          </div>
+        </div>
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-drawer">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="visually-hidden">Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <script src="/nav.js?v=NAVV" defer></script>
+  <!-- /SHARED HEADER -->`;
+}
+
+// Replaces the SHARED HEADER block of every page in dist/ (404.html has its own) with header().
+function headers() {
+  const nav = createHash("sha256").update(readFileSync("nav.js")).digest("hex").slice(0, 10);
+  const block = header().replace("NAVV", nav);
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
+  let n = 0;
+  for (const page of pages) {
+    const html = readFileSync(join(OUT, page), "utf8");
+    const re = /<!-- SHARED HEADER[\s\S]*?<!-- \/SHARED HEADER -->/;
+    if (!re.test(html)) continue;
+    writeFileSync(join(OUT, page), html.replace(re, () => block));
+    n++;
+  }
+  return n;
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
@@ -280,6 +363,7 @@ async function main() {
     }
   }
   cards();
+  console.log(`header: built from network.json into ${headers()} pages`);
   stampThemeVersions();
 }
 
