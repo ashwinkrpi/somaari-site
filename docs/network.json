@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "sites": [
+    {
+      "id": "apps",
+      "label": "Apps",
+      "url": "https://somaari.in/#apps",
+      "description": "Useful tools for the Raspberry Pi and Linux: a terminal, disk analyzer, planner and GPS route viewer.",
+      "icon": "apps",
+      "group": "main"
+    },
+    {
+      "id": "docs",
+      "label": "Docs",
+      "url": "https://docs.somaari.in/",
+      "description": "Step-by-step guides for every Somaari app.",
+      "icon": "docs",
+      "group": "main"
+    },
+    {
+      "id": "book",
+      "label": "Book",
+      "url": "https://book.somaari.in/",
+      "description": "A free book on building useful software with AI assistance.",
+      "icon": "book",
+      "group": "main"
+    },
+    {
+      "id": "blog",
+      "label": "Blog",
+      "url": "https://blog.somaari.in/",
+      "description": "Notes and stories on technology, home lab experiments and travel.",
+      "icon": "blog",
+      "group": "main"
+    },
+    {
+      "id": "games",
+      "label": "Games",
+      "url": "https://games.somaari.in/",
+      "description": "Genshin Impact video guides and stats.",
+      "note": "Fan project, not affiliated with HoYoverse.",
+      "icon": "games",
+      "group": "lab"
+    }
+  ],
+  "apps": [
+    {
+      "id": "somaari-terminal",
+      "name": "somaari-terminal",
+      "status": "dev",
+      "ai": "AI",
+      "details": null,
+      "guide": "https://docs.somaari.in/somaari-terminal/",
+      "repo": "https://github.com/ashwinkrpi/somaari-terminal"
+    },
+    {
+      "id": "somaari-disk",
+      "name": "Disk Usage Analyzer",
+      "status": "live",
+      "ai": "No AI",
+      "details": "https://somaari.in/apps/somaari-disk/",
+      "guide": "https://docs.somaari.in/somaari-disk/",
+      "repo": "https://github.com/ashwinkrpi/somaari-disk"
+    },
+    {
+      "id": "somaari-plan",
+      "name": "Task Planner",
+      "status": "live",
+      "ai": "AI optional",
+      "details": "https://somaari.in/apps/somaari-plan/",
+      "guide": "https://docs.somaari.in/somaari-plan/",
+      "repo": "https://github.com/ashwinkrpi/somaari-plan"
+    },
+    {
+      "id": "somaari-trip",
+      "name": "GPS Route Viewer",
+      "status": "live",
+      "ai": "No AI",
+      "details": "https://somaari.in/apps/somaari-trip/",
+      "guide": "https://docs.somaari.in/somaari-trip/",
+      "repo": "https://github.com/ashwinkrpi/somaari-trip"
+    }
+  ],
+  "contact": {
+    "general": "hello@somaari.in",
+    "apps": "support@somaari.in"
+  },
+  "author": "Ashwin Koppam Raghavendra, Bengaluru",
+  "social": {
+    "github": "https://github.com/ashwinkrpi",
+    "youtube": "https://www.youtube.com/playlist?list=PLN-jKLooxXWU"
+  }
+}

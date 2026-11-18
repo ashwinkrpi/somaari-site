@@ -1,0 +1,26 @@
+# somaari-docs' build-guru config (format: somaari-build-guru PLAN.md section 5)
+# Run it from a separate git worktree on branch build-guru/PLAN, so the hourly refresh cron
+# (scripts/refresh.sh, which deploys the main checkout) never sees a half-finished branch.
+main_branch = "main"
+
+[models]
+simple   = "haiku"
+moderate = "sonnet"
+complex  = "opus"
+categoriser = "haiku"
+
+[run]
+test_cmd   = ["npm", "test"]
+# Builds from GitHub (needs the network), then checks anchors, CSP, external hosts and wording.
+lint_cmd   = ["sh", "-c", "npm run build && npm run check"]
+max_cost_usd_per_run = 5
+on_manual  = "skip"
+on_fail    = "stop"
+
+[permissions]
+allowed_bash    = ["npm run build*", "npm run check*", "npm test*", "node --test*", "node scripts/*",
+                   "ls*", "echo *", "git status*", "git diff*", "git log*"]
+disallowed_bash = ["git add*", "git commit*", "git push*", "git reset*", "git checkout*", "git switch*",
+                   "git merge*", "git rebase*", "sudo *", "curl *", "wget *", "ssh *", "gh *",
+                   "bash scripts/*", "npx --yes wrangler*", "npx wrangler*", "wrangler*"]
+disallowed_read = ["./.env*"]
