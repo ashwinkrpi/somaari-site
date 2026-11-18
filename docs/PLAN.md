@@ -19,7 +19,7 @@ touching inline scripts or the theme bridge), no external requests, never hand-e
 ### Page details
 - [x] [moderate] Show a "somaari / docs / <app>" breadcrumb above each guide's title, and a "Last updated" date for each guide: the date of the guide's latest commit in its own app repo (the build already reads each guide from GitHub, or from the sibling checkout with `--local`). Show no date when it can't be read; never use the build date. <!-- bg: done sonnet 2026-11-18 -->
     Not a docs-subdomain-plan stage: don't commit, push or deploy.
-- [ ] [simple] At the end of each guide, a "Was this helpful?" line with a link to open a GitHub issue in that app's repo, with the page title filled in (`https://github.com/<owner>/<repo>/issues/new?title=...`, URL-encoded). A plain link, no script.
+- [x] [simple] At the end of each guide, a "Was this helpful?" line with a link to open a GitHub issue in that app's repo, with the page title filled in (`https://github.com/<owner>/<repo>/issues/new?title=...`, URL-encoded). A plain link, no script. <!-- bg: done haiku 2026-11-18 -->
     Not a docs-subdomain-plan stage: don't commit, push or deploy.
 - [x] [simple] Make the terminal app name `somaari-terminal` everywhere. <!-- bg: done claude 2026-11-18: nothing to change; no "ATAI" in src, docs or public, and the terminal has no guide yet -->
 

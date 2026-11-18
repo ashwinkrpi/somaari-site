@@ -161,7 +161,11 @@ export function convertGuide(app, source, { owner, published, lastUpdated = null
 		'', // a blank line ends the HTML block, so the Markdown after it is parsed
 		'',
 	];
-	return { markdown: frontmatter.join('\n') + out.join('\n').replace(/^\n+/, ''), title: plainTitle, images };
+	// A plain link at the end of the guide: opens a new issue in the app's repo, titled with this page's title.
+	const issueUrl = `https://github.com/${owner}/${app.repo}/issues/new?title=${encodeURIComponent(plainTitle)}`;
+	const feedback = `Was this helpful? [Open an issue](${issueUrl}) on GitHub.`;
+	const body = out.join('\n').replace(/^\n+/, '').replace(/\s+$/, '');
+	return { markdown: frontmatter.join('\n') + body + '\n\n' + feedback + '\n', title: plainTitle, images };
 }
 
 async function main(argv) {

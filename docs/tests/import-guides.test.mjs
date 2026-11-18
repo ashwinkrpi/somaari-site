@@ -27,6 +27,14 @@ test('frontmatter: manifest title and description; a muted source line instead o
 	assert.match(markdown, /<p class="guide-source">Source: <a href="https:\/\/github\.com\/ashwinkrpi\/fixture-app\/blob\/main\/docs\/GUIDE\.md">fixture-app\/docs\/GUIDE\.md<\/a> on GitHub<\/p>/);
 });
 
+test('feedback: a plain link at the end of the guide, to a new issue in the app repo with the page title', () => {
+	const { markdown } = convert(guide('ok.md'));
+	const url = 'https://github.com/ashwinkrpi/fixture-app/issues/new?title=Fixture%20App';
+	assert.ok(markdown.endsWith(`\n\nWas this helpful? [Open an issue](${url}) on GitHub.\n`));
+	assert.equal(markdown.split(url).length - 1, 1);
+	assert.doesNotMatch(markdown, /<script/i);
+});
+
 test('lastUpdated: the commit date in frontmatter, nothing when unknown or invalid', () => {
 	const withDate = convertGuide(APP, guide('ok.md'), { ...opts, lastUpdated: '2026-05-04T10:20:30+02:00' }).markdown;
 	assert.match(withDate, /\neditUrl: false\nlastUpdated: 2026-05-04T08:20:30\.000Z\n---/);
