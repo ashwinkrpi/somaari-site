@@ -368,6 +368,66 @@ function headers() {
   return n;
 }
 
+// The shared footer, built from network.json: every site (Lab marked), GitHub, YouTube and RSS, both
+// contact emails, Privacy, Terms, and the author line.
+function footer() {
+  const network = JSON.parse(readFileSync("network.json", "utf8"));
+  const href = (url) => escapeHtml(url.startsWith(`${SITE}/`) ? url.slice(SITE.length) : url);
+  const blog = network.sites.find((s) => s.id === "blog");
+  const rss = new URL("rss.xml", blog.url).href;
+  const sites = network.sites.map((s) => {
+    const lab = s.group === "lab" ? ' <span class="footer-tag">(Lab)</span>' : "";
+    return `            <li><a href="${href(s.url)}">${escapeHtml(s.label)}</a>${lab}</li>`;
+  }).join("\n");
+  const mail = (addr, what) => `            <li><a href="mailto:${escapeHtml(addr)}">${escapeHtml(addr)}</a> <span class="footer-tag">${what}</span></li>`;
+  return `<!-- SHARED FOOTER: built from network.json by scripts/build.mjs; identical on every page -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-cols" aria-label="Footer">
+        <ul class="footer-links" role="list">
+${sites}
+        </ul>
+        <ul class="footer-links" role="list">
+          <li><a href="${escapeHtml(network.social.github)}">GitHub</a></li>
+          <li><a href="${escapeHtml(network.social.youtube)}" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="${escapeHtml(rss)}">RSS</a></li>
+        </ul>
+        <ul class="footer-links" role="list">
+${mail(network.contact.general, "General")}
+${mail(network.contact.apps, "App support")}
+        </ul>
+        <ul class="footer-links" role="list">
+          <li><a href="/about/">About</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
+        </ul>
+      </nav>
+      <p class="footer-author">Built by ${escapeHtml(network.author)}</p>
+      <p>&copy; 2026 Somaari</p>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->`;
+}
+
+// Replaces the SHARED FOOTER block of every page in dist/ with footer(), and fills the About page's
+// <!-- AUTHOR --> ... <!-- /AUTHOR --> line with the author from network.json.
+function footers() {
+  const block = footer();
+  const author = JSON.parse(readFileSync("network.json", "utf8")).author;
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
+  let n = 0;
+  for (const page of pages) {
+    let html = readFileSync(join(OUT, page), "utf8");
+    const re = /<!-- SHARED FOOTER[\s\S]*?<!-- \/SHARED FOOTER -->/;
+    if (!re.test(html)) continue;
+    html = html.replace(re, () => block)
+      .replace(/(<!-- AUTHOR -->)[\s\S]*?(<!-- \/AUTHOR -->)/, (_, a, b) => `${a}Built by ${escapeHtml(author)}${b}`);
+    writeFileSync(join(OUT, page), html);
+    n++;
+  }
+  return n;
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
@@ -384,6 +444,7 @@ async function main() {
   }
   cards();
   console.log(`header: built from network.json into ${headers()} pages`);
+  console.log(`footer: built from network.json into ${footers()} pages`);
   stampThemeVersions();
 }
 

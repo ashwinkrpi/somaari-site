@@ -696,6 +696,11 @@ html:has(.demo-dialog[open]) { overflow: hidden; }
 .footer-inner p { margin: 0; }
 .footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
 .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+.footer-cols { display: flex; flex-wrap: wrap; gap: 0 2.5rem; }
+.footer-links li { display: flex; align-items: center; gap: 0.35rem; }
+.footer-tag { font-size: 0.82em; }
+.footer-inner .footer-author { flex-basis: 100%; }
+.prose .footer-author { color: var(--muted); }
 
 /* 404 page */
 .notfound { padding-top: 4rem; padding-bottom: 4rem; }
