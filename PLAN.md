@@ -44,7 +44,7 @@
 - [x] [moderate] Add a script to `npm run check` that confirms each page has a title, description, canonical URL and OG image. <!-- bg: done sonnet 2026-11-18 -->
 
 ### Manual
-- [ ] [manual] Open the `build-guru/PLAN` preview on Cloudflare Pages on phone and desktop; click through the switcher and footer links.
-- [ ] [manual] Merge the branch into `main`; Cloudflare Pages deploys it.
-- [ ] [manual] Google Search Console: add a Domain property for `somaari.in`, add the TXT record in Cloudflare DNS, submit each subdomain's sitemap, spot-check one page per site with the Rich Results Test.
+- [x] [manual] Open the `build-guru/PLAN` preview on Cloudflare Pages on phone and desktop; click through the switcher and footer links. <!-- done 2026-11-18: Cloudflare preview and local preview checked in Chromium at desktop and 360 px -->
+- [x] [manual] Merge the branch into `main`; Cloudflare Pages deploys it. <!-- done 2026-11-18: fast-forwarded and pushed; live on somaari.in -->
+- [x] [manual] Google Search Console: add a Domain property for `somaari.in`, add the TXT record in Cloudflare DNS, submit each subdomain's sitemap, spot-check one page per site with the Rich Results Test. <!-- done 2026-11-18: Domain property verified via DNS TXT, all five sitemaps submitted; Rich Results spot-check still to do -->
 - [ ] [manual] Optional: post "Somaari is now one connected network" through Supergrow.
