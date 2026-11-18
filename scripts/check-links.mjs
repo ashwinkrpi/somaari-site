@@ -1,6 +1,6 @@
 // Checks internal links in the source pages: every href/src that points at this site must resolve to a
 // file in the repo, and a #fragment must match an id in the target page. /theme/ files are fetched from
-// somaari-common at build time, so they are skipped, as are /assets/apps/ screenshots, which the build downloads from each app's repo. External (https:, mailto:) links are not checked.
+// somaari-common at build time, so they are skipped, as are /assets/apps/ screenshots, which the build downloads from each app's repo, and /pagefind/, which npm run build generates. External (https:, mailto:) links are not checked.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, posix } from "node:path";
 
@@ -31,7 +31,7 @@ for (const page of pages) {
     else {
       const abs = path.startsWith("/") ? path : posix.join(posix.dirname(page), path);
       const rel = posix.normalize(abs).replace(/^\/+/, "");
-      if (rel.startsWith("theme/") || rel.startsWith("assets/apps/")) continue;
+      if (rel.startsWith("theme/") || rel.startsWith("assets/apps/") || rel.startsWith("pagefind/")) continue;
       target = rel === "" || rel.endsWith("/") ? `${rel}index.html` : rel;
       if (!existsSync(target) && existsSync(`${rel}/index.html`)) target = `${rel}/index.html`;
       if (!existsSync(target)) {

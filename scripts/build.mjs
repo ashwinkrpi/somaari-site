@@ -24,7 +24,7 @@ import { SITE, escapeHtml, footer, header, jsonLd, organization, softwareApplica
 const OUT = "dist";
 // Top-level files and folders copied to dist/ as they are.
 const PUBLISH = ["index.html", "404.html", "shared.css", "style.css", "shots.js", "demo.js", "video.js", "nav.js", "favicon.svg", "robots.txt",
-  "sitemap.xml", "network.json", "_headers", "_redirects", "apps", "assets", "about", "privacy", "terms"];
+  "sitemap.xml", "network.json", "_headers", "_redirects", "apps", "assets", "about", "privacy", "terms", "search", "search.js"];
 // The card demo files on an app's demo branch, and the most each may weigh.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
 const DEMO_MAX_BYTES = 1024 * 1024;
@@ -38,6 +38,8 @@ let THEMES, DEFAULT_THEME, NOJS_THEME;
 let owner, apps;
 // YouTube walkthrough IDs per app (an empty ID means no video links on the card).
 const VIDEOS = JSON.parse(readFileSync("videos.json", "utf8")).apps;
+// An app whose repo is not public yet links to the blog's Somaari tag instead ("Follow progress").
+const FOLLOW_URL = new URL("tags/somaari/", JSON.parse(readFileSync("network.json", "utf8")).sites.find((s) => s.id === "blog").url).href;
 const STATUS = { live: "Available", dev: "In development", soon: "Coming soon" };
 // The landing page lists: <!-- APPS:live --> ... <!-- /APPS:live --> and the same for dev ("soon" apps
 // go in the dev list too).
@@ -227,6 +229,21 @@ function convertImages() {
   return swaps.length;
 }
 
+// Marks each page's <main> with data-pagefind-body so Pagefind (run after this script by npm run build)
+// indexes only page content, not the shared header and footer. 404.html and the search page are left out.
+function searchable() {
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"))
+    .filter((f) => f !== "404.html" && !f.startsWith("search"));
+  let n = 0;
+  for (const page of pages) {
+    const html = readFileSync(join(OUT, page), "utf8");
+    if (!/<main\b/.test(html) || html.includes("data-pagefind-body")) continue;
+    writeFileSync(join(OUT, page), html.replace(/<main\b/, "<main data-pagefind-body"));
+    n++;
+  }
+  return n;
+}
+
 // Reads somaari-common's apps/apps.json (from main, or the local checkout with --local).
 async function manifest() {
   ({ github: owner, apps } = JSON.parse((await getFile(COMMON, "apps/apps.json")).toString("utf8")));
@@ -288,6 +305,7 @@ function card(app) {
     app.detail_page && `<a class="btn" href="/apps/${repo}/">Details<span class="visually-hidden"> about ${t}</span></a>`,
     app.guide && `<a class="card-link" href="https://docs.somaari.in/${repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
     app.public && `<a class="card-link" href="https://github.com/${escapeHtml(owner)}/${repo}">GitHub<span class="visually-hidden"> (${repo})</span></a>`,
+    !app.public && `<a class="card-link" href="${escapeHtml(FOLLOW_URL)}">Follow progress<span class="visually-hidden"> on ${t} (blog)</span></a>`,
   ].filter(Boolean);
   const platforms = (app.platforms ?? []).filter((p) => PLATFORMS[p]);
   const rel = RELEASES[app.repo];
@@ -322,7 +340,7 @@ ${meta}${thumb ? `
           <div class="card-actions">
 ${actions.map((a) => `            ${a}`).join("\n")}
           </div>` : ""}${app.public ? "" : `
-          <!-- Repo not public yet: no GitHub link. Set "public": true in apps.json when it is. -->`}
+          <!-- Repo not public yet: "Follow progress" links to the blog instead of GitHub. Set "public": true in apps.json when it is. -->`}
         </li>
         <!-- CARD END: ${repo} -->
 `;
@@ -557,6 +575,7 @@ async function main() {
   console.log(`json-ld: ${structuredData()} pages (Organization, WebSite, SoftwareApplication)`);
   console.log(`images:${convertImages()} converted to WebP`);
   console.log(`fonts: ${preloadFonts()} preloaded`);
+  console.log(`search: ${searchable()} pages marked for Pagefind`);
   stampThemeVersions();
 }
 

@@ -133,6 +133,8 @@ main { flex: 1; }
   .menu-toggle { grid-area: menu; align-self: start; }
   .site-nav { grid-area: nav; margin-left: -0.6rem; }
   .site-nav ul { flex-wrap: wrap; }
+  /* No room for the search button beside the logo: phones get Search in the links instead. */
+  .header-end .search-link { display: none; }
   .nav-js .menu-toggle { display: inline-grid; }
   .nav-js .site-nav {
     display: none;
@@ -195,7 +197,8 @@ main { flex: 1; }
    separate group. */
 .switcher { position: relative; }
 .switcher[hidden], .switcher-menu[hidden] { display: none; }
-.switcher-toggle {
+.switcher-toggle,
+.search-link {
   display: inline-grid;
   place-items: center;
   width: 44px;
@@ -208,6 +211,7 @@ main { flex: 1; }
   cursor: pointer;
 }
 .switcher-toggle:hover,
+.search-link:hover,
 .switcher-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
 .switcher-menu {
   position: absolute;
@@ -736,3 +740,20 @@ html[data-theme="liquid-glass"] .blog-band { padding: 1.5rem; }
 html[data-theme="liquid-glass"] .card-demo,
 html[data-theme="liquid-glass"] .demo-video { border-radius: 18px; }
 
+
+/* Search page: Pagefind's UI (/pagefind/pagefind-ui.css) drawn with the theme's colours and fonts. */
+.site-search {
+  --pagefind-ui-primary: var(--accent);
+  --pagefind-ui-text: var(--fg);
+  --pagefind-ui-background: var(--field-bg);
+  --pagefind-ui-border: var(--tag-border);
+  --pagefind-ui-tag: var(--hover-tint);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--btn-radius);
+  --pagefind-ui-font: inherit;
+  margin-block: 1.5rem 3rem;
+}
+@media (min-width: 48rem) { .nav-search { display: none; } }
+/* Pagefind draws its search icon from a data: URL, which the CSP (img-src 'self') blocks; use our own file. */
+#search .pagefind-ui__form::before { -webkit-mask-image: url(/assets/search-icon.svg); mask-image: url(/assets/search-icon.svg); }
+.site-search mark { color: inherit; background: var(--hover-tint); box-shadow: inset 0 -2px 0 var(--accent); }

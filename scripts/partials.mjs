@@ -59,6 +59,7 @@ export function header(network, current) {
         <nav class="site-nav" id="site-drawer" aria-label="Main">
           <ul role="list">
 ${items}
+            <li class="nav-search"><a href="/search/">Search</a></li>
           </ul>
         </nav>
         <ul class="header-social" role="list">
@@ -69,6 +70,7 @@ ${items}
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
           </a></li>
         </ul>
+        <a class="search-link" href="/search/" aria-label="Search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
         ${switcher}<!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
              popover and remembers the choice. Themes live in themes.css and style.css. -->
         <div class="appearance" id="theme-picker" hidden>

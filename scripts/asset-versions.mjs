@@ -7,7 +7,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 
-const ASSETS = ["shared.css", "style.css", "shots.js", "demo.js", "video.js"];
+const ASSETS = ["shared.css", "style.css", "shots.js", "demo.js", "video.js", "search.js"];
 // Every .html file in the source tree; scripts/, node_modules/, dist/ (build output) and dot-folders hold no pages.
 const PAGES = readdirSync(".", { recursive: true })
   .filter((f) => f.endsWith(".html") && !/^(scripts|node_modules|dist|\.)|\/\./.test(f))
@@ -20,7 +20,7 @@ const version = Object.fromEntries(ASSETS.map((f) =>
 let stale = 0;
 for (const page of PAGES) {
   const html = readFileSync(page, "utf8");
-  const out = html.replace(/(["'])\/(shared\.css|style\.css|shots\.js|demo\.js|video\.js)(\?v=[0-9a-f]*)?\1/g,
+  const out = html.replace(/(["'])\/(shared\.css|style\.css|shots\.js|demo\.js|video\.js|search\.js)(\?v=[0-9a-f]*)?\1/g,
     (_, q, file) => `${q}/${file}?v=${version[file]}${q}`);
   if (out === html) continue;
   stale++;
