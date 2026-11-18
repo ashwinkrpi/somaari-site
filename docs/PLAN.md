@@ -12,7 +12,7 @@ tick that plan's Progress. Every other CLAUDE.md rule applies: strict CSP (read 
 touching inline scripts or the theme bridge), no external requests, never hand-edit the theme files.
 
 ### Shared header and footer
-- [ ] [moderate] Replace the docs header nav and footer with the shared Somaari header, "Somaari sites" switcher and footer built from `network.json`, with Docs highlighted (site id `docs`). Keep Starlight's search, sidebar, `ThemeSelect` and mobile menu (`MobileMenuFooter`).
+- [x] [moderate] Replace the docs header nav and footer with the shared Somaari header, "Somaari sites" switcher and footer built from `network.json`, with Docs highlighted (site id `docs`). Keep Starlight's search, sidebar, `ThemeSelect` and mobile menu (`MobileMenuFooter`). <!-- bg: done sonnet 2026-11-18 -->
     Not a docs-subdomain-plan stage: don't commit, push or deploy.
     Refresh `network.json` at the start of `scripts/build.mjs` the way `node scripts/fetch-network.mjs` does (live copy, committed copy as fallback). Build the markup the way `header(network, "docs")` and `footer(network)` in `vendor/somaari-site/partials.mjs` do, with full `https://somaari.in/...` URLs, replacing `src/components/SiteNav.astro`'s hand-written links. Port styles from `vendor/somaari-site/style.css` onto the existing tokens, and the switcher behaviour from `vendor/somaari-site/nav.js` as a bundled script (no new inline script). Update CLAUDE.md and README where they describe the header and footer.
 

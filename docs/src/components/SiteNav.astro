@@ -1,12 +1,9 @@
 ---
-// The main nav, matching somaari.in's header (Apps, Blog, About; GitHub and YouTube are in the footer),
-// with absolute URLs. Used by Header and MobileMenuFooter.
+// The shared Somaari nav: every site in network.json (Docs highlighted), full URLs, built by
+// src/lib/shared.mjs. Used by Header and MobileMenuFooter.
+import { navItems } from '../lib/shared.mjs';
 ---
 
 <nav class="site-nav" aria-label="Main">
-	<ul role="list">
-		<li><a href="https://somaari.in/#apps">Apps</a></li>
-		<li><a href="https://blog.somaari.in/">Blog</a></li>
-		<li><a href="https://somaari.in/about/">About</a></li>
-	</ul>
+	<ul role="list" set:html={navItems()} />
 </nav>
