@@ -19,7 +19,7 @@
 - [x] [moderate] Add a small internal link checker to `scripts/` and run it from `npm run check`; fix every broken link it finds. <!-- bg: done sonnet 2026-11-18 -->
 
 ### Stage 4: Homepage upgrades
-- [ ] [moderate] Hero: keep the headline and site copy as is; add the "Free book" badge and link and a third button "Read the book".
+- [x] [moderate] Hero: keep the headline and site copy as is; add the "Free book" badge and link and a third button "Read the book". <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [complex] Add an "Explore Somaari" row right under the hero, one tile per site generated from `network.json` at build time: Docs "Guides for N apps" (N counted from `apps`), Book "Volume 1 · free · N chapters", Blog titles of the latest 3 posts from `rss.xml`, Games (Lab) "Genshin <version> · N videos · refreshed Sundays" read from the games site's `stats.json`. Each tile must fall back to plain text when its source is unreachable.
 - [ ] [moderate] App cards: add platform badges (Raspberry Pi, Linux, Windows), latest version and release date from the GitHub Releases API at build time (cached, skipped if offline), and a screenshot thumbnail when the app has one.
 - [ ] [simple] Remove the empty Demo section from the homepage.
