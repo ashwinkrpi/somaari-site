@@ -34,7 +34,7 @@
 - [x] [simple] Add a friendly 404 page with links to all sites. <!-- bg: done haiku 2026-11-18 -->
 - [x] [moderate] Lazy-load images, convert them to WebP, and preload fonts. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [manual] Add Pagefind search to somaari.in. <!-- bg: blocked sonnet 2026-11-18: Pagefind isn't installed, and I can't install it. Shell commands like `npm install` are denied here, and the build has no network access to fetch it. Someone needs to run `npm i -D pagefind`. After th -->
-- [ ] [simple] Add an RSS discovery `<link>` tag to the homepage head.
+- [ ] [manual] Add an RSS discovery `<link>` tag to the homepage head. <!-- bg: blocked sonnet 2026-11-18: the homepage head already has the RSS discovery `<link rel="alternate" type="application/rss+xml">` tag (index.html:10), so there is nothing left to change. -->
 
 ### Stage 6: SEO and sharing
 - [ ] [simple] Make `sitemap.xml` and `robots.txt` correct; robots.txt lists every subdomain's sitemap.
