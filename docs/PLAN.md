@@ -24,7 +24,7 @@ touching inline scripts or the theme bridge), no external requests, never hand-e
 - [x] [simple] Make the terminal app name `somaari-terminal` everywhere. <!-- bg: done claude 2026-11-18: nothing to change; no "ATAI" in src, docs or public, and the terminal has no guide yet -->
 
 ### UI polish and SEO
-- [ ] [simple] Friendly 404 page (`src/content/docs/404.md` or an override) with links to all sites from `network.json`.
+- [x] [simple] Friendly 404 page (`src/content/docs/404.md` or an override) with links to all sites from `network.json`. <!-- bg: done haiku 2026-11-18 -->
     Not a docs-subdomain-plan stage: don't commit, push or deploy.
 - [ ] [simple] Title pattern "Page · Somaari Docs" (today "Page | Somaari Docs"), canonical URLs, OG and Twitter tags on every page. `robots.txt` and the sitemap already exist; keep them.
     Not a docs-subdomain-plan stage: don't commit, push or deploy.

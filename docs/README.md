@@ -111,7 +111,7 @@ No step copies text between repositories.
 | `wrangler.jsonc` | the Worker: `dist/` as static assets on docs.somaari.in |
 | `src/components/`, `src/lib/shared.mjs`, `src/scripts/switcher.js` | Starlight overrides: the shared Somaari header (site nav with Docs highlighted, "Somaari sites" switcher), the shared footer, mobile menu, Appearance control, no theme script. Header and footer markup is built from `network.json` by `shared.mjs`; `npm run build` refreshes `network.json` first (live copy, committed copy as fallback). `switcher.js` is the bundled switcher script |
 | `src/styles/somaari.css` | somaari tokens mapped onto Starlight, and the header and footer styles |
-| `src/content/docs/index.mdx`, `404.md` | home page and 404 page; the guide folders beside them are generated |
+| `src/content/docs/index.mdx`, `404.mdx` | home page and 404 page (404 lists every site from `network.json`); the guide folders beside them are generated |
 | `public/_headers`, `public/robots.txt`, `public/favicon.svg` | site files |
 | `tests/` | `node --test` tests for the import (with fixture guides) and the refresh SHA comparison |
 | `SPIKE.md` | why the theme bridge and the CSP rewrites exist |
