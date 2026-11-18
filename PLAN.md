@@ -21,7 +21,7 @@
 ### Stage 4: Homepage upgrades
 - [x] [moderate] Hero: keep the headline and site copy as is; add the "Free book" badge and link and a third button "Read the book". <!-- bg: done sonnet 2026-11-18 -->
 - [x] [complex] Add an "Explore Somaari" row right under the hero, one tile per site generated from `network.json` at build time: Docs "Guides for N apps" (N counted from `apps`), Book "Volume 1 · free · N chapters", Blog titles of the latest 3 posts from `rss.xml`, Games (Lab) "Genshin <version> · N videos · refreshed Sundays" read from the games site's `stats.json`. Each tile must fall back to plain text when its source is unreachable. <!-- bg: done opus 2026-11-18 -->
-- [ ] [moderate] App cards: add platform badges (Raspberry Pi, Linux, Windows), latest version and release date from the GitHub Releases API at build time (cached, skipped if offline), and a screenshot thumbnail when the app has one.
+- [x] [moderate] App cards: add platform badges (Raspberry Pi, Linux, Windows), latest version and release date from the GitHub Releases API at build time (cached, skipped if offline), and a screenshot thumbnail when the app has one. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [simple] Remove the empty Demo section from the homepage.
 - [ ] [moderate] Replace the "From the blog" blurb with 3 post cards (title, date, tag) from `rss.xml`.
 - [ ] [simple] Add a contact line with both emails and a "Report an issue" link to GitHub Issues.

@@ -44,7 +44,13 @@ const STATUS = { live: "Available", dev: "In development", soon: "Coming soon" }
 const LISTS = { live: ["live"], dev: ["dev", "soon"] };
 // Every card's demo poster is 720x406 (scripts/demo/README.md).
 const POSTER = 'width="720" height="406"';
-const localArg = process.argv.indexOf("--local");
+// Card screenshot thumbnails (set by screenshots()) and latest releases (set by releases()), by repo.
+const THUMBS = {};
+const RELEASES = {};
+// An app's "platforms" in the manifest: ids from here.
+const PLATFORMS = { pi: "Raspberry Pi", linux: "Linux", windows: "Windows" };
+const RELEASE_CACHE = join(".cache", "releases.json");
+const localArg =process.argv.indexOf("--local");
 const local = localArg > 0 ? process.argv[localArg + 1] : null;
 
 async function getFile(app, path, ref) {
@@ -124,6 +130,7 @@ async function screenshots(app) {
       `<noscript><img src="${urls[NOJS_THEME] ?? urls[fallback]}" ${attrs}></noscript>`
     : `<img src="${urls[DEFAULT_THEME]}" ${attrs}>`;
   writeFileSync(pagePath, html.replace(figure[0], `${figure[1]}\n      ${img}\n    ${figure[2]}`));
+  THUMBS[app.repo] = { src: urls[DEFAULT_THEME] ?? urls[fallback], width, height };
   return Object.keys(urls).length;
 }
 
@@ -184,6 +191,34 @@ function comment(app, text) {
   return `<!-- ${text} -->`;
 }
 
+// Latest GitHub release (tag and date) per public app, cached in .cache/releases.json. Offline (or with
+// --local, or an API error) it uses the cache, else the card simply shows no version. Never fails the build.
+async function releases() {
+  let cache = {};
+  try { cache = JSON.parse(readFileSync(RELEASE_CACHE, "utf8")); } catch { /* no cache yet */ }
+  let fetched = 0;
+  if (!local) {
+    for (const app of apps.filter((a) => a.public)) {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${app.owner ?? owner}/${app.repo}/releases/latest`,
+          { headers: { Accept: "application/vnd.github+json" }, signal: AbortSignal.timeout(8000) });
+        if (!res.ok) continue;
+        const r = await res.json();
+        if (r.tag_name && r.published_at) {
+          cache[app.repo] = { tag: r.tag_name, date: r.published_at.slice(0, 10) };
+          fetched++;
+        }
+      } catch { break; } // offline: stop trying
+    }
+    if (fetched) {
+      mkdirSync(dirname(RELEASE_CACHE), { recursive: true });
+      writeFileSync(RELEASE_CACHE, JSON.stringify(cache, null, 2) + "\n");
+    }
+  }
+  for (const app of apps) if (cache[app.repo]) RELEASES[app.repo] = cache[app.repo];
+  return [fetched, Object.keys(RELEASES).length];
+}
+
 // One landing page card. The demo poster is the committed assets/demos/<repo>/poster.webp, or the one
 // demo() downloads; the player's walkthrough link comes from videos.json. The title links to the detail
 // page; the actions are one Details button plus Guide (docs.somaari.in) and GitHub text links.
@@ -201,7 +236,12 @@ function card(app) {
     app.guide && `<a class="card-link" href="https://docs.somaari.in/${repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
     app.public && `<a class="card-link" href="https://github.com/${escapeHtml(owner)}/${repo}">GitHub<span class="visually-hidden"> (${repo})</span></a>`,
   ].filter(Boolean);
-  const title = app.detail_page ? `<a href="/apps/${repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
+  const platforms = (app.platforms ?? []).filter((p) => PLATFORMS[p]);
+  const rel = RELEASES[app.repo];
+  const thumb = THUMBS[app.repo];
+  const meta = platforms.length || rel ? `
+          <p class="card-meta">${platforms.map((p) => `<span class="badge badge--platform">${PLATFORMS[p]}</span>`).join(" ")}${rel ? `${platforms.length ? " " : ""}<span class="card-release">${escapeHtml(rel.tag)} &middot; <time datetime="${rel.date}">${rel.date}</time></span>` : ""}</p>` : "";
+  const title = app.detail_page ?`<a href="/apps/${repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
   return `
         <!-- CARD START: ${repo} -->
         <li class="card">${hasDemo ? `
@@ -222,6 +262,8 @@ function card(app) {
 ${labels.map((l) => `              <span class="badge badge--ai">${escapeHtml(l)}</span>`).join("\n")}
             </span>
           </div>
+${meta}${thumb ? `
+          <img class="card-thumb" src="${thumb.src}" width="${thumb.width}" height="${thumb.height}" alt="" loading="lazy">` : ""}
           <p class="card-desc">${escapeHtml(app.description)}</p>
           <p class="card-tags">${app.tags.map(escapeHtml).join(" &middot; ")}</p>${actions.length ? `
           <div class="card-actions">
@@ -332,6 +374,8 @@ async function main() {
       console.log(`${app.repo}: demo loop from ${app.demo.ref}`);
     }
   }
+  const [fresh, known] = await releases();
+  console.log(`releases: ${fresh} fetched, ${known} shown${fresh || local ? "" : " (offline or none; cache used)"}`);
   cards();
   const row = await exploreRow();
   console.log(`explore: ${row.total} tiles, ${row.live} with live data`);
