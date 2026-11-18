@@ -4,6 +4,8 @@
 // cards and the sitemap's /apps/<repo>/ entries from it. An app's detail page screenshot ("screenshot")
 // and card demo loop ("demo") come from the app repo when the manifest names them, into assets/; they
 // are never committed here.
+// The landing page's "Explore Somaari" row is built from network.json and the other sites' rss.xml and
+// stats.json (scripts/explore.mjs); a tile whose source is unreachable falls back to plain text.
 // The app guides are not built here: docs.somaari.in (the somaari-docs repo) publishes them, and
 // _redirects sends the old /apps/<repo>/docs/ URLs there.
 // Run from the repo root: npm run build
@@ -16,6 +18,7 @@ import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, posix, resolve } from "node:path";
+import { explore } from "./explore.mjs";
 import { SITE, escapeHtml, footer, header } from "./partials.mjs";
 
 const OUT = "dist";
@@ -303,6 +306,18 @@ function footers() {
   return n;
 }
 
+// Fills the landing page's <!-- EXPLORE --> ... <!-- /EXPLORE --> list with a tile per Somaari site
+// (scripts/explore.mjs). An unreachable source only turns its tile into plain text; it never stops the build.
+async function exploreRow() {
+  const path = join(OUT, "index.html");
+  const html = readFileSync(path, "utf8");
+  const marker = /(<!-- EXPLORE -->)[\s\S]*?(<!-- \/EXPLORE -->)/;
+  if (!marker.test(html)) throw new Error("index.html has no <!-- EXPLORE --> ... <!-- /EXPLORE --> markers");
+  const row = await explore(JSON.parse(readFileSync("network.json", "utf8")), CURRENT_SITE);
+  writeFileSync(path, html.replace(marker, (_, start, end) => `${start}${row.html}${end}`));
+  return row;
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
@@ -318,6 +333,8 @@ async function main() {
     }
   }
   cards();
+  const row = await exploreRow();
+  console.log(`explore: ${row.total} tiles, ${row.live} with live data`);
   console.log(`header: built from network.json into ${headers()} pages`);
   console.log(`footer: built from network.json into ${footers()} pages`);
   stampThemeVersions();

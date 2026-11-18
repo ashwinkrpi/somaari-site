@@ -331,6 +331,35 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
 .about h2 { font-size: 1.5rem; margin-bottom: 1rem; }
 .about p { margin: 0; max-width: 46rem; color: var(--muted); font-size: 1.075rem; }
 
+/* Explore Somaari: a tile per site (scripts/explore.mjs), one column on phones, up to four across. */
+.explore { padding-bottom: 3rem; }
+.explore h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+.explore-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+}
+.explore-tile {
+  min-width: 0;
+  padding: 1rem 1.15rem;
+  background: var(--card-bg);
+  color: var(--fg);
+  border: 1px solid var(--card-edge);
+  border-radius: var(--card-radius);
+}
+.explore-title { margin: 0 0 0.4rem; font-size: 1.075rem; }
+.explore-title a { color: inherit; text-decoration: none; }
+.explore-title a:hover { text-decoration: underline; }
+.explore-tag { color: var(--muted); font-size: 0.85rem; font-weight: 400; }
+.explore-text,
+.explore-note { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.explore-note { margin-top: 0.4rem; font-size: 0.8rem; }
+.explore-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; font-size: 0.95rem; }
+.explore-list a { color: var(--muted); }
+
 /* Apps: one column on phones, two from tablet width up. A lone last card keeps the column width. */
 .card-grid {
   list-style: none;
