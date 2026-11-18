@@ -303,3 +303,9 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 	margin-top: 0.25rem; padding-top: 1rem; border-top: 1px solid var(--tag-border);
 }
 .card-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.35rem; font-weight: 600; color: var(--accent); }
+
+/* 404 page (src/content/docs/404.mdx): its section is `not-content`, so Starlight's link colour doesn't
+   reach the "Back to the docs home · somaari.in" line; give it the accent like other text links. */
+.docs-404 > p a {
+	color: var(--sl-color-text-accent);
+}
