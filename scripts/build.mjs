@@ -174,6 +174,59 @@ function stampThemeVersions() {
   }
 }
 
+// Adds <link rel="preload" as="font"> for the fonts the no-JS theme (the :root block of themes.css) uses
+// for text and headings, before the stylesheet link on every page, so they download in parallel with the CSS.
+// Other themes' fonts still load on demand. Returns the number of fonts preloaded.
+function preloadFonts() {
+  const css = readFileSync(join(OUT, "theme", "themes.css"), "utf8");
+  const root = css.match(/:root,\s*:root\[data-theme="[^"]+"\]\s*\{([^}]*)\}/)?.[1] ?? "";
+  const families = ["--font", "--font-display"].map((v) => root.match(new RegExp(`${v}:\\s*"([^"]+)"`))?.[1]).filter(Boolean);
+  const files = [...new Set(families.map((family) => {
+    const face = css.split("@font-face").find((b) => b.includes(`font-family: "${family}"`));
+    return face?.match(/url\("([^"]+\.woff2)"\)/)?.[1];
+  }).filter(Boolean))];
+  if (!files.length) return 0;
+  const links = files.map((f) => `<link rel="preload" href="/theme/${f}" as="font" type="font/woff2" crossorigin>`).join("\n  ");
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
+  for (const page of pages) {
+    const html = readFileSync(join(OUT, page), "utf8");
+    const tag = '<link rel="stylesheet" href="/theme/themes.css';
+    if (!html.includes(tag)) continue;
+    writeFileSync(join(OUT, page), html.replace(tag, () => `${links}\n  ${tag}`));
+  }
+  return files.length;
+}
+
+// Converts the PNG and JPEG images under dist/assets/ to WebP with ffmpeg (when it is installed; else the
+// originals stay and a warning is printed), keeps a WebP only if it is smaller, and points every page in
+// dist/ at it. The sources in the repo and in the app repos are not touched.
+function convertImages() {
+  const assets = join(OUT, "assets");
+  const images = readdirSync(assets, { recursive: true }).filter((f) => /\.(png|jpe?g)$/i.test(f));
+  const swaps = [];
+  for (const rel of images) {
+    const from = join(assets, rel);
+    const to = from.replace(/\.(png|jpe?g)$/i, ".webp");
+    try {
+      execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", from, "-quality", "80", to], { stdio: "ignore" });
+    } catch {
+      console.warn("images: ffmpeg is not available (or failed); images stay PNG/JPEG");
+      return 0;
+    }
+    if (readFileSync(to).length >= readFileSync(from).length) { rmSync(to); continue; }
+    rmSync(from);
+    swaps.push([`/assets/${rel.split("\\").join("/")}`, `/assets/${rel.split("\\").join("/").replace(/\.(png|jpe?g)$/i, ".webp")}`]);
+  }
+  const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
+  for (const page of pages) {
+    let html = readFileSync(join(OUT, page), "utf8");
+    const before = html;
+    for (const [a, b] of swaps) html = html.split(a).join(b);
+    if (html !== before) writeFileSync(join(OUT, page), html);
+  }
+  return swaps.length;
+}
+
 // Reads somaari-common's apps/apps.json (from main, or the local checkout with --local).
 async function manifest() {
   ({ github: owner, apps } = JSON.parse((await getFile(COMMON, "apps/apps.json")).toString("utf8")));
@@ -394,6 +447,8 @@ async function main() {
   console.log(`blog posts: ${(await blogPosts()) ? "3 cards from rss.xml" : "rss.xml unreachable; blurb kept"}`);
   console.log(`header: built from network.json into ${headers()} pages`);
   console.log(`footer: built from network.json into ${footers()} pages`);
+  console.log(`images: ${convertImages()} converted to WebP`);
+  console.log(`fonts: ${preloadFonts()} preloaded`);
   stampThemeVersions();
 }
 

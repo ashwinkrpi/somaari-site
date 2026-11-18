@@ -32,7 +32,7 @@
 - [x] [moderate] Make every tap target at least 44 px, make sure no page scrolls sideways at 360 px wide, and keep the existing skip link. <!-- bg: done sonnet 2026-11-18 -->
 - [x] [moderate] Check colour contrast for every theme (WCAG AA), make focus outlines visible, add alt text to images, and respect the reduce-motion setting. <!-- bg: done sonnet 2026-11-18 -->
 - [x] [simple] Add a friendly 404 page with links to all sites. <!-- bg: done haiku 2026-11-18 -->
-- [ ] [moderate] Lazy-load images, convert them to WebP, and preload fonts.
+- [x] [moderate] Lazy-load images, convert them to WebP, and preload fonts. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [moderate] Add Pagefind search to somaari.in.
 - [ ] [simple] Add an RSS discovery `<link>` tag to the homepage head.
 
