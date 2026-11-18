@@ -1,0 +1,21 @@
+# somaari-site's build-guru config (format: somaari-build-guru PLAN.md section 5)
+main_branch = "main"
+
+[models]
+simple   = "haiku"
+moderate = "sonnet"
+complex  = "opus"
+categoriser = "haiku"
+
+[run]
+test_cmd   = ["npm", "run", "check"]
+lint_cmd   = ["npm", "run", "build"]    # a failing build counts as a failed task
+max_cost_usd_per_run = 5
+on_manual  = "skip"
+on_fail    = "stop"
+
+[permissions]
+allowed_bash    = ["npm run *", "node scripts/*", "ls*", "echo *", "git status*", "git diff*", "git log*"]
+disallowed_bash = ["git add*", "git commit*", "git push*", "git reset*", "git checkout*", "git switch*",
+                   "git merge*", "git rebase*", "sudo *", "curl *", "wget *", "ssh *"]
+disallowed_read = ["./.env*"]
