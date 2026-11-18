@@ -7,7 +7,7 @@
 
 ### Stage 2: Shared header and footer
 - [x] [moderate] Build the shared header from `network.json`: Somaari logo (links to somaari.in), Apps, Docs, Book, Blog, Games, with the current site highlighted. On phones collapse it into a menu button that opens a drawer usable with a keyboard. <!-- bg: done sonnet 2026-11-18 -->
-- [ ] [moderate] Add the "Somaari sites" switcher: a small grid menu listing every site with its one-line description, Lab sites in a separate group.
+- [x] [moderate] Add the "Somaari sites" switcher: a small grid menu listing every site with its one-line description, Lab sites in a separate group. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [moderate] Build the shared footer from `network.json`: all sites (Lab marked), GitHub, YouTube and RSS, both contact emails, Privacy and Terms, and the author line "Built by Ashwin Koppam Raghavendra, Bengaluru". Show the author line on the About page too.
 - [ ] [moderate] Add the theme picker cookie on `.somaari.in`: read it on load and write it when the theme changes. Keep working when cookies are blocked.
 - [ ] [simple] Make the header, switcher and footer a shared partial so the docs pages use the same one.
