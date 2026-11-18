@@ -134,3 +134,63 @@ ${mail(network.contact.apps, "App support")}
   </footer>
   <!-- /SHARED FOOTER -->`;
 }
+
+// JSON-LD structured data (schema.org), built from network.json. jsonLd() wraps one object in a script tag;
+// "<" is escaped so no text can end the script early.
+export function jsonLd(data) {
+  return `<script type="application/ld+json">\n${JSON.stringify(data, null, 2).replace(/</g, "\\u003c")}\n</script>`;
+}
+
+// The owner's sites as URLs for sameAs: the GitHub and YouTube links, then every other Somaari site (its subdomain).
+function sameAs(network) {
+  const urls = [network.social.github, network.social.youtube, ...network.sites.map((s) => s.url)]
+    .filter((u) => u && new URL(u).hostname !== "somaari.in");
+  return [...new Set(urls)];
+}
+
+// The Organization for the homepage: Somaari, its general contact, its founder and its profiles.
+export function organization(network) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE}/#organization`,
+    name: "Somaari",
+    url: `${SITE}/`,
+    email: network.contact.general,
+    founder: { "@type": "Person", name: network.author.split(",")[0].trim() },
+    sameAs: sameAs(network),
+  };
+}
+
+// The WebSite for the homepage, published by the Organization.
+export function website(network) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE}/#website`,
+    name: "Somaari",
+    url: `${SITE}/`,
+    description: "Useful software tools by " + network.author.split(",")[0].trim() + " in Bengaluru, built with AI assistance.",
+    publisher: { "@id": `${SITE}/#organization` },
+    sameAs: sameAs(network),
+    inLanguage: "en",
+  };
+}
+
+// A SoftwareApplication for an app's detail page. "app" holds the page's name, description, url, the
+// operating systems it runs on (a list) and, for a public repo, its codeRepository URL. It is free.
+export function softwareApplication(app) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: app.name,
+    description: app.description,
+    url: app.url,
+    applicationCategory: "UtilitiesApplication",
+    ...(app.operatingSystems?.length ? { operatingSystem: app.operatingSystems.join(", ") } : {}),
+    ...(app.codeRepository ? { codeRepository: app.codeRepository } : {}),
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    author: { "@id": `${SITE}/#organization` },
+    publisher: { "@id": `${SITE}/#organization` },
+  };
+}

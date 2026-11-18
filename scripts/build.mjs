@@ -19,7 +19,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, write
 import { createRequire } from "node:module";
 import { dirname, join, posix, resolve } from "node:path";
 import { blogCards, explore } from "./explore.mjs";
-import { SITE, escapeHtml, footer, header } from "./partials.mjs";
+import { SITE, escapeHtml, footer, header, jsonLd, organization, softwareApplication, website } from "./partials.mjs";
 
 const OUT = "dist";
 // Top-level files and folders copied to dist/ as they are.
@@ -504,6 +504,33 @@ function ogImages() {
   return n;
 }
 
+// Adds JSON-LD to the <head> of the homepage (Organization and WebSite) and of each app detail page
+// (SoftwareApplication, from the manifest's name, description, platforms and public repo). Returns the pages changed.
+function structuredData() {
+  const network = JSON.parse(readFileSync("network.json", "utf8"));
+  const addToHead = (page, blocks) => {
+    const path = join(OUT, page);
+    const html = readFileSync(path, "utf8");
+    writeFileSync(path, html.replace("</head>", () => `${blocks.join("\n  ")}\n</head>`));
+  };
+  addToHead("index.html", [jsonLd(organization(network)), jsonLd(website(network))]);
+  let n = 1;
+  for (const app of apps.filter((a) => a.detail_page)) {
+    const url = `${SITE}/apps/${app.repo}/`;
+    const operatingSystems = (app.platforms ?? []).filter((p) => PLATFORMS[p]).map((p) => PLATFORMS[p]);
+    const data = softwareApplication({
+      name: app.title,
+      description: app.description,
+      url,
+      operatingSystems,
+      codeRepository: app.public ? `https://github.com/${app.owner ?? owner}/${app.repo}` : undefined,
+    });
+    addToHead(join("apps", app.repo, "index.html"), [jsonLd(data)]);
+    n++;
+  }
+  return n;
+}
+
 async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
@@ -527,6 +554,7 @@ async function main() {
   console.log(`header: built from network.json into ${headers()} pages`);
   console.log(`footer: built from network.json into ${footers()} pages`);
   console.log(`og: ${ogImages()} images and meta tags`);
+  console.log(`json-ld: ${structuredData()} pages (Organization, WebSite, SoftwareApplication)`);
   console.log(`images:${convertImages()} converted to WebP`);
   console.log(`fonts: ${preloadFonts()} preloaded`);
   stampThemeVersions();
