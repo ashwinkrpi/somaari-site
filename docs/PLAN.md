@@ -30,5 +30,5 @@ touching inline scripts or the theme bridge), no external requests, never hand-e
     Not a docs-subdomain-plan stage: don't commit, push or deploy.
 
 ### Manual
-- [ ] [manual] Preview the branch (`npm run build && npm run preview`, then `npm run smoke -- http://127.0.0.1:8787`) on phone and desktop.
-- [ ] [manual] Merge into `main`, push, and deploy (`bash scripts/deploy.sh`, or FORCE=1 bash scripts/refresh.sh).
+- [x] [manual] Preview the branch (`npm run build && npm run preview`, then `npm run smoke -- http://127.0.0.1:8787`) on phone and desktop. <!-- done 2026-11-18: built on the branch; npm test, npm run check and the smoke test (4 themes, CSP, search) passed; checked in Chromium at desktop and 360 px -->
+- [x] [manual] Merge into `main`, push, and deploy (`bash scripts/deploy.sh`, or FORCE=1 bash scripts/refresh.sh). <!-- done 2026-11-18: merged, pushed and deployed with scripts/deploy.sh -->
