@@ -9,7 +9,7 @@
 - [x] [moderate] Build the shared header from `network.json`: Somaari logo (links to somaari.in), Apps, Docs, Book, Blog, Games, with the current site highlighted. On phones collapse it into a menu button that opens a drawer usable with a keyboard. <!-- bg: done sonnet 2026-11-18 -->
 - [x] [moderate] Add the "Somaari sites" switcher: a small grid menu listing every site with its one-line description, Lab sites in a separate group. <!-- bg: done sonnet 2026-11-18 -->
 - [x] [moderate] Build the shared footer from `network.json`: all sites (Lab marked), GitHub, YouTube and RSS, both contact emails, Privacy and Terms, and the author line "Built by Ashwin Koppam Raghavendra, Bengaluru". Show the author line on the About page too. <!-- bg: done sonnet 2026-11-18 -->
-- [ ] [moderate] Add the theme picker cookie on `.somaari.in`: read it on load and write it when the theme changes. Keep working when cookies are blocked.
+- [ ] [manual] Add the theme picker cookie on `.somaari.in`: read it on load and write it when the theme changes. Keep working when cookies are blocked. <!-- bg: blocked opus 2026-11-18: This is already done, so I changed nothing. somaari-common's `theme/theme.js` already reads the `somaari-theme` cookie on `Domain=somaari.in` when the page loads and writes it whenever the theme chang -->
 - [ ] [simple] Make the header, switcher and footer a shared partial so the docs pages use the same one.
 
 ### Stage 3: Link fixes
