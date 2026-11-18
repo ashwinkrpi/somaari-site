@@ -20,6 +20,8 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Somaari Docs',
+				titleDelimiter: '·',
+				description: 'Guides for Somaari apps: how to get started and use each one.',
 			social: [],
 			expressiveCode: false,
 			customCss: ['./src/styles/somaari.css'],
