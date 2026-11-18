@@ -15,7 +15,7 @@
 ### Stage 3: Link fixes
 - [ ] [manual] Make the terminal app name `somaari-terminal` everywhere on the homepage and docs pages (fix "ATAI" and any third name). <!-- bg: blocked haiku 2026-11-18: the terminal's card title ("AI-assisted Terminal" in `dist/index.html`) comes from `title` in somaari-common's `apps/apps.json`, fetched from GitHub at build time, and the docs pages are on the separa -->
 - [ ] [manual] Give the in-development terminal a GitHub or "Follow progress" link (its repo, or the blog tag if the repo is private). <!-- bg: blocked haiku 2026-11-18: the terminal's card is generated from somaari-common's `apps/apps.json` (fetched at build time, not in this repo), and its GitHub link depends on that file's `public` flag. Whether the repo is public -->
-- [ ] [simple] Search the repo for `github.io`, `wordpress.com` and old URLs, and point them to somaari subdomains.
+- [ ] [manual] Search the repo for `github.io`, `wordpress.com` and old URLs, and point them to somaari subdomains. <!-- bg: blocked sonnet 2026-11-18: nothing to change. The repo has no `github.io` or `wordpress.com` URLs, and no other old URLs. The only matches are in `PLAN.md`, which I can't edit. The remaining external links are `github.com/ashwi -->
 - [ ] [moderate] Add a small internal link checker to `scripts/` and run it from `npm run check`; fix every broken link it finds.
 
 ### Stage 4: Homepage upgrades
