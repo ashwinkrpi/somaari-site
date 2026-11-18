@@ -24,8 +24,8 @@
 - [x] [moderate] App cards: add platform badges (Raspberry Pi, Linux, Windows), latest version and release date from the GitHub Releases API at build time (cached, skipped if offline), and a screenshot thumbnail when the app has one. <!-- bg: done sonnet 2026-11-18 -->
 - [ ] [manual] Remove the empty Demo section from the homepage. <!-- bg: blocked haiku 2026-11-18: the homepage has no empty Demo section to remove. The only "Demo" element is the `<dialog id="demo-dialog">` player in `index.html` (lines 156-172), and it is live: `demo.js` opens it from the "Play d -->
 - [x] [moderate] Replace the "From the blog" blurb with 3 post cards (title, date, tag) from `rss.xml`. <!-- bg: done sonnet 2026-11-18 -->
-- [ ] [simple] Add a contact line with both emails and a "Report an issue" link to GitHub Issues.
-- [ ] [simple] Check that the homepage still shows its main content with JavaScript turned off.
+- [x] [simple] Add a contact line with both emails and a "Report an issue" link to GitHub Issues. <!-- bg: done haiku 2026-11-18 -->
+- [x] [simple] Check that the homepage still shows its main content with JavaScript turned off. <!-- bg: done haiku 2026-11-18 -->
 
 ### Stage 5: UI polish
 - [ ] [moderate] Share the colour variables so every theme, including the seasonal ones, works on every page; same favicon, logo and font sizes.
