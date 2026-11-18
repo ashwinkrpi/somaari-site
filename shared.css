@@ -1,0 +1,119 @@
+/* Somaari shared look: the colour tokens, type scale, base text and logo every Somaari page uses.
+   Load order on every page: /theme/theme.js, /theme/themes.css (somaari-common), /shared.css, then the
+   page's own stylesheet (style.css here). Other Somaari repos (somaari-docs, the blog ...) can copy this
+   file as it is, like scripts/partials.mjs, so the header, footer and pages look the same on every site.
+   scripts/check-shared.mjs checks that every page here loads these files, in this order, with the favicon.
+
+   Colours: every token below is derived from the standard tokens every theme in themes.css sets (--fg,
+   --muted, --subtle, --line, --accent, --field-bg ... see somaari-common docs/THEME_SPEC.md section 4).
+   So a theme added in somaari-common, such as a seasonal one theme.js's SCHEDULE picks for a festival,
+   works on every page with no change here. Never write a colour by theme id in a page stylesheet: add a
+   token here instead. :root holds the no-JS theme (rangoli). */
+
+:root,
+:root[data-theme] {
+  /* Site tokens, derived once for every theme. */
+  --tag-border: var(--line);
+  --header-bg: none;
+  --footer-border: var(--line);
+  --card-edge: var(--line);
+  --card-top: 1px;
+  --card-top-color: var(--card-edge);
+  --popover-shadow: 0 12px 28px -8px rgb(0 0 0 / 35%);
+  --hover-tint: color-mix(in srgb, var(--accent) 10%, transparent);
+
+  /* Media frames: screenshots, demo loops and code blocks are dark UIs, the same in every theme. */
+  --media-bg: #0d0f12;
+  --code-bg: #14161b;
+  --code-fg: #e8e6e3;
+  --media-pill-bg: #fff8ee;
+  --media-pill-hover: #ffffff;
+  --media-pill-fg: #1a1a1a;
+  --media-focus: #ffffff;
+  --backdrop: rgb(0 0 0 / 70%);
+
+  /* Type scale: the same sizes on every page and every site. */
+  --text-2xs: 0.78rem;
+  --text-xs: 0.8rem;
+  --text-sm: 0.875rem;
+  --text-md: 0.92rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-title: clamp(2rem, 6vw, 3rem);
+  --text-hero: clamp(2rem, 6vw, 3.25rem);
+  --line-height: 1.6;
+  --heading-line-height: 1.25;
+
+  /* Logo (the wordmark in the header, the same on every page). */
+  --logo-size: var(--text-2xl);
+  --logo-mark-size: 2.1rem;
+  --logo-mark-radius: 9px;
+}
+
+/* Optional fine-tuning per theme: values a formula above doesn't give. A theme needs none. */
+:root:not([data-theme]),
+:root[data-theme="rangoli"] { --field-bg: #fff6e5; }
+:root[data-theme="monsoon"] { --field-bg: #f7fafb; }
+:root[data-theme="graphite"] { --tag-border: #33363b; }
+:root[data-theme="liquid-glass"] {
+  --tag-border: rgb(255 255 255 / 24%);
+  --glass: rgb(255 255 255 / 7%);
+  --glass-solid: #1a2038; /* where backdrop-filter is unsupported */
+  --logo-mark-radius: 50%;
+}
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  background: var(--page-bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: var(--text-base);
+  line-height: var(--line-height);
+}
+
+h1, h2, h3 {
+  line-height: var(--heading-line-height);
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+}
+
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { color: var(--accent-hover); }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Logo: <p class="wordmark"><a href="https://somaari.in/"><span class="wordmark-mark">S</span> Somaari</a></p> */
+.wordmark {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--logo-size);
+  font-weight: var(--display-weight);
+  letter-spacing: -0.01em;
+}
+.wordmark a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  color: var(--fg);
+  text-decoration: none;
+}
+.wordmark-mark {
+  display: inline-grid;
+  place-items: center;
+  width: var(--logo-mark-size);
+  height: var(--logo-mark-size);
+  border-radius: var(--logo-mark-radius);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 1.2rem;
+}

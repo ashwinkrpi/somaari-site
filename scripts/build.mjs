@@ -23,7 +23,7 @@ import { SITE, escapeHtml, footer, header } from "./partials.mjs";
 
 const OUT = "dist";
 // Top-level files and folders copied to dist/ as they are.
-const PUBLISH = ["index.html", "404.html", "style.css", "shots.js", "demo.js", "video.js", "nav.js", "favicon.svg", "robots.txt",
+const PUBLISH = ["index.html", "404.html", "shared.css", "style.css", "shots.js", "demo.js", "video.js", "nav.js", "favicon.svg", "robots.txt",
   "sitemap.xml", "network.json", "_headers", "_redirects", "apps", "assets", "about", "privacy", "terms"];
 // The card demo files on an app's demo branch, and the most each may weigh.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];

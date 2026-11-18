@@ -28,7 +28,7 @@
 - [x] [simple] Check that the homepage still shows its main content with JavaScript turned off. <!-- bg: done haiku 2026-11-18 -->
 
 ### Stage 5: UI polish
-- [ ] [moderate] Share the colour variables so every theme, including the seasonal ones, works on every page; same favicon, logo and font sizes.
+- [x] [moderate] Share the colour variables so every theme, including the seasonal ones, works on every page; same favicon, logo and font sizes. <!-- bg: done sonnet→opus 2026-11-18 -->
 - [ ] [moderate] Make every tap target at least 44 px, make sure no page scrolls sideways at 360 px wide, and keep the existing skip link.
 - [ ] [moderate] Check colour contrast for every theme (WCAG AA), make focus outlines visible, add alt text to images, and respect the reduce-motion setting.
 - [ ] [simple] Add a friendly 404 page with links to all sites.
