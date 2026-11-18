@@ -13,7 +13,7 @@
 - [x] [simple] Make the header, switcher and footer a shared partial so the docs pages use the same one. <!-- bg: done haiku 2026-11-18 -->
 
 ### Stage 3: Link fixes
-- [ ] [simple] Make the terminal app name `somaari-terminal` everywhere on the homepage and docs pages (fix "ATAI" and any third name).
+- [ ] [manual] Make the terminal app name `somaari-terminal` everywhere on the homepage and docs pages (fix "ATAI" and any third name). <!-- bg: blocked haiku 2026-11-18: the terminal's card title ("AI-assisted Terminal" in `dist/index.html`) comes from `title` in somaari-common's `apps/apps.json`, fetched from GitHub at build time, and the docs pages are on the separa -->
 - [ ] [simple] Give the in-development terminal a GitHub or "Follow progress" link (its repo, or the blog tag if the repo is private).
 - [ ] [simple] Search the repo for `github.io`, `wordpress.com` and old URLs, and point them to somaari subdomains.
 - [ ] [moderate] Add a small internal link checker to `scripts/` and run it from `npm run check`; fix every broken link it finds.
