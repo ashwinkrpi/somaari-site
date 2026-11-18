@@ -91,6 +91,17 @@ a:hover { color: var(--accent-hover); }
   border-radius: 4px;
 }
 
+/* Reduce-motion setting: no transitions, animations, smooth scrolling or hover lifts. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .card:hover, .card:focus-within { transform: none; }
+}
+
 /* Logo: <p class="wordmark"><a href="https://somaari.in/"><span class="wordmark-mark">S</span> Somaari</a></p> */
 .wordmark {
   margin: 0;
