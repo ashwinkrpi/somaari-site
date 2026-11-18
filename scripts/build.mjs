@@ -15,8 +15,12 @@
 // doesn't fit, or a manifest app has no page or text the page can't hold.
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
+import { Resvg } from "@resvg/resvg-js";
+import sharp from "sharp";
+import { decompress } from "wawoff2";
 import { dirname, join, posix, resolve } from "node:path";
 import { blogCards, explore } from "./explore.mjs";
 import { SITE, escapeHtml, footer, header, jsonLd, organization, softwareApplication, website } from "./partials.mjs";
@@ -199,10 +203,11 @@ function preloadFonts() {
   return files.length;
 }
 
-// Converts the PNG and JPEG images under dist/assets/ to WebP with ffmpeg (when it is installed; else the
-// originals stay and a warning is printed), keeps a WebP only if it is smaller, and points every page in
-// dist/ at it. The sources in the repo and in the app repos are not touched.
-function convertImages() {
+// Converts the PNG and JPEG images under dist/assets/ to WebP with sharp (an npm package with prebuilt
+// binaries, so it works on Cloudflare Pages too), keeps a WebP only if it is smaller, and points every page
+// in dist/ at it. If sharp fails the originals stay and a warning is printed. The sources in the repo and in
+// the app repos are not touched.
+async function convertImages() {
   const assets = join(OUT, "assets");
   const images = readdirSync(assets, { recursive: true }).filter((f) => /\.(png|jpe?g)$/i.test(f));
   const swaps = [];
@@ -210,9 +215,9 @@ function convertImages() {
     const from = join(assets, rel);
     const to = from.replace(/\.(png|jpe?g)$/i, ".webp");
     try {
-      execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", from, "-quality", "80", to], { stdio: "ignore" });
-    } catch {
-      console.warn("images: ffmpeg is not available (or failed); images stay PNG/JPEG");
+      await sharp(from).webp({ quality: 80 }).toFile(to);
+    } catch (e) {
+      console.warn(`images: sharp failed on ${rel} (${e.message}); images stay PNG/JPEG`);
       return 0;
     }
     if (readFileSync(to).length >= readFileSync(from).length) { rmSync(to); continue; }
@@ -458,12 +463,24 @@ function wrap(text, max, maxLines) {
 }
 
 // Makes a 1200x630 OG image per indexable page (site name and page title on the Warm Tactile / rangoli
-// palette) with rsvg-convert, into dist/og/, and adds og:image and the Twitter card tags to the page's
+// palette) with resvg (an npm package, so it works on Cloudflare Pages too) in the theme's Marcellus and
+// Hanken Grotesk, unpacked from somaari-common's .woff2 files, into dist/og/, and adds og:image and the Twitter card tags to the page's
 // <head> (plus a canonical URL and Twitter title/description when the page lacks them). Pages marked
-// noindex (404) are skipped. Without rsvg-convert it warns and leaves the pages as they are.
-function ogImages() {
+// noindex (404) are skipped. If rendering fails it warns and leaves the pages as they are.
+async function ogImages() {
   const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
   mkdirSync(join(OUT, "og"), { recursive: true });
+  // resvg reads TTF/OTF only, so the theme's .woff2 fonts are unpacked to a temporary folder first.
+  const fontDir = mkdtempSync(join(tmpdir(), "somaari-og-"));
+  const fontFiles = [];
+  for (const name of ["Marcellus", "HankenGrotesk"]) {
+    const woff2 = join(OUT, "theme", "fonts", `${name}.woff2`);
+    if (!existsSync(woff2)) { console.warn(`og: ${name}.woff2 missing from theme/fonts; using fallback fonts`); continue; }
+    const ttf = join(fontDir, `${name}.ttf`);
+    writeFileSync(ttf, await decompress(readFileSync(woff2)));
+    fontFiles.push(ttf);
+  }
+  const font = { fontFiles, loadSystemFonts: fontFiles.length < 2, defaultFontFamily: "Hanken Grotesk" };
   let n = 0;
   for (const page of pages) {
     const path = join(OUT, page);
@@ -488,9 +505,9 @@ function ogImages() {
 </svg>`;
     const file = `og/${slug}.png`;
     try {
-      execFileSync("rsvg-convert", ["-o", join(OUT, file)], { input: svg, stdio: ["pipe", "ignore", "ignore"] });
-    } catch {
-      console.warn("og: rsvg-convert is not available (or failed); no OG images");
+      writeFileSync(join(OUT, file), new Resvg(svg, { font }).render().asPng());
+    } catch (e) {
+      console.warn(`og: rendering ${file} failed (${e.message}); no OG images`);
       return 0;
     }
     const image = `${SITE}/${file}`;
@@ -519,6 +536,7 @@ function ogImages() {
     writeFileSync(path, html);
     n++;
   }
+  rmSync(fontDir, { recursive: true, force: true });
   return n;
 }
 
@@ -571,9 +589,9 @@ async function main() {
   console.log(`blog posts: ${(await blogPosts()) ? "3 cards from rss.xml" : "rss.xml unreachable; blurb kept"}`);
   console.log(`header: built from network.json into ${headers()} pages`);
   console.log(`footer: built from network.json into ${footers()} pages`);
-  console.log(`og: ${ogImages()} images and meta tags`);
+  console.log(`og: ${await ogImages()} images and meta tags`);
   console.log(`json-ld: ${structuredData()} pages (Organization, WebSite, SoftwareApplication)`);
-  console.log(`images:${convertImages()} converted to WebP`);
+  console.log(`images: ${await convertImages()} converted to WebP`);
   console.log(`fonts: ${preloadFonts()} preloaded`);
   console.log(`search: ${searchable()} pages marked for Pagefind`);
   stampThemeVersions();
