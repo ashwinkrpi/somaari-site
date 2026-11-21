@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400">
+  <title>somaari-docs — The guides for the Somaari apps.</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1119"/>
+      <stop offset="1" stop-color="#16202c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.8" cy="0.35" r="0.55">
+      <stop offset="0" stop-color="#4c8ddb" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#4c8ddb" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#a9b6c6" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="400" rx="20" fill="url(#bg)"/>
+  <rect width="1280" height="400" rx="20" fill="url(#dots)"/>
+  <rect width="1280" height="400" rx="20" fill="url(#glow)"/>
+
+  <g transform="translate(72 96)">
+    <rect width="96" height="96" rx="22" fill="#1e2b3b" stroke="#2c3d52"/>
+    <text x="48" y="68" font-family="DejaVu Sans, Segoe UI, Helvetica, Arial, sans-serif" font-size="58" font-weight="700" fill="#8cc1f0" text-anchor="middle">S</text>
+  </g>
+  <text x="72" y="248" font-family="DejaVu Sans, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="64" font-weight="700" fill="#e6edf5" letter-spacing="-1">somaari<tspan fill="#8cc1f0">-docs</tspan></text>
+  <text x="74" y="294" font-family="DejaVu Sans, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="22" fill="#a9b6c6">The guides for the Somaari apps.</text>
+  <text x="74" y="328" font-family="DejaVu Sans, Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="22" fill="#a9b6c6">Built with Starlight, served from Cloudflare.</text>
+
+  <g transform="translate(600 64)" font-family="DejaVu Sans, Segoe UI, Helvetica, Arial, sans-serif">
+    <rect width="616" height="272" rx="14" fill="#1b2533" stroke="#2c3d52"/>
+    <path d="M0 14 a14 14 0 0 1 14 -14 h588 a14 14 0 0 1 14 14 v26 h-616 z" fill="#0f1720"/>
+    <text x="18" y="26" font-size="14" font-weight="700" fill="#e6edf5">docs.somaari.in</text>
+    <rect x="0" y="40" width="150" height="232" fill="#16202c"/>
+    <rect x="16" y="58" width="100" height="10" rx="2" fill="#8cc1f0"/>
+    <rect x="16" y="82" width="80" height="8" rx="2" fill="#a9b6c6" fill-opacity="0.6"/>
+    <rect x="16" y="102" width="92" height="8" rx="2" fill="#a9b6c6" fill-opacity="0.6"/>
+    <rect x="16" y="122" width="70" height="8" rx="2" fill="#a9b6c6" fill-opacity="0.6"/>
+    <rect x="172" y="60" width="280" height="20" rx="4" fill="#e6edf5" fill-opacity="0.9"/>
+    <rect x="172" y="98" width="400" height="9" rx="2" fill="#a9b6c6" fill-opacity="0.6"/>
+    <rect x="172" y="118" width="380" height="9" rx="2" fill="#a9b6c6" fill-opacity="0.6"/>
+    <rect x="172" y="138" width="410" height="9" rx="2" fill="#a9b6c6" fill-opacity="0.6"/>
+    <rect x="172" y="172" width="410" height="64" rx="8" fill="#0f1720" stroke="#2c3d52"/>
+    <rect x="188" y="190" width="200" height="8" rx="2" fill="#4c8ddb"/>
+    <rect x="188" y="210" width="260" height="8" rx="2" fill="#2a4568"/>
+  </g>
+</svg>

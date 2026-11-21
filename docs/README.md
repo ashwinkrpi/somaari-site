@@ -1,10 +1,33 @@
-# somaari-docs
+<p align="center">
+  <img src="docs/images/banner.svg" alt="somaari-docs" width="100%">
+</p>
+
+<p align="center">
+  The source of docs.somaari.in: the guides for the Somaari apps, built with Starlight and served from Cloudflare Workers static assets.
+</p>
+
+<p align="center">
+  <a href="https://docs.somaari.in/">Docs</a> | <a href="https://somaari.in/">Website</a> | <a href="https://github.com/ashwinkrpi/somaari-docs/issues">Issues</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/ashwinkrpi/somaari-docs/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/ashwinkrpi/somaari-docs?style=for-the-badge"></a>
+</p>
+
+<p align="center">
+  <a href="https://docs.somaari.in/"><img alt="Read the docs" src="https://img.shields.io/badge/Read_the_docs-4C8DDB?style=for-the-badge"></a>
+</p>
+
+
+## Introduction
 
 The source of [docs.somaari.in](https://docs.somaari.in/): the guides for the somaari apps, built with [Starlight](https://starlight.astro.build/) (Astro) and served from Cloudflare Workers static assets.
 
 No guide is written here. Each app keeps its guide in its own repository (`docs/GUIDE.md`), and this site copies it in at build time. The list of apps comes from the app manifest in [somaari-common](https://github.com/ashwinkrpi/somaari-common) (`apps/apps.json`), which somaari.in reads too.
 
-## How guides get here
+## How it works
+
+### How guides get here
 
 `npm run build` runs `scripts/build.mjs`, which:
 
@@ -22,6 +45,39 @@ No guide is written here. Each app keeps its guide in its own repository (`docs/
 The sidebar and the home page list the manifest's apps with a guide, in manifest order.
 
 Heading ids are GitHub's, so links written for GitHub, such as `#-installation`, work here too.
+
+## How the site stays up to date
+
+docs.somaari.in rebuilds itself; nothing in the app repositories triggers it. Every hour, cron runs `scripts/refresh.sh`, which:
+
+1. Asks GitHub (`gh api`) for the latest commit touching each manifest guide's folder (its Markdown and images, at the guide's `ref`), and somaari-common's `theme/` and `apps/` on `main`.
+2. Compares them with `.state/last-shas.json` (`scripts/refresh-state.mjs`). If nothing changed, it stops. `FORCE=1 bash scripts/refresh.sh` deploys anyway.
+3. Runs `scripts/deploy.sh`: `npm ci`, build, check, upload a preview version, smoke-test the preview, deploy, smoke-test https://docs.somaari.in/, and roll back if that fails.
+4. Saves the new SHAs only after a successful deploy, so a failed run is retried the next hour.
+
+Everything is logged to `.state/refresh.log` (git-ignored). A failure opens one GitHub issue labelled `refresh-failed` with the last 50 log lines, or updates it if one is already open (`scripts/notify.sh`). The next good run closes it.
+
+The cron line (runs at minute 23, through somaari-server's job runner):
+
+```
+23 * * * * /home/ashwin/.local/bin/somaari-server run-job somaari-docs -- /home/ashwin/code/ai-projects/somaari-docs/scripts/refresh.sh
+```
+
+Add it without touching the other jobs (never `crontab -r`, which deletes them all):
+
+```sh
+( crontab -l 2>/dev/null; echo '23 * * * * /home/ashwin/.local/bin/somaari-server run-job somaari-docs -- /home/ashwin/code/ai-projects/somaari-docs/scripts/refresh.sh' ) | crontab -
+crontab -l | grep somaari-docs     # check it is there once
+```
+
+### First deploy
+
+Done by hand once, after the Phase 2 stage branches are merged and pushed:
+
+1. Create the Worker: `npm ci && npm run build && npm run check`, smoke-test the build locally (`npm run preview` in one shell, `npm run smoke -- http://localhost:8787/` in another), then `npx wrangler@4 deploy` and `npm run smoke -- https://docs.somaari.in/`. `scripts/deploy.sh` can't do this first one: wrangler won't upload a preview version of a Worker that doesn't exist yet. If wrangler can't attach the custom domain, add `docs.somaari.in` to the `somaari-docs` Worker under Settings → Domains & Routes in the Cloudflare dashboard. Every later deploy goes through `scripts/deploy.sh`. (Done on 2026-11-13.)
+2. `bash scripts/refresh.sh` twice: the first run deploys and saves the SHAs, the second logs "nothing changed; skip" (`tail .state/refresh.log`).
+3. Add the cron line above.
+4. Check https://docs.somaari.in/somaari-plan/#-installation loads.
 
 ## When the build fails
 
@@ -56,39 +112,6 @@ npm run smoke -- http://127.0.0.1:8787    # headless Chromium: every theme in th
 `npm run build` without `--local` reads everything from GitHub (`main` of somaari-common, `guide.ref` of each app).
 
 `wrangler dev` can't run on the Pi (workerd needs a 48-bit address space), so `npm run preview` serves `dist/` with Node and applies `_headers` the way Cloudflare does. The smoke test uses the system Chromium (`CHROMIUM=/path` to override) through `playwright-core`; no browser is downloaded.
-
-## How the site stays up to date
-
-docs.somaari.in rebuilds itself; nothing in the app repositories triggers it. Every hour, cron runs `scripts/refresh.sh`, which:
-
-1. Asks GitHub (`gh api`) for the latest commit touching each manifest guide's folder (its Markdown and images, at the guide's `ref`), and somaari-common's `theme/` and `apps/` on `main`.
-2. Compares them with `.state/last-shas.json` (`scripts/refresh-state.mjs`). If nothing changed, it stops. `FORCE=1 bash scripts/refresh.sh` deploys anyway.
-3. Runs `scripts/deploy.sh`: `npm ci`, build, check, upload a preview version, smoke-test the preview, deploy, smoke-test https://docs.somaari.in/, and roll back if that fails.
-4. Saves the new SHAs only after a successful deploy, so a failed run is retried the next hour.
-
-Everything is logged to `.state/refresh.log` (git-ignored). A failure opens one GitHub issue labelled `refresh-failed` with the last 50 log lines, or updates it if one is already open (`scripts/notify.sh`). The next good run closes it.
-
-The cron line (runs at minute 23, through somaari-server's job runner):
-
-```
-23 * * * * /home/ashwin/.local/bin/somaari-server run-job somaari-docs -- /home/ashwin/code/ai-projects/somaari-docs/scripts/refresh.sh
-```
-
-Add it without touching the other jobs (never `crontab -r`, which deletes them all):
-
-```sh
-( crontab -l 2>/dev/null; echo '23 * * * * /home/ashwin/.local/bin/somaari-server run-job somaari-docs -- /home/ashwin/code/ai-projects/somaari-docs/scripts/refresh.sh' ) | crontab -
-crontab -l | grep somaari-docs     # check it is there once
-```
-
-### First deploy
-
-Done by hand once, after the Phase 2 stage branches are merged and pushed:
-
-1. Create the Worker: `npm ci && npm run build && npm run check`, smoke-test the build locally (`npm run preview` in one shell, `npm run smoke -- http://localhost:8787/` in another), then `npx wrangler@4 deploy` and `npm run smoke -- https://docs.somaari.in/`. `scripts/deploy.sh` can't do this first one: wrangler won't upload a preview version of a Worker that doesn't exist yet. If wrangler can't attach the custom domain, add `docs.somaari.in` to the `somaari-docs` Worker under Settings → Domains & Routes in the Cloudflare dashboard. Every later deploy goes through `scripts/deploy.sh`. (Done on 2026-11-13.)
-2. `bash scripts/refresh.sh` twice: the first run deploys and saves the SHAs, the second logs "nothing changed; skip" (`tail .state/refresh.log`).
-3. Add the cron line above.
-4. Check https://docs.somaari.in/somaari-plan/#-installation loads.
 
 ## Adding an app
 
