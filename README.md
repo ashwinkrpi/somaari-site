@@ -1,10 +1,31 @@
-# somaari-site
+<p align="center">
+  <img src="docs/images/banner.svg" alt="somaari-site" width="100%">
+</p>
+
+<p align="center">
+  The landing page for the Somaari apps: plain static HTML and CSS, no frameworks, no CDNs, served at somaari.in.
+</p>
+
+<p align="center">
+  <a href="https://somaari.in/">Website</a> | <a href="https://docs.somaari.in/">Docs</a> | <a href="https://blog.somaari.in/">Blog</a> | <a href="https://github.com/ashwinkrpi/somaari-site/issues">Issues</a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/ashwinkrpi/somaari-site?style=for-the-badge"></a>
+</p>
+
+<p align="center">
+  <a href="https://somaari.in/"><img alt="Visit somaari.in" src="https://img.shields.io/badge/Visit_somaari.in-4C8DDB?style=for-the-badge"></a>
+</p>
+
+
+## Introduction
 
 Landing page for the Somaari apps, served at <https://somaari.in/>.
 
-Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are served from this site), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+## How it works
 
-## Files
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are served from this site), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 | File | Purpose |
 |---|---|
@@ -165,3 +186,7 @@ if a version is out of date. The build versions `/theme/theme.js` and `/theme/th
 This is the source for a personal site and doesn't accept pull requests; only collaborators can
 open them. If you spot a typo, broken link or other problem, please report it in
 [Issues](https://github.com/ashwinkrpi/somaari-site/issues).
+
+## License
+
+MIT, see [LICENSE](LICENSE).
