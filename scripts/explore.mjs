@@ -86,8 +86,8 @@ const LIVE = {
     return [{ text: `Volume 1 · free · ${plural(n, "chapter", "chapters")}` }];
   },
   async blog(site) {
-    const items = await latestPosts(site);
-    return items.map((i) => ({ text: i.title, url: i.url }));
+    const [latest] = await latestPosts(site);
+    return [{ text: `Latest: ${latest.title}` }];
   },
   async games(site) {
     const stats = JSON.parse(await getText(new URL("stats.json", site.url).href));
@@ -119,8 +119,12 @@ function tile(site, lines) {
 }
 
 // Returns { html, total, live }.
-export async function explore(network, current) {
-  const sites = network.sites.filter((s) => s.id !== current);
+// The Apps tile is left out when the page's apps section directly follows the hero (pageHtml), since the
+// top nav and the hero's "Explore apps" button already lead there.
+export async function explore(network, current, pageHtml = "") {
+  const appsFollowHero = /<\/section>\s*<section class="apps\b[^>]*id="apps"/.test(pageHtml)
+    && /<section class="hero\b/.test(pageHtml);
+  const sites = network.sites.filter((s) => s.id !== current && !(s.id === "apps" && appsFollowHero));
   const results = await Promise.allSettled(sites.map(async (s) => {
     if (!LIVE[s.id]) return null;
     return await LIVE[s.id](s, network);

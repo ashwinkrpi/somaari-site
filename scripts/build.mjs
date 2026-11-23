@@ -430,7 +430,7 @@ async function exploreRow() {
   const html = readFileSync(path, "utf8");
   const marker = /(<!-- EXPLORE -->)[\s\S]*?(<!-- \/EXPLORE -->)/;
   if (!marker.test(html)) throw new Error("index.html has no <!-- EXPLORE --> ... <!-- /EXPLORE --> markers");
-  const row = await explore(JSON.parse(readFileSync("network.json", "utf8")), CURRENT_SITE);
+  const row = await explore(JSON.parse(readFileSync("network.json", "utf8")), CURRENT_SITE, html);
   writeFileSync(path, html.replace(marker, (_, start, end) => `${start}${row.html}${end}`));
   return row;
 }
