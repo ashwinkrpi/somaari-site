@@ -304,12 +304,13 @@ function card(app) {
   const rebuild = existsSync(join("scripts", "demo", app.repo, "encode.sh")) && !existsSync(join("scripts", "demo", app.repo, "record.sh"))
     ? `scripts/demo/${repo}/encode.sh` : "scripts/demo/README.md";
   const labels = [app.ai.label].flat();
-  const actions = [
-    app.detail_page && `<a class="btn" href="/apps/${repo}/">Details<span class="visually-hidden"> about ${t}</span></a>`,
-    app.guide && `<a class="card-link" href="https://docs.somaari.in/${repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
-    app.public && `<a class="card-link" href="https://github.com/${escapeHtml(owner)}/${repo}">GitHub<span class="visually-hidden"> (${repo})</span></a>`,
-    !app.public && `<a class="card-link" href="${escapeHtml(FOLLOW_URL)}">Follow progress<span class="visually-hidden"> on ${t} (blog)</span></a>`,
+  const primary = app.detail_page ? `<a class="btn card-primary" href="/apps/${repo}/">Explore application<span class="visually-hidden">: ${t}</span></a>` : "";
+  const secondary = [
+    app.guide && `<a class="btn btn--secondary btn--small" href="https://docs.somaari.in/${repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
+    app.public && `<a class="btn btn--secondary btn--small" href="https://github.com/${escapeHtml(owner)}/${repo}">GitHub<span class="visually-hidden"> (${repo})</span></a>`,
+    !app.public && `<a class="btn btn--secondary btn--small" href="${escapeHtml(FOLLOW_URL)}">Follow progress<span class="visually-hidden"> on ${t} (blog)</span></a>`,
   ].filter(Boolean);
+  const actions = [primary, secondary.length && `<div class="card-secondary">\n${secondary.map((a) => `              ${a}`).join("\n")}\n            </div>`].filter(Boolean);
   const platforms = (app.platforms ?? []).filter((p) => PLATFORMS[p]);
   const rel = RELEASES[app.repo];
   const meta = platforms.length || rel ? `

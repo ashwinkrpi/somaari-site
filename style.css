@@ -409,6 +409,10 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
   border-top: 1px solid var(--tag-border);
 }
 .card-actions .btn { align-self: center; }
+.card-actions { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+.card-actions .card-primary { width: 100%; }
+.card-secondary { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.btn--small { font-size: var(--text-sm, 0.9rem); font-weight: 500; padding: 0.35rem 0.9rem; }
 .card-link {
   display: inline-flex;
   align-items: center;
