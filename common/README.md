@@ -3,6 +3,7 @@
 Single source of truth for what somaari apps share:
 
 - the **About** section, used by all somaari apps (somaari-terminal, somaari-disk, somaari-plan, and future apps). The standard is [docs/ABOUT_SPEC.md](docs/ABOUT_SPEC.md).
+- the **footer** (the one footer every Somaari site shows: `theme/footer.mjs` and `theme/footer.css`; see [docs/FOOTER_SPEC.md](docs/FOOTER_SPEC.md)). It ships in `theme/`, so every site that gets the themes gets the footer.
 - the **themes** (the theme list, every theme's standard tokens, the seasonal schedule, the theme picker and fonts), used by the themed web apps: somaari-site, somaari-plan, somaari-server, the blog at blog.somaari.in (somaari-blog), docs.somaari.in (somaari-docs) and games.somaari.in (somaari-games). The standard is [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
 somaari-common is not versioned: apps always use the latest `main`.

@@ -1,0 +1,52 @@
+/* The shared Somaari footer (markup: footer.mjs). Uses only the standard theme tokens (docs/THEME_SPEC.md), so
+   every theme styles it with no per-site CSS. Sites may set --footer-max to change the content width. */
+.site-footer {
+  position: relative;
+  border-top: 1px solid var(--line);
+  padding: 2rem 0 1.5rem;
+  color: var(--subtle);
+  font-size: 0.92rem;
+}
+.site-footer .footer-inner { max-width: var(--footer-max, 72rem); margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+.site-footer p { margin: 0; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer a { text-decoration: none; }
+.footer-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1.75rem 2.5rem; }
+.footer-section { min-width: 0; }
+.footer-heading { margin: 0 0 0.65rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--subtle); }
+.footer-icon { width: 1.1rem; height: 1.1rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Explore: one tile per site, three to a row */
+.footer-tiles { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.footer-tiles li { flex: 1 1 calc(33.333% - 0.6rem); min-width: 5.5rem; display: flex; }
+.footer-tile { flex: 1; min-height: 4.75rem; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.35rem; padding: 0.5rem; background: var(--card-bg); border: 1px solid var(--line); border-radius: 14px; color: var(--fg); font-size: 0.9rem; font-weight: 500; text-align: center; }
+.footer-tile .footer-icon { width: 1.4rem; height: 1.4rem; color: var(--accent); }
+.footer-tile:hover { border-color: var(--accent); }
+.footer-tag { margin-left: 0.2rem; padding: 0 0.4rem; border: 1px solid var(--line); border-radius: 99px; color: var(--subtle); font-size: 0.65rem; font-weight: 400; }
+
+/* Follow: round icon buttons */
+.footer-follow { display: flex; flex-wrap: wrap; gap: 1rem; }
+.footer-round-link { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; min-width: 4.5rem; color: var(--subtle); font-size: 0.8rem; }
+.footer-round { width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--line); color: var(--accent); }
+.footer-round-link:hover .footer-round { border-color: var(--accent); }
+
+/* Get in touch: one card, an arrow on the link that leaves for another site */
+.footer-contact { background: var(--card-bg); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.footer-contact li + li { border-top: 1px solid var(--line); }
+.footer-contact a { display: flex; align-items: center; gap: 0.9rem; min-height: 4rem; padding: 0.5rem 1rem; color: var(--fg); }
+.footer-contact a:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.footer-icon--lead { width: 1.25rem; height: 1.25rem; color: var(--accent); }
+.footer-icon--end { width: 0.8rem; height: 0.8rem; margin-left: auto; color: var(--subtle); stroke-width: 2; }
+.footer-contact-text { display: flex; flex-direction: column; }
+.footer-contact-title { font-weight: 600; font-size: 0.95rem; }
+.footer-contact-sub { color: var(--subtle); font-size: 0.8rem; }
+
+/* Bottom row: About, Privacy, Terms, then the author line and copyright */
+.footer-bottom { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 0.5rem; }
+.footer-legal { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.footer-legal a { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; color: var(--subtle); font-size: 0.85rem; }
+.footer-legal a:hover { color: var(--fg); }
+.footer-legal .footer-icon { width: 0.9rem; height: 0.9rem; }
+@media (min-width: 48rem) {
+  .footer-bottom { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+}

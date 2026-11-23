@@ -2,6 +2,8 @@
   "files": [
     "theme.js",
     "themes.css",
+    "footer.css",
+    "footer.mjs",
     "fonts/HankenGrotesk.woff2",
     "fonts/Inter.woff2",
     "fonts/InterTight.woff2",
