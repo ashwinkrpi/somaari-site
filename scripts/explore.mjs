@@ -3,7 +3,7 @@
 //
 //   docs   "Guides for N apps"                            N = the apps in network.json
 //   book   "Volume 1 · free · N chapters"                 <book url>/stats.json: { "chapters": N or [...] }
-//   blog   the titles of the latest 3 posts               <blog url>/rss.xml
+//   blog   "Weekly technical posts" (rss.xml must be reachable)  <blog url>/rss.xml
 //   games  "Genshin <version> · N videos · refreshed Sundays"
 //                                                         <games url>/stats.json: { "genshin_version", "videos": N or [...] }
 //
@@ -86,8 +86,10 @@ const LIVE = {
     return [{ text: `Volume 1 · free · ${plural(n, "chapter", "chapters")}` }];
   },
   async blog(site) {
-    const [latest] = await latestPosts(site);
-    return [{ text: `Latest: ${latest.title}` }];
+    // The post list lives in "From the blog" on the homepage, so this tile only needs one line. The RSS
+    // check stays so the tile still falls back to the site description when the feed is unreachable.
+    await latestPosts(site);
+    return [{ text: "Weekly technical posts" }];
   },
   async games(site) {
     const stats = JSON.parse(await getText(new URL("stats.json", site.url).href));
