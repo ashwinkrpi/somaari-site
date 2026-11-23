@@ -211,22 +211,9 @@ h1, h2, h3, .sl-markdown-content :is(h1, h2, h3) {
 .somaari-mobile-footer { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
 .somaari-mobile-footer .site-nav a { padding-left: 0; }
 
-/* somaari.in's site footer (src/components/Footer.astro), below Starlight's page footer. */
-.site-footer {
-	margin-top: 3rem;
-	padding: 1rem 0;
-	border-top: 1px solid var(--footer-border, var(--line));
-	color: var(--subtle, var(--muted));
-	font-size: 0.92rem;
-}
-.site-footer p { margin: 0; }
-.footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
-.footer-links a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; }
-.footer-links a:hover { color: var(--accent); }
-.footer-links li { display: flex; align-items: center; gap: 0.35rem; }
-.footer-cols { display: flex; flex-wrap: wrap; gap: 0 2.5rem; }
-.footer-tag { font-size: 0.82em; }
-.footer-author { margin-bottom: 0.25rem; }
+/* The shared site footer (src/components/Footer.astro) is styled by somaari-common's theme/footer.css;
+   this only separates it from Starlight's page footer. */
+.site-footer { margin-top: 3rem; }
 
 /* Code blocks and wide tables scroll inside the page instead of widening it on phones. Expressive
    Code (off for the CSP) normally does this for code. */

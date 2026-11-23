@@ -40,6 +40,7 @@ export default defineConfig({
 			head: [
 				{ tag: 'meta', attrs: { name: 'theme-color', content: '#FBC96B' } },
 				{ tag: 'link', attrs: { rel: 'stylesheet', href: '/theme/themes.css' } },
+				{ tag: 'link', attrs: { rel: 'stylesheet', href: '/theme/footer.css' } },
 				{ tag: 'script', attrs: { src: '/theme/theme.js' } },
 				{ tag: 'script', attrs: { src: '/sl-theme-bridge.js' } },
 			],

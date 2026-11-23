@@ -1,9 +1,11 @@
 ---
-// Starlight's page footer (previous/next links), then the shared Somaari footer built from network.json
-// (src/lib/shared.mjs). Styles are in src/styles/somaari.css (".site-footer").
+// Starlight's page footer (previous/next links), then the shared Somaari footer: markup from somaari-common's
+// footer.mjs (downloaded into public/theme/ by scripts/import-theme.mjs), styles from /theme/footer.css
+// (linked in astro.config.mjs). Change the footer in somaari-common, not here.
 import Default from '@astrojs/starlight/components/Footer.astro';
-import { footer } from '../lib/shared.mjs';
+import network from '../../network.json';
+import { footer } from '../../public/theme/footer.mjs';
 ---
 
 <Default />
-<footer class="site-footer" set:html={footer()} />
+<Fragment set:html={footer(network)} />
