@@ -31,7 +31,7 @@
   <script src="/theme/theme.js"></script>
   <link rel="stylesheet" href="/theme/themes.css">
   <link rel="stylesheet" href="/shared.css?v=ef0ed6edbb">
-  <link rel="stylesheet" href="/style.css?v=d9f17f8f5c">
+  <link rel="stylesheet" href="/style.css?v=18d1fbef56">
   <script src="/demo.js?v=99c4647228" defer></script>
 </head>
 <body>
@@ -120,15 +120,11 @@
       <h2 id="apps-heading">Apps</h2>
 
       <!-- The cards are built from somaari-common apps/apps.json (scripts/build.mjs); edit the app there. -->
-      <ul class="card-grid" role="list">
+      <!-- One grid: available apps first, then the in-development card (marked by its badge). The old
+           #in-development link target is kept on the grid. -->
+      <ul class="card-grid" id="in-development" role="list">
         <!-- APPS:live -->
         <!-- /APPS:live -->
-      </ul>
-    </section>
-
-    <section class="apps container" id="in-development" aria-labelledby="dev-heading">
-      <h2 id="dev-heading">In development</h2>
-      <ul class="card-grid" role="list">
         <!-- APPS:dev -->
         <!-- /APPS:dev -->
       </ul>

@@ -332,6 +332,15 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
   box-shadow: var(--shadow);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+/* Not-yet-released card: slightly subdued, dashed edge, so it is not mistaken for an available app. */
+.card--dev {
+  border-style: dashed;
+  border-top-style: solid;
+  background: color-mix(in srgb, var(--card-bg) 94%, var(--bg, transparent));
+}
+.card--dev .card-title,
+.card--dev .card-demo { opacity: 0.85; }
+#in-development { scroll-margin-top: 5rem; }
 .card:hover,
 .card:focus-within {
   transform: translateY(-2px);

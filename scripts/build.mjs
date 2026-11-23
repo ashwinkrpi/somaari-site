@@ -320,7 +320,7 @@ function card(app) {
   const title = app.detail_page ?`<a href="/apps/${repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
   return `
         <!-- CARD START: ${repo} -->
-        <li class="card">${hasDemo ? `
+        <li class="card${app.status === "live" ? "" : " card--dev"}">${hasDemo ? `
           <!-- Demo: a still poster; "Play demo" (shown by demo.js) plays the loop in the player
                dialog at the end of the page. Rebuild: ${rebuild} -->
           <div class="card-media">
