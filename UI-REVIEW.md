@@ -1,3 +1,4 @@
+<!-- bg: branch build-guru/UI-REVIEW -->
 # Somaari.in UI review: merged plan (for somaari-build-guru)
 
 Merged from the ChatGPT, Claude and Gemini reviews of 23 Nov 2026, rewritten in somaari-build-guru's plan format. Each task is a tagged checklist item (`[simple]` Haiku, `[moderate]` Sonnet, `[complex]` Opus, `[manual]` you). Priority is shown by the stage heading. Source reviewers are in the task text as `(C)`, `(Cl)`, `(G)`.
