@@ -107,7 +107,7 @@ export function footer(network) {
     const lab = s.group === "lab" ? ' <span class="footer-tag">(Lab)</span>' : "";
     return `            <li><a href="${href(s.url)}">${escapeHtml(s.label)}</a>${lab}</li>`;
   }).join("\n");
-  const mail = (addr, what) => `            <li><a href="mailto:${escapeHtml(addr)}">${escapeHtml(addr)}</a> <span class="footer-tag">${what}</span></li>`;
+  const mail = (addr, what) => `            <li><a href="mailto:${escapeHtml(addr)}">${what}</a></li>`;
   return `<!-- SHARED FOOTER: built from network.json by scripts/build.mjs; identical on every page -->
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -121,7 +121,7 @@ ${sites}
           <li><a href="${escapeHtml(rss)}">RSS</a></li>
         </ul>
         <ul class="footer-links" role="list">
-${mail(network.contact.general, "General")}
+${mail(network.contact.general, "General inquiries")}
 ${mail(network.contact.apps, "App support")}
         </ul>
         <ul class="footer-links" role="list">
