@@ -459,6 +459,48 @@ function wrap(text, max, maxLines) {
   return lines;
 }
 
+// The home OG image: site name, tagline and a strip of the three apps' detail page screenshots (the ones
+// screenshots() put in dist/assets/apps/, before convertImages() makes them WebP; for per-theme shots the
+// no-JS theme's), each cropped to 330x206 and embedded as a JPEG data URI. A missing shot is left out with
+// a warning. Returns the SVG and the alt text.
+const OG_MAX_BYTES = 290_000;
+const OG_HOME_APPS = ["somaari-trip", "somaari-disk", "somaari-plan"];
+async function homeOg() {
+  const W = 330, H = 206, GAP = 24, TOP = 252;
+  const shots = [];
+  for (const repo of OG_HOME_APPS) {
+    const app = apps.find((a) => a.repo === repo);
+    const dir = join(OUT, "assets", "apps", repo);
+    const files = existsSync(dir) ? readdirSync(dir).filter((f) => /^screenshot.*\.(png|jpe?g|webp)$/i.test(f)) : [];
+    const pick = [`screenshot.`, `screenshot-${NOJS_THEME}.`, `screenshot-${DEFAULT_THEME}.`, "screenshot"]
+      .map((p) => files.find((f) => f.startsWith(p))).find(Boolean);
+    if (!app || !pick) { console.warn(`og: no screenshot for ${repo}; left out of og/home.png`); continue; }
+    const jpeg = await sharp(join(dir, pick)).resize(W * 2, H * 2, { fit: "cover", position: "top" }).jpeg({ quality: 78 }).toBuffer();
+    shots.push({ title: app.title, href: `data:image/jpeg;base64,${jpeg.toString("base64")}` });
+  }
+  const left = 80 + (1040 - (shots.length * W + (shots.length - 1) * GAP)) / 2;
+  const strip = shots.map((s, i) => {
+    const x = left + i * (W + GAP);
+    return `<clipPath id="c${i}"><rect x="${x}" y="${TOP}" width="${W}" height="${H}" rx="12"/></clipPath>
+<image x="${x}" y="${TOP}" width="${W}" height="${H}" preserveAspectRatio="xMidYMin slice" clip-path="url(#c${i})" href="${s.href}"/>
+<rect x="${x}" y="${TOP}" width="${W}" height="${H}" rx="12" fill="none" stroke="#e39a2d" stroke-width="3"/>
+<text x="${x + W / 2}" y="${TOP + H + 38}" text-anchor="middle" font-family="Hanken Grotesk, Arial, sans-serif" font-size="24" font-weight="600" fill="#3a3366">${escapeHtml(s.title)}</text>`;
+  }).join("\n");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<rect width="1200" height="630" fill="#fbc96b"/>
+<rect x="48" y="48" width="1104" height="534" rx="28" fill="#fff6e5" stroke="#e39a2d" stroke-width="3"/>
+<text x="80" y="128" font-family="Marcellus, Georgia, serif" font-size="44" letter-spacing="2" fill="#2b2f8f">Somaari</text>
+<text x="80" y="208" font-family="Marcellus, Georgia, serif" font-size="60" fill="#1c1640">Routine tasks, minimum effort.</text>
+${strip}
+<rect x="80" y="540" width="120" height="8" rx="4" fill="#2b2f8f"/>
+<text x="1120" y="552" text-anchor="end" font-family="Hanken Grotesk, Arial, sans-serif" font-size="28" fill="#3a3366">somaari.in</text>
+</svg>`;
+  const titles = shots.map((s) => s.title);
+  const list = titles.length > 1 ? `${titles.slice(0, -1).join(", ")} and ${titles.at(-1)}` : titles[0];
+  const alt = `Somaari: Routine tasks, minimum effort.${list ? ` Screenshots of ${list}.` : ""}`;
+  return { svg, alt };
+}
+
 // Makes a 1200x630 OG image per indexable page (site name and page title on the Warm Tactile / rangoli
 // palette) with resvg (an npm package, so it works on Cloudflare Pages too) in the theme's Marcellus and
 // Hanken Grotesk, unpacked from somaari-common's .woff2 files, into dist/og/, and adds og:image and the Twitter card tags to the page's
@@ -478,6 +520,7 @@ async function ogImages() {
     fontFiles.push(ttf);
   }
   const font = { fontFiles, loadSystemFonts: fontFiles.length < 2, defaultFontFamily: "Hanken Grotesk" };
+  const home = await homeOg();
   let n = 0;
   for (const page of pages) {
     const path = join(OUT, page);
@@ -492,7 +535,7 @@ async function ogImages() {
     const heading = title.replace(/\s+[–·-]\s+Somaari$/, "").replace(/^Somaari\s+[–·-]\s+/, "");
     const lines = wrap(heading.replace(/&amp;/g, "&").replace(/&#?\w+;/g, ""), 26, 3);
     const tspans = lines.map((l, i) => `<tspan x="80" dy="${i ? 84 : 0}">${escapeHtml(l)}</tspan>`).join("");
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+    const svg = slug === "home" ? home.svg : `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
 <rect width="1200" height="630" fill="#fbc96b"/>
 <rect x="48" y="48" width="1104" height="534" rx="28" fill="#fff6e5" stroke="#e39a2d" stroke-width="3"/>
 <text x="80" y="140" font-family="Marcellus, Georgia, serif" font-size="44" letter-spacing="2" fill="#2b2f8f">Somaari</text>
@@ -502,13 +545,16 @@ async function ogImages() {
 </svg>`;
     const file = `og/${slug}.png`;
     try {
-      writeFileSync(join(OUT, file), new Resvg(svg, { font }).render().asPng());
+      let png = new Resvg(svg, { font }).render().asPng();
+      // The home image holds photos; if plain PNG is too heavy for link previews, quantise it.
+      if (png.length > OG_MAX_BYTES) png = await sharp(png).png({ palette: true, quality: 90, effort: 10 }).toBuffer();
+      writeFileSync(join(OUT, file), png);
     } catch (e) {
       console.warn(`og: rendering ${file} failed (${e.message}); no OG images`);
       return 0;
     }
     const image = `${SITE}/${file}`;
-    const alt = escapeHtml(`Somaari: ${heading.replace(/&amp;/g, "&")}`);
+    const alt = escapeHtml(slug === "home" ? home.alt : `Somaari: ${heading.replace(/&amp;/g, "&")}`);
     const metaDesc = html.match(/<meta property="og:description" content="([^"]*)"/)?.[1] ?? description;
     const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1] ?? title;
     html = html.replace(/\n?\s*<meta name="twitter:card"[^>]*>/g, "");
