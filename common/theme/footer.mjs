@@ -83,7 +83,7 @@ ${legal("shield", "Privacy", "/privacy/")}
 ${legal("terms", "Terms", "/terms/")}
         </ul>
         <p class="footer-author">Built by ${escapeHtml(network.author)}</p>
-        <p>&copy; 2026 Somaari</p>
+        <p>&copy; ${new Date().getFullYear()} Somaari</p>
       </div>
     </div>
   </footer>
