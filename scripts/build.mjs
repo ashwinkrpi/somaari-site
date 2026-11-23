@@ -18,12 +18,13 @@ import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
+import { pathToFileURL } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
 import { decompress } from "wawoff2";
 import { dirname, join, posix, resolve } from "node:path";
 import { blogCards, explore } from "./explore.mjs";
-import { SITE, escapeHtml, footer, header, jsonLd, organization, softwareApplication, website } from "./partials.mjs";
+import { SITE, escapeHtml, header, jsonLd, organization, softwareApplication, website } from "./partials.mjs";
 
 const OUT = "dist";
 // Top-level files and folders copied to dist/ as they are.
@@ -170,11 +171,11 @@ async function theme() {
 // this repo, so asset-versions.mjs can't do it at commit time.
 function stampThemeVersions() {
   const version = (f) => createHash("sha256").update(readFileSync(join(OUT, "theme", f))).digest("hex").slice(0, 10);
-  const v = { "theme.js": version("theme.js"), "themes.css": version("themes.css") };
+  const v = { "theme.js": version("theme.js"), "themes.css": version("themes.css"), "footer.css": version("footer.css") };
   const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html"));
   for (const page of pages) {
     const html = readFileSync(join(OUT, page), "utf8");
-    writeFileSync(join(OUT, page), html.replace(/(["'])\/theme\/(theme\.js|themes\.css)\1/g, (_, q, f) => `${q}/theme/${f}?v=${v[f]}${q}`));
+    writeFileSync(join(OUT, page), html.replace(/(["'])\/theme\/(theme\.js|themes\.css|footer\.css)\1/g, (_, q, f) => `${q}/theme/${f}?v=${v[f]}${q}`));
   }
 }
 
@@ -401,11 +402,13 @@ function headers() {
   return n;
 }
 
-// Replaces the SHARED FOOTER block of every page in dist/ with footer(), and fills the About page's
+// Replaces the SHARED FOOTER block of every page in dist/ with somaari-common's footer() (downloaded into
+// /theme/footer.mjs with the themes), links /theme/footer.css after themes.css, and fills the About page's
 // <!-- AUTHOR --> ... <!-- /AUTHOR --> line with the author from network.json.
-function footers() {
+async function footers() {
   const network = JSON.parse(readFileSync("network.json", "utf8"));
-  const block = footer(network);
+  const { footer } = await import(pathToFileURL(resolve(OUT, "theme", "footer.mjs")).href);
+  const block = footer(network, { local: true });
   const author = network.author;
   const pages = readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith(".html") && !f.startsWith("theme"));
   let n = 0;
@@ -414,6 +417,7 @@ function footers() {
     const re = /<!-- SHARED FOOTER[\s\S]*?<!-- \/SHARED FOOTER -->/;
     if (!re.test(html)) continue;
     html = html.replace(re, () => block)
+      .replace(/(<link rel="stylesheet" href="\/theme\/themes\.css"[^>]*>)/, '$1\n  <link rel="stylesheet" href="/theme/footer.css">')
       .replace(/(<!-- AUTHOR -->)[\s\S]*?(<!-- \/AUTHOR -->)/, (_, a, b) => `${a}Built by ${escapeHtml(author)}${b}`);
     writeFileSync(join(OUT, page), html);
     n++;
@@ -631,7 +635,7 @@ async function main() {
   console.log(`explore: ${row.total} tiles, ${row.live} with live data`);
   console.log(`blog posts: ${(await blogPosts()) ? "3 cards from rss.xml" : "rss.xml unreachable; blurb kept"}`);
   console.log(`header: built from network.json into ${headers()} pages`);
-  console.log(`footer: built from network.json into ${footers()} pages`);
+  console.log(`footer: built from network.json into ${await footers()} pages`);
   console.log(`og: ${await ogImages()} images and meta tags`);
   console.log(`json-ld: ${structuredData()} pages (Organization, WebSite, SoftwareApplication)`);
   console.log(`images: ${await convertImages()} converted to WebP`);
