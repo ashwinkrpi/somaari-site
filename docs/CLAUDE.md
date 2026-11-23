@@ -21,8 +21,8 @@ docs.somaari.in: Starlight (Astro) site that imports each public app's `docs/GUI
 - Problems found by the cron go to one GitHub issue through `scripts/notify.sh`, not to chat.
 
 ## Header and footer
-- The header nav, "Somaari sites" switcher and footer are built from `network.json` by `src/lib/shared.mjs` (same markup as `header(network, "docs")` / `footer(network)` in `vendor/somaari-site/partials.mjs`, with full `https://somaari.in/...` URLs). Docs is the current site. Starlight's search, sidebar, `ThemeSelect` and `MobileMenuFooter` stay.
-- `scripts/build.mjs` refreshes `network.json` first (like `node scripts/fetch-network.mjs`). The switcher script is `src/scripts/switcher.js` (bundled, no inline script).
+- The header nav is built from `network.json` by `src/lib/shared.mjs` (same markup as `header(network, "docs")` in `vendor/somaari-site/partials.mjs`, with full `https://somaari.in/...` URLs). Docs is the current site. Starlight's search, sidebar, `ThemeSelect` and `MobileMenuFooter` stay.
+- `scripts/build.mjs` refreshes `network.json` first (like `node scripts/fetch-network.mjs`).
 
 ## Commands
 ```sh

@@ -132,7 +132,7 @@ No step copies text between repositories.
 | `scripts/serve.mjs`, `scripts/smoke.mjs` | `npm run preview`, `npm run smoke` |
 | `scripts/deploy.sh`, `scripts/refresh.sh`, `scripts/refresh-state.mjs`, `scripts/notify.sh` | deploy, hourly refresh, its SHA comparison, failure issue |
 | `wrangler.jsonc` | the Worker: `dist/` as static assets on docs.somaari.in |
-| `src/components/`, `src/lib/shared.mjs`, `src/scripts/switcher.js` | Starlight overrides: the shared Somaari header (site nav with Docs highlighted, "Somaari sites" switcher), the shared footer, mobile menu, Appearance control, no theme script. Header and footer markup is built from `network.json` by `shared.mjs`; `npm run build` refreshes `network.json` first (live copy, committed copy as fallback). `switcher.js` is the bundled switcher script |
+| `src/components/`, `src/lib/shared.mjs` | Starlight overrides: the shared Somaari header (site nav with Docs highlighted), the shared footer, mobile menu, Appearance control, no theme script. Header and footer markup is built from `network.json` by `shared.mjs`; `npm run build` refreshes `network.json` first (live copy, committed copy as fallback). `switcher.js` is the bundled switcher script |
 | `src/styles/somaari.css` | somaari tokens mapped onto Starlight, and the header and footer styles |
 | `src/content/docs/index.mdx`, `404.mdx` | home page and 404 page (404 lists every site from `network.json`); the guide folders beside them are generated |
 | `public/_headers`, `public/robots.txt`, `public/favicon.svg` | site files |
