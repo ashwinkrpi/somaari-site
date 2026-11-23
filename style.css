@@ -251,7 +251,7 @@ main { flex: 1; }
 .hero { position: relative; padding: 3rem 0 3rem; }
 .hero .container { position: relative; z-index: 1; }
 .hero h1 { font-size: var(--text-hero); letter-spacing: -0.02em; max-width: 40rem; }
-.hero-sub { margin: 1rem 0 0; max-width: 42rem; color: var(--muted); font-size: var(--text-lg); }
+.hero-sub { margin: 1rem 0 0; max-width: 52rem; color: var(--muted); font-size: var(--text-lg); }
 .hero-badge { margin: 0 0 1rem; }
 .hero-badge a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.2rem 0.75rem; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); font-size: var(--text-sm); font-weight: 600; text-decoration: none; }
 .hero-badge a:hover { background: var(--accent); color: var(--on-accent); }
