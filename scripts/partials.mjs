@@ -1,4 +1,4 @@
-// The shared header (with the "Somaari sites" switcher), built from network.json. Pages get it from
+// The shared header, built from network.json. Pages get it from
 // scripts/build.mjs, which writes it between <!-- SHARED HEADER --> markers. The footer is somaari-common's
 // theme/footer.mjs (downloaded with the themes), which build.mjs writes between <!-- SHARED FOOTER --> markers.
 // Other Somaari repos (such as somaari-docs) can copy this file next to their own build script and call
@@ -24,26 +24,6 @@ export function header(network, current) {
   }).join("\n");
   const github = escapeHtml(network.social.github);
   const youtube = escapeHtml(network.social.youtube);
-  const tile = (s) => `<li><a href="${href(s.url)}"${s.id === current ? ' aria-current="true"' : ""}><strong>${escapeHtml(s.label)}</strong> <span>${escapeHtml(s.description)}</span>${s.note ? ` <em>${escapeHtml(s.note)}</em>` : ""}</a></li>`;
-  const group = (name, title) => {
-    const sites = network.sites.filter((s) => (s.group ?? "main") === name);
-    return sites.length ? `
-              <section class="switcher-group switcher-group--${name}">
-                <h2>${title}</h2>
-                <ul role="list">
-                  ${sites.map(tile).join("\n                  ")}
-                </ul>
-              </section>` : "";
-  };
-  const switcher = `<div class="switcher" id="site-switcher" hidden>
-          <button type="button" class="switcher-toggle" id="switcher-toggle" aria-expanded="false" aria-controls="switcher-menu">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><g fill="currentColor"><rect x="4" y="4" width="4.5" height="4.5" rx="1"/><rect x="9.75" y="4" width="4.5" height="4.5" rx="1"/><rect x="15.5" y="4" width="4.5" height="4.5" rx="1"/><rect x="4" y="9.75" width="4.5" height="4.5" rx="1"/><rect x="9.75" y="9.75" width="4.5" height="4.5" rx="1"/><rect x="15.5" y="9.75" width="4.5" height="4.5" rx="1"/><rect x="4" y="15.5" width="4.5" height="4.5" rx="1"/><rect x="9.75" y="15.5" width="4.5" height="4.5" rx="1"/><rect x="15.5" y="15.5" width="4.5" height="4.5" rx="1"/></g></svg>
-            <span class="visually-hidden">Somaari sites</span>
-          </button>
-          <div class="switcher-menu" id="switcher-menu" role="group" aria-label="Somaari sites" hidden>${group("main", "Somaari sites")}${group("lab", "Lab")}
-          </div>
-        </div>
-        `;
   return `<!-- SHARED HEADER: built from network.json by scripts/build.mjs; identical on every page except 404.html -->
   <header class="site-header">
     <div class="container header-inner">
@@ -72,7 +52,7 @@ ${items}
           </a></li>
         </ul>
         <a class="search-link" href="/search/" aria-label="Search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
-        ${switcher}<!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
              popover and remembers the choice. Themes live in themes.css and style.css. -->
         <div class="appearance" id="theme-picker" hidden>
           <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
