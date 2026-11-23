@@ -8,12 +8,12 @@ import { join } from 'node:path';
 const DIST = 'dist';
 const version = async (f) =>
 	createHash('sha256').update(await readFile(join(DIST, 'theme', f))).digest('hex').slice(0, 10);
-const v = { 'theme.js': await version('theme.js'), 'themes.css': await version('themes.css') };
+const v = { 'theme.js': await version('theme.js'), 'themes.css': await version('themes.css'), 'footer.css': await version('footer.css') };
 
 let pages = 0;
 for (const page of (await readdir(DIST, { recursive: true })).filter((f) => f.endsWith('.html'))) {
 	const html = await readFile(join(DIST, page), 'utf8');
-	const out = html.replace(/(["'])\/theme\/(theme\.js|themes\.css)\1/g, (_, q, f) => `${q}/theme/${f}?v=${v[f]}${q}`);
+	const out = html.replace(/(["'])\/theme\/(theme\.js|themes\.css|footer\.css)\1/g, (_, q, f) => `${q}/theme/${f}?v=${v[f]}${q}`);
 	if (out !== html) {
 		await writeFile(join(DIST, page), out);
 		pages++;

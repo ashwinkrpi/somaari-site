@@ -1,5 +1,5 @@
-// The shared Somaari header pieces and footer, built from network.json the way header(network, "docs") and
-// footer(network) in vendor/somaari-site/partials.mjs build them, but with full https://somaari.in/... URLs
+// The shared Somaari header pieces, built from network.json the way header(network, "docs")
+// in vendor/somaari-site/partials.mjs builds them, but with full https://somaari.in/... URLs
 // (this is a different origin) and without the parts Starlight supplies itself: search, the Appearance control
 // (ThemeSelect) and the mobile menu button. scripts/build.mjs refreshes network.json before Astro runs.
 // network.json is imported (bundled by Vite), not read from disk at render time.
@@ -36,19 +36,4 @@ export function switcher() {
 		+ `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><g fill="currentColor"><rect x="4" y="4" width="4.5" height="4.5" rx="1"/><rect x="9.75" y="4" width="4.5" height="4.5" rx="1"/><rect x="15.5" y="4" width="4.5" height="4.5" rx="1"/><rect x="4" y="9.75" width="4.5" height="4.5" rx="1"/><rect x="9.75" y="9.75" width="4.5" height="4.5" rx="1"/><rect x="15.5" y="9.75" width="4.5" height="4.5" rx="1"/><rect x="4" y="15.5" width="4.5" height="4.5" rx="1"/><rect x="9.75" y="15.5" width="4.5" height="4.5" rx="1"/><rect x="15.5" y="15.5" width="4.5" height="4.5" rx="1"/></g></svg>`
 		+ `<span class="visually-hidden">Somaari sites</span></button>`
 		+ `<div class="switcher-menu" id="switcher-menu" role="group" aria-label="Somaari sites" hidden>${group('main', 'Somaari sites')}${group('lab', 'Lab')}</div></div>`;
-}
-
-// The inside of the footer: every site (Lab marked), GitHub, YouTube and RSS, both contact emails, About,
-// Privacy, Terms, and the author line.
-export function footer() {
-	const blog = network.sites.find((s) => s.id === 'blog');
-	const rss = new URL('rss.xml', blog.url).href;
-	const sites = network.sites.map((s) => `<li><a href="${href(s.url)}">${escapeHtml(s.label)}</a>${s.group === 'lab' ? ' <span class="footer-tag">(Lab)</span>' : ''}</li>`).join('');
-	const mail = (addr, what) => `<li><a href="mailto:${escapeHtml(addr)}">${escapeHtml(addr)}</a> <span class="footer-tag">${what}</span></li>`;
-	return `<div class="footer-inner"><nav class="footer-cols" aria-label="Footer">`
-		+ `<ul class="footer-links" role="list">${sites}</ul>`
-		+ `<ul class="footer-links" role="list"><li><a href="${escapeHtml(network.social.github)}">GitHub</a></li><li><a href="${escapeHtml(network.social.youtube)}" target="_blank" rel="noopener">YouTube</a></li><li><a href="${escapeHtml(rss)}">RSS</a></li></ul>`
-		+ `<ul class="footer-links" role="list">${mail(network.contact.general, 'General')}${mail(network.contact.apps, 'App support')}</ul>`
-		+ `<ul class="footer-links" role="list"><li><a href="${SITE}/about/">About</a></li><li><a href="${SITE}/privacy/">Privacy</a></li><li><a href="${SITE}/terms/">Terms</a></li></ul>`
-		+ `</nav><p class="footer-author">Built by ${escapeHtml(network.author)}</p><p>&copy; 2026 Somaari</p></div>`;
 }
