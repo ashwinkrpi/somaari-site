@@ -128,7 +128,11 @@ main { flex: 1; }
   }
   .brand { grid-area: brand; }
   .header-end { display: contents; }
-  .switcher { grid-area: sites; align-self: start; }
+  .header-inner .switcher { grid-area: sites; align-self: start; position: static; }
+  /* The sites panel is wider than the space left of its button, so anchor it to the header row (not the
+     button) and let it span the row; otherwise it runs off the left edge of the screen. */
+  .header-inner { position: relative; }
+  .header-inner .switcher-menu { left: 1rem; right: 1rem; width: auto; max-width: none; }
   .appearance { grid-area: theme; align-self: start; }
   .menu-toggle { grid-area: menu; align-self: start; }
   .site-nav { grid-area: nav; margin-left: -0.6rem; }
