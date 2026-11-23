@@ -615,6 +615,7 @@ html:not([data-theme]) .detail-shot img:not([src]) { display: none; }
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: top center;
   border: 1px solid var(--line);
   border-radius: calc(var(--card-radius) * 0.6);
   background: var(--media-bg);
