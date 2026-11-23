@@ -50,8 +50,7 @@ const STATUS = { live: "Available", dev: "In development", soon: "Coming soon" }
 const LISTS = { live: ["live"], dev: ["dev", "soon"] };
 // Every card's demo poster is 720x406 (scripts/demo/README.md).
 const POSTER = 'width="720" height="406"';
-// Card screenshot thumbnails (set by screenshots()) and latest releases (set by releases()), by repo.
-const THUMBS = {};
+// Latest releases (set by releases()), by repo.
 const RELEASES = {};
 // An app's "platforms" in the manifest: ids from here.
 const PLATFORMS = { pi: "Raspberry Pi", linux: "Linux", windows: "Windows" };
@@ -136,7 +135,6 @@ async function screenshots(app) {
       `<noscript><img src="${urls[NOJS_THEME] ?? urls[fallback]}" ${attrs}></noscript>`
     : `<img src="${urls[DEFAULT_THEME]}" ${attrs}>`;
   writeFileSync(pagePath, html.replace(figure[0], `${figure[1]}\n      ${img}\n    ${figure[2]}`));
-  THUMBS[app.repo] = { src: urls[DEFAULT_THEME] ?? urls[fallback], width, height };
   return Object.keys(urls).length;
 }
 
@@ -314,7 +312,6 @@ function card(app) {
   ].filter(Boolean);
   const platforms = (app.platforms ?? []).filter((p) => PLATFORMS[p]);
   const rel = RELEASES[app.repo];
-  const thumb = THUMBS[app.repo];
   const meta = platforms.length || rel ? `
           <p class="card-meta">${platforms.map((p) => `<span class="badge badge--platform">${PLATFORMS[p]}</span>`).join(" ")}${rel ? `${platforms.length ? " " : ""}<span class="card-release">${escapeHtml(rel.tag)} &middot; <time datetime="${rel.date}">${rel.date}</time></span>` : ""}</p>` : "";
   const title = app.detail_page ?`<a href="/apps/${repo}/">${t}<span aria-hidden="true"> &rarr;</span></a>` : t;
@@ -338,8 +335,7 @@ function card(app) {
 ${labels.map((l) => `              <span class="badge badge--ai">${escapeHtml(l)}</span>`).join("\n")}
             </span>
           </div>
-${meta}${thumb ? `
-          <img class="card-thumb" src="${thumb.src}" width="${thumb.width}" height="${thumb.height}" alt="" loading="lazy">` : ""}
+${meta}
           <p class="card-desc">${escapeHtml(app.description)}</p>
           <p class="card-tags">${app.tags.map(escapeHtml).join(" &middot; ")}</p>${actions.length ? `
           <div class="card-actions">
