@@ -102,7 +102,8 @@ const LIVE = {
 };
 
 function tile(site, lines) {
-  const lab = site.group === "lab" ? ' <span class="explore-tag">(Lab)</span>' : "";
+  const isLab = site.group === "lab";
+  const lab = isLab ? ' <span class="explore-tag">Lab</span>' : "";
   const head = `<h3 class="explore-title"><a href="${href(site.url)}">${escapeHtml(site.label)}<span aria-hidden="true"> &rarr;</span></a>${lab}</h3>`;
   let body;
   if (!lines) {
@@ -114,7 +115,7 @@ function tile(site, lines) {
   }
   const note = site.note ? `\n          <p class="explore-note">${escapeHtml(site.note)}</p>` : "";
   return `
-        <li class="explore-tile explore-tile--${escapeHtml(site.id)}">
+        <li class="explore-tile explore-tile--${escapeHtml(site.id)}${isLab ? " explore-tile--lab" : ""}">
           ${head}
           ${body}${note}
         </li>`;

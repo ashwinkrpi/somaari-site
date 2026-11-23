@@ -27,7 +27,7 @@ export function header(network, current) {
   const group = (name, title) => {
     const sites = network.sites.filter((s) => (s.group ?? "main") === name);
     return sites.length ? `
-              <section class="switcher-group">
+              <section class="switcher-group switcher-group--${name}">
                 <h2>${title}</h2>
                 <ul role="list">
                   ${sites.map(tile).join("\n                  ")}

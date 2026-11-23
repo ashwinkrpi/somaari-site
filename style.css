@@ -298,6 +298,20 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
 .explore-title a { display: inline-flex; align-items: center; min-height: 44px; color: var(--card-title, var(--fg)); text-decoration: none; }
 .explore-title a:hover { color: var(--card-title-hover, var(--accent)); text-decoration: underline; }
 .explore-tag { color: var(--muted); font-size: 0.85rem; font-weight: 400; }
+.explore-tag {
+  margin-left: 0.25rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--tag-border);
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+/* Lab projects: quieter than the main apps (no heavy top edge, no shadow, dashed outline). */
+.explore-tile--lab { border-top-width: 1px; border-style: dashed; box-shadow: none; background: transparent; }
+.switcher-group--lab h2 { text-transform: uppercase; letter-spacing: 0.04em; }
+.switcher-group--lab a { border-style: dashed; background: transparent; }
+.switcher-group--lab strong { color: var(--fg); font-weight: 500; }
 .explore-text,
 .explore-note { margin: 0; color: var(--muted); font-size: 0.95rem; }
 .explore-note { margin-top: 0.4rem; font-size: var(--text-xs); }
