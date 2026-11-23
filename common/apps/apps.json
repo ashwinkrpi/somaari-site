@@ -84,11 +84,8 @@
         "Terminal"
       ],
       "ai": {
-        "label": [
-          "AI-powered",
-          "AI optional"
-        ],
-        "source": "somaari-terminal README: \"Every AI key is optional.\" AI is its main feature."
+        "label": "AI optional",
+        "source": "somaari-terminal README: \"Every AI key is optional.\" Shown as one label: \"AI-powered\" and \"AI optional\" together read as a contradiction (UI review, 2026-11-23)."
       },
       "detail_page": false
     }

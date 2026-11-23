@@ -124,10 +124,9 @@ From somaari-site `index.html` lines 153–289 and `docs.config.json`.
               <h3 class="card-title">AI-assisted Terminal</h3>
               <p class="card-repo">somaari-terminal</p>
             </div>
-            <!-- AI chip: somaari-terminal README: "Every AI key is optional." AI is its main feature. -->
+            <!-- AI chip: somaari-terminal README: "Every AI key is optional." Shown as one label: "AI-powered" and "AI optional" together read as a contradiction (UI review, 2026-11-23). -->
             <span class="badges">
               <span class="badge badge--dev">In development</span>
-              <span class="badge badge--ai">AI-powered</span>
               <span class="badge badge--ai">AI optional</span>
             </span>
           </div>
