@@ -19,9 +19,9 @@
     },
     {
       "id": "book",
-      "label": "Book",
+      "label": "Books",
       "url": "https://book.somaari.in/",
-      "description": "A free book on building useful software with AI assistance.",
+      "description": "Free books on building useful software with AI assistance.",
       "icon": "book",
       "group": "main"
     },
