@@ -303,7 +303,9 @@ function card(app) {
   // trip's loop is made from screenshots by encode.sh alone; the others are recorded (scripts/demo/README.md).
   const rebuild = existsSync(join("scripts", "demo", app.repo, "encode.sh")) && !existsSync(join("scripts", "demo", app.repo, "record.sh"))
     ? `scripts/demo/${repo}/encode.sh` : "scripts/demo/README.md";
+  // "AI optional" wins over "AI-powered" when the source lists both (they contradict each other).
   const labels = [app.ai.label].flat();
+  if (labels.includes("AI optional")) labels.splice(0, labels.length, ...labels.filter((l) => l !== "AI-powered"));
   const primary = app.detail_page ? `<a class="btn card-primary" href="/apps/${repo}/">Explore application<span class="visually-hidden">: ${t}</span></a>` : "";
   const secondary = [
     app.guide && `<a class="btn btn--secondary btn--small" href="https://docs.somaari.in/${repo}/">Guide<span class="visually-hidden"> for ${t}</span></a>`,
