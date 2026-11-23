@@ -3,9 +3,9 @@
 //
 //   docs   "Guides for N apps"                            N = the apps in network.json
 //   book   "Volume 1 · free · N chapters"                 <book url>/stats.json: { "chapters": N or [...] }
-//   blog   "Weekly technical posts" (rss.xml must be reachable)  <blog url>/rss.xml
-//   games  "Genshin <version> · N videos · refreshed Sundays"
-//                                                         <games url>/stats.json: { "genshin_version", "videos": N or [...] }
+//   blog   "Latest: <newest post title> · 20 Nov" (a link)  <blog url>/rss.xml
+//   games  "Genshin <version> · N videos · refreshed 15 Nov"  (or "refreshed Sundays" when stats.json has no date)
+//                                                         <games url>/stats.json: { "genshin_version", "videos": N or [...], "refreshed_ist" }
 //
 // Every download has a timeout and is caught: an unreachable or unexpected source only turns its tile into
 // plain text (the site's description from network.json). This never throws, so the build never stops here.
@@ -21,6 +21,9 @@ async function getText(url) {
   return await res.text();
 }
 
+// "20 Nov" for a timestamp in ms, or null when it is not a date.
+const shortDate = (ms) => Number.isNaN(ms) || ms === undefined ? null
+  : new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
 const count = (v) => (Array.isArray(v) ? v.length : Number.isInteger(v) && v >= 0 ? v : null);
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
@@ -86,10 +89,10 @@ const LIVE = {
     return [{ text: `Volume 1 · free · ${plural(n, "chapter", "chapters")}` }];
   },
   async blog(site) {
-    // The post list lives in "From the blog" on the homepage, so this tile only needs one line. The RSS
-    // check stays so the tile still falls back to the site description when the feed is unreachable.
-    await latestPosts(site);
-    return [{ text: "Weekly technical posts" }];
+    // The newest post, as a link: this is the "recent highlight". The full list is in "From the blog" below.
+    const [latest] = await latestPosts(site);
+    const when = shortDate(latest.date);
+    return [{ text: `Latest: ${latest.title}${when ? ` · ${when}` : ""}`, url: latest.url }];
   },
   async games(site) {
     const stats = JSON.parse(await getText(new URL("stats.json", site.url).href));
@@ -97,7 +100,8 @@ const LIVE = {
     const n = count(stats.videos ?? stats.video_count);
     if (typeof version !== "string" && typeof version !== "number") throw new Error("stats.json has no genshin_version");
     if (n === null) throw new Error("stats.json has no videos");
-    return [{ text: `Genshin ${version} · ${plural(n, "video", "videos")} · refreshed Sundays` }];
+    const when = shortDate(Date.parse(stats.refreshed_ist ?? stats.refreshed ?? ""));
+    return [{ text: `Genshin ${version} · ${plural(n, "video", "videos")} · refreshed ${when ?? "Sundays"}` }];
   },
 };
 
@@ -109,7 +113,8 @@ function tile(site, lines) {
   if (!lines) {
     body = `<p class="explore-text">${escapeHtml(site.description)}</p>`;
   } else if (lines.length === 1) {
-    body = `<p class="explore-text">${escapeHtml(lines[0].text)}</p>`;
+    const l = lines[0];
+    body = `<p class="explore-text">${l.url ? `<a href="${escapeHtml(l.url)}">${escapeHtml(l.text)}</a>` : escapeHtml(l.text)}</p>`;
   } else {
     body = `<ul class="explore-list" role="list">\n${lines.map((l) => `            <li>${l.url ? `<a href="${escapeHtml(l.url)}">${escapeHtml(l.text)}</a>` : escapeHtml(l.text)}</li>`).join("\n")}\n          </ul>`;
   }
