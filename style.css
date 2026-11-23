@@ -269,7 +269,7 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
 
 /* Explore Somaari: a tile per site (scripts/explore.mjs), one column on phones, up to four across. */
 .explore { padding-bottom: 3rem; }
-.explore h2 { font-size: var(--text-2xl); margin-bottom: 1rem; }
+.explore h2 { font-size: var(--text-xl); margin-bottom: 0.75rem; }
 .explore-grid {
   list-style: none;
   margin: 0;
@@ -280,7 +280,7 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
 }
 .explore-tile {
   min-width: 0;
-  padding: 1rem 1.15rem;
+  padding: 0.75rem 0.9rem;
   background: var(--card-bg);
   color: var(--fg);
   border: 1px solid var(--card-edge);
@@ -294,7 +294,7 @@ html[data-theme="liquid-glass"] .hero-badge { text-align: center; }
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
 }
-.explore-title { margin: 0 0 0.4rem; font-size: 1.075rem; }
+.explore-title { margin: 0 0 0.3rem; font-size: 0.95rem; }
 .explore-title a { display: inline-flex; align-items: center; min-height: 44px; color: var(--card-title, var(--fg)); text-decoration: none; }
 .explore-title a:hover { color: var(--card-title-hover, var(--accent)); text-decoration: underline; }
 .explore-tag { color: var(--muted); font-size: 0.85rem; font-weight: 400; }
