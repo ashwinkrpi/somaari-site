@@ -1,0 +1,33 @@
+name: Deploy
+
+# Every push to main builds, checks and deploys docs.somaari.in (scripts/deploy.sh: preview smoke test,
+# deploy, live smoke test, rollback on failure). The hourly refresh on the Pi still runs for guide changes.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: 1
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Deploy
+        run: |
+          export CHROMIUM="$(command -v google-chrome || command -v chromium)"
+          bash scripts/deploy.sh
