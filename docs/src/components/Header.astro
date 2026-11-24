@@ -9,7 +9,6 @@
 import Search from '@astrojs/starlight/components/Search.astro';
 import ThemeSelect from './ThemeSelect.astro';
 import SiteNav from './SiteNav.astro';
-import { socialLinks } from '../lib/shared.mjs';
 ---
 
 <div class="header somaari-header">
@@ -21,7 +20,6 @@ import { socialLinks } from '../lib/shared.mjs';
 	<div class="sl-flex print:hidden"><Search /></div>
 	<div class="sl-flex print:hidden right-group">
 		<div class="sl-hidden md:sl-flex"><SiteNav /></div>
-		<ul class="header-social sl-hidden md:sl-flex" role="list" set:html={socialLinks()} />
 		<ThemeSelect />
 	</div>
 </div>
