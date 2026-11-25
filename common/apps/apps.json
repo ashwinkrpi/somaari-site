@@ -14,7 +14,7 @@
       ],
       "ai": {
         "label": "No AI",
-        "source": "somaari-trip README: \"No accounts, no API keys, no third-party services.\""
+        "source": "somaari-trip README: \"No sign-ups, no API keys, no third-party services.\""
       },
       "detail_page": true,
       "guide": {
