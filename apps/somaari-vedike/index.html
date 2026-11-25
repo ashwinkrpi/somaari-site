@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Festival Stage Coordinator (somaari-vedike) · Somaari</title>
+  <meta name="description" content="Festival Stage Coordinator (somaari-vedike): see what is using space on your drives, largest items first. Read-only and fully offline, for Linux (Raspberry Pi OS, Debian, Ubuntu and more) and Windows 10/11.">
+  <link rel="canonical" href="https://somaari.in/apps/somaari-vedike/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="Festival Stage Coordinator (somaari-vedike) · Somaari">
+  <meta property="og:description" content="Festival Stage Coordinator (somaari-vedike): see what is using space on your drives, largest items first. Read-only and fully offline, for Linux (Raspberry Pi OS, Debian, Ubuntu and more) and Windows 10/11.">
+  <meta property="og:url" content="https://somaari.in/apps/somaari-vedike/">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Festival Stage Coordinator (somaari-vedike) · Somaari">
+  <meta name="twitter:description" content="Festival Stage Coordinator (somaari-vedike): see what is using space on your drives, largest items first. Read-only and fully offline, for Linux (Raspberry Pi OS, Debian, Ubuntu and more) and Windows 10/11.">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
+       shared tokens) come from somaari-common; the build copies them into /theme/. -->
+  <script src="/theme/theme.js"></script>
+  <link rel="stylesheet" href="/theme/themes.css">
+  <link rel="stylesheet" href="/shared.css?v=ef0ed6edbb">
+  <link rel="stylesheet" href="/style.css?v=55df5f74a0">
+  <!-- Shows the current theme's screenshot (per-theme screenshots, see scripts/build.mjs). -->
+  <script src="/shots.js?v=cd1be96ff4" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="https://docs.somaari.in/">Docs</a></li>
+            <li><a href="https://blog.somaari.in/">Blog</a></li>
+            <li><a href="/about/">About</a></li>
+          </ul>
+        </nav>
+        <!-- GitHub and YouTube as icons; hidden on phones, where the footer has them. -->
+        <ul class="header-social" role="list">
+          <li><a href="https://github.com/ashwinkrpi" aria-label="GitHub">
+            <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a></li>
+          <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+          </a></li>
+        </ul>
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail container">
+    <p class="detail-back"><a href="/#apps">&larr; All apps</a></p>
+
+    <!-- App facts below come from the somaari-vedike README and docs/INSTALL.md; prices from its docs/DECISIONS.md (D-04). Check them there before editing. -->
+    <div class="detail-intro">
+      <div class="card-head">
+        <div class="card-names">
+          <h1 class="detail-title">Festival Stage Coordinator</h1>
+          <p class="card-repo">somaari-vedike</p>
+        </div>
+        <!-- AI chip: the somaari-vedike README lists no AI features or AI dependencies. -->
+        <span class="badges">
+          <span class="badge badge--soon">Coming soon</span>
+          <span class="badge badge--ai">No AI</span>
+        </span>
+      </div>
+      <p class="detail-lead">Run the stage at your apartment or community festival from a phone. Start, pause and skip performances with a countdown, show what is on stage on a lobby TV, post announcements to your residents' Telegram channel and capture photos. It runs on a Raspberry Pi or any computer on your Wi-Fi, with no cloud account.</p>
+      <div class="detail-actions">
+        <a class="btn" href="#pricing">See plans</a>
+        <a class="btn btn--secondary" href="mailto:hello@somaari.in?subject=Somaari%20Vedike">Ask a question</a>
+      </div>
+      <!-- TODO before going public (Stage 7): add Documentation and View on GitHub links once the repo and its guide are public. -->
+      <p class="detail-note">Free for a single-day event. Pro adds multi-day festivals and more, as a pass for one event or a yearly plan.</p>
+    </div>
+
+    <figure class="detail-shot">
+      <img src="/assets/apps/somaari-vedike/screenshot.png" width="1280" height="800" alt="Announcement Studio: a festive card for the next performance, ready to post to Telegram (demo data)">
+    </figure>
+
+    <section class="detail-section" aria-labelledby="capabilities-heading">
+      <h2 id="capabilities-heading">Key capabilities</h2>
+      <ul class="capabilities" role="list">
+          <li>
+            <h3>Live stage control</h3>
+            <p>Start, pause, resume, complete and skip performances, with a countdown and an overtime alert, in IST.</p>
+          </li>
+          <li>
+            <h3>Residents stay informed</h3>
+            <p>A high-contrast board for the lobby TV or residents' phones, and announcements with festive cards posted to your Telegram group or channel.</p>
+          </li>
+          <li>
+            <h3>Yours, on your network</h3>
+            <p>Runs on a Raspberry Pi 5 or any computer over Wi-Fi or VPN. The schedule, photos and logs stay on that machine, and organizer controls are PIN-protected.</p>
+          </li>
+      </ul>
+    </section>
+
+    <section class="detail-section" id="pricing" aria-labelledby="pricing-heading">
+      <h2 id="pricing-heading">Plans</h2>
+      <div class="pricing">
+        <div class="card price-card">
+          <h3>Free</h3>
+          <p class="price">₹0</p>
+          <ul class="detail-list">
+            <li>One single-day event</li>
+            <li>Live stage control, timers and the TV board</li>
+            <li>PIN-protected organizer controls</li>
+            <li>Manual Telegram posts, photo upload and capture</li>
+            <li>Schedule import from WhatsApp or a spreadsheet</li>
+            <li>Card Studio, first theme</li>
+          </ul>
+        </div>
+        <div class="card price-card">
+          <h3>Event pass</h3>
+          <p class="price">₹499 <span class="price-term">for 30 days</span></p>
+          <ul class="detail-list">
+            <li>Everything in Free</li>
+            <li>Multi-day festivals and several events</li>
+            <li>Automatic Telegram announcement when a performance starts</li>
+            <li>All four Card Studio themes</li>
+            <li>ZIP export of all event photos</li>
+          </ul>
+          <!-- TODO (Stage 5, C6/C7): link to the Razorpay Payment Link for the pass. -->
+          <p class="price-cta"><a class="btn btn--secondary" href="mailto:hello@somaari.in?subject=Somaari%20Vedike%20event%20pass">Get the pass</a></p>
+        </div>
+        <div class="card price-card">
+          <h3>Yearly</h3>
+          <p class="price">₹1,999 <span class="price-term">a year</span></p>
+          <ul class="detail-list">
+            <li>Everything in the event pass, all year</li>
+            <li>Worth it from your fifth event in a year</li>
+            <li>Renews yearly; cancel any time and keep Pro until the paid year ends</li>
+          </ul>
+          <!-- TODO (Stage 5, C6/C7): link to the Razorpay Subscription Link for the yearly plan. -->
+          <p class="price-cta"><a class="btn" href="mailto:hello@somaari.in?subject=Somaari%20Vedike%20yearly%20plan">Get yearly</a></p>
+        </div>
+      </div>
+      <p class="detail-note">Prices include GST. Your licence key arrives by email: paste it under Admin &amp; Logs &rarr; Licence. The app checks the key on your machine, so Pro keeps working offline until the paid period ends, and your data stays editable if you go back to Free.</p>
+      <!-- TODO (Stage 5, C8): Razorpay needs a refund policy page linked here before Live mode. Ashwin decides the policy. -->
+    </section>
+
+    <div class="detail-columns">
+      <section class="detail-section" aria-labelledby="platforms-heading">
+        <h2 id="platforms-heading">Platforms</h2>
+        <ul class="detail-list">
+          <li>Raspberry Pi 5 (arm64), Linux or Windows, with Docker or Node.js</li>
+          <li>Used from any phone, tablet, laptop or TV browser on the same network</li>
+        </ul>
+      </section>
+      <section class="detail-section" aria-labelledby="needs-heading">
+        <h2 id="needs-heading">What you need</h2>
+        <ul class="detail-list">
+          <li>Docker, or Node.js 22.12 or newer</li>
+          <li>A Wi-Fi network or VPN that organizers' phones can reach</li>
+          <li>Optional: a Telegram bot for announcements</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="https://docs.somaari.in/">Docs</a></li>
+        <li><a href="https://blog.somaari.in/">Blog</a></li>
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>
