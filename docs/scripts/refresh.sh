@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hourly rebuild of docs.somaari.in (cron; see README "How the site stays up to date"). Deploys only
+# Hourly rebuild of docs.somaari.in (the Refresh GitHub Actions workflow; see README "How the site stays up to date"). Deploys only
 # when something it is built from changed on GitHub since the last successful deploy, or FORCE=1:
 #   - each manifest guide's folder (its Markdown and images), at the guide's ref
 #   - somaari-common theme/ and apps/ on main

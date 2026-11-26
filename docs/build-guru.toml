@@ -1,6 +1,6 @@
 # somaari-docs' build-guru config (format: somaari-build-guru PLAN.md section 5)
-# Run it from a separate git worktree on branch build-guru/PLAN, so the hourly refresh cron
-# (scripts/refresh.sh, which deploys the main checkout) never sees a half-finished branch.
+# Run it from a separate git worktree on branch build-guru/PLAN, so a deploy from the main
+# checkout (scripts/refresh.sh) never sees a half-finished branch.
 main_branch = "main"
 
 [models]

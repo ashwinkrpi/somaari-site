@@ -48,27 +48,16 @@ Heading ids are GitHub's, so links written for GitHub, such as `#-installation`,
 
 ## How the site stays up to date
 
-docs.somaari.in rebuilds itself; nothing in the app repositories triggers it. Every hour, cron runs `scripts/refresh.sh`, which:
+docs.somaari.in rebuilds itself; nothing in the app repositories triggers it. Every hour, at minute 23, the `Refresh` GitHub Actions workflow (`.github/workflows/refresh.yml`) runs `scripts/refresh.sh`, which:
 
 1. Asks GitHub (`gh api`) for the latest commit touching each manifest guide's folder (its Markdown and images, at the guide's `ref`), and somaari-common's `theme/` and `apps/` on `main`.
-2. Compares them with `.state/last-shas.json` (`scripts/refresh-state.mjs`). If nothing changed, it stops. `FORCE=1 bash scripts/refresh.sh` deploys anyway.
+2. Compares them with `.state/last-shas.json` (`scripts/refresh-state.mjs`). If nothing changed, it stops. `gh workflow run Refresh -f force=true` (or `FORCE=1 bash scripts/refresh.sh` on the Pi) deploys anyway. On Actions the file is kept in the Actions cache between runs; if the cache is evicted, the next run deploys once.
 3. Runs `scripts/deploy.sh`: `npm ci`, build, check, upload a preview version, smoke-test the preview, deploy, smoke-test https://docs.somaari.in/, and roll back if that fails.
 4. Saves the new SHAs only after a successful deploy, so a failed run is retried the next hour.
 
-Everything is logged to `.state/refresh.log` (git-ignored). A failure opens one GitHub issue labelled `refresh-failed` with the last 50 log lines, or updates it if one is already open (`scripts/notify.sh`). The next good run closes it.
+Everything is logged to `.state/refresh.log` (git-ignored), which the workflow prints at the end of each run (`gh run list -w Refresh`). A failure opens one GitHub issue labelled `refresh-failed` with the last 50 log lines, or updates it if one is already open (`scripts/notify.sh`). The next good run closes it.
 
-The cron line (runs at minute 23, through somaari-server's job runner):
-
-```
-23 * * * * /home/ashwin/.local/bin/somaari-server run-job somaari-docs -- /home/ashwin/code/ai-projects/somaari-docs/scripts/refresh.sh
-```
-
-Add it without touching the other jobs (never `crontab -r`, which deletes them all):
-
-```sh
-( crontab -l 2>/dev/null; echo '23 * * * * /home/ashwin/.local/bin/somaari-server run-job somaari-docs -- /home/ashwin/code/ai-projects/somaari-docs/scripts/refresh.sh' ) | crontab -
-crontab -l | grep somaari-docs     # check it is there once
-```
+Until 2026-11-26 this ran from cron on the Pi (`23 * * * * … somaari-server run-job somaari-docs -- …/scripts/refresh.sh`). The script still runs there by hand; it keeps its own `.state/` on the Pi.
 
 ### First deploy
 
@@ -76,7 +65,7 @@ Done by hand once, after the Phase 2 stage branches are merged and pushed:
 
 1. Create the Worker: `npm ci && npm run build && npm run check`, smoke-test the build locally (`npm run preview` in one shell, `npm run smoke -- http://localhost:8787/` in another), then `npx wrangler@4 deploy` and `npm run smoke -- https://docs.somaari.in/`. `scripts/deploy.sh` can't do this first one: wrangler won't upload a preview version of a Worker that doesn't exist yet. If wrangler can't attach the custom domain, add `docs.somaari.in` to the `somaari-docs` Worker under Settings → Domains & Routes in the Cloudflare dashboard. Every later deploy goes through `scripts/deploy.sh`. (Done on 2026-11-13.)
 2. `bash scripts/refresh.sh` twice: the first run deploys and saves the SHAs, the second logs "nothing changed; skip" (`tail .state/refresh.log`).
-3. Add the cron line above.
+3. Add the cron line (since 2026-11-26: the `Refresh` workflow instead).
 4. Check https://docs.somaari.in/somaari-plan/#-installation loads.
 
 ## When the build fails
@@ -116,7 +105,7 @@ npm run smoke -- http://127.0.0.1:8787    # headless Chromium: every theme in th
 ## Adding an app
 
 1. Add the app to somaari-common `apps/apps.json` (status `dev` or `soon` until it ships).
-2. When it's public and has a guide, write `docs/GUIDE.md` in its repository and add `"guide": {"ref": "main", "src": "docs/GUIDE.md"}` to its manifest entry. docs.somaari.in picks it up on the next hourly refresh.
+2. When it's public and has a guide, write `docs/GUIDE.md` in its repository and add `"guide": {"ref": "main", "src": "docs/GUIDE.md"}` to its manifest entry. docs.somaari.in picks it up on the next hourly refresh (the `Refresh` workflow).
 3. When it's live, give it a detail page on somaari.in and set `status: live` and `detail_page: true`. The docs home page then links to it.
 
 No step copies text between repositories.
@@ -130,7 +119,7 @@ No step copies text between repositories.
 | `scripts/postbuild.mjs`, `scripts/stamp-theme.mjs` | CSP rewrites of `dist/`; theme versions |
 | `scripts/check.mjs` | `npm run check` |
 | `scripts/serve.mjs`, `scripts/smoke.mjs` | `npm run preview`, `npm run smoke` |
-| `scripts/deploy.sh`, `scripts/refresh.sh`, `scripts/refresh-state.mjs`, `scripts/notify.sh` | deploy, hourly refresh, its SHA comparison, failure issue |
+| `scripts/deploy.sh`, `scripts/refresh.sh`, `scripts/refresh-state.mjs`, `scripts/notify.sh` | deploy, hourly refresh (run by `.github/workflows/refresh.yml`), its SHA comparison, failure issue |
 | `wrangler.jsonc` | the Worker: `dist/` as static assets on docs.somaari.in |
 | `src/components/`, `src/lib/shared.mjs` | Starlight overrides: the shared Somaari header (site nav with Docs highlighted), the shared footer, mobile menu, Appearance control, no theme script. Header and footer markup is built from `network.json` by `shared.mjs`; `npm run build` refreshes `network.json` first (live copy, committed copy as fallback). `switcher.js` is the bundled switcher script |
 | `src/styles/somaari.css` | somaari tokens mapped onto Starlight, and the header and footer styles |

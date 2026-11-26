@@ -1,7 +1,7 @@
 name: Deploy
 
 # Every push to main builds, checks and deploys docs.somaari.in (scripts/deploy.sh: preview smoke test,
-# deploy, live smoke test, rollback on failure). The hourly refresh on the Pi still runs for guide changes.
+# deploy, live smoke test, rollback on failure). refresh.yml rebuilds hourly for guide and theme changes.
 on:
   push:
     branches: [main]
