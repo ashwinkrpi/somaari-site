@@ -9,7 +9,7 @@ import { readFileSync, readdirSync } from "node:fs";
 
 const block = (html, name) => html.match(new RegExp(`<!-- SHARED ${name}[\\s\\S]*?<!-- /SHARED ${name} -->`))?.[0];
 const pages = ["index.html", ...readdirSync("apps").map((d) => `apps/${d}/index.html`),
-  "about/index.html", "privacy/index.html", "terms/index.html", "search/index.html"];
+  "about/index.html", "uses/index.html", "privacy/index.html", "terms/index.html", "search/index.html"];
 const ref = readFileSync("index.html", "utf8");
 
 // The head lines every page needs, in this order (?v= versions are ignored).

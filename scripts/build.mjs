@@ -29,7 +29,7 @@ import { SITE, escapeHtml, header, jsonLd, organization, softwareApplication, we
 const OUT = "dist";
 // Top-level files and folders copied to dist/ as they are.
 const PUBLISH = ["index.html", "404.html", "shared.css", "style.css", "shots.js", "demo.js", "video.js", "nav.js", "favicon.svg", "robots.txt",
-  "sitemap.xml", "network.json", "_headers", "_redirects", "apps", "assets", "about", "privacy", "terms", "search", "search.js"];
+  "sitemap.xml", "network.json", "_headers", "_redirects", "apps", "assets", "about", "privacy", "terms", "search", "search.js", "uses"];
 // The card demo files on an app's demo branch, and the most each may weigh.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
 const DEMO_MAX_BYTES = 1024 * 1024;
@@ -205,10 +205,12 @@ function preloadFonts() {
 // Converts the PNG and JPEG images under dist/assets/ to WebP with sharp (an npm package with prebuilt
 // binaries, so it works on Cloudflare Pages too), keeps a WebP only if it is smaller, and points every page
 // in dist/ at it. If sharp fails the originals stay and a warning is printed. The sources in the repo and in
-// the app repos are not touched.
+// the app repos are not touched. Share images (og.png, og.jpg) are left alone: some link previews
+// (LinkedIn among them) don't show a WebP og:image.
 async function convertImages() {
   const assets = join(OUT, "assets");
-  const images = readdirSync(assets, { recursive: true }).filter((f) => /\.(png|jpe?g)$/i.test(f));
+  const images = readdirSync(assets, { recursive: true })
+    .filter((f) => /\.(png|jpe?g)$/i.test(f) && !/(^|[\\/])og\.(png|jpe?g)$/i.test(f));
   const swaps = [];
   for (const rel of images) {
     const from = join(assets, rel);
@@ -547,18 +549,24 @@ async function ogImages() {
 <rect x="80" y="520" width="120" height="8" rx="4" fill="#2b2f8f"/>
 <text x="1120" y="530" text-anchor="end" font-family="Hanken Grotesk, Arial, sans-serif" font-size="28" fill="#3a3366">somaari.in</text>
 </svg>`;
+    // A page that already sets its own og:image keeps it; only the Twitter tags are added.
+    const ownImage = html.match(/<meta property="og:image" content="([^"]*)"/)?.[1];
     const file = `og/${slug}.png`;
-    try {
-      let png = new Resvg(svg, { font }).render().asPng();
-      // The home image holds photos; if plain PNG is too heavy for link previews, quantise it.
-      if (png.length > OG_MAX_BYTES) png = await sharp(png).png({ palette: true, quality: 90, effort: 10 }).toBuffer();
-      writeFileSync(join(OUT, file), png);
-    } catch (e) {
-      console.warn(`og: rendering ${file} failed (${e.message}); no OG images`);
-      return 0;
+    if (!ownImage) {
+      try {
+        let png = new Resvg(svg, { font }).render().asPng();
+        // The home image holds photos; if plain PNG is too heavy for link previews, quantise it.
+        if (png.length > OG_MAX_BYTES) png = await sharp(png).png({ palette: true, quality: 90, effort: 10 }).toBuffer();
+        writeFileSync(join(OUT, file), png);
+      } catch (e) {
+        console.warn(`og: rendering ${file} failed (${e.message}); no OG images`);
+        return 0;
+      }
     }
-    const image = `${SITE}/${file}`;
-    const alt = escapeHtml(slug === "home" ? home.alt : `Somaari: ${heading.replace(/&amp;/g, "&")}`);
+    const image = ownImage ?? `${SITE}/${file}`;
+    const alt = ownImage
+      ? html.match(/<meta property="og:image:alt" content="([^"]*)"/)?.[1] ?? escapeHtml(`Somaari: ${heading.replace(/&amp;/g, "&")}`)
+      : escapeHtml(slug === "home" ? home.alt : `Somaari: ${heading.replace(/&amp;/g, "&")}`);
     const metaDesc = html.match(/<meta property="og:description" content="([^"]*)"/)?.[1] ?? description;
     const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1] ?? title;
     html = html.replace(/\n?\s*<meta name="twitter:card"[^>]*>/g, "");
@@ -569,10 +577,10 @@ async function ogImages() {
       !/property="og:url"/.test(html) && `<meta property="og:url" content="${url}">`,
       !/property="og:type"/.test(html) && `<meta property="og:type" content="website">`,
       !/property="og:site_name"/.test(html) && `<meta property="og:site_name" content="Somaari">`,
-      `<meta property="og:image" content="${image}">`,
-      `<meta property="og:image:width" content="1200">`,
-      `<meta property="og:image:height" content="630">`,
-      `<meta property="og:image:alt" content="${alt}">`,
+      !ownImage && `<meta property="og:image" content="${image}">`,
+      !ownImage && `<meta property="og:image:width" content="1200">`,
+      !ownImage && `<meta property="og:image:height" content="630">`,
+      !ownImage && `<meta property="og:image:alt" content="${alt}">`,
       `<meta name="twitter:card" content="summary_large_image">`,
       !/name="twitter:title"/.test(html) && `<meta name="twitter:title" content="${ogTitle}">`,
       !/name="twitter:description"/.test(html) && `<meta name="twitter:description" content="${metaDesc}">`,

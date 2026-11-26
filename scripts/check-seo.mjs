@@ -8,7 +8,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 
 const SITE = "https://somaari.in";
 const pages = ["index.html", ...readdirSync("apps").map((d) => `apps/${d}/index.html`),
-  "about/index.html", "privacy/index.html", "terms/index.html", "search/index.html", "404.html"];
+  "about/index.html", "uses/index.html", "privacy/index.html", "terms/index.html", "search/index.html", "404.html"];
 const noindex = (html) => /<meta name="robots" content="noindex/.test(html);
 const content = (html, re) => html.match(re)?.[1]?.trim();
 
