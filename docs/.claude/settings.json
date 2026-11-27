@@ -88,8 +88,8 @@
       "Read(~/.config/.wrangler/**)"
     ],
     "additionalDirectories": [
-      "../somaari-common",
-      "../somaari-website/somaari-site",
+      "../common",
+      "../site",
       "../somaari-blog",
       "../somaari-disk",
       "../somaari-plan",

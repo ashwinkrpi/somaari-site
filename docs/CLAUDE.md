@@ -4,7 +4,7 @@ docs.somaari.in: Starlight (Astro) site that imports each public app's `docs/GUI
 
 ## Saving tokens
 - Don't read the whole plan. Read "Rules", "Decisions" and your stage only: `grep -n '^##\|^###' docs-subdomain-plan.md`, then Read that line range. Read "Current state" only when the stage touches somaari-site.
-- In other repos, grep for the function or section you need (e.g. `grep -n 'function render' ../somaari-website/somaari-site/scripts/build-docs.mjs`). Don't read whole files.
+- In other repos, grep for the function or section you need (e.g. `grep -n 'function header' ../site/scripts/partials.mjs`). Don't read whole files.
 - Never read `dist/`, `node_modules/`, `.astro/`, `public/theme/` or the generated `src/content/docs/<repo>/` whole. Use `grep`, `ls` or `head`. In Starlight's source, grep for the component you are overriding.
 - Pipe long output: `npm run build 2>&1 | tail -30`, `npm ci --silent`, `wrangler ... | tail -15`.
 - Don't re-read a file after you edit it. Prefer Edit over rewriting.
