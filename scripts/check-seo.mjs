@@ -36,7 +36,7 @@ if (existsSync("dist")) {
     const image = content(html, /<meta property="og:image" content="([^"]*)"/);
     if (!image) fail(path, "missing og:image");
     else if (!image.startsWith(`${SITE}/`)) fail(path, `og:image is not on ${SITE}: ${image}`);
-    else if (!existsSync(`dist/${image.slice(SITE.length + 1)}`)) fail(path, `og:image file is missing from dist/: ${image}`);
+    else if (!existsSync(`dist/${image.slice(SITE.length + 1).split(/[?#]/)[0]}`)) fail(path, `og:image file is missing from dist/: ${image}`);
     else ogChecked++;
   }
 }
