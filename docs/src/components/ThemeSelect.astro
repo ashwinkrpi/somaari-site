@@ -1,0 +1,18 @@
+---
+// Replaces Starlight's light/dark select with the somaari Appearance control (D8). theme.js from
+// somaari-common adds the choices, shows it, opens the popover and remembers the choice.
+---
+<div class="appearance" id="theme-picker" hidden>
+	<button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+		<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+			<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"></circle>
+			<path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"></path>
+		</svg>
+		<span class="sr-only">Appearance</span>
+	</button>
+	<div class="appearance-menu" id="appearance-menu" hidden>
+		<fieldset>
+			<legend>Theme</legend>
+		</fieldset>
+	</div>
+</div>

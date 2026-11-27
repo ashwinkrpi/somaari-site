@@ -1,0 +1,9 @@
+---
+// The shared Somaari nav: every site in network.json (Docs highlighted), full URLs, built by
+// src/lib/shared.mjs. Used by Header and MobileMenuFooter.
+import { navItems } from '../lib/shared.mjs';
+---
+
+<nav class="site-nav" aria-label="Main">
+	<ul role="list" set:html={navItems()} />
+</nav>

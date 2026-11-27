@@ -1,0 +1,28 @@
+---
+title: Page not found
+description: This page does not exist on docs.somaari.in.
+template: splash
+editUrl: false
+pagefind: false
+head:
+  - tag: meta
+    attrs: { name: robots, content: noindex }
+---
+
+import network from '../../../network.json';
+
+{/* Every site from network.json (the same list as the header and footer). The docs site links to its own home page. */}
+<section class="not-content docs-404" aria-labelledby="404-heading">
+	<h2 id="404-heading">Lost? Try one of these Somaari sites.</h2>
+	<p>The page you are looking for does not exist or has moved.</p>
+	<ul class="card-grid docs-404-sites" role="list">
+		{network.sites.map((s) => (
+			<li class="card">
+				<h3 class="card-title"><a href={s.id === 'docs' ? '/' : s.url}>{s.label}<span aria-hidden="true"> &rarr;</span></a></h3>
+				<p class="card-desc">{s.description}</p>
+				{s.note && <p class="card-tags">{s.note}</p>}
+			</li>
+		))}
+	</ul>
+	<p><a href="/">Back to the docs home</a> · <a href="https://somaari.in/">somaari.in</a></p>
+</section>
