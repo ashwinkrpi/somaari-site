@@ -1,0 +1,32 @@
+# When apps/ changes on main, run the tests and ask Cloudflare Pages to rebuild somaari.in, which
+# reads apps/apps.json from main for its landing cards. docs.somaari.in reads the same file from
+# main at its next build.
+# Needs the repo secret SOMAARI_SITE_DEPLOY_HOOK: the somaari-site deploy hook URL.
+name: Update the app list on somaari.in
+
+on:
+  push:
+    branches: [main]
+    paths: ["apps/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.0
+        with:
+          python-version: "3.11"
+      - name: Tests
+        run: |
+          uv venv
+          uv pip install pytest jsonschema ./python
+          .venv/bin/python -m pytest -q
+      - name: Rebuild somaari.in
+        env:
+          HOOK: ${{ secrets.SOMAARI_SITE_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$HOOK" > /dev/null
