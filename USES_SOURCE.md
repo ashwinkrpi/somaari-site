@@ -1,4 +1,4 @@
-# Uses page source: iPhone 14
+# Uses page source: iPhone 14 and Raspberry Pi 5
 
 Source for `uses/index.html` (/uses/). Only the apps I chose to list. Not published: it is not in `PUBLISH` in `scripts/build.mjs`.
 The private master list is kept outside this repo. Take every fact on the page from this file; don't add apps or reasons.
@@ -108,3 +108,55 @@ Security audit 2026-11-27: account-security, remote-access, smart-device, mail/f
 |---|---|---|---|
 | Safari |  | https://apps.apple.com/in/app/safari/id1146562112 | Explore the web with lightning-fast speed, powerful privacy protections and robust customisation options. |
 
+# Raspberry Pi 5
+
+Only the `yes` items from the private master list. Security audit 2026-11-27: nothing that listens on the network,
+holds personal data or shows how to reach the Pi (no services, ports, self-hosted apps, VPN or versions).
+
+## Hardware
+
+| Item | Description | Link |
+|---|---|---|
+| Raspberry Pi 5 (8 GB) | The computer I build most of the somaari apps on. | https://www.raspberrypi.com/products/raspberry-pi-5/ |
+| Samsung 256 GB NVMe SSD | Samsung PM9B1. The Pi boots from it rather than a microSD card. |  |
+| Waveshare 2-Ch PCIe FFC Adapter Board | Splits the Pi 5's PCIe connector into two; the NVMe drive connects through it. | https://www.waveshare.com/pcie-to-2-ch-pcie-hat.htm |
+| Raspberry Pi Case for Raspberry Pi 5 | The official case. | https://www.raspberrypi.com/products/raspberry-pi-5-case/ |
+| Raspberry Pi Active Cooler | The official heatsink and fan. | https://www.raspberrypi.com/products/active-cooler/ |
+| Raspberry Pi 27W USB-C Power Supply | The official 5.1 V, 5 A supply. | https://www.raspberrypi.com/products/27w-power-supply/ |
+
+## Desk
+
+| Item | Description | Link |
+|---|---|---|
+| MSI 27-inch monitor |  |  |
+| EvoFox Katana X2 TKL keyboard | Mechanical and tenkeyless, with clicky blue switches. |  |
+| Ant Esports GM320 mouse | Wired, with RGB lighting. |  |
+
+## OS and desktop
+
+| Item | Description | Link |
+|---|---|---|
+| Raspberry Pi OS (64-bit) |  | https://www.raspberrypi.com/software/ |
+| XFCE | The desktop, in place of the default one. | https://xfce.org/ |
+| Wallpaper slideshow | My own script that changes the desktop wallpaper. |  |
+
+## Dev and AI
+
+| Item | Description | Link |
+|---|---|---|
+| Claude Code | Most of the somaari apps are built with it, on the Pi. | https://claude.com/claude-code |
+| VS Code |  | https://code.visualstudio.com/ |
+| Neovim |  | https://neovim.io/ |
+| tmux |  | https://github.com/tmux/tmux |
+| GitHub CLI |  | https://cli.github.com/ |
+| Node.js |  | https://nodejs.org/ |
+| Python |  | https://www.python.org/ |
+| uv | Python packages and projects. | https://docs.astral.sh/uv/ |
+| Docker |  | https://www.docker.com/ |
+| Obscura | The headless browser Claude Code uses for web work. |  |
+
+## My apps
+
+| Item | Description | Link |
+|---|---|---|
+| somaari-disk | My disk-usage analyzer, on the Pi's desktop. | /apps/somaari-disk/ |

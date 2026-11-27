@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Uses · Somaari</title>
-  <meta name="description" content="The apps I use on my iPhone 14, grouped by category.">
+  <meta name="description" content="The apps I use on my iPhone 14 and my Raspberry Pi 5 setup, grouped by category.">
   <link rel="canonical" href="https://somaari.in/uses/">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: light)">
@@ -14,13 +14,13 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Somaari">
   <meta property="og:title" content="Uses · Somaari">
-  <meta property="og:description" content="The apps I use on my iPhone 14, grouped by category.">
+  <meta property="og:description" content="The apps I use on my iPhone 14 and my Raspberry Pi 5 setup, grouped by category.">
   <meta property="og:url" content="https://somaari.in/uses/">
   <meta property="og:locale" content="en_IN">
   <meta property="og:image" content="https://somaari.in/assets/uses/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Somaari Uses: the apps I use on my iPhone 14, grouped by category.">
+  <meta property="og:image:alt" content="Somaari Uses: my iPhone 14 home screens, the apps I use on it and my Raspberry Pi 5 setup.">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
@@ -90,7 +90,7 @@
     <div class="detail-intro">
       <h1 class="detail-title">What I use</h1>
       <p class="detail-lead">
-        These are the apps on my iPhone 14. Last updated <time datetime="2026-11-27">27 November 2026</time>.
+        The apps on my <a href="#iphone">iPhone 14</a> and my <a href="#raspberry-pi">Raspberry Pi 5</a> setup. Last updated <time datetime="2026-11-27">27 November 2026</time>.
       </p>
     </div>
 
@@ -182,6 +182,47 @@
         <li><a class="uses-app" href="https://apps.apple.com/in/app/safari/id1146562112" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1146562112.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Safari</span><span class="uses-app-desc">Explore the web with lightning-fast speed, powerful privacy protections and robust customisation options.</span></span></a></li>
       </ul>
       <!-- /USES:iphone -->
+      <h2 id="raspberry-pi">Raspberry Pi 5</h2>
+      <!-- USES:pi -->
+      <h3>Hardware</h3>
+      <ul class="uses-apps uses-apps--text">
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/raspberry-pi-5/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi 5 (8 GB)</span><span class="uses-app-desc">The computer I build most of the somaari apps on.</span></span></a></li>
+        <li><div class="uses-app"><span class="uses-app-text"><span class="uses-app-name">Samsung 256 GB NVMe SSD</span><span class="uses-app-desc">Samsung PM9B1. The Pi boots from it rather than a microSD card.</span></span></div></li>
+        <li><a class="uses-app" href="https://www.waveshare.com/pcie-to-2-ch-pcie-hat.htm" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Waveshare 2-Ch PCIe FFC Adapter Board</span><span class="uses-app-desc">Splits the Pi 5&#x27;s PCIe connector into two; the NVMe drive connects through it.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/raspberry-pi-5-case/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi Case for Raspberry Pi 5</span><span class="uses-app-desc">The official case.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/active-cooler/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi Active Cooler</span><span class="uses-app-desc">The official heatsink and fan.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/27w-power-supply/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi 27W USB-C Power Supply</span><span class="uses-app-desc">The official 5.1 V, 5 A supply.</span></span></a></li>
+      </ul>
+      <h3>Desk</h3>
+      <ul class="uses-apps uses-apps--text">
+        <li><div class="uses-app"><span class="uses-app-text"><span class="uses-app-name">MSI 27-inch monitor</span></span></div></li>
+        <li><div class="uses-app"><span class="uses-app-text"><span class="uses-app-name">EvoFox Katana X2 TKL keyboard</span><span class="uses-app-desc">Mechanical and tenkeyless, with clicky blue switches.</span></span></div></li>
+        <li><div class="uses-app"><span class="uses-app-text"><span class="uses-app-name">Ant Esports GM320 mouse</span><span class="uses-app-desc">Wired, with RGB lighting.</span></span></div></li>
+      </ul>
+      <h3>OS and desktop</h3>
+      <ul class="uses-apps uses-apps--text">
+        <li><a class="uses-app" href="https://www.raspberrypi.com/software/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi OS (64-bit)</span></span></a></li>
+        <li><a class="uses-app" href="https://xfce.org/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">XFCE</span><span class="uses-app-desc">The desktop, in place of the default one.</span></span></a></li>
+        <li><div class="uses-app"><span class="uses-app-text"><span class="uses-app-name">Wallpaper slideshow</span><span class="uses-app-desc">My own script that changes the desktop wallpaper.</span></span></div></li>
+      </ul>
+      <h3>Dev and AI</h3>
+      <ul class="uses-apps uses-apps--text">
+        <li><a class="uses-app" href="https://claude.com/claude-code" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Claude Code</span><span class="uses-app-desc">Most of the somaari apps are built with it, on the Pi.</span></span></a></li>
+        <li><a class="uses-app" href="https://code.visualstudio.com/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">VS Code</span></span></a></li>
+        <li><a class="uses-app" href="https://neovim.io/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Neovim</span></span></a></li>
+        <li><a class="uses-app" href="https://github.com/tmux/tmux" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">tmux</span></span></a></li>
+        <li><a class="uses-app" href="https://cli.github.com/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">GitHub CLI</span></span></a></li>
+        <li><a class="uses-app" href="https://nodejs.org/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Node.js</span></span></a></li>
+        <li><a class="uses-app" href="https://www.python.org/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Python</span></span></a></li>
+        <li><a class="uses-app" href="https://docs.astral.sh/uv/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">uv</span><span class="uses-app-desc">Python packages and projects.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.docker.com/" rel="noopener"><span class="uses-app-text"><span class="uses-app-name">Docker</span></span></a></li>
+        <li><div class="uses-app"><span class="uses-app-text"><span class="uses-app-name">Obscura</span><span class="uses-app-desc">The headless browser Claude Code uses for web work.</span></span></div></li>
+      </ul>
+      <h3>My apps</h3>
+      <ul class="uses-apps uses-apps--text">
+        <li><a class="uses-app" href="/apps/somaari-disk/"><span class="uses-app-text"><span class="uses-app-name">somaari-disk</span><span class="uses-app-desc">My disk-usage analyzer, on the Pi&#x27;s desktop.</span></span></a></li>
+      </ul>
+      <!-- /USES:pi -->
     </div>
   </main>
 
