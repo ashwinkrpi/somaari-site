@@ -20,7 +20,7 @@ if ($dirty) {
 
 New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
 foreach ($f in $files) {
-    $content = git -C $repo show "main:about/$f"
+    $content = git -C $repo show "main:./about/$f"
     if ($LASTEXITCODE -ne 0) {
         Write-Error "could not read about/$f from main"
         exit 1

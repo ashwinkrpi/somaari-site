@@ -23,7 +23,7 @@
 
 The source of [docs.somaari.in](https://docs.somaari.in/): the guides for the somaari apps, built with [Starlight](https://starlight.astro.build/) (Astro) and served from Cloudflare Workers static assets.
 
-No guide is written here. Each app keeps its guide in its own repository (`docs/GUIDE.md`), and this site copies it in at build time. The list of apps comes from the app manifest in [somaari-common](https://github.com/ashwinkrpi/somaari-common) (`apps/apps.json`), which somaari.in reads too.
+No guide is written here. Each app keeps its guide in its own repository (`docs/GUIDE.md`), and this site copies it in at build time. The list of apps comes from the app manifest in `../common/apps/apps.json`, which somaari.in reads too.
 
 ## How it works
 
@@ -37,7 +37,7 @@ No guide is written here. Each app keeps its guide in its own repository (`docs/
    - turns GitHub alerts (`> [!NOTE]`) into Starlight asides;
    - points links to another published guide at its page here, and links to other files in the repo at GitHub;
    - adds a banner saying where the guide is kept, with a "View it on GitHub" link.
-2. **Imports the themes** (`scripts/import-theme.mjs`): somaari-common's `theme/` files into `public/theme/`. Never edit those by hand.
+2. **Imports the themes** (`scripts/import-theme.mjs`): `../common/theme/` files into `public/theme/`. Never edit those by hand.
 3. Runs `astro build`.
 4. **Makes `dist/` fit the strict CSP** (`scripts/postbuild.mjs`; see `SPIKE.md`).
 5. **Versions the theme links** as `?v=<hash>` (`scripts/stamp-theme.mjs`).
@@ -48,9 +48,9 @@ Heading ids are GitHub's, so links written for GitHub, such as `#-installation`,
 
 ## How the site stays up to date
 
-docs.somaari.in rebuilds itself; nothing in the app repositories triggers it. Every hour, at minute 23, the `Refresh` GitHub Actions workflow (`.github/workflows/refresh.yml`) runs `scripts/refresh.sh`, which:
+docs.somaari.in rebuilds itself; nothing in the app repositories triggers it. Every hour, at minute 23, the `Refresh` GitHub Actions workflow (`.github/workflows/docs-refresh.yml` at the repo root) runs `scripts/refresh.sh`, which:
 
-1. Asks GitHub (`gh api`) for the latest commit touching each manifest guide's folder (its Markdown and images, at the guide's `ref`), and somaari-common's `theme/` and `apps/` on `main`.
+1. Asks GitHub (`gh api`) for the latest commit touching each manifest guide's folder (its Markdown and images, at the guide's `ref`), Changes to `common/theme/` or `common/apps/` in this repo deploy on push instead (`docs-deploy.yml`).
 2. Compares them with `.state/last-shas.json` (`scripts/refresh-state.mjs`). If nothing changed, it stops. `gh workflow run Refresh -f force=true` (or `FORCE=1 bash scripts/refresh.sh` on the Pi) deploys anyway. On Actions the file is kept in the Actions cache between runs; if the cache is evicted, the next run deploys once.
 3. Runs `scripts/deploy.sh`: `npm ci`, build, check, upload a preview version, smoke-test the preview, deploy, smoke-test https://docs.somaari.in/, and roll back if that fails.
 4. Saves the new SHAs only after a successful deploy, so a failed run is retried the next hour.
@@ -87,7 +87,7 @@ Fix these in the app's repository, not here.
 
 ## Local preview
 
-From sibling checkouts of the app repos and somaari-common (nothing is fetched):
+App guides from sibling checkouts of the app repos (nothing is fetched; `common/` always comes from this repo):
 
 ```sh
 npm ci
@@ -98,13 +98,13 @@ npm run preview &                         # dist/ with _headers applied, on http
 npm run smoke -- http://127.0.0.1:8787    # headless Chromium: every theme in theme.js, CSP, external requests, search
 ```
 
-`npm run build` without `--local` reads everything from GitHub (`main` of somaari-common, `guide.ref` of each app).
+`npm run build` without `--local` reads each app's guide from GitHub at its `guide.ref`.
 
 `wrangler dev` can't run on the Pi (workerd needs a 48-bit address space), so `npm run preview` serves `dist/` with Node and applies `_headers` the way Cloudflare does. The smoke test uses the system Chromium (`CHROMIUM=/path` to override) through `playwright-core`; no browser is downloaded.
 
 ## Adding an app
 
-1. Add the app to somaari-common `apps/apps.json` (status `dev` or `soon` until it ships).
+1. Add the app to `common/apps/apps.json` (status `dev` or `soon` until it ships).
 2. When it's public and has a guide, write `docs/GUIDE.md` in its repository and add `"guide": {"ref": "main", "src": "docs/GUIDE.md"}` to its manifest entry. docs.somaari.in picks it up on the next hourly refresh (the `Refresh` workflow).
 3. When it's live, give it a detail page on somaari.in and set `status: live` and `detail_page: true`. The docs home page then links to it.
 
@@ -119,7 +119,7 @@ No step copies text between repositories.
 | `scripts/postbuild.mjs`, `scripts/stamp-theme.mjs` | CSP rewrites of `dist/`; theme versions |
 | `scripts/check.mjs` | `npm run check` |
 | `scripts/serve.mjs`, `scripts/smoke.mjs` | `npm run preview`, `npm run smoke` |
-| `scripts/deploy.sh`, `scripts/refresh.sh`, `scripts/refresh-state.mjs`, `scripts/notify.sh` | deploy, hourly refresh (run by `.github/workflows/refresh.yml`), its SHA comparison, failure issue |
+| `scripts/deploy.sh`, `scripts/refresh.sh`, `scripts/refresh-state.mjs`, `scripts/notify.sh` | deploy, hourly refresh (run by `.github/workflows/docs-refresh.yml` at the repo root), its SHA comparison, failure issue |
 | `wrangler.jsonc` | the Worker: `dist/` as static assets on docs.somaari.in |
 | `src/components/`, `src/lib/shared.mjs` | Starlight overrides: the shared Somaari header (site nav with Docs highlighted), the shared footer, mobile menu, Appearance control, no theme script. Header and footer markup is built from `network.json` by `shared.mjs`; `npm run build` refreshes `network.json` first (live copy, committed copy as fallback). `switcher.js` is the bundled switcher script |
 | `src/styles/somaari.css` | somaari tokens mapped onto Starlight, and the header and footer styles |

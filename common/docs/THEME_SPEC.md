@@ -59,7 +59,7 @@ Serve `theme/` at `/theme/` and put this in `<head>`, in this order, before the 
 
 | App type | How it gets `/theme/` |
 |---|---|
-| **Python web app** | It already depends on `somaari-common` (`subdirectory=python`). Serve `somaari_theme.static_dir()` at `/theme/`; `somaari_theme.files()` lists the files. |
+| **Python web app** | It already depends on `somaari-common` (`subdirectory=common/python` of the somaari-site repo). Serve `somaari_theme.static_dir()` at `/theme/`; `somaari_theme.files()` lists the files. |
 | **Static site with a build** | The build downloads `theme/files.json` and the files it lists from `main` (raw.githubusercontent.com) into `<out>/theme/`, and adds cache-busting versions to the two URLs. |
 
 Without JS the page keeps rangoli (`:root` holds it; the default, graphite, needs `theme.js` to set `data-theme`) and the picker stays hidden. The fonts
@@ -161,8 +161,8 @@ Then:
 
 1. Run the tests (see README). Check the themed apps in every theme with `?theme=<id>`, at desktop
    and 380 px phone width.
-2. Push to `main`. `.github/workflows/site-theme.yml` runs the tests and rebuilds somaari.in, and
-   docs.somaari.in redeploys at its next hourly refresh. The other apps pick up the change as the
+2. Push to `main`. Cloudflare Pages rebuilds somaari.in and `.github/workflows/docs-deploy.yml`
+   redeploys docs.somaari.in from the same commit. The other apps pick up the change as the
    README table "How apps pick up changes" says (for somaari-plan,
    `uv lock --upgrade-package somaari-common`; for somaari-server, `scripts/sync-common.sh` and a
    release; for somaari-blog, `npm run sync:common`). Those are only syncs: no CSS changes.

@@ -13,7 +13,7 @@ requires-python = ">=3.9"
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/ashwinkrpi/somaari-common"
+Homepage = "https://github.com/ashwinkrpi/somaari-site/tree/main/common"
 
 [tool.hatch.build.targets.wheel]
 packages = ["somaari_about", "somaari_theme"]

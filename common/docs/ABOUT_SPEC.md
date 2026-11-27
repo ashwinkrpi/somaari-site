@@ -88,7 +88,7 @@ email: hello@somaari.in
 Add the dependency (tracks `main`):
 
 ```
-somaari-common @ git+https://github.com/ashwinkrpi/somaari-common#subdirectory=python
+somaari-common @ git+https://github.com/ashwinkrpi/somaari-site#subdirectory=common/python
 ```
 
 Then:

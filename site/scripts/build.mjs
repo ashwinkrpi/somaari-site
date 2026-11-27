@@ -9,8 +9,8 @@
 // The app guides are not built here: docs.somaari.in (the somaari-docs repo) publishes them, and
 // _redirects sends the old /apps/<repo>/docs/ URLs there.
 // Run from the repo root: npm run build
-// With --local <dir> it reads <dir>/<repo>/... instead of GitHub (somaari-common too: <dir>/somaari-common/theme/
-// and apps/apps.json).
+// With --local <dir> it reads the app repos from <dir>/<repo>/... instead of GitHub. The themes and the
+// manifest always come from ../common/ in this repo (somaari-common was merged in on 2026-11-27).
 // Exits 1 (and Cloudflare keeps the current deploy) if a file can't be fetched, a screenshot or demo
 // doesn't fit, or a manifest app has no page or text the page can't hold.
 import { execFileSync } from "node:child_process";
@@ -33,8 +33,8 @@ const PUBLISH = ["index.html", "404.html", "shared.css", "style.css", "shots.js"
 // The card demo files on an app's demo branch, and the most each may weigh.
 const DEMO_FILES = ["loop.webm", "loop.mp4", "poster.webp"];
 const DEMO_MAX_BYTES = 1024 * 1024;
-// somaari-common is fetched before the manifest (which names the owner of the app repos) is read.
-const COMMON = { repo: "somaari-common", ref: "main", owner: "ashwinkrpi" };
+// somaari-common lives next to the site in this repo, so it is read from the checkout, not GitHub.
+const COMMON = { repo: "common", dir: resolve(import.meta.dirname, "..", "..", "common") };
 // Read from somaari-common's theme.js by theme(). NOJS_THEME is the theme themes.css gives :root (the
 // look without JS); its screenshot goes in <noscript>.
 let THEMES, DEFAULT_THEME, NOJS_THEME;
@@ -60,6 +60,7 @@ const localArg =process.argv.indexOf("--local");
 const local = localArg > 0 ? process.argv[localArg + 1] : null;
 
 async function getFile(app, path, ref) {
+  if (app.dir) return readFileSync(resolve(app.dir, path));
   if (local && ref) return execFileSync("git", ["-C", resolve(local, app.repo), "show", `${ref}:${path}`], { maxBuffer: 1 << 26 });
   if (local) return readFileSync(resolve(local, app.repo, path));
   const url = `https://raw.githubusercontent.com/${app.owner ?? owner}/${app.repo}/${ref ?? "main"}/${path}`;
@@ -250,7 +251,7 @@ function searchable() {
   return n;
 }
 
-// Reads somaari-common's apps/apps.json (from main, or the local checkout with --local).
+// Reads common/apps/apps.json from this repo.
 async function manifest() {
   ({ github: owner, apps } = JSON.parse((await getFile(COMMON, "apps/apps.json")).toString("utf8")));
   for (const app of apps) {
@@ -626,8 +627,8 @@ async function main() {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT);
   for (const f of PUBLISH) cpSync(f, join(OUT, f), { recursive: true });
-  console.log(`themes: ${await theme()} files from somaari-common ${local ? "local copy" : COMMON.ref}`);
-  console.log(`apps: ${await manifest()} in somaari-common apps/apps.json ${local ? "local copy" : COMMON.ref}`);
+  console.log(`themes: ${await theme()} files from common/`);
+  console.log(`apps: ${await manifest()} in common/apps/apps.json`);
 
   for (const app of apps) {
     if (app.screenshot) console.log(`${app.repo}: ${await screenshots(app)} screenshot(s) from ${local ? "local copy" : "main"}`);

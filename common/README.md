@@ -16,14 +16,14 @@ somaari-common is not versioned: apps always use the latest `main`.
 - `scripts/sync-about.sh` / `sync-about.ps1`: vendor the JSON into non-Python apps
 - `theme/`: `theme.js`, `themes.css`, `fonts/` and `files.json` (the files an app serves at `/theme/`)
 - `python/somaari_theme`: serves `theme/` from Python web apps (`static_dir()`, `files()`)
-- `apps/`: `apps.json`, the list of somaari apps (schema: `apps/apps.schema.json`). Both somaari.in and docs.somaari.in read it from `main`; a push to `apps/**` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-apps.yml`, same deploy hook as `site-theme.yml`). `apps/APPENDIX_A.md` is the snapshot of the landing cards that the tests check `apps.json` against
+- `apps/`: `apps.json`, the list of somaari apps (schema: `apps/apps.schema.json`). Both somaari.in (`../site/`) and docs.somaari.in (`../docs/`) read it from this repo, so a push that changes it rebuilds both sites. `apps/APPENDIX_A.md` is the snapshot of the landing cards that the tests check `apps.json` against
 
 ## Integrating
 
 **Python apps:**
 
 ```
-somaari-common @ git+https://github.com/ashwinkrpi/somaari-common#subdirectory=python
+somaari-common @ git+https://github.com/ashwinkrpi/somaari-site#subdirectory=common/python
 ```
 
 ```python
@@ -43,9 +43,9 @@ Then write a native collector that outputs exactly the keys in `debug-fields.jso
 
 Themes are added, changed and removed here only: every theme sets every standard token in `themes.css`, and each app derives its own tokens from those once for all themes, so no app needs a CSS change (an app's per-theme blocks are optional fine-tuning). The apps that copy the files still need their sync step (table below).
 
-Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site (somaari-site, somaari-docs) downloads the files in `theme/files.json` at build time. somaari-blog (Astro) instead commits a copy made by its `npm run sync:common`, so run that there after changing `theme/` or `about/`. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
+Serve `theme/` at `/theme/` and load `/theme/theme.js` and `/theme/themes.css` before the app's own stylesheet. A Python web app serves `somaari_theme.static_dir()`; a static site (`../site/`, `../docs/`) copies the files in `theme/files.json` from this folder at build time. somaari-blog (Astro) instead commits a copy made by its `npm run sync:common`, so run that there after changing `theme/` or `about/`. Markup, tokens and the rules for changing them: [docs/THEME_SPEC.md](docs/THEME_SPEC.md).
 
-A push that changes `theme/` on `main` runs the tests and rebuilds somaari.in (`.github/workflows/site-theme.yml`, repo secret `SOMAARI_SITE_DEPLOY_HOOK`).
+A push that changes `common/` on `main` rebuilds somaari.in (Cloudflare Pages) and docs.somaari.in (`.github/workflows/docs-deploy.yml`) in the same commit; `.github/workflows/common-tests.yml` runs the tests.
 
 ## How apps pick up changes
 
@@ -90,4 +90,4 @@ Reinstall `./python` after editing `about/*.json`, `theme/` or the package. Test
 
 This is a personal project and doesn't accept pull requests; only collaborators can open them.
 You're welcome to fork it and adapt it for yourself, and bug reports in
-[Issues](https://github.com/ashwinkrpi/somaari-common/issues) are appreciated.
+[Issues](https://github.com/ashwinkrpi/somaari-site/issues) are appreciated.

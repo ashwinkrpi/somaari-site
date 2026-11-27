@@ -5,7 +5,7 @@
 #   bash scripts/notify.sh --ok               close the open issue, if any, after a good run
 set -euo pipefail
 
-REPO=${NOTIFY_REPO:-ashwinkrpi/somaari-docs}
+REPO=${NOTIFY_REPO:-ashwinkrpi/somaari-site}
 LABEL=refresh-failed
 
 open_issue() {

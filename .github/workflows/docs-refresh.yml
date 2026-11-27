@@ -1,7 +1,7 @@
-name: Refresh
+name: Refresh docs
 
-# Hourly: rebuild docs.somaari.in when a manifest guide or somaari-common's theme/ or apps/ changed on
-# GitHub since the last successful deploy (scripts/refresh.sh). Replaced the Pi's hourly cron job on
+# Hourly: rebuild docs.somaari.in when a manifest guide changed in its app repo since the last
+# successful deploy (docs/scripts/refresh.sh). Changes to common/ deploy on push (docs-deploy.yml). Replaced the Pi's hourly cron job on
 # 2026-11-26. The last deployed SHAs (.state/last-shas.json) are kept in the Actions cache; if the cache
 # is ever evicted, the next run sees everything as changed and deploys once.
 on:
@@ -19,7 +19,7 @@ permissions:
   issues: write # scripts/notify.sh opens or closes the refresh-failed issue
 
 concurrency:
-  group: deploy # shared with deploy.yml, so a refresh never runs at the same time as a push deploy
+  group: deploy # shared with docs-deploy.yml, so a refresh never runs at the same time as a push deploy
   cancel-in-progress: false
 
 jobs:
@@ -32,19 +32,23 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GITHUB_TOKEN: ${{ github.token }}
       FORCE: ${{ inputs.force && '1' || '' }}
+    defaults:
+      run:
+        working-directory: docs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: docs/.node-version
           cache: npm
+          cache-dependency-path: docs/package-lock.json
       - name: Restore the last deployed SHAs
         uses: actions/cache/restore@v4
         with:
-          path: .state/last-shas.json
+          path: docs/.state/last-shas.json
           key: refresh-shas-${{ github.run_id }}
           restore-keys: refresh-shas-
-      - name: Refresh
+      - name: Refresh docs
         run: |
           export CHROMIUM="$(command -v google-chrome || command -v chromium)"
           status=0
@@ -52,8 +56,8 @@ jobs:
           cat .state/refresh.log
           exit "$status"
       - name: Save the deployed SHAs
-        if: always() && hashFiles('.state/last-shas.json') != ''
+        if: always() && hashFiles('docs/.state/last-shas.json') != ''
         uses: actions/cache/save@v4
         with:
-          path: .state/last-shas.json
+          path: docs/.state/last-shas.json
           key: refresh-shas-${{ github.run_id }}

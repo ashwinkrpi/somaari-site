@@ -1,10 +1,12 @@
-name: Deploy
+name: Deploy docs
 
-# Every push to main builds, checks and deploys docs.somaari.in (scripts/deploy.sh: preview smoke test,
-# deploy, live smoke test, rollback on failure). refresh.yml rebuilds hourly for guide and theme changes.
+# A push to main that changes docs/ or common/ builds, checks and deploys docs.somaari.in
+# (docs/scripts/deploy.sh: preview smoke test, deploy, live smoke test, rollback on failure).
+# docs-refresh.yml rebuilds hourly for guide changes in the app repos.
 on:
   push:
     branches: [main]
+    paths: ["docs/**", "common/**", ".github/workflows/docs-*.yml"]
   workflow_dispatch:
 
 permissions:
@@ -21,13 +23,17 @@ jobs:
       ASTRO_TELEMETRY_DISABLED: 1
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    defaults:
+      run:
+        working-directory: docs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: docs/.node-version
           cache: npm
-      - name: Deploy
+          cache-dependency-path: docs/package-lock.json
+      - name: Deploy docs
         run: |
           export CHROMIUM="$(command -v google-chrome || command -v chromium)"
           bash scripts/deploy.sh

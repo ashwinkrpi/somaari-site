@@ -1,5 +1,5 @@
 // The shared Somaari header pieces, built from network.json the way header(network, "docs")
-// in vendor/somaari-site/partials.mjs builds them, but with full https://somaari.in/... URLs
+// in site/scripts/partials.mjs builds them, but with full https://somaari.in/... URLs
 // (this is a different origin) and without the parts Starlight supplies itself: search, the Appearance control
 // (ThemeSelect) and the mobile menu button. scripts/build.mjs refreshes network.json before Astro runs.
 // network.json is imported (bundled by Vite), not read from disk at render time.

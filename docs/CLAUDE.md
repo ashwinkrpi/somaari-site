@@ -16,18 +16,18 @@ docs.somaari.in: Starlight (Astro) site that imports each public app's `docs/GUI
 - somaari-docs: commit to `main` and push. Other repos: branch `docs-site/stage-N`, open a PR, and merge it yourself (`gh pr merge --squash --delete-branch`) once that repo's checks pass. Never use force-push or `--admin`.
 - Never write a token, deploy-hook URL or other secret into a file. Never read `.env` or the wrangler config.
 - Strict CSP: no `'unsafe-inline'` scripts, no external requests, self-hosted fonts, and never any "self-host" wording.
-- Never hand-edit the theme files. They come from somaari-common.
+- Never hand-edit the theme files. They come from `../common/theme/` in this repo.
 - Follow each repo's own `CLAUDE.md`/`README.md` for commit style and checks.
 - Problems found by the cron go to one GitHub issue through `scripts/notify.sh`, not to chat.
 
 ## Header and footer
-- The header nav is built from `network.json` by `src/lib/shared.mjs` (same markup as `header(network, "docs")` in `vendor/somaari-site/partials.mjs`, with full `https://somaari.in/...` URLs). Docs is the current site. Starlight's search, sidebar, `ThemeSelect` and `MobileMenuFooter` stay.
+- The header nav is built from `network.json` by `src/lib/shared.mjs` (same markup as `header(network, "docs")` in `../site/scripts/partials.mjs`, with full `https://somaari.in/...` URLs). Docs is the current site. Starlight's search, sidebar, `ThemeSelect` and `MobileMenuFooter` stay.
 - `scripts/build.mjs` refreshes `network.json` first (like `node scripts/fetch-network.mjs`).
 
 ## Commands
 ```sh
-npm run build -- --local ~/code/ai-projects       # build from sibling checkouts
-npm run build                                      # build from GitHub
+npm run build -- --local ~/code/ai-projects       # app guides from sibling checkouts
+npm run build                                      # app guides from GitHub (common/ is always read from this repo)
 npm run check                                      # anchors, CSP, external hosts, self-host wording
 npm run preview &                                  # dist/ + _headers on :8787 (wrangler dev can't run on the Pi)
 npm run smoke -- http://127.0.0.1:8787             # headless: every theme, CSP, external requests, search

@@ -25,7 +25,7 @@ fi
 
 mkdir -p "$target"
 for f in $files; do
-    if ! git -C "$repo" show "main:about/$f" > "$target/$f.tmp"; then
+    if ! git -C "$repo" show "main:./about/$f" > "$target/$f.tmp"; then
         rm -f "$target/$f.tmp"
         echo "error: could not read about/$f from main" >&2
         exit 1

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { getCommonFile, option } from './lib.mjs';
 
 const argv = process.argv.slice(2);
-const src = { local: option(argv, 'local') };
+const src = { local: option(argv, 'local'), common: option(argv, 'common') };
 const out = join(option(argv, 'out') ?? fileURLToPath(new URL('..', import.meta.url)), 'public', 'theme');
 
 try {
@@ -19,7 +19,7 @@ try {
 		await mkdir(dirname(join(out, f)), { recursive: true });
 		await writeFile(join(out, f), await getCommonFile(src, `theme/${f}`));
 	}
-	console.log(`import-theme: ${files.length} files from ${src.local ?? 'GitHub'}`);
+	console.log(`import-theme: ${files.length} files from ${src.common ?? 'common/'}`);
 } catch (e) {
 	console.error(`import-theme: ${e.message}`);
 	process.exit(1);

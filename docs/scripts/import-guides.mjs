@@ -171,9 +171,10 @@ export function convertGuide(app, source, { owner, published, lastUpdated = null
 async function main(argv) {
 	const local = option(argv, 'local');
 	const root = option(argv, 'out') ?? fileURLToPath(new URL('..', import.meta.url));
-	const manifest = await getManifest({ local });
+	const common = option(argv, 'common');
+	const manifest = await getManifest({ local, common });
 	const owner = manifest.github;
-	const src = { local, owner };
+	const src = { local, common, owner };
 	const apps = manifest.apps;
 	const published = publishedGuides(apps);
 	const docsDir = join(root, 'src', 'content', 'docs');

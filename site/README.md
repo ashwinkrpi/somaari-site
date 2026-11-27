@@ -25,14 +25,14 @@ Landing page for the Somaari apps, served at <https://somaari.in/>.
 
 ## How it works
 
-Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are served from this site), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [somaari-common](https://github.com/ashwinkrpi/somaari-common)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from somaari-common and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
+Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a visitor presses Play on a video (fonts and video thumbnails are served from this site), except the cookieless Cloudflare Web Analytics script, which the privacy page lists as the one exception. The only JavaScript is `theme.js` (seasonal default and the Appearance control, from [`../common/`](../common/)), `shots.js` (per-theme screenshots) and `demo.js` (the demo player for the app cards). The build copies the themes in from `../common/` and the app guides live on [docs.somaari.in](https://docs.somaari.in/) (see [App guides](#app-guides)). Hosted on Cloudflare Pages (root directory: `site`, build command: `npm ci && npm run build`, output directory: `dist`, Node version from `.node-version`).
 
 | File | Purpose |
 |---|---|
 | `index.html` | The page: header, hero, Apps, In development, the blog band, footer |
 | `about/index.html` | About page ("Hi, I'm Ashwin") at `/about/`, linked from the header and the footer |
 | `style.css` | All styles (mobile-first); the site's own per-theme custom properties under `html[data-theme]` |
-| `/theme/` (not in this repo) | `theme.js` (theme before first paint, seasonal schedule, the header Appearance control), `themes.css` (fonts and the tokens shared with somaari-plan) and `fonts/`, from somaari-common's `theme/`; the build downloads them (see [Themes](#themes)) |
+| `/theme/` (not in this repo) | `theme.js` (theme before first paint, seasonal schedule, the header Appearance control), `themes.css` (fonts and the tokens shared with somaari-plan) and `fonts/`, from `../common/theme/`; the build copies them (see [Themes](#themes)) |
 | `shots.js` | Detail pages: shows the current theme's screenshot, and swaps it when the theme changes |
 | `apps/<repo>/index.html` | One detail page per available app, served at `/apps/<repo>/` |
 | `404.html` | Not-found page (Cloudflare Pages serves it automatically) |
@@ -50,7 +50,7 @@ Plain static HTML and CSS: no frameworks, no CDNs, no external requests until a 
 | `video.js` | Detail pages: swaps the thumbnail for the YouTube embed (`youtube-nocookie.com`) when Play is pressed; nothing loads from YouTube before that |
 | `assets/videos/<id>.jpg` | Video thumbnails served from this site, so a detail page makes no request to YouTube on load |
 | `scripts/check-videos.mjs` | Checks the pages against `videos.json` |
-| `scripts/build.mjs` | The build: copies the site into `dist/`, downloads somaari-common's `theme/` into `dist/theme/` (and versions it), writes the landing cards and sitemap entries from somaari-common's `apps/apps.json` and downloads the screenshots and demo loops it names |
+| `scripts/build.mjs` | The build: copies the site into `dist/`, copies `../common/theme/` into `dist/theme/` (and versions it), writes the landing cards and sitemap entries from `../common/apps/apps.json` and downloads the screenshots and demo loops it names |
 | `_redirects` | Sends the old guide URLs (`/apps/<repo>/docs/...`) to docs.somaari.in |
 | `scripts/app-docs-workflow.yml` | The GitHub workflow each app repo copies, so a push to `docs/` rebuilds the site (for screenshots) |
 | `_headers` | Cloudflare Pages security headers (strict CSP: `'self'` plus Cloudflare Web Analytics and the `youtube-nocookie.com` frame, no inline styles or scripts) |
@@ -67,7 +67,7 @@ Then open <http://localhost:8000>. (`_headers` only applies on Cloudflare Pages.
 `PUBLISH` in `scripts/build.mjs` are copied to `dist/`; add a new top-level file there too.
 `npm run check` runs the header/footer, asset-version and video checks.
 To test with the CSP and other `_headers` headers applied, serve with `python3 scripts/demo/serve.py 8000` instead,
-and `node scripts/demo/verify.mjs` checks the demo player, the Appearance control and every page in headless Chromium. `npm run build -- --local ~/code/ai-projects` also takes `theme/` and `apps/apps.json` from your local somaari-common checkout.
+and `node scripts/demo/verify.mjs` checks the demo player, the Appearance control and every page in headless Chromium. `npm run build -- --local ~/code/ai-projects` takes the app screenshots and demos from local app checkouts; `theme/` and `apps/apps.json` always come from `../common/`.
 
 Preview a theme without saving it by adding `?theme=<id>`, e.g. <http://localhost:8000/?theme=graphite>.
 Ids: `rangoli`, `monsoon`, `graphite`, `liquid-glass`.
@@ -78,7 +78,7 @@ The Appearance control (the round icon button in the header) saves the visitor's
 `somaari-theme` cookie for `somaari.in`, so docs.somaari.in and blog.somaari.in follow it too. "Auto (seasonal)" clears it
 and follows the date in India (Asia/Kolkata); no seasonal themes are scheduled at the moment, so it shows `graphite`, the default. Without JS the page keeps `rangoli`.
 
-The themes, schedule and fonts live in somaari-common (`theme/`, standard: `docs/THEME_SPEC.md`), shared
+The themes, schedule and fonts live in `../common/` (`theme/`, standard: `docs/THEME_SPEC.md`), shared
 with the other somaari apps. Add, change or remove a theme there only (`THEMES` and `SCHEDULE` in
 `theme/theme.js`, the tokens in `theme/themes.css`); a push to its `main` rebuilds this site.
 `style.css` derives this site's tokens from the standard ones once for every theme, so a new theme
@@ -90,7 +90,7 @@ Theme styles only change colours, fonts, spacing and decoration; the page text i
 
 Nothing is copied between repos; each step is in the repo that owns it.
 
-1. **Manifest:** add the app to somaari-common's [`apps/apps.json`](https://github.com/ashwinkrpi/somaari-common/blob/main/apps/apps.json)
+1. **Manifest:** add the app to [`common/apps/apps.json`](../common/apps/apps.json)
    (title, status, `public`, description, tags, AI chip and its source). A push to `apps/` on `main`
    runs its tests and rebuilds this site, which writes the card into `index.html` from it: `live`
    apps under **Apps**, `dev` and `soon` under **In development**, in manifest order. "Details"
@@ -144,7 +144,7 @@ To publish a new app's guide, follow the somaari-docs README.
 ## Screenshots and demo loops from the app repo
 
 An app's detail page screenshot and card demo loop can live only in the app repo, so
-they update on the site when they change there. Add them to the app's entry in somaari-common's `apps/apps.json`:
+they update on the site when they change there. Add them to the app's entry in `common/apps/apps.json`:
 
 - `"screenshot": "docs/screenshots/x.png"`: one PNG or JPEG for the detail page, or
   `{ "<theme id>": "<path>", ... }` with one per theme (all four, same size). The build downloads

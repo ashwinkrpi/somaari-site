@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Hourly rebuild of docs.somaari.in (the Refresh GitHub Actions workflow; see README "How the site stays up to date"). Deploys only
-# when something it is built from changed on GitHub since the last successful deploy, or FORCE=1:
-#   - each manifest guide's folder (its Markdown and images), at the guide's ref
-#   - somaari-common theme/ and apps/ on main
+# when a manifest guide's folder (its Markdown and images, at the guide's ref) changed on GitHub since
+# the last successful deploy, or FORCE=1. Changes to common/ in this repo deploy on push (docs-deploy.yml).
 # The SHAs are saved in .state/last-shas.json only after deploy.sh succeeds. Everything is logged to
 # .state/refresh.log. A failure opens or updates one GitHub issue (scripts/notify.sh); the next good
 # run closes it.
@@ -30,8 +29,7 @@ latest() {
 }
 
 log "start${FORCE:+ (FORCE=$FORCE)}"
-manifest=$(gh api "repos/$OWNER/somaari-common/contents/apps/apps.json?ref=main" \
-	-H 'Accept: application/vnd.github.raw') || fail "read the app manifest"
+manifest=$(cat ../common/apps/apps.json) || fail "read the app manifest"
 # shellcheck disable=SC2016 # a JS template literal, not shell
 guides=$(printf '%s' "$manifest" | node -e '
 	let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
@@ -46,10 +44,6 @@ guides=$(printf '%s' "$manifest" | node -e '
 		sha=$(latest "$repo" "$ref" "$dir") && [[ -n "$sha" && "$sha" != null ]] || exit 1
 		printf '%s/%s:%s %s\n' "$OWNER" "$repo" "$dir" "$sha"
 	done <<<"$guides"
-	for path in theme apps; do
-		sha=$(latest somaari-common main "$path") && [[ -n "$sha" && "$sha" != null ]] || exit 1
-		printf '%s/somaari-common:%s %s\n' "$OWNER" "$path" "$sha"
-	done
 ) >"$CURRENT" || fail "read the latest commits"
 
 changed=$(node scripts/refresh-state.mjs changed "$LAST" "$CURRENT") || fail "compare the SHAs"

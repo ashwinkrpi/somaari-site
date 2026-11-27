@@ -121,7 +121,7 @@ function runImport(guideName, { images = true } = {}) {
 			cpSync(join(FIXTURES, 'images'), join(docs, 'screenshots'), { recursive: true });
 		}
 		const out = join(dir, 'out');
-		const r = spawnSync(process.execPath, [SCRIPT, '--local', dir, '--out', out], { encoding: 'utf8' });
+		const r = spawnSync(process.execPath, [SCRIPT, '--local', dir, '--common', join(dir, 'somaari-common'), '--out', out], { encoding: 'utf8' });
 		return {
 			status: r.status,
 			stderr: r.stderr,
