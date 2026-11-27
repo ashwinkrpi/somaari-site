@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raspberry Pi 5 setup · Uses · Somaari</title>
+  <meta name="description" content="My Raspberry Pi 5 setup: the hardware, desk, OS and the dev and AI tools I use on it.">
+  <link rel="canonical" href="https://somaari.in/uses/raspberry-pi/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="Raspberry Pi 5 setup · Uses · Somaari">
+  <meta property="og:description" content="My Raspberry Pi 5 setup: the hardware, desk, OS and the dev and AI tools I use on it.">
+  <meta property="og:url" content="https://somaari.in/uses/raspberry-pi/">
+  <meta property="og:locale" content="en_IN">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
+       shared tokens) come from somaari-common; the build copies them into /theme/. -->
+  <script src="/theme/theme.js"></script>
+  <link rel="stylesheet" href="/theme/themes.css">
+  <link rel="stylesheet" href="/shared.css?v=ef0ed6edbb">
+  <link rel="stylesheet" href="/style.css?v=9f885b5ed4">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="https://docs.somaari.in/">Docs</a></li>
+            <li><a href="https://blog.somaari.in/">Blog</a></li>
+            <li><a href="/about/">About</a></li>
+          </ul>
+        </nav>
+        <!-- GitHub and YouTube as icons; hidden on phones, where the footer has them. -->
+        <ul class="header-social" role="list">
+          <li><a href="https://github.com/ashwinkrpi" aria-label="GitHub">
+            <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a></li>
+          <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+          </a></li>
+        </ul>
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail docs container">
+    <p class="detail-back"><a href="/uses/">&larr; What I use</a></p>
+    <!-- Every fact on this page comes from USES_SOURCE.md. Check it there before editing. -->
+    <div class="detail-intro">
+      <h1 class="detail-title">Raspberry Pi 5</h1>
+      <p class="detail-lead">
+        My Raspberry Pi 5 setup: the hardware, desk, OS and the dev and AI tools I use on it. Last updated <time datetime="2026-11-27">27 November 2026</time>.
+      </p>
+    </div>
+
+    <div class="prose">
+      <!-- USES:pi -->
+      <h2>Hardware</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/raspberry-pi-5/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/raspberrypi.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi 5 (8 GB)</span><span class="uses-app-desc">The computer I build most of the somaari apps on.</span></span></a></li>
+        <li><div class="uses-app"><img class="uses-app-icon" src="/assets/uses/icons/pi/samsung.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Samsung 256 GB NVMe SSD</span><span class="uses-app-desc">Samsung PM9B1. The Pi boots from it rather than a microSD card.</span></span></div></li>
+        <li><a class="uses-app" href="https://www.waveshare.com/pcie-to-2-ch-pcie-hat.htm" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/circuit-board.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Waveshare 2-Ch PCIe FFC Adapter Board</span><span class="uses-app-desc">Splits the Pi 5&#x27;s PCIe connector into two; the NVMe drive connects through it.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/raspberry-pi-5-case/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/raspberrypi.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi Case for Raspberry Pi 5</span><span class="uses-app-desc">The official case.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/active-cooler/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/raspberrypi.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi Active Cooler</span><span class="uses-app-desc">The official heatsink and fan.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.raspberrypi.com/products/27w-power-supply/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/raspberrypi.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi 27W USB-C Power Supply</span><span class="uses-app-desc">The official 5.1 V, 5 A supply.</span></span></a></li>
+      </ul>
+      <h2>Desk</h2>
+      <ul class="uses-apps">
+        <li><div class="uses-app"><img class="uses-app-icon" src="/assets/uses/icons/pi/msi.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">MSI 27-inch monitor</span></span></div></li>
+        <li><div class="uses-app"><img class="uses-app-icon" src="/assets/uses/icons/pi/keyboard.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">EvoFox Katana X2 TKL keyboard</span><span class="uses-app-desc">Mechanical and tenkeyless, with clicky blue switches.</span></span></div></li>
+        <li><div class="uses-app"><img class="uses-app-icon" src="/assets/uses/icons/pi/mouse.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Ant Esports GM320 mouse</span><span class="uses-app-desc">Wired, with RGB lighting.</span></span></div></li>
+      </ul>
+      <h2>OS and desktop</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://www.raspberrypi.com/software/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/raspberrypi.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Raspberry Pi OS (64-bit)</span></span></a></li>
+        <li><a class="uses-app" href="https://xfce.org/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/xfce.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">XFCE</span><span class="uses-app-desc">The desktop, in place of the default one.</span></span></a></li>
+        <li><div class="uses-app"><img class="uses-app-icon" src="/assets/uses/icons/pi/image.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Wallpaper slideshow</span><span class="uses-app-desc">My own script that changes the desktop wallpaper.</span></span></div></li>
+      </ul>
+      <h2>Dev and AI</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://claude.com/claude-code" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/claude.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Claude Code</span><span class="uses-app-desc">Most of the somaari apps are built with it, on the Pi.</span></span></a></li>
+        <li><a class="uses-app" href="https://code.visualstudio.com/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/vscode.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">VS Code</span></span></a></li>
+        <li><a class="uses-app" href="https://neovim.io/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/neovim.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Neovim</span></span></a></li>
+        <li><a class="uses-app" href="https://github.com/tmux/tmux" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/tmux.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">tmux</span></span></a></li>
+        <li><a class="uses-app" href="https://cli.github.com/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/github.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">GitHub CLI</span></span></a></li>
+        <li><a class="uses-app" href="https://nodejs.org/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/nodedotjs.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Node.js</span></span></a></li>
+        <li><a class="uses-app" href="https://www.python.org/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/python.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Python</span></span></a></li>
+        <li><a class="uses-app" href="https://docs.astral.sh/uv/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/uv.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">uv</span><span class="uses-app-desc">Python packages and projects.</span></span></a></li>
+        <li><a class="uses-app" href="https://www.docker.com/" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/pi/docker.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Docker</span></span></a></li>
+        <li><div class="uses-app"><img class="uses-app-icon" src="/assets/uses/icons/pi/globe.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Obscura</span><span class="uses-app-desc">The headless browser Claude Code uses for web work.</span></span></div></li>
+      </ul>
+      <h2>My apps</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="/apps/somaari-disk/"><img class="uses-app-icon" src="/assets/uses/icons/pi/hard-drive.svg" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">somaari-disk</span><span class="uses-app-desc">My disk-usage analyzer, on the Pi&#x27;s desktop.</span></span></a></li>
+      </ul>
+      <!-- /USES:pi -->
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="https://docs.somaari.in/">Docs</a></li>
+        <li><a href="https://blog.somaari.in/">Blog</a></li>
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>

@@ -765,3 +765,36 @@ html[data-theme="liquid-glass"] .demo-video { border-radius: 18px; }
 @media (min-width: 48rem) {
   .pricing { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* /uses/ hub: two large cards that link to /uses/iphone/ and /uses/raspberry-pi/. */
+.uses-hub { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 40rem) {
+  .uses-hub { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.uses-hub li { margin: 0; scroll-margin-top: 5rem; }
+.uses-hub-card {
+  display: flex; flex-direction: column; height: 100%; overflow: hidden;
+  background: var(--card-bg); color: var(--fg);
+  border: 1px solid var(--card-edge); border-top: var(--card-top) solid var(--card-top-color);
+  border-radius: var(--card-radius); box-shadow: var(--shadow);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.uses-hub-card:hover,
+.uses-hub-card:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.uses-hub-media { display: flex; justify-content: center; height: 16rem; overflow: hidden; }
+/* The top of home screen 1, cropped by the card, like a phone peeking up. */
+.uses-hub-media--phone { align-items: flex-start; padding-top: 1.5rem; background: var(--media-bg); }
+.uses-hub-media--phone img { width: 11rem; height: auto; border-radius: 1.6rem; box-shadow: var(--shadow); }
+/* Raspberry Pi brand colour behind its logo tile (the same colour), so the logo sits on the whole panel. */
+.uses-hub-media--pi { align-items: center; background: #a22846; }
+.uses-hub-media--pi img { width: 15rem; height: 15rem; }
+.uses-hub-text { display: flex; flex-direction: column; gap: 0.4rem; padding: 1.25rem; }
+.uses-hub-title { font-size: var(--text-xl); font-weight: 600; }
+.uses-hub-desc { color: var(--muted); }
+.uses-hub-more { margin-top: 0.25rem; color: var(--accent); font-weight: 600; }
+.uses-hub-card:hover .uses-hub-more { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) {
+  .uses-hub-card { transition: none; }
+  .uses-hub-card:hover, .uses-hub-card:focus-visible { transform: none; }
+}

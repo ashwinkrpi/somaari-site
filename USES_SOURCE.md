@@ -1,6 +1,6 @@
 # Uses page source: iPhone 14 and Raspberry Pi 5
 
-Source for `uses/index.html` (/uses/). Only the apps I chose to list. Not published: it is not in `PUBLISH` in `scripts/build.mjs`.
+Source for the /uses/ pages: `uses/index.html` (hub: two cards, keep their item counts in step), `uses/iphone/index.html` (the `USES:iphone` block) and `uses/raspberry-pi/index.html` (the `USES:pi` block). Raspberry Pi icons are in `assets/uses/icons/pi/` (Simple Icons 16.37.0 brand marks, CC0; Lucide 1.72.0 glyphs, ISC; VS Code's own icon). Only the apps I chose to list. Not published: it is not in `PUBLISH` in `scripts/build.mjs`.
 The private master list is kept outside this repo. Take every fact on the page from this file; don't add apps or reasons.
 
 Last updated: 2026-11-27
