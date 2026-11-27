@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iPhone 14 apps · Uses · Somaari</title>
+  <meta name="description" content="The 47 apps I use on my iPhone 14, grouped by category, with my home screens.">
+  <link rel="canonical" href="https://somaari.in/uses/iphone/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#FBC96B" media="(prefers-color-scheme: dark)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Somaari">
+  <meta property="og:title" content="iPhone 14 apps · Uses · Somaari">
+  <meta property="og:description" content="The 47 apps I use on my iPhone 14, grouped by category, with my home screens.">
+  <meta property="og:url" content="https://somaari.in/uses/iphone/">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:image" content="https://somaari.in/assets/uses/og.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="What I use: my iPhone 14 home screens.">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <!-- Picks the theme before first paint (blocking on purpose). theme.js and themes.css (fonts and
+       shared tokens) come from somaari-common; the build copies them into /theme/. -->
+  <script src="/theme/theme.js"></script>
+  <link rel="stylesheet" href="/theme/themes.css">
+  <link rel="stylesheet" href="/shared.css?v=ef0ed6edbb">
+  <link rel="stylesheet" href="/style.css?v=9f885b5ed4">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="glows" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- SHARED HEADER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <p class="wordmark">
+          <a href="/">
+            <span class="wordmark-mark" aria-hidden="true">S</span>
+            Somaari
+          </a>
+        </p>
+        <p class="tagline">Useful tools, built with AI assistance.</p>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav" aria-label="Main">
+          <ul role="list">
+            <li><a href="/#apps">Apps</a></li>
+            <li><a href="https://docs.somaari.in/">Docs</a></li>
+            <li><a href="https://blog.somaari.in/">Blog</a></li>
+            <li><a href="/about/">About</a></li>
+          </ul>
+        </nav>
+        <!-- GitHub and YouTube as icons; hidden on phones, where the footer has them. -->
+        <ul class="header-social" role="list">
+          <li><a href="https://github.com/ashwinkrpi" aria-label="GitHub">
+            <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a></li>
+          <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+          </a></li>
+        </ul>
+        <!-- Appearance (theme) control: theme.js (somaari-common) adds the choices, shows it, opens the
+             popover and remembers the choice. Themes live in themes.css and style.css. -->
+        <div class="appearance" id="theme-picker" hidden>
+          <button type="button" class="appearance-toggle" id="appearance-toggle" aria-expanded="false" aria-controls="appearance-menu">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>
+            </svg>
+            <span class="visually-hidden">Appearance</span>
+          </button>
+          <div class="appearance-menu" id="appearance-menu" hidden>
+            <fieldset>
+              <legend>Theme</legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /SHARED HEADER -->
+
+  <main id="main" class="detail docs container">
+    <p class="detail-back"><a href="/uses/">&larr; What I use</a></p>
+    <!-- Every fact on this page comes from USES_SOURCE.md. Check it there before editing. -->
+    <div class="detail-intro">
+      <h1 class="detail-title">iPhone 14</h1>
+      <p class="detail-lead">
+        The apps on my iPhone 14, grouped by category. Last updated <time datetime="2026-11-27">27 November 2026</time>.
+      </p>
+    </div>
+
+    <div class="prose">
+      <figure class="uses-shots">
+        <div class="uses-shots-grid">
+          <img src="/assets/uses/home-screen-1.webp" width="600" height="1298" loading="lazy" alt="Home screen 1 of 2: Apple apps, then Adobe Express to F1 TV">
+          <img src="/assets/uses/home-screen-2.webp" width="600" height="1298" loading="lazy" alt="Home screen 2 of 2: Firefox Focus to Zomato">
+        </div>
+        <figcaption>My two iPhone home screens.</figcaption>
+      </figure>
+      <!-- USES:iphone -->
+      <h2>Dev and AI</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/claude-by-anthropic/id6473753684" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6473753684.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Claude</span><span class="uses-app-desc">Meet Claude, your AI problem solver and thinking partner.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/chatgpt/id6448311069" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6448311069.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">ChatGPT</span><span class="uses-app-desc">Introducing ChatGPT for iOS: OpenAI’s latest advancements at your fingertips.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/google-gemini/id6477489729" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6477489729.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Gemini</span><span class="uses-app-desc">From your morning commute to late-night deep dives, Google Gemini is your personal, proactive and powerful AI assistant.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/github/id1477376905" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1477376905.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">GitHub</span><span class="uses-app-desc">There’s a lot you can do on GitHub that doesn’t require a complex development environment – like sharing feedback on a design discussion, or…</span></span></a></li>
+      </ul>
+      <h2>Browsers and privacy</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/brave-browser-private-web/id1052879175" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1052879175.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Brave</span><span class="uses-app-desc">Brave is a fast, private web browser that blocks ads and trackers on every site, automatically.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/firefox-focus-privacy-browser/id1055677337" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1055677337.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Firefox Focus</span><span class="uses-app-desc">Use Firefox Focus for everything you want to keep separate from your main browser — for all those get in get out and forget about it moments.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/microsoft-edge/id1288723196" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1288723196.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Edge</span><span class="uses-app-desc">Browse with Microsoft Edge, your everyday web browser with built-in Copilot.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/hiya-spam-blocker/id986999874" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/986999874.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Hiya</span><span class="uses-app-desc">Know who&#x27;s calling. Block unwanted calls.</span></span></a></li>
+      </ul>
+      <h2>Smart home</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/home/id1110145103" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1110145103.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Home</span><span class="uses-app-desc">Home makes it easy to control, organise and monitor all your smart home accessories — directly from your iPhone, iPad, Mac or Apple Watch.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/amazon-alexa/id944011620" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/944011620.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Amazon Alexa</span><span class="uses-app-desc">Use the Amazon Alexa app to manage Alexa-enabled devices, control music playback, view shopping lists on the go, keep track of upcoming reminders…</span></span></a></li>
+      </ul>
+      <h2>Productivity and files</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/microsoft-excel/id586683407" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/586683407.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Excel</span><span class="uses-app-desc">Review files and run data analysis on the go.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/reminders/id1108187841" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1108187841.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Reminders</span><span class="uses-app-desc">Reminders makes it easier than ever to remember the things you need to do.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/journal/id6447391597" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6447391597.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Journal</span><span class="uses-app-desc">Take a moment to reflect on your day. Capture and write about the details of everyday moments and special events using photos, videos, audio…</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/freeform/id6443742539" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6443742539.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Freeform</span><span class="uses-app-desc">Freeform is now part of Apple Creator Studio, an amazing collection of Apple’s most powerful creative apps designed to help you bring your ideas to…</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/files/id1232058109" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1232058109.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Files</span><span class="uses-app-desc">Access and organise your files no matter where they’re located — on your device, in the cloud, on an external drive or file server— with Files.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/preview/id536344167" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/536344167.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Preview</span><span class="uses-app-desc">Preview makes working with PDFs and images easier than ever, with built-in tools to create, edit, annotate, markup, and export.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/neatpix/id6758279493" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6758279493.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">NeatPix</span><span class="uses-app-desc">NeatPix helps you clean duplicate photos fast, with a built-in Hidden Backup system so your protected photos are safely backed up before major…</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/translate/id1514844618" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1514844618.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Translate</span><span class="uses-app-desc">Translate lets you quickly and easily translate your voice and text between languages.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/adobe-express-create-anything/id1051937863" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1051937863.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Adobe Express</span><span class="uses-app-desc">Adobe Express is the quick and easy app to create on-brand content that helps your business stand out and make an impact.</span></span></a></li>
+        <li><div class="uses-app"><span class="uses-app-icon uses-app-icon--none" aria-hidden="true">C</span><span class="uses-app-text"><span class="uses-app-name">Clips</span><span class="uses-app-desc">No longer on the App Store.</span></span></div></li>
+      </ul>
+      <h2>Communication and social</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/telegram-messenger/id686449807" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/686449807.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Telegram</span><span class="uses-app-desc">Pure instant messaging — simple, fast, secure, and synced across all your devices.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/x/id333903271" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/333903271.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">X</span><span class="uses-app-desc">X (formerly Twitter) is a social media app where you can follow breaking news, live events, and trending topics as they happen.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/mastodon/id1571998974" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1571998974.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Mastodon</span><span class="uses-app-desc">Mastodon is the best way to keep up with what’s happening.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/discord-talk-play-hang-out/id985746746" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/985746746.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Discord</span><span class="uses-app-desc">Discord is designed for gaming and great for just chilling with friends or building a community.</span></span></a></li>
+      </ul>
+      <h2>Entertainment and media</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/youtube/id544007664" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/544007664.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">YouTube</span><span class="uses-app-desc">Get the official YouTube app on iPhones and iPads.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/netflix/id363590051" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/363590051.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Netflix</span><span class="uses-app-desc">Looking for the most talked about TV shows and movies from around the world?</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/jiohotstar/id934459219" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/934459219.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">JioHotstar</span><span class="uses-app-desc">Welcome to the world of infinite possibilities – where non-stop sports, endless entertainment, and countless stories come alive!</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/sony-liv/id587794258" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/587794258.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Sony LIV</span><span class="uses-app-desc">Experience the best entertainment, all in one place.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/crunchyroll/id329913454" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/329913454.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Crunchyroll</span><span class="uses-app-desc">Stream new episodes, classic favorites, and anime movies with the Crunchyroll app.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/f1-tv/id1315007279" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1315007279.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">F1 TV</span><span class="uses-app-desc">Experience the thrill of Formula 1® with F1 TV Access.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/waves-pb/id6478751951" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/6478751951.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">WAVES</span><span class="uses-app-desc">Introducing Waves OTT by Prasar Bharati – the app that’s got something for everyone!</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/apple-music/id1108187390" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1108187390.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Apple Music</span><span class="uses-app-desc">Apple Music is all about the music, with the highest audio quality; exclusive, in-depth content and unparalleled access to the artists you love — all…</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/apple-podcasts/id525463029" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/525463029.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Podcasts</span><span class="uses-app-desc">Discover podcasts that entertain, inform and inspire.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/shazam-find-music-concerts/id284993459" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/284993459.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Shazam</span><span class="uses-app-desc">What&#x27;s that song? Shazam will instantly identify music playing around you or in apps like TikTok, Instagram, YouTube &amp; Snapchat.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/vlc-media-player/id650377962" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/650377962.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">VLC</span><span class="uses-app-desc">VLC is a free and open source cross-platform multimedia player.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/genshin-impact/id1517783697" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1517783697.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Genshin Impact</span><span class="uses-app-desc">Step into Teyvat, a vast world teeming with life and flowing with elemental energy.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/hoyolab/id1559483982" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1559483982.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">HoYoLAB</span><span class="uses-app-desc">Communicate, discuss, explore the community, and meet new friends.</span></span></a></li>
+      </ul>
+      <h2>Travel and getting around</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/uber-rides-eats-and-more/id368677368" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/368677368.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Uber</span><span class="uses-app-desc">Join the millions of riders who trust Uber for their everyday travel needs.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/rapido-bike-taxi-auto-cabs/id1198464606" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1198464606.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Rapido</span><span class="uses-app-desc">Try Rapido (रैपिडो), India’s first and largest Bike-Taxi Service.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/mappls-mapmyindia-maps/id723492531" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/723492531.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Mappls MapmyIndia</span><span class="uses-app-desc">Mappls App offers you the most precise and accurate navigation experience, with uniquely useful navigation features not provided by other maps apps…</span></span></a></li>
+      </ul>
+      <h2>Shopping and food</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/amazon-india-shop-pay-minitv/id1478350915" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1478350915.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Amazon</span><span class="uses-app-desc">The Amazon India - Shop and Pay App brings to you a wide selection of products across categories at great prices.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/bigbasket-groceries-and-more/id660683603" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/660683603.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">bigbasket</span><span class="uses-app-desc">Introducing bigbasket now: One stop solution, delivering daily household needs like groceries, detergents, books, toys, appliances, gadgets…</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/blinkit-groceries-more/id960335206" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/960335206.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Blinkit</span><span class="uses-app-desc">Blinkit is India’s last minute app. Trusted by millions, it is your everyday online grocery shopping app that home-delivers 30,000+ daily groceries.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/zomato-food-delivery-dining/id434613896" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/434613896.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Zomato</span><span class="uses-app-desc">Want a bite? India&#x27;s No. 1 food delivery app has you covered.</span></span></a></li>
+      </ul>
+      <h2>Health and fitness</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/apple-fitness/id1208224953" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1208224953.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Fitness</span><span class="uses-app-desc">Get a comprehensive view of your fitness including Activity details, readiness, Trends, Awards and more.</span></span></a></li>
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/watch/id1069511734" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1069511734.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Watch</span><span class="uses-app-desc">Use the Apple Watch app to pair and sync your Apple Watch with your iPhone.</span></span></a></li>
+      </ul>
+      <h2>Apple built-ins</h2>
+      <ul class="uses-apps">
+        <li><a class="uses-app" href="https://apps.apple.com/in/app/safari/id1146562112" rel="noopener"><img class="uses-app-icon" src="/assets/uses/icons/1146562112.webp" width="56" height="56" loading="lazy" alt=""><span class="uses-app-text"><span class="uses-app-name">Safari</span><span class="uses-app-desc">Explore the web with lightning-fast speed, powerful privacy protections and robust customisation options.</span></span></a></li>
+      </ul>
+      <!-- /USES:iphone -->
+    </div>
+  </main>
+
+  <!-- SHARED FOOTER: identical on every page except 404.html; node scripts/check-shared.mjs -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Somaari</p>
+      <ul class="footer-links" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="https://docs.somaari.in/">Docs</a></li>
+        <li><a href="https://blog.somaari.in/">Blog</a></li>
+        <li><a href="https://github.com/ashwinkrpi">GitHub</a></li>
+        <li><a href="https://www.youtube.com/playlist?list=PLN-jKLooxXWU" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+      </ul>
+    </div>
+  </footer>
+  <!-- /SHARED FOOTER -->
+</body>
+</html>
