@@ -1,0 +1,32 @@
+# Tests for common/ (the About data, the themes and the app manifest) on every push or pull request
+# that changes it. Replaced somaari-common's site-theme.yml and site-apps.yml, which also pinged the
+# somaari.in deploy hook: Cloudflare Pages now rebuilds the site from the same push.
+name: Common tests
+
+on:
+  push:
+    branches: [main]
+    paths: ["common/**", ".github/workflows/common-tests.yml"]
+  pull_request:
+    paths: ["common/**", ".github/workflows/common-tests.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: common
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.0
+        with:
+          python-version: "3.11"
+      - name: Tests
+        run: |
+          uv venv
+          uv pip install pytest jsonschema ./python
+          .venv/bin/python -m pytest -q

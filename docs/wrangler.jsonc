@@ -1,0 +1,13 @@
+// docs.somaari.in: Cloudflare Workers static assets, deployed by scripts/deploy.sh. No account ids or
+// secrets here: wrangler takes the account from its own login.
+{
+	"name": "somaari-docs",
+	"compatibility_date": "2026-11-13",
+	"assets": {
+		"directory": "./dist",
+		"not_found_handling": "404-page"
+	},
+	"routes": [{ "pattern": "docs.somaari.in", "custom_domain": true }],
+	"workers_dev": true,
+	"preview_urls": true
+}

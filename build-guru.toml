@@ -1,4 +1,8 @@
-# somaari-site's build-guru config (format: somaari-build-guru PLAN.md section 5)
+# The web repo's build-guru config (format: somaari-build-guru PLAN.md section 5). build-guru runs the
+# commands from the repo root, so each one goes into the folder it checks. Combines the old
+# somaari-site and somaari-docs configs (merged 2026-11-27).
+# Run it from a separate git worktree on branch build-guru/PLAN, so a docs deploy from the main
+# checkout (docs/scripts/refresh.sh) never sees a half-finished branch.
 main_branch = "main"
 
 [models]
@@ -8,14 +12,17 @@ complex  = "opus"
 categoriser = "haiku"
 
 [run]
-test_cmd   = ["npm", "run", "check"]
-lint_cmd   = ["npm", "run", "build"]    # a failing build counts as a failed task
+test_cmd   = ["sh", "-c", "(cd site && npm run check) && (cd docs && npm test) && (cd common && .venv/bin/python -m pytest -q)"]
+# Both builds read app files from GitHub (need the network); a failing build counts as a failed task.
+lint_cmd   = ["sh", "-c", "(cd site && npm run build) && (cd docs && npm run build && npm run check)"]
 max_cost_usd_per_run = 5
 on_manual  = "skip"
 on_fail    = "stop"
 
 [permissions]
-allowed_bash    = ["npm run *", "node scripts/*", "ls*", "echo *", "git status*", "git diff*", "git log*"]
+allowed_bash    = ["npm run *", "npm test*", "node --test*", "node scripts/*", "cd *", "ls*", "echo *",
+                   "git status*", "git diff*", "git log*"]
 disallowed_bash = ["git add*", "git commit*", "git push*", "git reset*", "git checkout*", "git switch*",
-                   "git merge*", "git rebase*", "sudo *", "curl *", "wget *", "ssh *"]
-disallowed_read = ["./.env*"]
+                   "git merge*", "git rebase*", "sudo *", "curl *", "wget *", "ssh *", "gh *",
+                   "bash scripts/*", "npx --yes wrangler*", "npx wrangler*", "wrangler*"]
+disallowed_read = ["./.env*", "./*/.env*"]

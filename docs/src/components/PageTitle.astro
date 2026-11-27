@@ -1,0 +1,31 @@
+---
+// A "somaari / docs / <app>" breadcrumb above the title, and under it the "Last updated" date: the
+// guide's latest commit in its app repo (frontmatter `lastUpdated`, written by scripts/import-guides.mjs).
+// No date when the import couldn't read one. Styles: src/styles/somaari.css (".crumbs", ".guide-updated").
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const { entry } = Astro.locals.starlightRoute;
+const isGuide = entry.id !== 'index' && entry.id !== '404';
+const updated = entry.data.lastUpdated instanceof Date ? entry.data.lastUpdated : null;
+const iso = updated?.toISOString().slice(0, 10);
+---
+
+{
+	isGuide && (
+		<nav class="crumbs" aria-label="Breadcrumb">
+			<a href="https://somaari.in/">somaari</a>
+			<span aria-hidden="true">/</span>
+			<a href="/">docs</a>
+			<span aria-hidden="true">/</span>
+			<span aria-current="page">{entry.data.title}</span>
+		</nav>
+	)
+}
+<Default />
+{
+	isGuide && iso && (
+		<p class="guide-updated">
+			Last updated <time datetime={iso}>{iso}</time>
+		</p>
+	)
+}

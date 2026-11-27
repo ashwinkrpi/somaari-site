@@ -1,19 +1,6 @@
-# OS junk
+# Each folder has its own .gitignore; these apply everywhere.
 .DS_Store
 Thumbs.db
-desktop.ini
-*~
-
-# Editor folders
-.vscode/
-.idea/
-*.swp
-
-# Secrets / dependencies (just in case)
+node_modules/
 .env
 .env.*
-node_modules/
-
-# Build output (npm run build), and a saved copy to diff a new build against
-dist/
-dist-baseline/

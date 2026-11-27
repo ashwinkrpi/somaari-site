@@ -1,0 +1,22 @@
+{
+  "files": [
+    "theme.js",
+    "themes.css",
+    "footer.css",
+    "footer.mjs",
+    "fonts/HankenGrotesk.woff2",
+    "fonts/Inter.woff2",
+    "fonts/InterTight.woff2",
+    "fonts/Literata.woff2",
+    "fonts/Marcellus.woff2",
+    "fonts/OFL-HankenGrotesk.txt",
+    "fonts/OFL-Inter.txt",
+    "fonts/OFL-InterTight.txt",
+    "fonts/OFL-Literata.txt",
+    "fonts/OFL-Marcellus.txt",
+    "fonts/OFL-Onest.txt",
+    "fonts/Onest-math.woff2",
+    "fonts/Onest-symbols.woff2",
+    "fonts/Onest.woff2"
+  ]
+}

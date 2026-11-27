@@ -1,0 +1,21 @@
+[
+  { "key": "app_name", "label": "App", "description": "The app's name, e.g. somaari-disk.", "required": true },
+  { "key": "app_version", "label": "Version", "description": "The app's version, read from its single version source.", "required": true },
+  { "key": "build_commit", "label": "Build commit", "description": "Short git commit hash (max 12 chars) stamped at build time; \"dev\" when running from source.", "required": true },
+  { "key": "build_date", "label": "Build date", "description": "UTC build date (YYYY-MM-DD or ISO 8601) stamped at build time; \"unknown\" when running from source.", "required": true },
+  { "key": "os_name", "label": "OS", "description": "Operating system family: Linux, macOS or Windows.", "required": true },
+  { "key": "os_version", "label": "OS version", "description": "Distribution/OS release, e.g. \"Debian GNU/Linux 12 (bookworm)\", \"14.5\", \"11\".", "required": true },
+  { "key": "kernel", "label": "Kernel", "description": "Kernel release or OS build number.", "required": true },
+  { "key": "architecture", "label": "Architecture", "description": "CPU architecture, e.g. aarch64, x86_64, AMD64.", "required": true },
+  { "key": "device_model", "label": "Device", "description": "Hardware model, e.g. from /proc/device-tree/model on Raspberry Pi; \"unknown\" if absent.", "required": true },
+  { "key": "runtime_name", "label": "Runtime", "description": "Language runtime, e.g. Python, Node.js.", "required": true },
+  { "key": "runtime_version", "label": "Runtime version", "description": "Version of the language runtime.", "required": true },
+  { "key": "key_dependencies", "label": "Key dependencies", "description": "List of name=version for the app's important dependencies; \"none\" if empty.", "required": true },
+  { "key": "data_dir", "label": "Data dir", "description": "Where the app stores its data; \"n/a\" if the app has none.", "required": false },
+  { "key": "config_dir", "label": "Config dir", "description": "Where the app reads its config; \"n/a\" if the app has none.", "required": false },
+  { "key": "log_dir", "label": "Log dir", "description": "Where the app writes logs; \"n/a\" if the app has none.", "required": false },
+  { "key": "ai_provider", "label": "AI provider", "description": "Configured AI provider name(s) only, never keys or credentialed URLs; \"n/a\" if unused.", "required": false },
+  { "key": "ai_model", "label": "AI model", "description": "Configured AI model name(s) only; \"n/a\" if unused.", "required": false },
+  { "key": "locale", "label": "Locale", "description": "User locale, e.g. en_GB.UTF-8.", "required": true },
+  { "key": "timezone", "label": "Timezone", "description": "Local timezone name and UTC offset, e.g. \"IST (UTC+05:30)\".", "required": true }
+]
